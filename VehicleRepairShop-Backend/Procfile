@@ -1,0 +1,1 @@
+web: java -jar VehicleRepairShop-Backend/build/libs/VehicleRepairShop-Backend-0.0.1-SNAPSHOT.jar
