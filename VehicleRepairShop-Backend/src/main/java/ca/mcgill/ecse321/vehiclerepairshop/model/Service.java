@@ -1,5 +1,4 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
+
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 import java.sql.Time;
@@ -7,46 +6,21 @@ import java.util.*;
 import java.sql.Date;
 
 import javax.persistence.Id;
-import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 
-// line 59 "model.ump"
-// line 118 "model.ump"
+@Entity
 public class Service
 {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Service Attributes
   private String price;
   private String name;
   private String duration;
   private Time reminderTime;
   private String description;
-
-  //Service Associations
   private List<Appointment> appointment;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-
-  public Service(String aPrice, String aName, String aDuration, Time aReminderTime, String aDescription)
-  {
-    price = aPrice;
-    name = aName;
-    duration = aDuration;
-    reminderTime = aReminderTime;
-    description = aDescription;
-    appointment = new ArrayList<Appointment>();
-  }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setPrice(String aPrice)
   {
@@ -93,6 +67,7 @@ public class Service
     return price;
   }
 
+  @Id
   public String getName()
   {
     return name;
@@ -112,126 +87,17 @@ public class Service
   {
     return description;
   }
-  /* Code from template association_GetMany */
-  public Appointment getAppointment(int index)
-  {
-    Appointment aAppointment = appointment.get(index);
-    return aAppointment;
-  }
 
+ 
+  @OneToMany(cascade = {CascadeType.ALL})
   public List<Appointment> getAppointment()
   {
-    List<Appointment> newAppointment = Collections.unmodifiableList(appointment);
-    return newAppointment;
+	  return this.appointment;
   }
-
-  public int numberOfAppointment()
-  {
-    int number = appointment.size();
-    return number;
-  }
-
-  public boolean hasAppointment()
-  {
-    boolean has = appointment.size() > 0;
-    return has;
-  }
-
-  public int indexOfAppointment(Appointment aAppointment)
-  {
-    int index = appointment.indexOf(aAppointment);
-    return index;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfAppointment()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate, String aComment, Car aCar, Garage aGarage, TimeSlot aTimeSlot, Technician... allWorker)
-  {
-    return new Appointment(aStartTime, aEndTime, aStartDate, aEndDate, aComment, aCar, aGarage, this, aTimeSlot, allWorker);
-  }
-
-  public boolean addAppointment(Appointment aAppointment)
-  {
-    boolean wasAdded = false;
-    if (appointment.contains(aAppointment)) { return false; }
-    Service existingService = aAppointment.getService();
-    boolean isNewService = existingService != null && !this.equals(existingService);
-    if (isNewService)
-    {
-      aAppointment.setService(this);
-    }
-    else
-    {
-      appointment.add(aAppointment);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeAppointment(Appointment aAppointment)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aAppointment, as it must always have a service
-    if (!this.equals(aAppointment.getService()))
-    {
-      appointment.remove(aAppointment);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addAppointmentAt(Appointment aAppointment, int index)
-  {  
-    boolean wasAdded = false;
-    if(addAppointment(aAppointment))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfAppointment()) { index = numberOfAppointment() - 1; }
-      appointment.remove(aAppointment);
-      appointment.add(index, aAppointment);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveAppointmentAt(Appointment aAppointment, int index)
-  {
-    boolean wasAdded = false;
-    if(appointment.contains(aAppointment))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfAppointment()) { index = numberOfAppointment() - 1; }
-      appointment.remove(aAppointment);
-      appointment.add(index, aAppointment);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addAppointmentAt(aAppointment, index);
-    }
-    return wasAdded;
-  }
-
-  public void delete()
-  {
-    for(int i=appointment.size(); i > 0; i--)
-    {
-      Appointment aAppointment = appointment.get(i - 1);
-      aAppointment.delete();
-    }
+  
+  public void setAppointment(List<Appointment> appointment) {
+	  this.appointment = appointment;
   }
 
 
-  public String toString()
-  {
-    return super.toString() + "["+
-            "price" + ":" + getPrice()+ "," +
-            "name" + ":" + getName()+ "," +
-            "duration" + ":" + getDuration()+ "," +
-            "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "reminderTime" + "=" + (getReminderTime() != null ? !getReminderTime().equals(this)  ? getReminderTime().toString().replaceAll("  ","    ") : "this" : "null");
-  }
 }
