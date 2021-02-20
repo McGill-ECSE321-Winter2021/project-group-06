@@ -13,8 +13,8 @@ public class VehicleRepairShopApplication {
 	}
 
 	@RequestMapping("/")
-  public String greeting(){
-    return "Hello world!";
+	public String greeting(){
+		return "Hello world!";
   }
 
 }
