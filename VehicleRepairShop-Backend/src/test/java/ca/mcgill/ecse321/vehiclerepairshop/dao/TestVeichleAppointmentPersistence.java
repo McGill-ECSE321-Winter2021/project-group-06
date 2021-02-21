@@ -43,7 +43,6 @@ public class TestVeichleAppointmentPersistence {
 	public void clearDatabase() {
 		
 		carRepository.deleteAll();
-		
 		businessInformationRepository.deleteAll();
 		appointmentRepository.deleteAll();
 	}
@@ -53,17 +52,20 @@ public class TestVeichleAppointmentPersistence {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
 		Integer year = 2021;
+		String customerName = "person1";
+		String passward = "passward";
+		String ID = "id";
+		Customer customer = new Customer(customerName,passward,ID);
 		MotorType engine = MotorType.Gas;
-		// First example for object save/load
-		Car car = new Car();
-		// First example for attribute save/load
-		car.setLicensePlate(licensePlate);
-		car.setModel(model);
-		car.setYear(year);
-		car.setMotorType(engine);
+		
+		Car car = new Car(licensePlate,model,year,engine,customer);
+//		car.setLicensePlate(licensePlate);
+//		car.setModel(model);
+//		car.setYear(year);
+//		car.setMotorType(engine);
 		carRepository.save(car);
 
-		//car = null;
+		car = null;
 
 		car = carRepository.findCarByLicensePlate(licensePlate);
 		assertNotNull(car);
@@ -72,4 +74,32 @@ public class TestVeichleAppointmentPersistence {
 		assertEquals(year, car.getYear());
 		assertEquals(engine, car.getMotorType());
 	}
+	
+//	
+//	@Test
+//	public void testPersistAndLoadCar() {
+//		String licensePlate = "TestCar";
+//		String model = "TestModel";
+//		Integer year = 2021;
+//		MotorType engine = MotorType.Gas;
+//		
+//		Car car = new Car();
+//		car.setLicensePlate(licensePlate);
+//		car.setModel(model);
+//		car.setYear(year);
+//		car.setMotorType(engine);
+//		carRepository.save(car);
+//
+//		car = null;
+//
+//		car = carRepository.findCarByLicensePlate(licensePlate);
+//		assertNotNull(car);
+//		assertEquals(licensePlate, car.getLicensePlate());
+//		assertEquals(model, car.getModel());
+//		assertEquals(year, car.getYear());
+//		assertEquals(engine, car.getMotorType());
+//	}
+	
+	
+	
 }
