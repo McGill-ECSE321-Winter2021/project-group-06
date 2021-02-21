@@ -8,6 +8,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.Iterator;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -99,6 +101,78 @@ public class TestVeichleAppointmentPersistence {
 	
 	
 	
+	@Test
+	public void testPersistAndLoadCarViaSearchCustoemr() {
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		MotorType engine = MotorType.Gas;
+		String licensePlate2 = "TestCar2";
+		String model2 = "TestModel2";
+		Integer year2 = 2020;
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		Customer customer = new Customer(customerName, customerPassword, customerID);
+		
+		
+		Car car = new Car(licensePlate,model,year,engine,customer);
+		carRepository.save(car);
+		Car car2 = new Car(licensePlate2, model2, year2, engine, customer);
+		carRepository.save(car2);
+		List<Car> cars = null;
+		car = null; 
+		car2 = null;
+
+		cars = carRepository.findCarByCustomer(customer);
+		assertNotNull(cars);
+//		Iterator iterator = cars.iterator();
+//		int i=0;
+//		while(iterator.hasNext()) {
+//			i++;
+//			if 
+//			
+//		}
+		car = cars.get(0);
+		car2 = cars.get(1);
+		assertEquals(licensePlate, car.getLicensePlate());
+		assertEquals(model, car.getModel());
+		assertEquals(year, car.getYear());
+		assertEquals(engine, car.getMotorType());
+		
+		assertEquals(licensePlate2, car2.getLicensePlate());
+		assertEquals(model2, car2.getModel());
+		assertEquals(year2, car2.getYear());
+		assertEquals(engine, car2.getMotorType());
+	}
+	
+	@Test
+	public void testPersistAndLoadCar() {
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		Customer customer = new Customer(customerName, customerPassword, customerID);
+		MotorType engine = MotorType.Gas;
+		
+		Car car = new Car(licensePlate,model,year,engine,customer);
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
+		carRepository.save(car);
+
+		car = null;
+
+		car = carRepository.findCarByLicensePlate(licensePlate);
+		assertNotNull(car);
+		assertEquals(licensePlate, car.getLicensePlate());
+		assertEquals(model, car.getModel());
+		assertEquals(year, car.getYear());
+		assertEquals(engine, car.getMotorType());
+	}
 	
 	
 }
