@@ -4,12 +4,10 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
 
-import java.sql.Time;
-import java.sql.Date;
 import java.util.*;
 
 // line 37 "model.ump"
-// line 134 "model.ump"
+// line 130 "model.ump"
 public class Appointment
 {
 
@@ -19,10 +17,6 @@ public class Appointment
 
   //Appointment Attributes
   private String appointmentId;
-  private Time startTime;
-  private Time endTime;
-  private Date startDate;
-  private Date endDate;
   private String comment;
 
   //Appointment Associations
@@ -36,13 +30,9 @@ public class Appointment
   // CONSTRUCTOR
   //------------------------
 
-  public Appointment(String aAppointmentId, Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate, String aComment, Car aCar, Garage aGarage, Service aService, TimeSlot aTimeSlot, Technician... allWorker)
+  public Appointment(String aAppointmentId, String aComment, Car aCar, Garage aGarage, Service aService, TimeSlot aTimeSlot, Technician... allWorker)
   {
     appointmentId = aAppointmentId;
-    startTime = aStartTime;
-    endTime = aEndTime;
-    startDate = aStartDate;
-    endDate = aEndDate;
     comment = aComment;
     boolean didAddCar = setCar(aCar);
     if (!didAddCar)
@@ -83,38 +73,6 @@ public class Appointment
     return wasSet;
   }
 
-  public boolean setStartTime(Time aStartTime)
-  {
-    boolean wasSet = false;
-    startTime = aStartTime;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setEndTime(Time aEndTime)
-  {
-    boolean wasSet = false;
-    endTime = aEndTime;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setStartDate(Date aStartDate)
-  {
-    boolean wasSet = false;
-    startDate = aStartDate;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setEndDate(Date aEndDate)
-  {
-    boolean wasSet = false;
-    endDate = aEndDate;
-    wasSet = true;
-    return wasSet;
-  }
-
   public boolean setComment(String aComment)
   {
     boolean wasSet = false;
@@ -126,26 +84,6 @@ public class Appointment
   public String getAppointmentId()
   {
     return appointmentId;
-  }
-
-  public Time getStartTime()
-  {
-    return startTime;
-  }
-
-  public Time getEndTime()
-  {
-    return endTime;
-  }
-
-  public Date getStartDate()
-  {
-    return startDate;
-  }
-
-  public Date getEndDate()
-  {
-    return endDate;
   }
 
   public String getComment()
@@ -440,10 +378,6 @@ public class Appointment
     return super.toString() + "["+
             "appointmentId" + ":" + getAppointmentId()+ "," +
             "comment" + ":" + getComment()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "car = "+(getCar()!=null?Integer.toHexString(System.identityHashCode(getCar())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "garage = "+(getGarage()!=null?Integer.toHexString(System.identityHashCode(getGarage())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "service = "+(getService()!=null?Integer.toHexString(System.identityHashCode(getService())):"null") + System.getProperties().getProperty("line.separator") +

@@ -1,16 +1,15 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
-
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
-import java.sql.Date;
 
-// line 60 "model.ump"
-// line 119 "model.ump"
+// line 56 "model.ump"
+// line 116 "model.ump"
 public class Service
 {
 
@@ -22,6 +21,7 @@ public class Service
   private String price;
   private String name;
   private String duration;
+  private Date reminderDate;
   private Time reminderTime;
   private String description;
 
@@ -32,11 +32,12 @@ public class Service
   // CONSTRUCTOR
   //------------------------
 
-  public Service(String aPrice, String aName, String aDuration, Time aReminderTime, String aDescription)
+  public Service(String aPrice, String aName, String aDuration, Date aReminderDate, Time aReminderTime, String aDescription)
   {
     price = aPrice;
     name = aName;
     duration = aDuration;
+    reminderDate = aReminderDate;
     reminderTime = aReminderTime;
     description = aDescription;
     appointment = new ArrayList<Appointment>();
@@ -70,6 +71,14 @@ public class Service
     return wasSet;
   }
 
+  public boolean setReminderDate(Date aReminderDate)
+  {
+    boolean wasSet = false;
+    reminderDate = aReminderDate;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setReminderTime(Time aReminderTime)
   {
     boolean wasSet = false;
@@ -99,6 +108,11 @@ public class Service
   public String getDuration()
   {
     return duration;
+  }
+
+  public Date getReminderDate()
+  {
+    return reminderDate;
   }
 
   public Time getReminderTime()
@@ -146,9 +160,9 @@ public class Service
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(String aAppointmentId, Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate, String aComment, Car aCar, Garage aGarage, TimeSlot aTimeSlot, Technician... allWorker)
+  public Appointment addAppointment(String aAppointmentId, String aComment, Car aCar, Garage aGarage, TimeSlot aTimeSlot, Technician... allWorker)
   {
-    return new Appointment(aAppointmentId, aStartTime, aEndTime, aStartDate, aEndDate, aComment, aCar, aGarage, this, aTimeSlot, allWorker);
+    return new Appointment(aAppointmentId, aComment, aCar, aGarage, this, aTimeSlot, allWorker);
   }
 
   public boolean addAppointment(Appointment aAppointment)
@@ -230,10 +244,10 @@ public class Service
             "name" + ":" + getName()+ "," +
             "duration" + ":" + getDuration()+ "," +
             "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "reminderDate" + "=" + (getReminderDate() != null ? !getReminderDate().equals(this)  ? getReminderDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "reminderTime" + "=" + (getReminderTime() != null ? !getReminderTime().equals(this)  ? getReminderTime().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
-
 
 
 

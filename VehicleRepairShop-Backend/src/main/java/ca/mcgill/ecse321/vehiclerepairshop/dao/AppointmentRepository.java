@@ -22,5 +22,5 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
 	boolean existsByCar(Car carLicience);
 	boolean existsByCarAndTimeSlot(Car carLicience, TimeSlot timeSlot);
 	boolean existsByGrageAndTimeSlot(Garage grageID, TimeSlot timeSlot);
-	Appointment findByCarAndTimeSlot(Car carLicience, TimeSlot timeSlot);
+	Appointment findByCarAndTimeSlot(Car car, TimeSlot timeSlot);
 }

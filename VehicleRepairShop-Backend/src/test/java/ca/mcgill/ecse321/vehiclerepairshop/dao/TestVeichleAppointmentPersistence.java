@@ -146,33 +146,69 @@ public class TestVeichleAppointmentPersistence {
 		assertEquals(engine, car2.getMotorType());
 	}
 	
+	
+	
+	
+	
 	@Test
-	public void testPersistAndLoadCar() {
+	public void testPersistAndLoadAppointment() {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
 		Integer year = 2021;
+		MotorType engine = MotorType.Gas;
+		
 		String customerName = "customer";
 		String customerPassword = "123";
 		String customerID = "customer1";
-		Customer customer = new Customer(customerName, customerPassword, customerID);
-		MotorType engine = MotorType.Gas;
 		
+		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		String price = "50";
+		String serviceName = "service1";
+		String duration = "18hrs";
+		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		String description = "this is a test service";
+		
+		boolean available = true;
+		String gID = "1";
+		
+		String techName = "techName1";
+		String passWord = "123";
+		String techID = "techID1";
+		
+		
+		TimeSlot timeSlot = new TimeSlot(startTime, endTime, startDate, endDate);
+		Customer customer = new Customer(customerName, customerPassword, customerID);
+		Service service = new Service(price, serviceName, duration, reminderDate, reminderTime, description);
 		Car car = new Car(licensePlate,model,year,engine,customer);
-		car.setLicensePlate(licensePlate);
-		car.setModel(model);
-		car.setYear(year);
-		car.setMotorType(engine);
-		carRepository.save(car);
+		Garage garage = new Garage(available, gID);
+		Technician technician = new Technician(techName,passWord,techID);
+		
+		String appointment1ID = "appointment1";
+		String appointment1Comment = "this is a test Appointment";
+		Appointment appointment1 = new Appointment(appointment1ID, appointment1Comment,car,garage,service,timeSlot,technician);
+		
 
-		car = null;
+		appointmentRepository.save(appointment1);
 
-		car = carRepository.findCarByLicensePlate(licensePlate);
-		assertNotNull(car);
-		assertEquals(licensePlate, car.getLicensePlate());
-		assertEquals(model, car.getModel());
-		assertEquals(year, car.getYear());
-		assertEquals(engine, car.getMotorType());
+		appointment1 = null;
+
+		appointment1 = appointmentRepository.findByCarAndTimeSlot(car, timeSlot);
+		assertNotNull(appointment1);
+		assertEquals(appointment1ID, appointment1.getAppointmentId());
+		assertEquals(appointment1Comment, appointment1.getComment());
+		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
+		assertEquals(techID, appointment1.getWorker(0).getUniqueId());
+		assertEquals(serviceName, appointment1.getService().getName());
+		assertEquals(gID, appointment1.getGarage().getGarageId());
+
 	}
 	
+	
+	// ************************* Mike end here **************************
 	
 }

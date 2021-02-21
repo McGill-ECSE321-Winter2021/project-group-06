@@ -7,9 +7,14 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.util.*;
 import java.sql.Time;
 import java.sql.Date;
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
+
+
+import java.util.*;
 
 // line 26 "model.ump"
-// line 107 "model.ump"
+// line 103 "model.ump"
 public class Car
 {
 
@@ -166,9 +171,9 @@ public class Car
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(String aAppointmentId, Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate, String aComment, Garage aGarage, Service aService, TimeSlot aTimeSlot, Technician... allWorker)
+  public Appointment addAppointment(String aAppointmentId, String aComment, Garage aGarage, Service aService, TimeSlot aTimeSlot, Technician... allWorker)
   {
-    return new Appointment(aAppointmentId, aStartTime, aEndTime, aStartDate, aEndDate, aComment, this, aGarage, aService, aTimeSlot, allWorker);
+    return new Appointment(aAppointmentId, aComment, this, aGarage, aService, aTimeSlot, allWorker);
   }
 
   public boolean addAppointment(Appointment aAppointment)
