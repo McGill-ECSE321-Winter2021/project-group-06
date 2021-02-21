@@ -47,22 +47,44 @@ public class TestVeichleAppointmentPersistence {
 		appointmentRepository.deleteAll();
 	}
 	
+	
+// ************************* Mike start here **************************
+	@Test
+	public void testPersistAndLoadBusinessInformation(){
+		String businessName = "testingName";
+		String businessAddress = "123road";
+		String businessPhoneNumber = "1234567";
+		String businessEmail = "email@email.com";
+		
+		BusinessInformation businessInfo = new BusinessInformation(businessName, businessAddress,businessPhoneNumber, businessEmail);
+		businessInformationRepository.save(businessInfo);
+
+		businessInfo = null;
+
+		businessInfo = businessInformationRepository.findBusinessInformationByName(businessName);
+		assertNotNull(businessInfo);
+		assertEquals(businessAddress, businessInfo.getAddress());
+		assertEquals(businessPhoneNumber, businessInfo.getPhoneNumber());
+		assertEquals(businessEmail, businessInfo.getEmailAddress());
+	}
+	
+	
 	@Test
 	public void testPersistAndLoadCar() {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
 		Integer year = 2021;
-		String customerName = "person1";
-		String passward = "passward";
-		String ID = "id";
-		Customer customer = new Customer(customerName,passward,ID);
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		Customer customer = new Customer(customerName, customerPassword, customerID);
 		MotorType engine = MotorType.Gas;
 		
 		Car car = new Car(licensePlate,model,year,engine,customer);
-//		car.setLicensePlate(licensePlate);
-//		car.setModel(model);
-//		car.setYear(year);
-//		car.setMotorType(engine);
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
 		carRepository.save(car);
 
 		car = null;
@@ -75,30 +97,7 @@ public class TestVeichleAppointmentPersistence {
 		assertEquals(engine, car.getMotorType());
 	}
 	
-//	
-//	@Test
-//	public void testPersistAndLoadCar() {
-//		String licensePlate = "TestCar";
-//		String model = "TestModel";
-//		Integer year = 2021;
-//		MotorType engine = MotorType.Gas;
-//		
-//		Car car = new Car();
-//		car.setLicensePlate(licensePlate);
-//		car.setModel(model);
-//		car.setYear(year);
-//		car.setMotorType(engine);
-//		carRepository.save(car);
-//
-//		car = null;
-//
-//		car = carRepository.findCarByLicensePlate(licensePlate);
-//		assertNotNull(car);
-//		assertEquals(licensePlate, car.getLicensePlate());
-//		assertEquals(model, car.getModel());
-//		assertEquals(year, car.getYear());
-//		assertEquals(engine, car.getMotorType());
-//	}
+	
 	
 	
 	
