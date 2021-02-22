@@ -270,7 +270,7 @@ public class TestVehicleAppointmentPersistence {
 	
 	// ********************* Catherine & Aurelia start here **************/
 	/**
-	 * Tests finding a admin account by the unique username
+	 * Tests finding an admin account by the unique username
 	 */
 	@Test
 	public void testPersistAndLoadAdminAccount() {
@@ -278,7 +278,10 @@ public class TestVehicleAppointmentPersistence {
 		String username1 = "username1";
 		String password1 = "password123";
 		
-		AdminAccount user1 = new AdminAccount(name1, password1, username1);
+		AdminAccount user1 = new AdminAccount();
+		user1.setName(name1);
+		user1.setUsername(username1);
+		user1.setPassword(password1);
 		
 		adminAccountRepository.save(user1);
 
@@ -304,8 +307,16 @@ public class TestVehicleAppointmentPersistence {
 		String username2 = "username2";
 		String password2 = "321password";
 		
-		AdminAccount user1 = new AdminAccount(name1, password1, username1);
-		AdminAccount user2 = new AdminAccount(name1, password2, username2);
+		AdminAccount user1 = new AdminAccount();
+		AdminAccount user2 = new AdminAccount();
+		
+		user1.setName(name1);
+		user1.setUsername(username1);
+		user1.setPassword(password1);
+		
+		user2.setName(name1);
+		user2.setUsername(username2);
+		user2.setPassword(password2);
 		
 		adminAccountRepository.save(user1);
 		adminAccountRepository.save(user2);
@@ -339,7 +350,10 @@ public class TestVehicleAppointmentPersistence {
 		String username1 = "username1";
 		String password1 = "password123";
 		
-		CustomerAccount user1 = new CustomerAccount(name1, password1, username1);
+		CustomerAccount user1 = new CustomerAccount();
+		user1.setName(name1);
+		user1.setUsername(username1);
+		user1.setPassword(password1);
 		
 		customerAccountRepository.save(user1);
 
@@ -364,8 +378,16 @@ public class TestVehicleAppointmentPersistence {
 		String username2 = "username2";
 		String password2 = "321password";
 		
-		CustomerAccount user1 = new CustomerAccount(name1, password1, username1);
-		CustomerAccount user2 = new CustomerAccount(name1, password2, username2);
+		CustomerAccount user1 = new CustomerAccount();
+		CustomerAccount user2 = new CustomerAccount();
+		
+		user1.setName(name1);
+		user1.setUsername(username1);
+		user1.setPassword(password1);
+		
+		user2.setName(name1);
+		user2.setUsername(username2);
+		user2.setPassword(password2);
 		
 		customerAccountRepository.save(user1);
 		customerAccountRepository.save(user2);
@@ -405,8 +427,14 @@ public class TestVehicleAppointmentPersistence {
 		Integer year = 1998;
 		MotorType motorType = MotorType.Hybrid;
 		
-		CustomerAccount user1 = new CustomerAccount(name1, password1, username1);
-		Car car = new Car(licensePlate, model, year, motorType, user1);
+		CustomerAccount user1 = new CustomerAccount();
+		Car car = new Car();
+		
+		user1.setName(name1);
+		user1.setUsername(username1);
+		user1.setPassword(password1);
+		
+		car.setOwner(user1);
 		
 		customerAccountRepository.save(user1);
 
@@ -429,7 +457,11 @@ public class TestVehicleAppointmentPersistence {
 		String username1 = "username1";
 		String password1 = "password123";
 		
-		TechnicianAccount user1 = new TechnicianAccount(name1, password1, username1);
+		TechnicianAccount user1 = new TechnicianAccount();
+		
+		user1.setName(name1);
+		user1.setUsername(username1);
+		user1.setPassword(password1);
 		
 		technicianAccountRepository.save(user1);
 
@@ -454,12 +486,19 @@ public class TestVehicleAppointmentPersistence {
 		String username2 = "username2";
 		String password2 = "321password";
 		
-		TechnicianAccount user1 = new TechnicianAccount(name1, password1, username1);
-		TechnicianAccount user2 = new TechnicianAccount(name1, password2, username2);
+		TechnicianAccount user1 = new TechnicianAccount();
+		TechnicianAccount user2 = new TechnicianAccount();
+		
+		user1.setName(name1);
+		user1.setPassword(password1);
+		user1.setUsername(username1);
+		
+		user2.setName(name1);
+		user2.setPassword(password2);
+		user2.setUsername(username2);
 		
 		technicianAccountRepository.save(user1);
 		technicianAccountRepository.save(user2);
-
 		
 		user1 = null;
 		user2 = null;
@@ -493,48 +532,59 @@ public class TestVehicleAppointmentPersistence {
 		String username2 = "username2";
 		String password2 = "321password";
 		
-		String licensePlate = "TestCar";
-		String model = "TestModel";
-		Integer year = 2021;
-		MotorType engine = MotorType.Gas;
-		
-		String customerName = "customer";
-		String customerPassword = "123";
-		String customerID = "customer1";
-		
-		String timeSlotId = "timeSlot1";
-		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
-		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
-		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
-		
-		String serviceId = "service1";
-		String price = "50";
-		String serviceName = "service";
-		String duration = "18hrs";
-		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
-		String description = "this is a test service";
-		
-		boolean available = true;
-		String gID = "1";
-		
-		TimeSlot timeSlot = new TimeSlot(timeSlotId, startTime, endTime, startDate, endDate);
-		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
-		Service service = new Service(serviceId, price, serviceName, duration, reminderTime, reminderDate, description);
-		Car car = new Car(licensePlate,model,year,engine,customer);
-		Garage garage = new Garage(available, gID);
+//		String licensePlate = "TestCar";
+//		String model = "TestModel";
+//		Integer year = 2021;
+//		MotorType engine = MotorType.Gas;
+//		
+//		String customerName = "customer";
+//		String customerPassword = "123";
+//		String customerID = "customer1";
+//		
+//		String timeSlotId = "timeSlot1";
+//		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+//		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+//		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+//		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+//		
+//		String serviceId = "service1";
+//		String price = "50";
+//		String serviceName = "service";
+//		String duration = "18hrs";
+//		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+//		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+//		String description = "this is a test service";
+//		
+//		boolean available = true;
+//		String gID = "1";
 		
 		String appointment1ID = "appointment1";
-		String appointment1Comment = "this is a test Appointment";
+		String appointment1Comment = "this is a test Appointment";	
 		
-		TechnicianAccount user1 = new TechnicianAccount(name1, password1, username1);
-		TechnicianAccount user2 = new TechnicianAccount(name2, password2, username2);
+//		TimeSlot timeSlot = new TimeSlot();
+//		CustomerAccount customer = new CustomerAccount();
+//		Service service = new Service();
+//		Car car = new Car();
+//		Garage garage = new Garage();
+//	
+		TechnicianAccount user1 = new TechnicianAccount();
+		TechnicianAccount user2 = new TechnicianAccount();
 		
-		TechnicianAccount[] workers = {user1, user2};
+		Appointment appointment1 = new Appointment();
 		
-		Appointment appointment1 = new Appointment(appointment1ID, appointment1Comment,car,garage,service,timeSlot, workers);
+		user1.setName(name1);
+		user1.setUsername(username1);
+		user1.setPassword(password1);
 		
+		user2.setName(name2);
+		user2.setUsername(username2);
+		user2.setPassword(password2);
+		
+		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
+		workers.add(user1);
+		workers.add(user2);
+	
+		appointment1.setWorker(workers);
 		
 		technicianAccountRepository.save(user1);
 		technicianAccountRepository.save(user2);
@@ -543,7 +593,7 @@ public class TestVehicleAppointmentPersistence {
 		user2 = null;
 		List<TechnicianAccount> users;
 		
-		users = technicianAccountRepository.findByAppointment(appointment1); //this might return an array?
+		users = technicianAccountRepository.findByAppointment(appointment1); 
 		user1 = users.get(0); 
 		user2 = users.get(1);
 		
