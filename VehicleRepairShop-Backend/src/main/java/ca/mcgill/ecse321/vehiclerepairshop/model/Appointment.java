@@ -24,6 +24,7 @@ public class Appointment
   private TimeSlot timeSlot;
   private List<Technician> worker;
 
+
   public boolean setStartTime(Time aStartTime)
   {
     boolean wasSet = false;
