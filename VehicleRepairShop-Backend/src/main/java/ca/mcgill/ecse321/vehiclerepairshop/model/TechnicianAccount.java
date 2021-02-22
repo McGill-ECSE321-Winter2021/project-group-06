@@ -1,5 +1,7 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
@@ -8,15 +10,16 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.util.*;
 
 // line 20 "model.ump"
-// line 101 "model.ump"
-public class Technician extends Account
+// line 125 "model.ump"
+@Entity
+public class TechnicianAccount extends UserAccount
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Technician Associations
+  //TechnicianAccount Associations
   private List<TimeSlot> availability;
   private List<Appointment> appointment;
 
@@ -24,9 +27,9 @@ public class Technician extends Account
   // CONSTRUCTOR
   //------------------------
 
-  public Technician(String aName, String aPassword, String aUniqueId)
+  public TechnicianAccount(String aName, String aPassword, String aUsername)
   {
-    super(aName, aPassword, aUniqueId);
+    super(aName, aPassword, aUsername);
     availability = new ArrayList<TimeSlot>();
     appointment = new ArrayList<Appointment>();
   }
@@ -254,7 +257,6 @@ public class Technician extends Account
   }
 
 }
-
 
 //import java.util.*;
 //import javax.persistence.*;

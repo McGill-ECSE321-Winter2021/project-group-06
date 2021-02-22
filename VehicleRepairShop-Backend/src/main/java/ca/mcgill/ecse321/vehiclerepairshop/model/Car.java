@@ -1,12 +1,7 @@
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-
-import java.util.*;
-import java.sql.Time;
-import java.sql.Date;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -14,7 +9,8 @@ import java.sql.Date;
 import java.util.*;
 
 // line 26 "model.ump"
-// line 103 "model.ump"
+// line 82 "model.ump"
+@Entity
 public class Car
 {
 
@@ -35,14 +31,14 @@ public class Car
   private MotorType motorType;
 
   //Car Associations
-  private Customer owner;
+  private CustomerAccount owner;
   private List<Appointment> appointment;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Car(String aLicensePlate, String aModel, int aYear, MotorType aMotorType, Customer aOwner)
+  public Car(String aLicensePlate, String aModel, int aYear, MotorType aMotorType, CustomerAccount aOwner)
   {
     licensePlate = aLicensePlate;
     model = aModel;
@@ -92,6 +88,7 @@ public class Car
     return wasSet;
   }
 
+  @Id
   public String getLicensePlate()
   {
     return licensePlate;
@@ -112,7 +109,7 @@ public class Car
     return motorType;
   }
   /* Code from template association_GetOne */
-  public Customer getOwner()
+  public CustomerAccount getOwner()
   {
     return owner;
   }
@@ -147,7 +144,7 @@ public class Car
     return index;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setOwner(Customer aOwner)
+  public boolean setOwner(CustomerAccount aOwner)
   {
     boolean wasSet = false;
     if (aOwner == null)
@@ -155,7 +152,7 @@ public class Car
       return wasSet;
     }
 
-    Customer existingOwner = owner;
+    CustomerAccount existingOwner = owner;
     owner = aOwner;
     if (existingOwner != null && !existingOwner.equals(aOwner))
     {
@@ -171,7 +168,7 @@ public class Car
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(String aAppointmentId, String aComment, Garage aGarage, Service aService, TimeSlot aTimeSlot, Technician... allWorker)
+  public Appointment addAppointment(String aAppointmentId, String aComment, Garage aGarage, Service aService, TimeSlot aTimeSlot, TechnicianAccount... allWorker)
   {
     return new Appointment(aAppointmentId, aComment, this, aGarage, aService, aTimeSlot, allWorker);
   }
@@ -240,7 +237,7 @@ public class Car
 
   public void delete()
   {
-    Customer placeholderOwner = owner;
+    CustomerAccount placeholderOwner = owner;
     this.owner = null;
     if(placeholderOwner != null)
     {
@@ -266,7 +263,6 @@ public class Car
             "  " + "owner = "+(getOwner()!=null?Integer.toHexString(System.identityHashCode(getOwner())):"null");
   }
 }
-
 
 //import java.util.*;
 //import javax.persistence.Id;

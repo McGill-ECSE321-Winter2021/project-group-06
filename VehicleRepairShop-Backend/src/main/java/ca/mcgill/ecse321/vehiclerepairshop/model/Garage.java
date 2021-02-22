@@ -1,5 +1,7 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
@@ -8,7 +10,8 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.util.*;
 
 // line 73 "model.ump"
-// line 125 "model.ump"
+// line 104 "model.ump"
+@Entity
 public class Garage
 {
 
@@ -59,6 +62,7 @@ public class Garage
     return isAvailable;
   }
 
+  @Id
   public String getGarageId()
   {
     return garageId;
@@ -99,7 +103,7 @@ public class Garage
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(String aAppointmentId, String aComment, Car aCar, Service aService, TimeSlot aTimeSlot, Technician... allWorker)
+  public Appointment addAppointment(String aAppointmentId, String aComment, Car aCar, Service aService, TimeSlot aTimeSlot, TechnicianAccount... allWorker)
   {
     return new Appointment(aAppointmentId, aComment, aCar, this, aService, aTimeSlot, allWorker);
   }
@@ -183,12 +187,6 @@ public class Garage
             "garageId" + ":" + getGarageId()+ "]";
   }
 }
-
-
-
-
-
-
 //import java.util.*;
 //import javax.persistence.Id;
 //import javax.persistence.OneToMany;

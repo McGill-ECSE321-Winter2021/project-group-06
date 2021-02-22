@@ -1,5 +1,7 @@
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -7,8 +9,9 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.util.*;
 
 // line 10 "model.ump"
-// line 91 "model.ump"
-public class Customer extends Account
+// line 136 "model.ump"
+@Entity
+public class CustomerAccount extends UserAccount
 {
 
   //------------------------
@@ -21,16 +24,16 @@ public class Customer extends Account
   // MEMBER VARIABLES
   //------------------------
 
-  //Customer Associations
+  //CustomerAccount Associations
   private List<Car> car;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Customer(String aName, String aPassword, String aUniqueId)
+  public CustomerAccount(String aName, String aPassword, String aUsername)
   {
-    super(aName, aPassword, aUniqueId);
+    super(aName, aPassword, aUsername);
     car = new ArrayList<Car>();
   }
 
@@ -73,7 +76,7 @@ public class Customer extends Account
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Car addCar(String aLicensePlate, String aModel, int aYear, ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType aMotorType)
+  public Car addCar(String aLicensePlate, String aModel, int aYear, Car.MotorType aMotorType)
   {
     return new Car(aLicensePlate, aModel, aYear, aMotorType, this);
   }
@@ -82,7 +85,7 @@ public class Customer extends Account
   {
     boolean wasAdded = false;
     if (car.contains(aCar)) { return false; }
-    Customer existingOwner = aCar.getOwner();
+    CustomerAccount existingOwner = aCar.getOwner();
     boolean isNewOwner = existingOwner != null && !this.equals(existingOwner);
     if (isNewOwner)
     {
@@ -153,8 +156,6 @@ public class Customer extends Account
   }
 
 }
-
-
 
 //import java.util.*;
 //import javax.persistence.CascadeType;

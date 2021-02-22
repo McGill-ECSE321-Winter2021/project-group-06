@@ -1,5 +1,7 @@
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -7,7 +9,8 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.util.*;
 
 // line 37 "model.ump"
-// line 130 "model.ump"
+// line 109 "model.ump"
+@Entity
 public class Appointment
 {
 
@@ -24,13 +27,13 @@ public class Appointment
   private Garage garage;
   private Service service;
   private TimeSlot timeSlot;
-  private List<Technician> worker;
+  private List<TechnicianAccount> worker;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Appointment(String aAppointmentId, String aComment, Car aCar, Garage aGarage, Service aService, TimeSlot aTimeSlot, Technician... allWorker)
+  public Appointment(String aAppointmentId, String aComment, Car aCar, Garage aGarage, Service aService, TimeSlot aTimeSlot, TechnicianAccount... allWorker)
   {
     appointmentId = aAppointmentId;
     comment = aComment;
@@ -53,7 +56,7 @@ public class Appointment
     {
       throw new RuntimeException("Unable to create Appointment due to aTimeSlot. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    worker = new ArrayList<Technician>();
+    worker = new ArrayList<TechnicianAccount>();
     boolean didAddWorker = setWorker(allWorker);
     if (!didAddWorker)
     {
@@ -81,6 +84,7 @@ public class Appointment
     return wasSet;
   }
 
+  @Id
   public String getAppointmentId()
   {
     return appointmentId;
@@ -111,15 +115,15 @@ public class Appointment
     return timeSlot;
   }
   /* Code from template association_GetMany */
-  public Technician getWorker(int index)
+  public TechnicianAccount getWorker(int index)
   {
-    Technician aWorker = worker.get(index);
+    TechnicianAccount aWorker = worker.get(index);
     return aWorker;
   }
 
-  public List<Technician> getWorker()
+  public List<TechnicianAccount> getWorker()
   {
-    List<Technician> newWorker = Collections.unmodifiableList(worker);
+    List<TechnicianAccount> newWorker = Collections.unmodifiableList(worker);
     return newWorker;
   }
 
@@ -135,7 +139,7 @@ public class Appointment
     return has;
   }
 
-  public int indexOfWorker(Technician aWorker)
+  public int indexOfWorker(TechnicianAccount aWorker)
   {
     int index = worker.indexOf(aWorker);
     return index;
@@ -220,7 +224,7 @@ public class Appointment
     return 1;
   }
   /* Code from template association_AddManyToManyMethod */
-  public boolean addWorker(Technician aWorker)
+  public boolean addWorker(TechnicianAccount aWorker)
   {
     boolean wasAdded = false;
     if (worker.contains(aWorker)) { return false; }
@@ -240,7 +244,7 @@ public class Appointment
     return wasAdded;
   }
   /* Code from template association_AddMStarToMany */
-  public boolean removeWorker(Technician aWorker)
+  public boolean removeWorker(TechnicianAccount aWorker)
   {
     boolean wasRemoved = false;
     if (!worker.contains(aWorker))
@@ -270,11 +274,11 @@ public class Appointment
     return wasRemoved;
   }
   /* Code from template association_SetMStarToMany */
-  public boolean setWorker(Technician... newWorker)
+  public boolean setWorker(TechnicianAccount... newWorker)
   {
     boolean wasSet = false;
-    ArrayList<Technician> verifiedWorker = new ArrayList<Technician>();
-    for (Technician aWorker : newWorker)
+    ArrayList<TechnicianAccount> verifiedWorker = new ArrayList<TechnicianAccount>();
+    for (TechnicianAccount aWorker : newWorker)
     {
       if (verifiedWorker.contains(aWorker))
       {
@@ -288,9 +292,9 @@ public class Appointment
       return wasSet;
     }
 
-    ArrayList<Technician> oldWorker = new ArrayList<Technician>(worker);
+    ArrayList<TechnicianAccount> oldWorker = new ArrayList<TechnicianAccount>(worker);
     worker.clear();
-    for (Technician aNewWorker : verifiedWorker)
+    for (TechnicianAccount aNewWorker : verifiedWorker)
     {
       worker.add(aNewWorker);
       if (oldWorker.contains(aNewWorker))
@@ -303,7 +307,7 @@ public class Appointment
       }
     }
 
-    for (Technician anOldWorker : oldWorker)
+    for (TechnicianAccount anOldWorker : oldWorker)
     {
       anOldWorker.removeAppointment(this);
     }
@@ -311,7 +315,7 @@ public class Appointment
     return wasSet;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addWorkerAt(Technician aWorker, int index)
+  public boolean addWorkerAt(TechnicianAccount aWorker, int index)
   {  
     boolean wasAdded = false;
     if(addWorker(aWorker))
@@ -325,7 +329,7 @@ public class Appointment
     return wasAdded;
   }
 
-  public boolean addOrMoveWorkerAt(Technician aWorker, int index)
+  public boolean addOrMoveWorkerAt(TechnicianAccount aWorker, int index)
   {
     boolean wasAdded = false;
     if(worker.contains(aWorker))
@@ -364,9 +368,9 @@ public class Appointment
       placeholderService.removeAppointment(this);
     }
     timeSlot = null;
-    ArrayList<Technician> copyOfWorker = new ArrayList<Technician>(worker);
+    ArrayList<TechnicianAccount> copyOfWorker = new ArrayList<TechnicianAccount>(worker);
     worker.clear();
-    for(Technician aWorker : copyOfWorker)
+    for(TechnicianAccount aWorker : copyOfWorker)
     {
       aWorker.removeAppointment(this);
     }
@@ -384,9 +388,6 @@ public class Appointment
             "  " + "timeSlot = "+(getTimeSlot()!=null?Integer.toHexString(System.identityHashCode(getTimeSlot())):"null");
   }
 }
-
-
-
 
 /**
  ****************** comment out by mike *******************************

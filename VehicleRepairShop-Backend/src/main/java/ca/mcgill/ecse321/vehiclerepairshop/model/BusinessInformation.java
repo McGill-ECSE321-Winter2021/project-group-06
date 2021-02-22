@@ -1,13 +1,15 @@
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
 
 
-// line 69 "model.ump"
-// line 124 "model.ump"
+// line 65 "model.ump"
+// line 99 "model.ump"
+@Entity
 public class BusinessInformation
 {
 
@@ -69,6 +71,7 @@ public class BusinessInformation
     return wasSet;
   }
 
+  @Id
   public String getName()
   {
     return name;
