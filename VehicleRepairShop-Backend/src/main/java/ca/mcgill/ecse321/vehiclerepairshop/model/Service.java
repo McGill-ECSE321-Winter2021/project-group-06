@@ -71,7 +71,7 @@ public class Service
   }
 
   @Id
-  public String getSeriveId()
+  public String getServiceId()
   {
 	  return this.serviceId;
   }

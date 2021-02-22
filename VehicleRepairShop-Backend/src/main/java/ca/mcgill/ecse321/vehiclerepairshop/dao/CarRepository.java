@@ -11,7 +11,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 public interface CarRepository extends CrudRepository<Car, String>{
-	List<Car> findCarByCustomerAccount(CustomerAccount username);
-	boolean existsByCustomerAccount(CustomerAccount username);
+	List<Car> findCarByOwner(CustomerAccount username);
+	boolean existsByOwner(CustomerAccount username);
 	Car findCarByLicensePlate(String licence);
 }

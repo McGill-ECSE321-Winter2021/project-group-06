@@ -20,9 +20,13 @@ public class CustomerAccount extends UserAccount
 
   
   @OneToMany(cascade = {CascadeType.ALL})
-  public List<Car> getCars()
+  public List<Car> getCar()
   {
     return this.car;
+  }
+  
+  public void setCar(List<Car> aCar) {
+	  this.car = aCar;
   }
   
 
