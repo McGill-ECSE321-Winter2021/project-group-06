@@ -1,5 +1,3 @@
-
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
@@ -11,28 +9,28 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
  * Auto Repair Shop System
  */
 // line 3 "model.ump"
-// line 86 "model.ump"
-public class Account
+// line 120 "model.ump"
+public class UserAccount
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Account Attributes
+  //UserAccount Attributes
   private String name;
   private String password;
-  private String uniqueId;
+  private String username;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Account(String aName, String aPassword, String aUniqueId)
+  public UserAccount(String aName, String aPassword, String aUsername)
   {
     name = aName;
     password = aPassword;
-    uniqueId = aUniqueId;
+    username = aUsername;
   }
 
   //------------------------
@@ -55,10 +53,10 @@ public class Account
     return wasSet;
   }
 
-  public boolean setUniqueId(String aUniqueId)
+  public boolean setUsername(String aUsername)
   {
     boolean wasSet = false;
-    uniqueId = aUniqueId;
+    username = aUsername;
     wasSet = true;
     return wasSet;
   }
@@ -73,9 +71,9 @@ public class Account
     return password;
   }
 
-  public String getUniqueId()
+  public String getUsername()
   {
-    return uniqueId;
+    return username;
   }
 
   public void delete()
@@ -87,7 +85,7 @@ public class Account
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
             "password" + ":" + getPassword()+ "," +
-            "uniqueId" + ":" + getUniqueId()+ "]";
+            "username" + ":" + getUsername()+ "]";
   }
 }
 

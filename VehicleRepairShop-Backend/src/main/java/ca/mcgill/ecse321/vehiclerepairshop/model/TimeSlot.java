@@ -8,8 +8,8 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.sql.Time;
 import java.sql.Date;
 
-// line 52 "model.ump"
-// line 114 "model.ump"
+// line 48 "model.ump"
+// line 91 "model.ump"
 public class TimeSlot
 {
 
@@ -18,6 +18,7 @@ public class TimeSlot
   //------------------------
 
   //TimeSlot Attributes
+  private String timeSlotId;
   private Time startTime;
   private Time endTime;
   private Date startDate;
@@ -27,8 +28,9 @@ public class TimeSlot
   // CONSTRUCTOR
   //------------------------
 
-  public TimeSlot(Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate)
+  public TimeSlot(String aTimeSlotId, Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate)
   {
+    timeSlotId = aTimeSlotId;
     startTime = aStartTime;
     endTime = aEndTime;
     startDate = aStartDate;
@@ -38,6 +40,14 @@ public class TimeSlot
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setTimeSlotId(String aTimeSlotId)
+  {
+    boolean wasSet = false;
+    timeSlotId = aTimeSlotId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setStartTime(Time aStartTime)
   {
@@ -71,6 +81,11 @@ public class TimeSlot
     return wasSet;
   }
 
+  public String getTimeSlotId()
+  {
+    return timeSlotId;
+  }
+
   public Time getStartTime()
   {
     return startTime;
@@ -97,14 +112,14 @@ public class TimeSlot
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+
+            "timeSlotId" + ":" + getTimeSlotId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
-
 //import java.sql.Date;
 //import java.sql.Time;
 //import javax.persistence.Id;

@@ -1,4 +1,3 @@
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
@@ -6,8 +5,8 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 
 
-// line 69 "model.ump"
-// line 124 "model.ump"
+// line 65 "model.ump"
+// line 99 "model.ump"
 public class BusinessInformation
 {
 

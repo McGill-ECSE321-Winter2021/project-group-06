@@ -1,5 +1,3 @@
-
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
@@ -8,8 +6,8 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 
 // line 15 "model.ump"
-// line 96 "model.ump"
-public class Admin extends Account
+// line 131 "model.ump"
+public class AdminAccount extends UserAccount
 {
 
   //------------------------
@@ -20,9 +18,9 @@ public class Admin extends Account
   // CONSTRUCTOR
   //------------------------
 
-  public Admin(String aName, String aPassword, String aUniqueId)
+  public AdminAccount(String aName, String aPassword, String aUsername)
   {
-    super(aName, aPassword, aUniqueId);
+    super(aName, aPassword, aUsername);
   }
 
   //------------------------

@@ -8,15 +8,15 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.util.*;
 
 // line 20 "model.ump"
-// line 101 "model.ump"
-public class Technician extends Account
+// line 125 "model.ump"
+public class TechnicianAccount extends UserAccount
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Technician Associations
+  //TechnicianAccount Associations
   private List<TimeSlot> availability;
   private List<Appointment> appointment;
 
@@ -24,9 +24,9 @@ public class Technician extends Account
   // CONSTRUCTOR
   //------------------------
 
-  public Technician(String aName, String aPassword, String aUniqueId)
+  public TechnicianAccount(String aName, String aPassword, String aUsername)
   {
-    super(aName, aPassword, aUniqueId);
+    super(aName, aPassword, aUsername);
     availability = new ArrayList<TimeSlot>();
     appointment = new ArrayList<Appointment>();
   }
@@ -254,7 +254,6 @@ public class Technician extends Account
   }
 
 }
-
 
 //import java.util.*;
 //import javax.persistence.*;
