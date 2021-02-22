@@ -175,8 +175,9 @@ public class TestVeichleAppointmentPersistence {
 		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
 		
+		String serviceId = "service1";
 		String price = "50";
-		String serviceName = "service1";
+		String serviceName = "service";
 		String duration = "18hrs";
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
@@ -192,7 +193,7 @@ public class TestVeichleAppointmentPersistence {
 		
 		TimeSlot timeSlot = new TimeSlot(timeSlotId, startTime, endTime, startDate, endDate);
 		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
-		Service service = new Service(price, serviceName, duration, reminderDate, reminderTime, description);
+		Service service = new Service(serviceId, price, serviceName, duration, reminderTime, reminderDate, description);
 		Car car = new Car(licensePlate,model,year,engine,customer);
 		Garage garage = new Garage(available, gID);
 		TechnicianAccount technician = new TechnicianAccount(techName,passWord,techID);
@@ -221,6 +222,7 @@ public class TestVeichleAppointmentPersistence {
 	// ************************* Mike end here **************************/
 	
 	// ********************* Catherine & Aurelia start here **************/
+	
 	
 	
 	// ******************** Catherine & Aurelia end here ****************/
