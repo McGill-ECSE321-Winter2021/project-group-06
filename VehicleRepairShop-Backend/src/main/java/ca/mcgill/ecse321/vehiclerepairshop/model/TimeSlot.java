@@ -26,7 +26,10 @@ public class TimeSlot
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public TimeSlot() {
+	  
+  }
+  
   public TimeSlot(Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate)
   {
     startTime = aStartTime;
