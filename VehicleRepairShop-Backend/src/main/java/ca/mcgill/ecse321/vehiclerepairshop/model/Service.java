@@ -1,7 +1,7 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
-
 import java.sql.Time;
+import java.sql.Date;
 import java.util.*;
 import java.sql.Date;
 
@@ -10,9 +10,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 
+
 @Entity
 public class Service
 {
+
 
   private String serviceId;
   private String price;
@@ -24,12 +26,14 @@ public class Service
   private List<Appointment> appointment;
 
 
+
   public void setPrice(String aPrice)
   {
 	  this.price = aPrice;
   }
 
   public void setName(String aName)
+
   {
 	  this.name = aName; 
   }
@@ -43,16 +47,26 @@ public class Service
   {
     this.reminderTime = aReminderTime; 
   }
+
   
   public void setReminderDate(Date aReminderDate)
   {
     this.reminderDate = aReminderDate; 
+
   }
   
+
 
   public void setDescription(String aDescription)
   {
     this.description = aDescription;
+
+  }
+
+  @Id
+  public String getServiceId()
+  {
+    return serviceId;
   }
 
   public String getPrice()
@@ -70,14 +84,18 @@ public class Service
     return this.name;
   }
 
+
   public String getDuration()
   {
     return this.duration;
+
   }
 
-  public Time getReminderTime()
+  public Date getReminderDate()
   {
+
     return this.reminderTime;
+
   }
   
   public Date getReminderDate()
@@ -96,6 +114,7 @@ public class Service
   {
 	  return this.appointment;
   }
+
   
   public void setAppointment(List<Appointment> appointment) {
 	  this.appointment = appointment;

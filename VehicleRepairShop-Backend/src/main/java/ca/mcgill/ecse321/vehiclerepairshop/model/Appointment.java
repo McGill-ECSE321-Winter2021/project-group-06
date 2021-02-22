@@ -24,7 +24,6 @@ public class Appointment
 
   
 
-
   public void setComment(String aComment)
   {
 	  this.comment = aComment;
@@ -68,9 +67,10 @@ public class Appointment
 
     return this.timeSlot;
   }
- 
+
   @ManyToMany
   public List<TechnicianAccount> getWorker()
+
   {
     return this.worker;
   }
@@ -87,13 +87,13 @@ public class Appointment
   }
 
   public void setService(Service aService)
-
   {
     this.service = aService;
   }
 
   public void setTimeSlot(TimeSlot aNewTimeSlot)
   {
+
     this.timeSlot = aNewTimeSlot;
   }
   

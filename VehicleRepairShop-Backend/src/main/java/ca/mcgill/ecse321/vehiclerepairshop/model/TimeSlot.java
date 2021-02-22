@@ -1,19 +1,23 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+
 import java.sql.Date;
 import java.sql.Time;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 
+
 @Entity
 public class TimeSlot
 {
+
 
   private String timeSlotId;
   private Time startTime;
   private Time endTime;
   private Date startDate;
   private Date endDate;
+
 
 
   public void setStartTime(Time aStartTime)
@@ -49,6 +53,7 @@ public class TimeSlot
     wasSet = true;
     return wasSet;
   }
+
   
   @Id
   public String getTimeSlotId() 
@@ -56,6 +61,7 @@ public class TimeSlot
 	  return this.timeSlotId;
   }
   
+
   public Time getStartTime()
   {
     return startTime;
@@ -76,4 +82,3 @@ public class TimeSlot
     return endDate;
   }
 
-}

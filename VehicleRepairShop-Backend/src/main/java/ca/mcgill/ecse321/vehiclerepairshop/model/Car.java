@@ -1,5 +1,5 @@
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+
 
 import java.util.*;
 import javax.persistence.Id;
@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.Entity;
+
+
 
 
 @Entity
@@ -20,9 +22,9 @@ public class Car
   private String model;
   private int year;
   private MotorType motorType;
+
   private CustomerAccount owner;
   private List<Appointment> appointment;
-
 
   public boolean setLicensePlate(String aLicensePlate)
   {
@@ -77,7 +79,9 @@ public class Car
     return motorType;
   }
 
+
   @ManyToOne
+
   public CustomerAccount getOwner()
   {
     return owner;
@@ -89,15 +93,19 @@ public class Car
     List<Appointment> newAppointment = Collections.unmodifiableList(appointment);
     return newAppointment;
   }
+
   
   public void setAppointment(List<Appointment> appointment) {
 	  this.appointment = appointment;
   }
   
   public void setOwner(CustomerAccount aOwner)
+
   {
    this.owner = aOwner;
   }
 
+
  
 }
+
