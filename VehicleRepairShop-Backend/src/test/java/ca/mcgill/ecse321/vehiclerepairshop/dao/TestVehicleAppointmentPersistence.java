@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
+
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
@@ -63,6 +65,46 @@ public class TestVehicleAppointmentPersistence {
 	
 	
 // ************************* Mike start here **************************
+	/*
+	 * @author: Cheng
+	 */
+	@Test
+	public void testPersistAndLoadAppopintmentViaSearchCar() {
+		MotorType engine = MotorType.Gas;
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setMotorType(engine);
+		car.setModel(model);
+		car.setYear(year);
+
+		String appointment1ID = "appointment1";
+		String appointment1Comment = "this is a test Appointment";
+		Appointment appointment1 = new Appointment();
+		List<Appointment> appointments = new ArrayList<Appointment>();
+		appointments.add(appointment1);
+		appointment1.setAppointmentId(appointment1ID);
+		appointment1.setComment(appointment1Comment);
+		car.setAppointment(appointments);
+
+		appointmentRepository.save(appointment1);
+		carRepository.save(car);
+
+		appointment1 = null;
+
+		appointments = appointmentRepository.findByCar(car);
+		appointment1 = appointments.get(0);
+		assertNotNull(appointment1);
+		assertEquals(appointment1ID, appointment1.getAppointmentId());
+		assertEquals(appointment1Comment, appointment1.getComment());
+		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
+
+		
+		
+	}
+	
 	@Test
 	public void testPersistAndLoadBusinessInformation(){
 		String businessName = "testingName";
@@ -81,6 +123,7 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(businessPhoneNumber, businessInfo.getPhoneNumber());
 		assertEquals(businessEmail, businessInfo.getEmailAddress());
 	}
+	
 	
 	
 	@Test
