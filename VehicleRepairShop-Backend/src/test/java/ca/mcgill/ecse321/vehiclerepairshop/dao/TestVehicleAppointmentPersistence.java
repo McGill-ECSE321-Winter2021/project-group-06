@@ -153,7 +153,7 @@ public class TestVehicleAppointmentPersistence {
 
 		car = null;
 
-		car = carRepository.findCarByLicensePlate(licensePlate);
+		car = carRepository.findByLicensePlate(licensePlate);
 		assertNotNull(car);
 		assertEquals(licensePlate, car.getLicensePlate());
 		assertEquals(model, car.getModel());
@@ -198,7 +198,7 @@ public class TestVehicleAppointmentPersistence {
 		car2 = null;
 
 		
-		cars = carRepository.findCarByOwner(customer);
+		cars = carRepository.findByOwner(customer);
 		assertNotNull(cars);
 //		Iterator iterator = cars.iterator();
 //		int i=0;
@@ -336,7 +336,7 @@ public class TestVehicleAppointmentPersistence {
 
 		user1 = null;
 		
-		user1 = adminAccountRepository.findAdminAccountByUsername(username1);
+		user1 = adminAccountRepository.findByUsername(username1);
 		assertNotNull(user1);
 		assertEquals(user1.getName(), name1);
 		assertEquals(user1.getPassword(), password1);
@@ -375,7 +375,7 @@ public class TestVehicleAppointmentPersistence {
 		user2 = null;
 		List<AdminAccount> users;
 		
-		users = adminAccountRepository.findAdminAccountByName(name1);
+		users = adminAccountRepository.findByName(name1);
 		user1 = users.get(0); 
 		user2 = users.get(1);
 		
@@ -408,7 +408,7 @@ public class TestVehicleAppointmentPersistence {
 
 		user1 = null;
 		
-		user1 = customerAccountRepository.findCustomerAccountByUsername(username1);
+		user1 = customerAccountRepository.findByUsername(username1);
 		assertNotNull(user1);
 		assertEquals(user1.getName(), name1);
 		assertEquals(user1.getPassword(), password1);
@@ -446,7 +446,7 @@ public class TestVehicleAppointmentPersistence {
 		user2 = null;
 		List<CustomerAccount> users;
 		
-		users = customerAccountRepository.findCustomerAccountByName(name1);
+		users = customerAccountRepository.findByName(name1);
 		user1 = users.get(0); 
 		user2 = users.get(1);
 		
@@ -471,10 +471,10 @@ public class TestVehicleAppointmentPersistence {
 		String username1 = "username1";
 		String password1 = "password123";
 		
-		String licensePlate = "3JOH22A";
-		String model = "Ferrari";
-		Integer year = 1998;
-		MotorType motorType = MotorType.Hybrid;
+//		String licensePlate = "3JOH22A";
+//		String model = "Ferrari";
+//		Integer year = 1998;
+//		MotorType motorType = MotorType.Hybrid;
 		
 		CustomerAccount user1 = new CustomerAccount();
 		Car car = new Car();
@@ -516,7 +516,7 @@ public class TestVehicleAppointmentPersistence {
 
 		user1 = null;
 		
-		user1 = technicianAccountRepository.findTechnicanAccountByUsername(username1);
+		user1 = technicianAccountRepository.findByUsername(username1);
 		assertNotNull(user1);
 		assertEquals(user1.getName(), name1);
 		assertEquals(user1.getPassword(), password1);
@@ -553,7 +553,7 @@ public class TestVehicleAppointmentPersistence {
 		user2 = null;
 		List<TechnicianAccount> users;
 		
-		users = technicianAccountRepository.findTechnicianAccountByName(name1);
+		users = technicianAccountRepository.findByName(name1);
 		user1 = users.get(0); 
 		user2 = users.get(1);
 		
@@ -607,8 +607,8 @@ public class TestVehicleAppointmentPersistence {
 //		boolean available = true;
 //		String gID = "1";
 		
-		String appointment1ID = "appointment1";
-		String appointment1Comment = "this is a test Appointment";	
+//		String appointment1ID = "appointment1";
+//		String appointment1Comment = "this is a test Appointment";	
 		
 //		TimeSlot timeSlot = new TimeSlot();
 //		CustomerAccount customer = new CustomerAccount();

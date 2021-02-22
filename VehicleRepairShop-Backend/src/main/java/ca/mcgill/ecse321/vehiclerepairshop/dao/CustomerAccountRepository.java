@@ -8,7 +8,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 
 public interface CustomerAccountRepository extends CrudRepository<CustomerAccount, Integer>{
-	List<CustomerAccount> findCustomerAccountByName(String name); //name is not unique
+	List<CustomerAccount> findByName(String name); //name is not unique
 	CustomerAccount findByCar(Car carLicience);
-	CustomerAccount findCustomerAccountByUsername(String username); 
+	CustomerAccount findByUsername(String username); 
 }

@@ -52,7 +52,7 @@ public class BusinessInformation
 
   public String getEmailAddress()
   {
-    return emailAddress;
+    return emailAddress; 
   }
 
 
