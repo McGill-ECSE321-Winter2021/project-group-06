@@ -24,9 +24,9 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Service;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Technician;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Admin;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Customer;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 
 
@@ -40,6 +40,14 @@ public class TestVeichleAppointmentPersistence {
 	private BusinessInformationRepository businessInformationRepository;
 	@Autowired
 	private AppointmentRepository appointmentRepository;
+	@Autowired
+	private UserAccountRepository userAccountRepository;
+	@Autowired
+	private CustomerAccountRepository customerAccountRepository;
+	@Autowired
+	private TechnicianAccountRepository technicianAccountRepository;
+	@Autowired
+	private AdminAccountRepository AdminAccountRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
@@ -79,7 +87,7 @@ public class TestVeichleAppointmentPersistence {
 		String customerName = "customer";
 		String customerPassword = "123";
 		String customerID = "customer1";
-		Customer customer = new Customer(customerName, customerPassword, customerID);
+		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
 		MotorType engine = MotorType.Gas;
 		
 		Car car = new Car(licensePlate,model,year,engine,customer);
@@ -113,7 +121,7 @@ public class TestVeichleAppointmentPersistence {
 		String customerName = "customer";
 		String customerPassword = "123";
 		String customerID = "customer1";
-		Customer customer = new Customer(customerName, customerPassword, customerID);
+		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
 		
 		
 		Car car = new Car(licensePlate,model,year,engine,customer);
@@ -124,7 +132,7 @@ public class TestVeichleAppointmentPersistence {
 		car = null; 
 		car2 = null;
 
-		cars = carRepository.findCarByCustomer(customer);
+		cars = carRepository.findCarByCustomerAccount(customer);
 		assertNotNull(cars);
 //		Iterator iterator = cars.iterator();
 //		int i=0;
@@ -161,6 +169,7 @@ public class TestVeichleAppointmentPersistence {
 		String customerPassword = "123";
 		String customerID = "customer1";
 		
+		String timeSlotId = "timeSlot1";
 		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
 		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
 		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
@@ -181,12 +190,12 @@ public class TestVeichleAppointmentPersistence {
 		String techID = "techID1";
 		
 		
-		TimeSlot timeSlot = new TimeSlot(startTime, endTime, startDate, endDate);
-		Customer customer = new Customer(customerName, customerPassword, customerID);
+		TimeSlot timeSlot = new TimeSlot(timeSlotId, startTime, endTime, startDate, endDate);
+		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
 		Service service = new Service(price, serviceName, duration, reminderDate, reminderTime, description);
 		Car car = new Car(licensePlate,model,year,engine,customer);
 		Garage garage = new Garage(available, gID);
-		Technician technician = new Technician(techName,passWord,techID);
+		TechnicianAccount technician = new TechnicianAccount(techName,passWord,techID);
 		
 		String appointment1ID = "appointment1";
 		String appointment1Comment = "this is a test Appointment";
@@ -202,13 +211,18 @@ public class TestVeichleAppointmentPersistence {
 		assertEquals(appointment1ID, appointment1.getAppointmentId());
 		assertEquals(appointment1Comment, appointment1.getComment());
 		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
-		assertEquals(techID, appointment1.getWorker(0).getUniqueId());
+		assertEquals(techID, appointment1.getWorker(0).getUsername());
 		assertEquals(serviceName, appointment1.getService().getName());
 		assertEquals(gID, appointment1.getGarage().getGarageId());
 
 	}
 	
 	
-	// ************************* Mike end here **************************
+	// ************************* Mike end here **************************/
+	
+	// ********************* Catherine & Aurelia start here **************/
+	
+	
+	// ******************** Catherine & Aurelia end here ****************/
 	
 }

@@ -5,10 +5,11 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 
 import java.sql.Time;
+import java.sql.Date;
 import java.util.*;
 
 // line 57 "model.ump"
-// line 96 "model.ump"
+// line 97 "model.ump"
 public class Service
 {
 
@@ -22,6 +23,7 @@ public class Service
   private String name;
   private String duration;
   private Time reminderTime;
+  private Date reminderDate;
   private String description;
 
   //Service Associations
@@ -31,13 +33,14 @@ public class Service
   // CONSTRUCTOR
   //------------------------
 
-  public Service(String aServiceId, String aPrice, String aName, String aDuration, Time aReminderTime, String aDescription)
+  public Service(String aServiceId, String aPrice, String aName, String aDuration, Time aReminderTime, Date aReminderDate, String aDescription)
   {
     serviceId = aServiceId;
     price = aPrice;
     name = aName;
     duration = aDuration;
     reminderTime = aReminderTime;
+    reminderDate = aReminderDate;
     description = aDescription;
     appointment = new ArrayList<Appointment>();
   }
@@ -86,6 +89,14 @@ public class Service
     return wasSet;
   }
 
+  public boolean setReminderDate(Date aReminderDate)
+  {
+    boolean wasSet = false;
+    reminderDate = aReminderDate;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setDescription(String aDescription)
   {
     boolean wasSet = false;
@@ -117,6 +128,11 @@ public class Service
   public Time getReminderTime()
   {
     return reminderTime;
+  }
+
+  public Date getReminderDate()
+  {
+    return reminderDate;
   }
 
   public String getDescription()
@@ -244,10 +260,10 @@ public class Service
             "name" + ":" + getName()+ "," +
             "duration" + ":" + getDuration()+ "," +
             "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "reminderTime" + "=" + (getReminderTime() != null ? !getReminderTime().equals(this)  ? getReminderTime().toString().replaceAll("  ","    ") : "this" : "null");
+            "  " + "reminderTime" + "=" + (getReminderTime() != null ? !getReminderTime().equals(this)  ? getReminderTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "reminderDate" + "=" + (getReminderDate() != null ? !getReminderDate().equals(this)  ? getReminderDate().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
-
 //import java.sql.Time;
 //import java.util.*;
 //import java.sql.Date;
