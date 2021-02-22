@@ -112,12 +112,16 @@ public class TestVehicleAppointmentPersistence {
 		String businessPhoneNumber = "1234567";
 		String businessEmail = "email@email.com";
 		
-		BusinessInformation businessInfo = new BusinessInformation(businessName, businessAddress,businessPhoneNumber, businessEmail);
+		BusinessInformation businessInfo = new BusinessInformation();
+		businessInfo.setName(businessName);
+		businessInfo.setAddress(businessAddress);
+		businessInfo.setPhoneNumber(businessPhoneNumber);
+		businessInfo.setEmailAddress(businessEmail);
 		businessInformationRepository.save(businessInfo);
 
 		businessInfo = null;
 
-		businessInfo = businessInformationRepository.findBusinessInformationByName(businessName);
+		businessInfo = businessInformationRepository.findByName(businessName);
 		assertNotNull(businessInfo);
 		assertEquals(businessAddress, businessInfo.getAddress());
 		assertEquals(businessPhoneNumber, businessInfo.getPhoneNumber());
@@ -134,10 +138,13 @@ public class TestVehicleAppointmentPersistence {
 		String customerName = "customer";
 		String customerPassword = "123";
 		String customerID = "customer1";
-		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerID);
 		MotorType engine = MotorType.Gas;
 		
-		Car car = new Car(licensePlate,model,year,engine,customer);
+		Car car = new Car();
 		car.setLicensePlate(licensePlate);
 		car.setModel(model);
 		car.setYear(year);
@@ -156,6 +163,7 @@ public class TestVehicleAppointmentPersistence {
 	
 	
 	
+	
 	@Test
 	public void testPersistAndLoadCarViaSearchCustomer() {
 		String licensePlate = "TestCar";
@@ -168,18 +176,29 @@ public class TestVehicleAppointmentPersistence {
 		String customerName = "customer";
 		String customerPassword = "123";
 		String customerID = "customer1";
-		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerID);
 		
-		
-		Car car = new Car(licensePlate,model,year,engine,customer);
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
 		carRepository.save(car);
-		Car car2 = new Car(licensePlate2, model2, year2, engine, customer);
+		Car car2 = new Car();
+		car.setLicensePlate(licensePlate2);
+		car.setModel(model2);
+		car.setYear(year2);
+		car.setMotorType(engine);
 		carRepository.save(car2);
 		List<Car> cars = null;
 		car = null; 
 		car2 = null;
 
-		cars = carRepository.findCarByCustomerAccount(customer);
+		
+		cars = carRepository.findCarByOwner(customer);
 		assertNotNull(cars);
 //		Iterator iterator = cars.iterator();
 //		int i=0;
@@ -206,7 +225,7 @@ public class TestVehicleAppointmentPersistence {
 	
 	
 	@Test
-	public void testPersistAndLoadAppointment() {
+	public void testPersistAndLoadAppointmentViaCarandTimeSlot() {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
 		Integer year = 2021;
@@ -238,16 +257,47 @@ public class TestVehicleAppointmentPersistence {
 		String techID = "techID1";
 		
 		
-		TimeSlot timeSlot = new TimeSlot(timeSlotId, startTime, endTime, startDate, endDate);
-		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
-		Service service = new Service(serviceId, price, serviceName, duration, reminderTime, reminderDate, description);
-		Car car = new Car(licensePlate,model,year,engine,customer);
-		Garage garage = new Garage(available, gID);
-		TechnicianAccount technician = new TechnicianAccount(techName,passWord,techID);
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setTimeSlotId(timeSlotId);
+		timeSlot.setStartTime(startTime);
+		timeSlot.setEndTime(endTime);
+		timeSlot.setStartDate(startDate);
+		timeSlot.setEndDate(endDate);
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerID);
+		Service service = new Service();
+		service.setServiceId(serviceId);
+		service.setPrice(price);
+		service.setName(serviceName);
+		service.setDuration(duration);
+		service.setReminderTime(reminderTime);
+		service.setDescription(description);
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
+		Garage garage = new Garage();
+		garage.setIsAvailable(available);
+		garage.setGarageId(gID);
+		TechnicianAccount technician = new TechnicianAccount();
+		technician.setName(techName);
+		technician.setPassword(passWord);
+		technician.setUsername(techID);
+		
 		
 		String appointment1ID = "appointment1";
 		String appointment1Comment = "this is a test Appointment";
-		Appointment appointment1 = new Appointment(appointment1ID, appointment1Comment,car,garage,service,timeSlot,technician);
+		Appointment appointment1 = new Appointment();
+		appointment1.setAppointmentId(appointment1ID);
+		appointment1.setComment(appointment1Comment);
+		appointment1.setCar(car);
+		appointment1.setGarage(garage);
+		appointment1.setService(service);
+		appointment1.setTimeSlot(timeSlot);
+
 		
 
 		appointmentRepository.save(appointment1);
@@ -259,7 +309,6 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(appointment1ID, appointment1.getAppointmentId());
 		assertEquals(appointment1Comment, appointment1.getComment());
 		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
-		assertEquals(techID, appointment1.getWorker(0).getUsername());
 		assertEquals(serviceName, appointment1.getService().getName());
 		assertEquals(gID, appointment1.getGarage().getGarageId());
 
