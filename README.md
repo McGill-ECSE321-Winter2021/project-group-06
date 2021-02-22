@@ -17,4 +17,4 @@ The Vehicle Repair Shop system will allow customers, technicians and an administ
 # Project Reports
 [Project report - Sprint 1](https://docs.google.com/document/d/1KxwF_pFvU4jh581fVTBl1xgxgwOBWG6FS6jDAaq5wl8/edit?usp=sharing)
 
-[Minute - Sprint 1](https://github.com/McGill-ECSE321-Winter2021/project-group-06/wiki/Meeting-Minutes)
+[Minutes - Sprint 1](https://github.com/McGill-ECSE321-Winter2021/project-group-06/wiki/Meeting-Minutes)
