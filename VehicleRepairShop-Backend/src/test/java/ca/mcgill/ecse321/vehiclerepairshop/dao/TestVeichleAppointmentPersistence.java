@@ -26,7 +26,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Service;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Technician;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Admin;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Customer;
+import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 
 
@@ -79,7 +79,7 @@ public class TestVeichleAppointmentPersistence {
 		String customerName = "customer";
 		String customerPassword = "123";
 		String customerID = "customer1";
-		Customer customer = new Customer(customerName, customerPassword, customerID);
+		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
 		MotorType engine = MotorType.Gas;
 		
 		Car car = new Car(licensePlate,model,year,engine,customer);
@@ -113,7 +113,7 @@ public class TestVeichleAppointmentPersistence {
 		String customerName = "customer";
 		String customerPassword = "123";
 		String customerID = "customer1";
-		Customer customer = new Customer(customerName, customerPassword, customerID);
+		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
 		
 		
 		Car car = new Car(licensePlate,model,year,engine,customer);
@@ -182,7 +182,7 @@ public class TestVeichleAppointmentPersistence {
 		
 		
 		TimeSlot timeSlot = new TimeSlot(startTime, endTime, startDate, endDate);
-		Customer customer = new Customer(customerName, customerPassword, customerID);
+		CustomerAccount customer = new CustomerAccount(customerName, customerPassword, customerID);
 		Service service = new Service(price, serviceName, duration, reminderDate, reminderTime, description);
 		Car car = new Car(licensePlate,model,year,engine,customer);
 		Garage garage = new Garage(available, gID);
