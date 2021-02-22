@@ -1,5 +1,7 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
@@ -10,6 +12,7 @@ import java.sql.Date;
 
 // line 48 "model.ump"
 // line 91 "model.ump"
+@Entity
 public class TimeSlot
 {
 
@@ -81,6 +84,7 @@ public class TimeSlot
     return wasSet;
   }
 
+  @Id
   public String getTimeSlotId()
   {
     return timeSlotId;

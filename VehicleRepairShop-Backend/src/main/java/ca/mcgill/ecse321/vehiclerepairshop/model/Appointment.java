@@ -1,4 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
@@ -8,6 +10,7 @@ import java.util.*;
 
 // line 37 "model.ump"
 // line 109 "model.ump"
+@Entity
 public class Appointment
 {
 
@@ -81,6 +84,7 @@ public class Appointment
     return wasSet;
   }
 
+  @Id
   public String getAppointmentId()
   {
     return appointmentId;

@@ -1,5 +1,8 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -8,6 +11,7 @@ import java.util.*;
 
 // line 73 "model.ump"
 // line 104 "model.ump"
+@Entity
 public class Garage
 {
 
@@ -58,6 +62,7 @@ public class Garage
     return isAvailable;
   }
 
+  @Id
   public String getGarageId()
   {
     return garageId;

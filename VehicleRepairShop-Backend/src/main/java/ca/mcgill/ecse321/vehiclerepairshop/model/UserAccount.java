@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.vehiclerepairshop.model;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
+
 
 
 
@@ -10,6 +12,7 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
  */
 // line 3 "model.ump"
 // line 120 "model.ump"
+@Entity
 public class UserAccount
 {
 
@@ -60,7 +63,7 @@ public class UserAccount
     wasSet = true;
     return wasSet;
   }
-
+  
   public String getName()
   {
     return name;
@@ -71,6 +74,7 @@ public class UserAccount
     return password;
   }
 
+  @Id
   public String getUsername()
   {
     return username;
