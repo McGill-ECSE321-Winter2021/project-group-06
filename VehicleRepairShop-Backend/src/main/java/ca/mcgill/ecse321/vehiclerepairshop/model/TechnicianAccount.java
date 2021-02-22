@@ -1,9 +1,15 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import java.util.*;
+
+
 import java.util.*;
 import javax.persistence.*;
 @Entity
-public class Technician extends Account
+public class TechnicianAccount extends UserAccount
 {
 
   private List<TimeSlot> availability;
@@ -12,8 +18,7 @@ public class Technician extends Account
   @ManyToMany
   public List<TimeSlot> getAvailability()
   {
-    List<TimeSlot> newAvailability = Collections.unmodifiableList(availability);
-    return newAvailability;
+    return this.availability;
   }
   
   public void setAvailability(List<TimeSlot> availability) {
@@ -27,7 +32,7 @@ public class Technician extends Account
   }
   
   public void setAppointment(List<Appointment> appointment) {
-	  this.appointment = appointment;
+	  this.appointment =  appointment;
   }
 
 

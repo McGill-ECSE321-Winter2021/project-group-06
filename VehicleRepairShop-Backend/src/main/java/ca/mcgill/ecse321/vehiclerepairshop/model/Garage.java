@@ -1,11 +1,14 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import java.util.*;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+
 
 @Entity
 public class Garage
@@ -16,41 +19,38 @@ public class Garage
   private List<Appointment> appointment;
 
 
-  public boolean setIsAvailable(boolean aIsAvailable)
+  public void setIsAvailable(boolean aIsAvailable)
   {
-    boolean wasSet = false;
-    isAvailable = aIsAvailable;
-    wasSet = true;
-    return wasSet;
+    this.isAvailable = aIsAvailable; 
   }
 
-  public boolean setGarageId(String aGarageId)
+  public void setGarageId(String aGarageId)
   {
-    boolean wasSet = false;
-    garageId = aGarageId;
-    wasSet = true;
-    return wasSet;
+    this.garageId = aGarageId;
   }
 
   public boolean getIsAvailable()
   {
-    return isAvailable;
+    return this.isAvailable;
   }
 
   @Id
   public String getGarageId()
   {
-    return garageId;
+    return this.garageId;
   }
 
   @OneToMany(cascade = {CascadeType.ALL})
   public List<Appointment> getAppointment()
   {
+
     return this.appointment;
+
   }
   
   public void setAppointment(List<Appointment> appointment) {
 	  this.appointment = appointment;
   }
+
 
 }

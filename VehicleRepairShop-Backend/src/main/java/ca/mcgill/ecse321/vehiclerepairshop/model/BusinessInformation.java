@@ -1,7 +1,7 @@
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 
 @Entity
 public class BusinessInformation
@@ -13,36 +13,25 @@ public class BusinessInformation
   private String emailAddress;
 
 
-  public boolean setName(String aName)
+  public void setName(String aName)
   {
-    boolean wasSet = false;
-    name = aName;
-    wasSet = true;
-    return wasSet;
+    this.name = aName;
   }
 
-  public boolean setAddress(String aAddress)
+  public void setAddress(String aAddress)
   {
-    boolean wasSet = false;
-    address = aAddress;
-    wasSet = true;
-    return wasSet;
+    this.address = aAddress;
   }
 
-  public boolean setPhoneNumber(String aPhoneNumber)
+  public void setPhoneNumber(String aPhoneNumber)
   {
-    boolean wasSet = false;
-    phoneNumber = aPhoneNumber;
-    wasSet = true;
-    return wasSet;
+    this.phoneNumber = aPhoneNumber;
   }
 
-  public boolean setEmailAddress(String aEmailAddress)
+  public void setEmailAddress(String aEmailAddress)
   {
-    boolean wasSet = false;
-    emailAddress = aEmailAddress;
-    wasSet = true;
-    return wasSet;
+    this.emailAddress = aEmailAddress;
+    
   }
 
   @Id

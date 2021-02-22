@@ -1,5 +1,5 @@
-
 package ca.mcgill.ecse321.vehiclerepairshop.model;
+
 
 import java.util.*;
 import javax.persistence.Id;
@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.Entity;
+
+
 
 
 @Entity
@@ -20,40 +22,28 @@ public class Car
   private String model;
   private int year;
   private MotorType motorType;
-  private Customer owner;
+
+  private CustomerAccount owner;
   private List<Appointment> appointment;
 
-
-  public boolean setLicensePlate(String aLicensePlate)
+  public void setLicensePlate(String aLicensePlate)
   {
-    boolean wasSet = false;
-    licensePlate = aLicensePlate;
-    wasSet = true;
-    return wasSet;
+    this.licensePlate = aLicensePlate;
   }
 
-  public boolean setModel(String aModel)
+  public void setModel(String aModel)
   {
-    boolean wasSet = false;
-    model = aModel;
-    wasSet = true;
-    return wasSet;
+    this.model = aModel;
   }
 
-  public boolean setYear(int aYear)
+  public void setYear(int aYear)
   {
-    boolean wasSet = false;
-    year = aYear;
-    wasSet = true;
-    return wasSet;
+    this.year = aYear;
   }
 
-  public boolean setMotorType(MotorType aMotorType)
+  public void setMotorType(MotorType aMotorType)
   {
-    boolean wasSet = false;
-    motorType = aMotorType;
-    wasSet = true;
-    return wasSet;
+    this.motorType = aMotorType;
   }
 
   @Id
@@ -77,8 +67,9 @@ public class Car
     return motorType;
   }
 
+
   @ManyToOne
-  public Customer getOwner()
+  public CustomerAccount getOwner()
   {
     return owner;
   }
@@ -86,18 +77,21 @@ public class Car
   @OneToMany(cascade = {CascadeType.ALL})
   public List<Appointment> getAppointment()
   {
-    List<Appointment> newAppointment = Collections.unmodifiableList(appointment);
-    return newAppointment;
+    return this.appointment;
   }
+
   
   public void setAppointment(List<Appointment> appointment) {
 	  this.appointment = appointment;
   }
   
-  public void setOwner(Customer aOwner)
+  public void setOwner(CustomerAccount aOwner)
+
   {
    this.owner = aOwner;
   }
 
+
  
 }
+

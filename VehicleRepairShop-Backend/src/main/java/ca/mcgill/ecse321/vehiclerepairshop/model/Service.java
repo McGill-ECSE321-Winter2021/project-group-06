@@ -1,7 +1,7 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
-
 import java.sql.Time;
+import java.sql.Date;
 import java.util.*;
 import java.sql.Date;
 
@@ -10,56 +10,59 @@ import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 
+
 @Entity
 public class Service
 {
 
+
+  private String serviceId;
   private String price;
   private String name;
   private String duration;
   private Time reminderTime;
+  private Date reminderDate;
   private String description;
   private List<Appointment> appointment;
 
 
-  public boolean setPrice(String aPrice)
+
+  public void setPrice(String aPrice)
   {
-    boolean wasSet = false;
-    price = aPrice;
-    wasSet = true;
-    return wasSet;
+	  this.price = aPrice;
   }
 
-  public boolean setName(String aName)
+  public void setName(String aName)
+
   {
-    boolean wasSet = false;
-    name = aName;
-    wasSet = true;
-    return wasSet;
+	  this.name = aName; 
   }
 
-  public boolean setDuration(String aDuration)
+  public void setDuration(String aDuration)
   {
-    boolean wasSet = false;
-    duration = aDuration;
-    wasSet = true;
-    return wasSet;
+	  this.duration = aDuration; 
   }
 
-  public boolean setReminderTime(Time aReminderTime)
+  public void setReminderTime(Time aReminderTime)
   {
-    boolean wasSet = false;
-    reminderTime = aReminderTime;
-    wasSet = true;
-    return wasSet;
+    this.reminderTime = aReminderTime; 
   }
 
-  public boolean setDescription(String aDescription)
+  
+  public void setReminderDate(Date aReminderDate)
   {
-    boolean wasSet = false;
-    description = aDescription;
-    wasSet = true;
-    return wasSet;
+    this.reminderDate = aReminderDate; 
+
+  }
+  
+
+  public void setDescription(String aDescription)
+  {
+    this.description = aDescription;
+
+  }
+  public void setServiceId(String aServiceId) {
+	  this.serviceId = aServiceId;
   }
 
   public String getPrice()
@@ -68,24 +71,37 @@ public class Service
   }
 
   @Id
+  public String getSeriveId()
+  {
+	  return this.serviceId;
+  }
   public String getName()
   {
-    return name;
+    return this.name;
   }
+
 
   public String getDuration()
   {
-    return duration;
+    return this.duration;
+
   }
 
   public Time getReminderTime()
   {
-    return reminderTime;
-  }
 
+    return this.reminderTime;
+
+  }
+  
+  public Date getReminderDate()
+  {
+    return this.reminderDate;
+  }
+  
   public String getDescription()
   {
-    return description;
+    return this.description;
   }
 
  
@@ -94,6 +110,7 @@ public class Service
   {
 	  return this.appointment;
   }
+
   
   public void setAppointment(List<Appointment> appointment) {
 	  this.appointment = appointment;
