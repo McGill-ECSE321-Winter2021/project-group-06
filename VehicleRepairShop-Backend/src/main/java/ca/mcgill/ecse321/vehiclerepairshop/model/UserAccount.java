@@ -29,7 +29,7 @@ public class UserAccount
     this.username = aUsername;
   }
   
-  @Id
+  
   public String getName()
   {
     return name;
@@ -39,7 +39,7 @@ public class UserAccount
   {
     return password;
   }
-
+  @Id
   public String getUsername()
   {
     return username;

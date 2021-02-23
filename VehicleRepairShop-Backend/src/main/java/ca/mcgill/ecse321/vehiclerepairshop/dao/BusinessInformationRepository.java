@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 
 public interface BusinessInformationRepository extends CrudRepository<BusinessInformation, String>{
-	BusinessInformation findBusinessInformationByName(String name);
+	BusinessInformation findByName(String name);
 }
