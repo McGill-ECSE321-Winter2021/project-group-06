@@ -29,20 +29,21 @@ public class UserAccount
     this.username = aUsername;
   }
   
-  @Id
+  
   public String getName()
   {
-    return name;
+    return this.name;
   }
 
   public String getPassword()
   {
-    return password;
+    return this.password;
   }
 
+  @Id
   public String getUsername()
   {
-    return username;
+    return this.username;
   }
 
 }
