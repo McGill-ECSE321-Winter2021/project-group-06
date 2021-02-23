@@ -50,6 +50,12 @@ public class TestVehicleAppointmentPersistence {
 	private TechnicianAccountRepository technicianAccountRepository;
 	@Autowired
 	private AdminAccountRepository adminAccountRepository;
+	@Autowired
+	private GarageRepository garageRepository;
+	@Autowired
+	private TimeSlotRepository timeslotRepository;
+	@Autowired
+	private ServiceRepository serviceRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
@@ -60,7 +66,9 @@ public class TestVehicleAppointmentPersistence {
 		customerAccountRepository.deleteAll();
 		technicianAccountRepository.deleteAll();
 		adminAccountRepository.deleteAll();
-		
+		garageRepository.deleteAll();
+		timeslotRepository.deleteAll();
+		serviceRepository.deleteAll();
 	}
 	
 	
@@ -832,5 +840,336 @@ public class TestVehicleAppointmentPersistence {
 	
 	
 	// ******************** Catherine & Aurelia end here ****************/
+	
+	// ************************* James starts here *************************
+	
+	/*
+	 * @author: James Darby
+	 */
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testPersistAndLoadGarageViaAppointment() {
+		
+		//makes a garage
+		boolean isAvailable = true;
+		String garageID = "testGarageID";
+		
+		Garage garageToTest = new Garage();
+		garageToTest.setGarageId(garageID);
+		garageToTest.setIsAvailable(isAvailable);
+		
+		garageRepository.save(garageToTest);
+		
+		garageToTest = null;
+		
+		//makes an appointment
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		MotorType engine = MotorType.Gas;
+		
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		
+		//String timeSlotId = "timeSlot1";
+		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		String serviceId = "service1";
+		String price = "50";
+		String serviceName = "service";
+		String duration = "18hrs";
+		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		String description = "this is a test service";
+		
+		String techName = "techName1";
+		String passWord = "123";
+		String techID = "techID1";
+		
+		
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setStartTime(startTime);
+		timeSlot.setEndTime(endTime);
+		timeSlot.setStartDate(startDate);
+		timeSlot.setEndDate(endDate);
+		
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerName);
+		
+		Service service = new Service();
+		service.setName(serviceName);
+		service.setPrice(price);
+		service.setDuration(duration);
+		service.setReminderDate(reminderDate);
+		service.setReminderTime(reminderTime);
+		service.setDescription(description);
+		
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
+		car.setOwner(customer);
+		
+		TechnicianAccount technician = new TechnicianAccount();
+		technician.setName(techName);
+		technician.setPassword(passWord);
+		technician.setUsername(techID);
+		
+		String appointment1ID = "appointment1";
+		String appointment1Comment = "this is a test Appointment";
+		Appointment appointment1 = new Appointment();
+		appointment1.setAppointmentId(appointment1ID);
+		appointment1.setComment(appointment1Comment);
+		appointment1.setCar(car);
+		appointment1.setGarage(garageToTest);
+		appointment1.setService(service);
+		appointment1.setService(service);
+		appointment1.setTimeSlot(timeSlot);
+		appointment1.setWorker((List<TechnicianAccount>) technician);
+		
+		
+		garageToTest = garageRepository.findByAppointment(appointment1);
+		assertNotNull(garageToTest);
+		assertEquals(garageToTest.getGarageId(), garageID);
+		assertEquals(garageToTest.getIsAvailable(), isAvailable);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testPersistAndLoadTimeSlotViaTechnician() {
+		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		String techName = "techName1";
+		String passWord = "123";
+		String techID = "techID1";
+		
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setStartTime(startTime);
+		timeSlot.setEndTime(endTime);
+		timeSlot.setStartDate(startDate);
+		timeSlot.setEndDate(endDate);
+		
+		TechnicianAccount technician = new TechnicianAccount();
+		technician.setName(techName);
+		technician.setPassword(passWord);
+		technician.setUsername(techID);
+		technician.setAvailability((List<TimeSlot>) timeSlot);
+		
+		timeslotRepository.save(timeSlot);
+		
+		timeSlot = null;
+		
+		//List<TimeSlot> listOfTimeSlots = new ArrayList<TimeSlot>();
+		
+		List<TimeSlot> listOfTimeSlots = timeslotRepository.findByTechnician(technician);
+		
+		assertNotNull(listOfTimeSlots);
+		assertEquals(listOfTimeSlots.get(0).getStartTime(), startTime);
+		assertEquals(listOfTimeSlots.get(0).getEndTime(), endTime);
+		assertEquals(listOfTimeSlots.get(0).getStartDate(), startDate);
+		assertEquals(listOfTimeSlots.get(0).getEndDate(), endDate);
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testPersistAndLoadTimeSlotViaAppointment() {
+		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		MotorType engine = MotorType.Gas;
+		
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		
+		String serviceId = "service1";
+		String price = "50";
+		String serviceName = "service";
+		String duration = "18hrs";
+		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		String description = "this is a test service";
+		
+		boolean available = true;
+		String gID = "1";
+		
+		String techName = "techName1";
+		String passWord = "123";
+		String techID = "techID1";
+		
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setStartTime(startTime);
+		timeSlot.setEndTime(endTime);
+		timeSlot.setStartDate(startDate);
+		timeSlot.setEndDate(endDate);
+		
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerName);
+		
+		Service service = new Service();
+		service.setName(serviceName);
+		service.setPrice(price);
+		service.setDuration(duration);
+		service.setReminderDate(reminderDate);
+		service.setReminderTime(reminderTime);
+		service.setDescription(description);
+		
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
+		car.setOwner(customer);
+		
+	    Garage garage = new Garage();
+		garage.setGarageId(gID);
+		garage.setIsAvailable(available);
+		
+		TechnicianAccount technician = new TechnicianAccount();
+		technician.setName(techName);
+		technician.setPassword(passWord);
+		technician.setUsername(techID);
+		
+		String appointment1ID = "appointment1";
+		String appointment1Comment = "this is a test Appointment";
+		Appointment appointment1 = new Appointment();
+		appointment1.setAppointmentId(appointment1ID);
+		appointment1.setComment(appointment1Comment);
+		appointment1.setCar(car);
+		appointment1.setGarage(garage);
+		appointment1.setService(service);
+		appointment1.setService(service);
+		appointment1.setTimeSlot(timeSlot);
+		appointment1.setWorker((List<TechnicianAccount>) technician);
+		
+		timeslotRepository.save(timeSlot);
+		
+		timeSlot = null;
+		
+		timeSlot = timeslotRepository.findByAppointment(appointment1);
+		
+		assertNotNull(timeSlot);
+		assertEquals(timeSlot.getStartTime(), startTime);
+		assertEquals(timeSlot.getEndTime(), endTime);
+		assertEquals(timeSlot.getStartDate(), startDate);
+		assertEquals(timeSlot.getEndDate(), endDate);
+	}
+	
+	@SuppressWarnings({ "unchecked"})
+	@Test
+	public void testPersistAndLoadServiceViaAppointment() {
+		
+		String serviceId = "service1";
+		String price = "50";
+		String serviceName = "service";
+		String duration = "18hrs";
+		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		String description = "this is a test service";
+		
+		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		MotorType engine = MotorType.Gas;
+		
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		
+		boolean available = true;
+		String gID = "1";
+		
+		String techName = "techName1";
+		String passWord = "123";
+		String techID = "techID1";
+		
+		Service service = new Service();
+		service.setName(serviceName);
+		service.setPrice(price);
+		service.setDuration(duration);
+		service.setReminderDate(reminderDate);
+		service.setReminderTime(reminderTime);
+		service.setDescription(description);
+		
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setStartTime(startTime);
+		timeSlot.setEndTime(endTime);
+		timeSlot.setStartDate(startDate);
+		timeSlot.setEndDate(endDate);
+		
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerName);
+		
+		
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
+		car.setOwner(customer);
+		
+	    Garage garage = new Garage();
+		garage.setGarageId(gID);
+		garage.setIsAvailable(available);
+		
+		TechnicianAccount technician = new TechnicianAccount();
+		technician.setName(techName);
+		technician.setPassword(passWord);
+		technician.setUsername(techID);
+		
+		String appointment1ID = "appointment1";
+		String appointment1Comment = "this is a test Appointment";
+		Appointment appointment1 = new Appointment();
+		appointment1.setAppointmentId(appointment1ID);
+		appointment1.setComment(appointment1Comment);
+		appointment1.setCar(car);
+		appointment1.setGarage(garage);
+		appointment1.setService(service);
+		appointment1.setTimeSlot(timeSlot);
+		appointment1.setWorker((List<TechnicianAccount>) technician);
+		
+		serviceRepository.save(service);
+		
+		service = null;
+		
+		service = serviceRepository.findByAppointment(appointment1);
+		
+		assertNotNull(service);
+		assertEquals(service.getName(), serviceName);
+		assertEquals(service.getPrice(), price);
+		assertEquals(service.getDuration(), duration);
+		assertEquals(service.getReminderDate(), reminderDate);
+		assertEquals(service.getReminderTime(), reminderTime);
+		assertEquals(service.getDescription(), description);
+		
+	}
+	
+	// ************************* James ends here ***************************
 	
 }
