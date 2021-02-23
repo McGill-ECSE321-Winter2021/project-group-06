@@ -67,7 +67,7 @@ public class Service
 
   public String getPrice()
   {
-    return price;
+    return this.price;
   }
 
   @Id

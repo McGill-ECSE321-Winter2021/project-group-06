@@ -13,10 +13,45 @@ import javax.persistence.OneToMany;
 import javax.persistence.Entity;
 
 @Entity
-public class CustomerAccount extends UserAccount
+public class CustomerAccount
 {
 
   private List<Car> car;
+  private String name;
+  private String password;
+  private String username;
+
+  
+  public void setName(String aName)
+  {
+    this.name = aName;
+  }
+
+  public void setPassword(String aPassword)
+  {
+    this.password = aPassword;
+  }
+
+  public void setUsername(String aUsername)
+  {
+    this.username = aUsername;
+  }
+  
+  
+  public String getName()
+  {
+    return this.name;
+  }
+
+  public String getPassword()
+  {
+    return this.password;
+  }
+  @Id
+  public String getUsername()
+  {
+    return this.username;
+  }
 
   
   @OneToMany(cascade = {CascadeType.ALL})
