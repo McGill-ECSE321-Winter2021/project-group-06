@@ -74,43 +74,166 @@ public class TestVehicleAppointmentPersistence {
 	
 // ************************* Mike start here **************************
 	/*
-	 * @author: Cheng
+	 * @author: Cheng & Mike
+	 * Tests finding appointments trough searching car
 	 */
 	@Test
 	public void testPersistAndLoadAppopintmentViaSearchCar() {
-		MotorType engine = MotorType.Gas;
 		String licensePlate = "TestCar";
 		String model = "TestModel";
 		Integer year = 2021;
+		MotorType engine = MotorType.Gas;
+		
+		
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		
+		
+		String timeSlotId = "timeSlot1";
+		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		String timeSlotId2 = "timeSlot2";
+		Date startDate2 = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 23));
+		Date endDate2 = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 24));
+		Time startTime2 = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime2 = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		String serviceId = "service1";
+		String price = "50";
+		String serviceName = "service";
+		String duration = "18hrs";
+		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		String description = "this is a test service";
+		
+		boolean available = true;
+		String gID = "1";
+		
+		String techName = "techName1";
+		String passWord = "123";
+		String techID = "techID1";
+		
+		String techName2 = "techName2";
+		String passWord2 = "123";
+		String techID2 = "techID2";
+		
+		
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setTimeSlotId(timeSlotId);
+		timeSlot.setStartTime(startTime);
+		timeSlot.setEndTime(endTime);
+		timeSlot.setStartDate(startDate);
+		timeSlot.setEndDate(endDate);
+		
+		TimeSlot timeSlot2 = new TimeSlot();
+		timeSlot2.setTimeSlotId(timeSlotId2);
+		timeSlot2.setStartTime(startTime2);
+		timeSlot2.setEndTime(endTime2);
+		timeSlot2.setStartDate(startDate2);
+		timeSlot2.setEndDate(endDate2);
+		
+		
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerID);
+		
+		
+		
+		Service service = new Service();
+		service.setServiceId(serviceId);
+		service.setPrice(price);
+		service.setName(serviceName);
+		service.setDuration(duration);
+		service.setReminderTime(reminderTime);
+		service.setReminderDate(reminderDate);
+		service.setDescription(description);
+		
+		
 		Car car = new Car();
 		car.setLicensePlate(licensePlate);
-		car.setMotorType(engine);
 		car.setModel(model);
 		car.setYear(year);
-
+		car.setMotorType(engine);
+		
+		
+		
+		Garage garage = new Garage();
+		garage.setIsAvailable(available);
+		garage.setGarageId(gID);
+		
+		
+		TechnicianAccount technician = new TechnicianAccount();
+		technician.setName(techName);
+		technician.setPassword(passWord);
+		technician.setUsername(techID);
+		
+		TechnicianAccount technician2 = new TechnicianAccount();
+		technician2.setName(techName2);
+		technician2.setPassword(passWord2);
+		technician2.setUsername(techID2);
+		
 		String appointment1ID = "appointment1";
 		String appointment1Comment = "this is a test Appointment";
 		Appointment appointment1 = new Appointment();
-		List<Appointment> appointments = new ArrayList<Appointment>();
-		appointments.add(appointment1);
 		appointment1.setAppointmentId(appointment1ID);
 		appointment1.setComment(appointment1Comment);
-		car.setAppointment(appointments);
+		appointment1.setCar(car);
+		appointment1.setGarage(garage);
+		appointment1.setService(service);
+		appointment1.setTimeSlot(timeSlot);
+		
+		
+		String appointment2ID = "appointment2";
+		String appointment2Comment = "this is a test Appointment";
+		Appointment appointment2 = new Appointment();
+		appointment2.setAppointmentId(appointment2ID);
+		appointment2.setComment(appointment2Comment);
+		appointment2.setCar(car);
+		appointment2.setGarage(garage);
+		appointment2.setService(service);
+		appointment2.setTimeSlot(timeSlot2);
+		
 
 		appointmentRepository.save(appointment1);
+		appointmentRepository.save(appointment2);
 		carRepository.save(car);
+		customerAccountRepository.save(customer);
+		technicianAccountRepository.save(technician);
+		technicianAccountRepository.save(technician2);
+		serviceRepository.save(service);
+		timeslotRepository.save(timeSlot);
+		timeslotRepository.save(timeSlot2);
+		
+		
+		
+		List<Appointment> appointments = new ArrayList<Appointment>();
 
 		appointment1 = null;
+		appointment2 = null;
 
 		appointments = appointmentRepository.findByCar(car);
 		appointment1 = appointments.get(0);
+		appointment2 = appointments.get(1);
 		assertNotNull(appointment1);
+		assertNotNull(appointment2);
 		assertEquals(appointment1ID, appointment1.getAppointmentId());
 		assertEquals(appointment1Comment, appointment1.getComment());
 		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
+		assertEquals(appointment2ID, appointment2.getAppointmentId());
+		assertEquals(appointment2Comment, appointment2.getComment());
+		assertEquals(licensePlate, appointment2.getCar().getLicensePlate());
 
 	}
 	
+	/*
+	 * @author: Mike
+	 * Test loading business information via searching business name
+	 */
 	@Test
 	public void testPersistAndLoadBusinessInformation(){
 		String businessName = "testingName";
@@ -135,7 +258,10 @@ public class TestVehicleAppointmentPersistence {
 	}
 	
 	
-	
+	/*
+	 * @author: Mike
+	 * Tests loading car via searching licensePlate
+	 */
 	@Test
 	public void testPersistAndLoadCar() {
 		String licensePlate = "TestCar";
@@ -169,7 +295,10 @@ public class TestVehicleAppointmentPersistence {
 	
 	
 	
-	
+	/*
+	 * @author: Mike
+	 * Tests loading cars via searching customer
+	 */
 	@Test
 	public void testPersistAndLoadCarViaSearchCustomer() {
 		String licensePlate = "TestCar";
@@ -199,20 +328,14 @@ public class TestVehicleAppointmentPersistence {
 		car.setYear(year2);
 		car.setMotorType(engine);
 		carRepository.save(car2);
-		List<Car> cars = null;
+		List<Car> cars = new ArrayList<Car>();
 		car = null; 
 		car2 = null;
 
 		
 		cars = carRepository.findCarByOwner(customer);
 		assertNotNull(cars);
-//		Iterator iterator = cars.iterator();
-//		int i=0;
-//		while(iterator.hasNext()) {
-//			i++;
-//			if 
-//			
-//		}
+
 		car = cars.get(0);
 		car2 = cars.get(1);
 		assertEquals(licensePlate, car.getLicensePlate());
@@ -229,7 +352,10 @@ public class TestVehicleAppointmentPersistence {
 	
 	
 	
-	
+	/*
+	 * @author: Mike
+	 * Tests loading appointment via searching timeslots and car
+	 */
 	@Test
 	public void testPersistAndLoadAppointmentViaCarandTimeSlot() {
 		String licensePlate = "TestCar";
@@ -327,7 +453,10 @@ public class TestVehicleAppointmentPersistence {
 	
 	
 	
-	
+	/*
+	 * @author: Mike
+	 * Tests loading appointment via searching garage
+	 */
 	@Test
 	public void testPersistAndLoadAppopintmentViaSearchGarage() {
 		String licensePlate = "TestCar";
@@ -474,6 +603,8 @@ public class TestVehicleAppointmentPersistence {
 		customerAccountRepository.save(customer2);
 		technicianAccountRepository.save(technician);
 		technicianAccountRepository.save(technician2);
+		serviceRepository.save(service);
+		timeslotRepository.save(timeSlot);
 		
 		List<Appointment> appointments = new ArrayList<Appointment>();
 		
@@ -486,10 +617,8 @@ public class TestVehicleAppointmentPersistence {
 		assertNotNull(appointment2);
 		assertEquals(appointment1ID, appointment1.getAppointmentId());
 		assertEquals(appointment1Comment, appointment1.getComment());
-		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
 		assertEquals(appointment2ID, appointment2.getAppointmentId());
 		assertEquals(appointment2Comment, appointment2.getComment());
-		assertEquals(licensePlate2, appointment2.getCar().getLicensePlate());
 
 	}
 	
