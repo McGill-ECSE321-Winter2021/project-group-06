@@ -989,82 +989,16 @@ public class TestVehicleAppointmentPersistence {
 	/**
 	 * Tests finding technician accounts by an appointment
 	 */
-//	@Test
-//	public void testPersistAndLoadTechnicianAccountByAppointment() {
-//		String name1 = "Jarvis";
-//		String username1 = "username1";
-//		String password1 = "password123";
-//		
-//		String name2 = "Stark";
-//		String username2 = "username2";
-//		String password2 = "321password";
-//		
-////		String licensePlate = "TestCar";
-////		String model = "TestModel";
-////		Integer year = 2021;
-////		MotorType engine = MotorType.Gas;
-////		
-////		String customerName = "customer";
-////		String customerPassword = "123";
-////		String customerID = "customer1";
-////		
-////		String timeSlotId = "timeSlot1";
-////		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
-////		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
-////		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-////		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
-////		
-////		String serviceId = "service1";
-////		String price = "50";
-////		String serviceName = "service";
-////		String duration = "18hrs";
-////		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-////		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
-////		String description = "this is a test service";
-////		
-////		boolean available = true;
-////		String gID = "1";
-////		
-////		String appointment1ID = "appointment1";
-////		String appointment1Comment = "this is a test Appointment";	
-////		
-////		TimeSlot timeSlot = new TimeSlot();
-////		CustomerAccount customer = new CustomerAccount();
-////		Service service = new Service();
-////		Car car = new Car();
-////		Garage garage = new Garage();
-////	
-////		TechnicianAccount user1 = new TechnicianAccount();
-////		TechnicianAccount user2 = new TechnicianAccount();
-////		
-////		Appointment appointment1 = new Appointment();
-////		
-////		user1.setName(name1);
-////		user1.setUsername(username1);
-////		user1.setPassword(password1);
-////		
-////		user2.setName(name2);
-////		user2.setUsername(username2);
-////		user2.setPassword(password2);
-////		
-////		appointment1.setCar(car);
-////		
-////		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
-////		workers.add(user1);
-////		workers.add(user2);
-////	
-////		appointment1.setWorker(workers);
-////		makes a garage
-//		boolean isAvailable = true;
-//		String garageID = "testGarageID";
-//		
-//		Garage garageToTest = new Garage();
-//		garageToTest.setGarageId(garageID);
-//		garageToTest.setIsAvailable(isAvailable);
-//		
-//		
-//		
-//		//makes an appointment
+	@Test
+	public void testPersistAndLoadTechnicianAccountByAppointment() {
+		String name1 = "Jarvis";
+		String username1 = "username1";
+		String password1 = "password123";
+		
+		String name2 = "Stark";
+		String username2 = "username2";
+		String password2 = "321password";
+		
 //		String licensePlate = "TestCar";
 //		String model = "TestModel";
 //		Integer year = 2021;
@@ -1074,7 +1008,7 @@ public class TestVehicleAppointmentPersistence {
 //		String customerPassword = "123";
 //		String customerID = "customer1";
 //		
-//		//String timeSlotId = "timeSlot1";
+//		String timeSlotId = "timeSlot1";
 //		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
 //		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
 //		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
@@ -1088,103 +1022,169 @@ public class TestVehicleAppointmentPersistence {
 //		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
 //		String description = "this is a test service";
 //		
-//		String techName = "techName1";
-//		String passWord = "123";
-//		String techID = "techID1";
-//		
-//		
-//		TimeSlot timeSlot = new TimeSlot();
-//		timeSlot.setStartTime(startTime);
-//		timeSlot.setEndTime(endTime);
-//		timeSlot.setStartDate(startDate);
-//		timeSlot.setEndDate(endDate);
-//		
-//		CustomerAccount customer = new CustomerAccount();
-//		customer.setName(customerName);
-//		customer.setPassword(customerPassword);
-//		customer.setUsername(customerName);
-//		
-//		Service service = new Service();
-//		service.setName(serviceName);
-//		service.setPrice(price);
-//		service.setDuration(duration);
-//		service.setReminderDate(reminderDate);
-//		service.setReminderTime(reminderTime);
-//		service.setDescription(description);
-//		
-//		Car car = new Car();
-//		car.setLicensePlate(licensePlate);
-//		car.setModel(model);
-//		car.setYear(year);
-//		car.setMotorType(engine);
-//		car.setOwner(customer);
-//		
-//		TechnicianAccount user1 = new TechnicianAccount();
-//		user1.setName(name1);
-//		user1.setPassword(password1);
-//		user1.setUsername(username1);
-//		TechnicianAccount user2 = new TechnicianAccount();
-//		user2.setName(name2);
-//		user2.setPassword(password2);
-//		user2.setUsername(username2);
+//		boolean available = true;
+//		String gID = "1";
 //		
 //		String appointment1ID = "appointment1";
-//		String appointment1Comment = "this is a test Appointment";
+//		String appointment1Comment = "this is a test Appointment";	
+//		
+//		TimeSlot timeSlot = new TimeSlot();
+//		CustomerAccount customer = new CustomerAccount();
+//		Service service = new Service();
+//		Car car = new Car();
+//		Garage garage = new Garage();
+//	
+//		TechnicianAccount user1 = new TechnicianAccount();
+//		TechnicianAccount user2 = new TechnicianAccount();
+//		
 //		Appointment appointment1 = new Appointment();
-//		appointment1.setAppointmentId(appointment1ID);
-//		appointment1.setComment(appointment1Comment);
+//		
+//		user1.setName(name1);
+//		user1.setUsername(username1);
+//		user1.setPassword(password1);
+//		
+//		user2.setName(name2);
+//		user2.setUsername(username2);
+//		user2.setPassword(password2);
+//		
 //		appointment1.setCar(car);
-//		appointment1.setGarage(garageToTest);
-//		appointment1.setService(service);
-//		appointment1.setService(service);
-//		appointment1.setTimeSlot(timeSlot);
+//		
 //		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
 //		workers.add(user1);
 //		workers.add(user2);
+//	
 //		appointment1.setWorker(workers);
-//		
-//		technicianAccountRepository.save(user1);
-//		technicianAccountRepository.save(user2);
-//		customerAccountRepository.save(customer);
-//		carRepository.save(car);
-//		serviceRepository.save(service);
-//		timeslotRepository.save(timeSlot);
-//		garageRepository.save(garageToTest);
-//		appointmentRepository.save(appointment1);
-//		
-//		user1 = null;
-//		user2 = null;
-//		List<TechnicianAccount> users;
-//		
-//		users = technicianAccountRepository.findByAppointment(appointment1); 
-//		user1 = users.get(0); 
-//		user2 = users.get(1);
-//		
-//		assertNotNull(user1);
-//		assertEquals(user1.getName(), name1);
-//		assertEquals(user1.getPassword(), password1);
-//		assertEquals(user1.getUsername(), username1);
-//		
-//		assertNotNull(user2);
-//		assertEquals(user2.getName(), name2);
-//		assertEquals(user2.getPassword(), password2);
-//		assertEquals(user2.getUsername(), username2);
-//		
-//
-//		appointmentRepository.delete(appointment1);
-//		timeslotRepository.delete(timeSlot);
-//		serviceRepository.delete(service);
-//		technicianAccountRepository.delete(user1);
-//		technicianAccountRepository.delete(user2);
-//		carRepository.delete(car);
-//		customerAccountRepository.delete(customer);
-//		garageRepository.delete(garageToTest);
-//		
-//		
-//		
-//		
-//		
-//	}
+//		makes a garage
+		boolean isAvailable = true;
+		String garageID = "testGarageID";
+		
+		Garage garageToTest = new Garage();
+		garageToTest.setGarageId(garageID);
+		garageToTest.setIsAvailable(isAvailable);
+		
+		
+		
+		//makes an appointment
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		MotorType engine = MotorType.Gas;
+		
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		
+		//String timeSlotId = "timeSlot1";
+		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		String serviceId = "service1";
+		String price = "50";
+		String serviceName = "service";
+		String duration = "18hrs";
+		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		String description = "this is a test service";
+		
+		String techName = "techName1";
+		String passWord = "123";
+		String techID = "techID1";
+		
+		
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setStartTime(startTime);
+		timeSlot.setEndTime(endTime);
+		timeSlot.setStartDate(startDate);
+		timeSlot.setEndDate(endDate);
+		
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerName);
+		
+		Service service = new Service();
+		service.setName(serviceName);
+		service.setPrice(price);
+		service.setDuration(duration);
+		service.setReminderDate(reminderDate);
+		service.setReminderTime(reminderTime);
+		service.setDescription(description);
+		
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
+		car.setOwner(customer);
+		
+		TechnicianAccount user1 = new TechnicianAccount();
+		user1.setName(name1);
+		user1.setPassword(password1);
+		user1.setUsername(username1);
+		TechnicianAccount user2 = new TechnicianAccount();
+		user2.setName(name2);
+		user2.setPassword(password2);
+		user2.setUsername(username2);
+		
+		String appointment1ID = "appointment1";
+		String appointment1Comment = "this is a test Appointment";
+		Appointment appointment1 = new Appointment();
+		appointment1.setAppointmentId(appointment1ID);
+		appointment1.setComment(appointment1Comment);
+		appointment1.setCar(car);
+		appointment1.setGarage(garageToTest);
+		appointment1.setService(service);
+		appointment1.setService(service);
+		appointment1.setTimeSlot(timeSlot);
+		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
+		workers.add(user1);
+		workers.add(user2);
+		appointment1.setWorker(workers);
+		
+		technicianAccountRepository.save(user1);
+		technicianAccountRepository.save(user2);
+		customerAccountRepository.save(customer);
+		carRepository.save(car);
+		serviceRepository.save(service);
+		timeslotRepository.save(timeSlot);
+		garageRepository.save(garageToTest);
+		appointmentRepository.save(appointment1);
+		
+		user1 = null;
+		user2 = null;
+		List<TechnicianAccount> users;
+		
+		users = technicianAccountRepository.findByAppointment(appointment1); 
+		user1 = users.get(0); 
+		user2 = users.get(1);
+		
+		assertNotNull(user1);
+		assertEquals(user1.getName(), name1);
+		assertEquals(user1.getPassword(), password1);
+		assertEquals(user1.getUsername(), username1);
+		
+		assertNotNull(user2);
+		assertEquals(user2.getName(), name2);
+		assertEquals(user2.getPassword(), password2);
+		assertEquals(user2.getUsername(), username2);
+		
+
+		appointmentRepository.delete(appointment1);
+		timeslotRepository.delete(timeSlot);
+		serviceRepository.delete(service);
+		technicianAccountRepository.delete(user1);
+		technicianAccountRepository.delete(user2);
+		carRepository.delete(car);
+		customerAccountRepository.delete(customer);
+		garageRepository.delete(garageToTest);
+		
+		
+		
+		
+		
+	}
 //	
 //	
 //	
@@ -1452,6 +1452,7 @@ public class TestVehicleAppointmentPersistence {
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
 		String description = "this is a test service";
+		String timeSlotId = "t1";
 		
 		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
 		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
@@ -1476,6 +1477,7 @@ public class TestVehicleAppointmentPersistence {
 		
 		Service service = new Service();
 		service.setName(serviceName);
+		service.setServiceId(serviceId);
 		service.setPrice(price);
 		service.setDuration(duration);
 		service.setReminderDate(reminderDate);
@@ -1484,6 +1486,7 @@ public class TestVehicleAppointmentPersistence {
 		
 		TimeSlot timeSlot = new TimeSlot();
 		timeSlot.setStartTime(startTime);
+		timeSlot.setTimeSlotId(timeSlotId);
 		timeSlot.setEndTime(endTime);
 		timeSlot.setStartDate(startDate);
 		timeSlot.setEndDate(endDate);
@@ -1494,12 +1497,12 @@ public class TestVehicleAppointmentPersistence {
 		customer.setUsername(customerName);
 		
 		
-		Car car = new Car();
-		car.setLicensePlate(licensePlate);
-		car.setModel(model);
-		car.setYear(year);
-		car.setMotorType(engine);
-		car.setOwner(customer);
+//		Car car = new Car();
+//		car.setLicensePlate(licensePlate);
+//		car.setModel(model);
+//		car.setYear(year);
+//		car.setMotorType(engine);
+//		car.setOwner(customer);
 		
 	    Garage garage = new Garage();
 		garage.setGarageId(gID);
@@ -1515,7 +1518,7 @@ public class TestVehicleAppointmentPersistence {
 		Appointment appointment1 = new Appointment();
 		appointment1.setAppointmentId(appointment1ID);
 		appointment1.setComment(appointment1Comment);
-		appointment1.setCar(car);
+//		appointment1.setCar(car);
 		appointment1.setGarage(garage);
 		appointment1.setService(service);
 		appointment1.setTimeSlot(timeSlot);
@@ -1525,11 +1528,12 @@ public class TestVehicleAppointmentPersistence {
 		appointment1.setWorker(workers);
 
 		
-		technicianAccountRepository.save(technician);
 		customerAccountRepository.save(customer);
-		carRepository.save(car);
+//		carRepository.save(car);
+		technicianAccountRepository.save(technician);
 		serviceRepository.save(service);
 		timeslotRepository.save(timeSlot);
+		garageRepository.save(garage);
 		appointmentRepository.save(appointment1);
 		
 		
@@ -1549,8 +1553,10 @@ public class TestVehicleAppointmentPersistence {
 		timeslotRepository.delete(timeSlot);
 		serviceRepository.delete(service);
 		technicianAccountRepository.delete(technician);
-		carRepository.delete(car);
+//		carRepository.delete(car);
 		customerAccountRepository.delete(customer);
+		garageRepository.delete(garage);
+		
 
 	}
 	
