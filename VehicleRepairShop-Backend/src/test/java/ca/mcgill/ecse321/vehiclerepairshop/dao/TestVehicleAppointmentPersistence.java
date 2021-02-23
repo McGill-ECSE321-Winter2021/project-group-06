@@ -94,8 +94,8 @@ public class TestVehicleAppointmentPersistence {
 
 		appointment1 = null;
 
-		appointments = appointmentRepository.findByCar(car);
-		appointment1 = appointments.get(0);
+		appointment1 = (Appointment) appointmentRepository.findByCar(car);
+		
 		assertNotNull(appointment1);
 		assertEquals(appointment1ID, appointment1.getAppointmentId());
 		assertEquals(appointment1Comment, appointment1.getComment());
