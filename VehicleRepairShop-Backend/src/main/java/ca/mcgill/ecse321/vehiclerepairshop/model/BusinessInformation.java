@@ -37,22 +37,22 @@ public class BusinessInformation
   @Id
   public String getName()
   {
-    return name;
+    return this.name;
   }
 
   public String getAddress()
   {
-    return address;
+    return this.address;
   }
 
   public String getPhoneNumber()
   {
-    return phoneNumber;
+    return this.phoneNumber;
   }
 
   public String getEmailAddress()
   {
-    return emailAddress; 
+    return this.emailAddress;
   }
 
 

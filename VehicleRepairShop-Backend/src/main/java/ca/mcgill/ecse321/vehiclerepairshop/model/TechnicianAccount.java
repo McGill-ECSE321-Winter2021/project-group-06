@@ -6,8 +6,44 @@ import java.util.*;
 import java.util.*;
 import javax.persistence.*;
 @Entity
-public class TechnicianAccount extends UserAccount
+public class TechnicianAccount
 {
+
+	private String name;
+	  private String password;
+	  private String username;
+
+	  
+	  public void setName(String aName)
+	  {
+	    this.name = aName;
+	  }
+
+	  public void setPassword(String aPassword)
+	  {
+	    this.password = aPassword;
+	  }
+
+	  public void setUsername(String aUsername)
+	  {
+	    this.username = aUsername;
+	  }
+	  
+	  
+	  public String getName()
+	  {
+	    return this.name;
+	  }
+
+	  public String getPassword()
+	  {
+	    return this.password;
+	  }
+	  @Id
+	  public String getUsername()
+	  {
+	    return this.username;
+	  }
 
   private List<TimeSlot> availability;
   private List<Appointment> appointment;

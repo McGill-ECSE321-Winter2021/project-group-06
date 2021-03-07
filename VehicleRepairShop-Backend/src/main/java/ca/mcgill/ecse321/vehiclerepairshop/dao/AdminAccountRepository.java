@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 
-public interface AdminAccountRepository extends CrudRepository<AdminAccount, Integer>{
-	List<AdminAccount> findByName(String name); //name is not unique
-	AdminAccount findByUsername(String username); 
+public interface AdminAccountRepository extends CrudRepository<AdminAccount, String>{
+	List<AdminAccount> findAdminAccountByName(String name); //name is not unique
+	AdminAccount findAdminAccountByUsername(String username); 
 }
