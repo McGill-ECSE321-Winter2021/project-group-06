@@ -13,5 +13,5 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 public interface CarRepository extends CrudRepository<Car, String>{
 	List<Car> findByOwner(CustomerAccount username);
 	boolean existsByOwner(CustomerAccount username);
-	Car findByLicensePlate(String licence);
+	Car findByLicensePlate(String license);
 }

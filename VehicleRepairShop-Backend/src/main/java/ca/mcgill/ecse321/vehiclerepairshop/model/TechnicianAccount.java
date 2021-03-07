@@ -1,10 +1,8 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.util.*;
-
-
-import java.util.*;
 import javax.persistence.*;
+
 @Entity
 public class TechnicianAccount
 {
