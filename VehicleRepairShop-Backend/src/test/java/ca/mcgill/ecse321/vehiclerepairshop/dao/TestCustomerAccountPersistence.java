@@ -41,34 +41,33 @@ public class TestCustomerAccountPersistence {
 		
 	@BeforeEach
 	public void buildDatabase() {
-		name1 = "First";
-		username1 = "username1";
-		password1 = "password123";
+		this.name1 = "First";
+		this.username1 = "username1";
+		this.password1 = "password123";
 	
-		name2 = "Second";
-		username2 = "username2";
-		password2 = "security123";
+		this.name2 = "Second";
+		this.username2 = "username2";
+		this.password2 = "security123";
 		
-		user1 = new CustomerAccount();
-		user2 = new CustomerAccount();
+		this.user1 = new CustomerAccount();
+		this.user2 = new CustomerAccount();
 		
-		user1.setName(name1);
-		user1.setUsername(username1);
-		user1.setPassword(password1);
+		this.user1.setName(name1);
+		this.user1.setUsername(username1);
+		this.user1.setPassword(password1);
 		
-		user2.setName(name2);
-		user2.setUsername(username2);
-		user2.setPassword(password2);
+		this.user2.setName(this.name2);
+		this.user2.setUsername(this.username2);
+		this.user2.setPassword(this.password2);
 		
-		customerAccountRepository.save(user1);
-		customerAccountRepository.save(user2);
+		customerAccountRepository.save(this.user1);
+		customerAccountRepository.save(this.user2);
 	}
 	
 	@AfterEach
 	public void clearDatabase() {
-		
 		customerAccountRepository.deleteAll();
-		
+		carRepository.deleteAll();	
 	}
 
 	/**
@@ -99,14 +98,15 @@ public class TestCustomerAccountPersistence {
 
 		user1 = null;
 		user2 = null;
-		List<CustomerAccount> users;
+		List<CustomerAccount> users = new ArrayList<CustomerAccount>();
 		
 		users = customerAccountRepository.findCustomerAccountByName(name1);
-		if (users.get(0).getUsername().equals(user1.getUsername())) {
+		System.out.println(users);
+		if (users.get(0).getUsername().equals(username1)) {
 			user1 = users.get(0); 
 			user2 = users.get(1);
 		}
-		else if (users.get(0).getUsername().equals(user2.getUsername())) {
+		else if (users.get(0).getUsername().equals(username2)) {
 			user2 = users.get(0); 
 			user1 = users.get(1);
 		}
@@ -137,7 +137,7 @@ public class TestCustomerAccountPersistence {
 	
 		Car car = new Car();
 		car.setLicensePlate(licensePlate);
-		//car.setOwner(user1);
+		car.setOwner(user1);
 		
 		carRepository.save(car);
 		List<Car> cars = new ArrayList<Car>();
@@ -153,10 +153,10 @@ public class TestCustomerAccountPersistence {
 		assertEquals(user1.getPassword(), password1);
 		assertEquals(user1.getUsername(), username1);
 		
-		car.setOwner(null);
-		carRepository.save(car);
+//		car.setOwner(null);
+//		carRepository.save(car);
 		
-		carRepository.delete(car);
+//		carRepository.delete(car);
 		
 		
 	}
