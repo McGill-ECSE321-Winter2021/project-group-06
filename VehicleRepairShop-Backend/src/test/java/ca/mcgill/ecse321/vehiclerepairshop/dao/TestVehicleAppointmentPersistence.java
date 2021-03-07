@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterEach; 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +71,7 @@ public class TestVehicleAppointmentPersistence {
 	@Test
 	public void testPersistAndLoadAppopintmentViaSearchCar() {
 		MotorType engine = MotorType.Gas;
-		String licensePlate = "TestCar";
+		String licensePlate = "TestCar"; 
 		String model = "TestModel";
 		Integer year = 2021;
 		Car car = new Car();
@@ -471,21 +471,29 @@ public class TestVehicleAppointmentPersistence {
 		String username1 = "username1";
 		String password1 = "password123";
 		
-//		String licensePlate = "3JOH22A";
-//		String model = "Ferrari";
-//		Integer year = 1998;
-//		MotorType motorType = MotorType.Hybrid;
-		
 		CustomerAccount user1 = new CustomerAccount();
-		Car car = new Car();
 		
 		user1.setName(name1);
 		user1.setUsername(username1);
 		user1.setPassword(password1);
 		
-		car.setOwner(user1);
-		
 		customerAccountRepository.save(user1);
+		
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		MotorType engine = MotorType.Gas;
+		
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
+		car.setOwner(user1);
+		carRepository.save(car);
 
 		user1 = null;
 		
@@ -581,34 +589,45 @@ public class TestVehicleAppointmentPersistence {
 		String username2 = "username2";
 		String password2 = "321password";
 		
-//		String licensePlate = "TestCar";
-//		String model = "TestModel";
-//		Integer year = 2021;
-//		MotorType engine = MotorType.Gas;
-//		
-//		String customerName = "customer";
-//		String customerPassword = "123";
-//		String customerID = "customer1";
-//		
-//		String timeSlotId = "timeSlot1";
-//		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
-//		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
-//		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-//		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
-//		
-//		String serviceId = "service1";
-//		String price = "50";
-//		String serviceName = "service";
-//		String duration = "18hrs";
-//		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-//		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
-//		String description = "this is a test service";
-//		
-//		boolean available = true;
-//		String gID = "1";
+		String licensePlate = "TestCar";
+		String model = "TestModel";
+		Integer year = 2021;
+		String customerName = "customer";
+		String customerPassword = "123";
+		String customerID = "customer1";
+		CustomerAccount customer = new CustomerAccount();
+		customer.setName(customerName);
+		customer.setPassword(customerPassword);
+		customer.setUsername(customerID);
+		MotorType engine = MotorType.Gas;
 		
-//		String appointment1ID = "appointment1";
-//		String appointment1Comment = "this is a test Appointment";	
+		Car car = new Car();
+		car.setLicensePlate(licensePlate);
+		car.setModel(model);
+		car.setYear(year);
+		car.setMotorType(engine);
+		carRepository.save(car);
+		
+		String timeSlotId = "timeSlot1";
+		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
+		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
+		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+		
+		
+		String serviceId = "service1";
+		String price = "50";
+		String serviceName = "service";
+		String duration = "18hrs";
+		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		String description = "this is a test service";
+		
+		boolean available = true;
+		String gID = "1";
+		
+		String appointment1ID = "appointment1";
+		String appointment1Comment = "this is a test Appointment";	
 		
 //		TimeSlot timeSlot = new TimeSlot();
 //		CustomerAccount customer = new CustomerAccount();

@@ -1,8 +1,5 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 import java.util.*;
 
 
@@ -15,7 +12,7 @@ public class TechnicianAccount extends UserAccount
   private List<TimeSlot> availability;
   private List<Appointment> appointment;
 
-  @ManyToMany
+  @ManyToMany(cascade= {CascadeType.ALL})
   public List<TimeSlot> getAvailability()
   {
     return this.availability;
@@ -25,7 +22,7 @@ public class TechnicianAccount extends UserAccount
 	  this.availability = availability;	  
   }
   
-  @ManyToMany
+  @ManyToMany(cascade= {CascadeType.ALL})
   public List<Appointment> getAppointment()
   {
     return appointment;
