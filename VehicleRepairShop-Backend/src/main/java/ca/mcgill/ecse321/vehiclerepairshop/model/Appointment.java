@@ -5,6 +5,7 @@ import java.util.*;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 
 
@@ -68,7 +69,7 @@ public class Appointment
     return this.timeSlot;
   }
 
-  @ManyToMany
+  @ManyToMany(cascade= {CascadeType.ALL})
   public List<TechnicianAccount> getWorker()
 
   {

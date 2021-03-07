@@ -25,7 +25,6 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
-import ca.mcgill.ecse321.vehiclerepairshop.model.UserAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Service;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
@@ -315,7 +314,7 @@ public class TestVehicleAppointmentPersistence {
 
 		car = null;
 
-		car = carRepository.findCarByLicensePlate(licensePlate);
+		car = carRepository.findByLicensePlate(licensePlate);
 		assertNotNull(car);
 		assertEquals(licensePlate, car.getLicensePlate());
 		assertEquals(model, car.getModel());
@@ -375,7 +374,7 @@ public class TestVehicleAppointmentPersistence {
 		
 
 		
-		cars = carRepository.findCarByOwner(customer);
+		cars = carRepository.findByOwner(customer);
 		assertNotNull(cars);
 
 		car = cars.get(0);
