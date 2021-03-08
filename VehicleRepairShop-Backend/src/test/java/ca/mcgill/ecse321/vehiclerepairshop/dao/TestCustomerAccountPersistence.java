@@ -152,13 +152,7 @@ public class TestCustomerAccountPersistence {
 		assertEquals(user1.getName(), name1);
 		assertEquals(user1.getPassword(), password1);
 		assertEquals(user1.getUsername(), username1);
-		
-//		car.setOwner(null);
-//		carRepository.save(car);
-		
-//		carRepository.delete(car);
-		
-		
+
 	}
 	
 
