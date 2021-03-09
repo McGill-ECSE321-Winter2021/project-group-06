@@ -27,11 +27,11 @@ public class AdminAccount
 		this.username = aUsername;
 	}
 	
-	  public void setBusinessInformation(BusinessInformation aBusinessInformation)
-	  {
+	public void setBusinessInformation(BusinessInformation aBusinessInformation)
+	{
 
-	    this.businessInformation = aBusinessInformation;
-	  }
+		this.businessInformation = aBusinessInformation;
+	}
 
 
 	public String getName()
