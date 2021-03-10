@@ -52,6 +52,7 @@ public class VehicleRepairShopService {
 	private TimeSlotRepository timeslotRepository;
 	@Autowired
 	private ServiceRepository serviceRepository;
+	
 	// ----------------------------Cheng starts here ----------------------------
 	//-------TimeSlot methods-----
 	/**
