@@ -367,7 +367,7 @@ public class VehicleRepairShopService {
 	// --------------------------- Catherine ends here ----------------------------
 	
 	
-	
+	// helper method that converts iterable to list
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
