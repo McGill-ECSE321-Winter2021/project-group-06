@@ -10,6 +10,6 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 public interface TechnicianAccountRepository extends CrudRepository<TechnicianAccount, String>{
 	List<TechnicianAccount> findTechnicianAccountByName(String name); //name is not unique
-	List<TechnicianAccount> findTechnicianAccountByAppointment(Appointment appointmentId);
+	List<TechnicianAccount> findTechnicianAccountByAppointment(Appointment appointment);
 	TechnicianAccount findByUsername(String username); 
 }

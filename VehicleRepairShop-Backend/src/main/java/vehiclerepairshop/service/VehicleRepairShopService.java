@@ -4,7 +4,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +52,127 @@ public class VehicleRepairShopService {
 	private TimeSlotRepository timeslotRepository;
 	@Autowired
 	private ServiceRepository serviceRepository;
+	// ----------------------------Cheng starts here ----------------------------
+	//-------TimeSlot methods-----
+	/**
+	 * 
+	 * @param startTime
+	 * @param endTime
+	 * @param StartDate
+	 * @param endDate
+	 * @param timeSlotId
+	 * @return timeSlot
+	 * @author chengchen
+	 */
+	@Transactional
+	public TimeSlot createTimeSlot(Time startTime, Time endTime, Date StartDate, Date endDate, String timeSlotId) {
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setEndDate(endDate);
+		timeSlot.setEndTime(endTime);
+		timeSlot.setStartDate(StartDate);
+		timeSlot.setStartTime(startTime);
+		timeSlot.setTimeSlotId(timeSlotId);
+		
+		return timeSlot;
+	}
+	/**
+	 * 
+	 * @param appointment
+	 * @return timsSlot
+	 * @author chengchen
+	 */
+	@Transactional
+	public TimeSlot getTimeSlot(Appointment appointment) {
+		TimeSlot timeSlot = timeslotRepository.findByAppointment(appointment);
+		return timeSlot;
+	}
+	/**
+	 * 
+	 * @return timeSlots
+	 * @author chengchen
+	 */
+	@Transactional
+	public List<TimeSlot> getAllTimeSlots(){
+		Iterable<TimeSlot> timeSlots = timeslotRepository.findAll();
+		return toList(timeSlots);
+	}
+	/**
+	 * 
+	 * @param worker
+	 * @param timeSlot
+	 * @param service
+	 * @param car
+	 * @param garage
+	 * @param comment
+	 * @param appointmentId
+	 * @return appointment
+	 * @author chengchen
+	 */
+	@Transactional
+	public Appointment createAppointment(List<TechnicianAccount> worker,TimeSlot timeSlot, ca.mcgill.ecse321.vehiclerepairshop.model.Service service, Car car, Garage garage, String comment, String appointmentId) {
+		Appointment appointment = new Appointment();
+		appointment.setAppointmentId(appointmentId);
+		appointment.setCar(car);
+		appointment.setComment(comment);
+		appointment.setGarage(garage);
+		appointment.setService(service);
+		appointment.setTimeSlot(timeSlot);
+		appointment.setWorker(worker);
+		
+		return appointment;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return appointment
+	 * @author chengchen
+	 */
+	@Transactional
+	public Appointment getAppointmentById(int id) {
+		Optional<Appointment> appointment = appointmentRepository.findById(id);
+		return appointment.get();
+	}
+	
+	/**
+	 * 
+	 * @param car
+	 * @return appointments
+	 * @author chengchen
+	 */
+	@Transactional
+	public List<Appointment> getAppointmentByCar(Car car){
+		List<Appointment> appointments = appointmentRepository.findByCar(car);
+		return appointments;
+	}
+	
+	/**
+	 * 
+	 * @param garage
+	 * @return appointments
+	 * @author chengchen
+	 */
+	@Transactional
+	public List<Appointment> getAppointmentByGarage(Garage garage){
+		List<Appointment> appointments = appointmentRepository.findByGarage(garage);
+		return appointments;
+	}
+	
+	/**
+	 * 
+	 * @return appointments
+	 * @author chengchen
+	 */
+	@Transactional
+	public List<Appointment> getAllAppointments(){
+		Iterable<Appointment> appointments = appointmentRepository.findAll();
+		return toList(appointments);
+	}
+	
+	
+	
+	
+	// ----------------------------Cheng ends here---------------------------------
 	
 	// --------------------------- Catherine starts here -------------------------
 	
@@ -242,6 +365,7 @@ public class VehicleRepairShopService {
 	}
 
 	// --------------------------- Catherine ends here ----------------------------
+	
 	
 	
 	private <T> List<T> toList(Iterable<T> iterable){
