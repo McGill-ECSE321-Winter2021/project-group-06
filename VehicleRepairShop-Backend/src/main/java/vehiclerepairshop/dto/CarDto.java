@@ -1,5 +1,5 @@
 package vehiclerepairshop.dto;
 
-public class AppointmentDTO {
+public class CarDto {
 
 }
