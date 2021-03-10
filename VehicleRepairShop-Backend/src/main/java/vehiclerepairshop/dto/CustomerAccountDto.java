@@ -4,22 +4,22 @@ import java.util.List;
 
 
 
-public class CustomerAccountDTO {
+public class CustomerAccountDto {
 
 	private String username;
 	private String password;
 	private String name;
-	private List<CarDTO> carsDTO;
+	private List<CarDto> carsDTO;
 
-	public CustomerAccountDTO() {
+	public CustomerAccountDto() {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public CustomerAccountDTO(String username, String password, String name) {
+	public CustomerAccountDto(String username, String password, String name) {
 		this(username, password, name, Collections.EMPTY_LIST);
 	}
 		
-	public CustomerAccountDTO(String username, String password, String name, List<CarDTO> arrayList) {
+	public CustomerAccountDto(String username, String password, String name, List<CarDto> arrayList) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -38,7 +38,7 @@ public class CustomerAccountDTO {
 		return name;
 	}
 	
-	public List<CarDTO> getCars() {
+	public List<CarDto> getCars() {
 		return carsDTO;
 	}
 	
@@ -54,7 +54,7 @@ public class CustomerAccountDTO {
 		this.name = name;
 	}
 	
-	public void setCars(List<CarDTO> arrayList) {
+	public void setCars(List<CarDto> arrayList) {
 		this.carsDTO = arrayList;
 	}
 	

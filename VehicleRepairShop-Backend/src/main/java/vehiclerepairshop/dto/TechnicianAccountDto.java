@@ -3,22 +3,22 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class TechnicianAccountDTO {
+public class TechnicianAccountDto {
 
 	private String username;
 	private String password;
 	private String name;
-	private List<AppointmentDTO> appointmentsDTO;
+	private List<AppointmentDto> appointmentsDTO;
 
-	public TechnicianAccountDTO() {
+	public TechnicianAccountDto() {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public TechnicianAccountDTO(String username, String password, String name) {
+	public TechnicianAccountDto(String username, String password, String name) {
 		this(username, password, name, Collections.EMPTY_LIST);
 	}
 		
-	public TechnicianAccountDTO(String username, String password, String name, List<AppointmentDTO> arrayList) {
+	public TechnicianAccountDto(String username, String password, String name, List<AppointmentDto> arrayList) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -37,7 +37,7 @@ public class TechnicianAccountDTO {
 		return name;
 	}
 	
-	public List<AppointmentDTO> getAppointments() {
+	public List<AppointmentDto> getAppointments() {
 		return appointmentsDTO;
 	}
 	
@@ -53,7 +53,7 @@ public class TechnicianAccountDTO {
 		this.name = name;
 	}
 	
-	public void setAppointments(List<AppointmentDTO> arrayList) {
+	public void setAppointments(List<AppointmentDto> arrayList) {
 		this.appointmentsDTO = arrayList;
 	}
 	

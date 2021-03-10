@@ -2,21 +2,21 @@ package vehiclerepairshop.dto;
 
 
 
-public class AdminAccountDTO {
+public class AdminAccountDto {
 
 	private String username;
 	private String password;
 	private String name;
-	private BusinessInformationDTO businessInformationDTO; 
+	private BusinessInformationDto businessInformationDTO; 
 
-	public AdminAccountDTO() {
+	public AdminAccountDto() {
 	}
 	
-	public AdminAccountDTO(String username, String password, String name) {
+	public AdminAccountDto(String username, String password, String name) {
 		this(username, password, name, null);
 	}
 		
-	public AdminAccountDTO(String username, String password, String name, BusinessInformationDTO businessInfo) {
+	public AdminAccountDto(String username, String password, String name, BusinessInformationDto businessInfo) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -35,7 +35,7 @@ public class AdminAccountDTO {
 		return name;
 	}
 	
-	public BusinessInformationDTO getBusinessInformation() {
+	public BusinessInformationDto getBusinessInformation() {
 		return businessInformationDTO;
 	}
 	
@@ -51,7 +51,7 @@ public class AdminAccountDTO {
 		this.name = name;
 	}
 	
-	public void setBusinessInformation(BusinessInformationDTO businessInfo) {
+	public void setBusinessInformation(BusinessInformationDto businessInfo) {
 		this.businessInformationDTO = businessInfo;
 	}
 	
