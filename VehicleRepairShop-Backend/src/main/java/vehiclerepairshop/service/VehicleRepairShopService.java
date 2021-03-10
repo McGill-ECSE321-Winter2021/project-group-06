@@ -72,6 +72,7 @@ public class VehicleRepairShopService {
 		timeSlot.setStartDate(StartDate);
 		timeSlot.setStartTime(startTime);
 		timeSlot.setTimeSlotId(timeSlotId);
+		timeslotRepository.save(timeSlot);
 		
 		return timeSlot;
 	}
@@ -118,6 +119,7 @@ public class VehicleRepairShopService {
 		appointment.setService(service);
 		appointment.setTimeSlot(timeSlot);
 		appointment.setWorker(worker);
+		appointmentRepository.save(appointment);
 		
 		return appointment;
 	}
