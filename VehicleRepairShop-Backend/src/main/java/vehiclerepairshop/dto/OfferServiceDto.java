@@ -106,4 +106,8 @@ public class OfferServiceDto {
 	public void setAppointments(List<AppointmentDto> appointments) {
 		this.appointments = appointments;
 	}
+	
+//	public void deleteOfferedService() {
+//		this.delete();
+//	}
 }

@@ -83,7 +83,31 @@ public class OfferedServiceService {
 		return toList(offeredServices);
 	}
 	
+//	public void deleteOfferedService(String serviceId) {
+//		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
+//		offeredService.delete();
+//	}
 	
+	/**
+	 * update service information by offering new information and offeredServiceId
+	 * @param serviceId
+	 * @param newPrice
+	 * @param newName
+	 * @param newDuration
+	 * @param newReminderTime
+	 * @param newReminderDate
+	 * @param newDescription
+	 */
+	public void updateService(String serviceId, String newPrice, String newName, String newDuration, Time newReminderTime, Date newReminderDate, String newDescription) {
+		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
+		offeredService.setPrice(newPrice);
+		offeredService.setName(newName);
+		offeredService.setDuration(newDuration);
+		offeredService.setReminderTime(newReminderTime);
+		offeredService.setReminderDate(newReminderDate);
+		offeredService.setDescription(newDescription);
+		offeredServiceRepository.save(offeredService);
+	}
 	
 	// helper method that converts iterable to list
 	private <T> List<T> toList(Iterable<T> iterable){
