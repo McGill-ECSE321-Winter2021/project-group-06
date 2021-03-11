@@ -35,7 +35,18 @@ public class GarageDto {
 		return appointmentsDTO;
 	}
 	
+	public void setAvailability(boolean aIsAvailable) {
+		this.isAvailable = aIsAvailable;
+	}
+	
+	public void setGarageId(String aGarageId) {
+		this.garageId = aGarageId;
+	}
+	
 	public void setAppointments(List<AppointmentDto> arrayList) {
 		this.appointmentsDTO = arrayList;
 	}
+	
+	
+	
 }

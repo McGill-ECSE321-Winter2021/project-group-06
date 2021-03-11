@@ -47,6 +47,22 @@ public class BusinessInformationDto {
 		return adminAccountsDTO;
 	}
 	
+	public void setName(String aName) {
+		this.name = aName;
+	}
+	
+	public void setAddress(String aAddress) {
+		this.address = aAddress;
+	}
+	
+	public void setPhoneNumber(String aPhoneNumber) {
+		this.phoneNumber = aPhoneNumber;
+	}
+	
+	public void setEmailAddress(String aEmailAddress) {
+		this.emailAddress = aEmailAddress;
+	}
+	
 	public void setAdminAccounts(List<AdminAccountDto> arrayList) {
 		this.adminAccountsDTO = arrayList;
 	}
