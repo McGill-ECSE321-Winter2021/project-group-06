@@ -12,11 +12,15 @@ import javax.persistence.Entity;
 public class Appointment
 {
 
+<<<<<<< Updated upstream
 
   private Time startTime;
   private Time endTime;
   private Date startDate;
   private Date endDate;
+=======
+  private int appointmentId;
+>>>>>>> Stashed changes
   private String comment;
   private Car car;
   private Garage garage;
@@ -56,7 +60,11 @@ public class Appointment
     return wasSet;
   }
 
+<<<<<<< Updated upstream
   public boolean setComment(String aComment)
+=======
+  public void setAppointmentId(int aAppointmentId)
+>>>>>>> Stashed changes
   {
     boolean wasSet = false;
     comment = aComment;
@@ -65,7 +73,11 @@ public class Appointment
   }
 
   @Id
+<<<<<<< Updated upstream
   public Time getStartTime()
+=======
+  public int getAppointmentId()
+>>>>>>> Stashed changes
   {
     return startTime;
   }

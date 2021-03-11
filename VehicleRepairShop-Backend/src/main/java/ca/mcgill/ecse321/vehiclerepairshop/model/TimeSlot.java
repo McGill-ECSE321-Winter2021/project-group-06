@@ -9,13 +9,28 @@ import javax.persistence.Entity;
 public class TimeSlot
 {
 
+<<<<<<< Updated upstream
+=======
+
+  private int timeSlotId;
+>>>>>>> Stashed changes
   private Time startTime;
   private Time endTime;
   private Date startDate;
   private Date endDate;
 
 
+<<<<<<< Updated upstream
   public boolean setStartTime(Time aStartTime)
+=======
+
+  public void setStartTime(Time aStartTime)
+  {
+    this.startTime = aStartTime;
+  }
+  
+  public void setTimeSlotId(int aTimeSlotId)
+>>>>>>> Stashed changes
   {
     boolean wasSet = false;
     startTime = aStartTime;
@@ -48,6 +63,15 @@ public class TimeSlot
   }
   
   @Id
+<<<<<<< Updated upstream
+=======
+  public int getTimeSlotId() 
+  {
+	  return this.timeSlotId;
+  }
+  
+
+>>>>>>> Stashed changes
   public Time getStartTime()
   {
     return startTime;
