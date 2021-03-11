@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 
 import java.util.*;
+import java.sql.Time;
+import java.sql.Date;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -14,32 +16,69 @@ import javax.persistence.Entity;
 public class Appointment
 {
 
-  private String appointmentId;
+
+  private Time startTime;
+  private Time endTime;
+  private Date startDate;
+  private Date endDate;
+  private int appointmentId;
   private String comment;
   private Car car;
   private Garage garage;
-  private Service service;
+  private OfferedService service;
   private TimeSlot timeSlot;
   private List<TechnicianAccount> worker;
 
 
-  
+
 
   public void setComment(String aComment)
   {
 	  this.comment = aComment;
 
   }
+  public void setEndDate(Date endDate){
+	  this.endDate = endDate;
+  }
+  public void setEndTime(Time endTime) {
+	  this.endTime = endTime;
+  }
 
-  public void setAppointmentId(String aAppointmentId)
+  public void setAppointmentId(int aAppointmentId)
   {
 	  this.appointmentId = aAppointmentId;
   }
 
+  public void setStartTime(Time startTime) {
+	  this.startTime = startTime;
+  }
+  
+  public void setStartDate(Date startDate) {
+	  this.startDate = startDate;
+  }
+  public Time getStartTime(){
+		return this.startTime;
+	}
+
   @Id
-  public String getAppointmentId()
+  public int getAppointmentId()
   {
-    return this.appointmentId;
+    return appointmentId;
+  }
+
+  public Time getEndTime()
+  {
+    return endTime;
+  }
+
+  public Date getStartDate()
+  {
+    return startDate;
+  }
+
+  public Date getEndDate()
+  {
+    return this.endDate;
   }
 
   public String getComment()
@@ -58,7 +97,7 @@ public class Appointment
     return this.garage;
   }
   @ManyToOne
-  public Service getService()
+  public OfferedService getOfferedService()
   {
     return this.service;
   }
@@ -76,7 +115,7 @@ public class Appointment
     return this.worker;
   }
 
-  
+
   public void setCar(Car aCar)
   {
     this.car = aCar;
@@ -87,7 +126,7 @@ public class Appointment
     this.garage = aGarage;
   }
 
-  public void setService(Service aService)
+  public void setOfferedService(OfferedService aService)
   {
     this.service = aService;
   }
@@ -97,7 +136,7 @@ public class Appointment
 
     this.timeSlot = aNewTimeSlot;
   }
-  
+
   public void setWorker(List<TechnicianAccount> worker)
   {
     this.worker = worker;

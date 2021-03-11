@@ -15,3 +15,16 @@ This table shows an overview of the team members and their roles for Sprint 1. T
 |:----------:|:----------:|:-------------:|:--------:|:---------:|:-------:|
 |Deliverable 1 - Roles and Activities|Group activities - Requirements, Use Cases Diagrams, Domain Model  Individual - Use Cases descriptions and detailed specification, Umple Domain Model, Persistence Layer and tests (with Catherine), Backlog issues, Documentation|Group activities - Requirements, Use Cases Diagrams, Domain Model  Individual - Use Cases descriptions and detailed specification, Backlog Issues, Persistence Layer and tests (with Aurelia), Minutes, Documentation|Group activities - Requirements, Use Cases Diagrams, Domain Model  Individual - Use Cases descriptions and detailed specification, Project Creation, Persistence Layer and tests, Build System, Documentation|Group activities - Requirements, Use Cases Diagrams, Domain Model  Individual - Use Cases descriptions and detailed specification, Persistence Layer and tests, Minutes, Documentation|Group activities - Requirements, Use Cases Diagrams, Domain Model  Individual - Use Cases descriptions and detailed specification, Persistence Layer and tests, Build System, Documentation|
 |Deliverable 1 - Efforts in hours| 22 hours| 22 hours| 22 hours| 22 hours| 22 hours|
+
+***
+## Sprint 2
+### Project Report
+[Project report - Sprint 2](https://github.com/McGill-ECSE321-Winter2021/project-group-06/wiki)
+
+
+### Team
+This table shows an overview of the team members and their roles for Sprint 2. The work done in group appears and are detailed on the [Meeting Minutes - Sprint 2](https://github.com/McGill-ECSE321-Winter2021/project-group-06/wiki/Meeting-Minutes).
+|Deliverables|Aurelia Haas|Catherine Caron|Cheng Chen|James Darby|Mike Wang|
+|:----------:|:----------:|:-------------:|:--------:|:---------:|:-------:|
+|Deliverable 2 - Roles and Activities||||||
+|Deliverable 2 - Efforts in hours||||||

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.TechnicianAccountRepository;
-import ca.mcgill.ecse321.vehiclerepairshop.dao.ServiceRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.dao.OfferedServiceRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
@@ -51,136 +51,14 @@ public class VehicleRepairShopService {
 	@Autowired
 	private TimeSlotRepository timeslotRepository;
 	@Autowired
-	private ServiceRepository serviceRepository;
-	
-	// ----------------------------Cheng starts here ----------------------------
-	//-------TimeSlot methods-----
-	/**
-	 * 
-	 * @param startTime
-	 * @param endTime
-	 * @param StartDate
-	 * @param endDate
-	 * @param timeSlotId
-	 * @return timeSlot
-	 * @author chengchen
-	 */
-	@Transactional
-	public TimeSlot createTimeSlot(Time startTime, Time endTime, Date StartDate, Date endDate, String timeSlotId) {
-		TimeSlot timeSlot = new TimeSlot();
-		timeSlot.setEndDate(endDate);
-		timeSlot.setEndTime(endTime);
-		timeSlot.setStartDate(StartDate);
-		timeSlot.setStartTime(startTime);
-		timeSlot.setTimeSlotId(timeSlotId);
-		timeslotRepository.save(timeSlot);
-		
-		return timeSlot;
-	}
-	/**
-	 * 
-	 * @param appointment
-	 * @return timsSlot
-	 * @author chengchen
-	 */
-	@Transactional
-	public TimeSlot getTimeSlot(Appointment appointment) {
-		TimeSlot timeSlot = timeslotRepository.findByAppointment(appointment);
-		return timeSlot;
-	}
-	/**
-	 * 
-	 * @return timeSlots
-	 * @author chengchen
-	 */
-	@Transactional
-	public List<TimeSlot> getAllTimeSlots(){
-		Iterable<TimeSlot> timeSlots = timeslotRepository.findAll();
-		return toList(timeSlots);
-	}
-	/**
-	 * 
-	 * @param worker
-	 * @param timeSlot
-	 * @param service
-	 * @param car
-	 * @param garage
-	 * @param comment
-	 * @param appointmentId
-	 * @return appointment
-	 * @author chengchen
-	 */
-	@Transactional
-	public Appointment createAppointment(List<TechnicianAccount> worker,TimeSlot timeSlot, ca.mcgill.ecse321.vehiclerepairshop.model.Service service, Car car, Garage garage, String comment, String appointmentId) {
-		Appointment appointment = new Appointment();
-		appointment.setAppointmentId(appointmentId);
-		appointment.setCar(car);
-		appointment.setComment(comment);
-		appointment.setGarage(garage);
-		appointment.setService(service);
-		appointment.setTimeSlot(timeSlot);
-		appointment.setWorker(worker);
-		appointmentRepository.save(appointment);
-		
-		return appointment;
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @return appointment
-	 * @author chengchen
-	 */
-	@Transactional
-	public Appointment getAppointmentById(int id) {
-		Optional<Appointment> appointment = appointmentRepository.findById(id);
-		return appointment.get();
-	}
-	
-	/**
-	 * 
-	 * @param car
-	 * @return appointments
-	 * @author chengchen
-	 */
-	@Transactional
-	public List<Appointment> getAppointmentByCar(Car car){
-		List<Appointment> appointments = appointmentRepository.findByCar(car);
-		return appointments;
-	}
-	
-	/**
-	 * 
-	 * @param garage
-	 * @return appointments
-	 * @author chengchen
-	 */
-	@Transactional
-	public List<Appointment> getAppointmentByGarage(Garage garage){
-		List<Appointment> appointments = appointmentRepository.findByGarage(garage);
-		return appointments;
-	}
-	
-	/**
-	 * 
-	 * @return appointments
-	 * @author chengchen
-	 */
-	@Transactional
-	public List<Appointment> getAllAppointments(){
-		Iterable<Appointment> appointments = appointmentRepository.findAll();
-		return toList(appointments);
-	}
-	
-	
-	
-	
-	// ----------------------------Cheng ends here---------------------------------
-	
+	private OfferedServiceRepository offeredServiceRepository;
+
+
+
 	// --------------------------- Catherine starts here -------------------------
-	
+
 	//--------- Admin Account Methods ---------
-	
+
 	/**
 	 * Create an Admin Account with given parameters
 	 * @param username
@@ -197,8 +75,8 @@ public class VehicleRepairShopService {
 		adminAccountRepository.save(user);
 		return user;
 	}
-	
-	
+
+
 	/**
 	 * Find admin account by username
 	 * @param username
@@ -209,8 +87,8 @@ public class VehicleRepairShopService {
 		AdminAccount user = adminAccountRepository.findByUsername(username);
 		return user;
 	}
-	
-	
+
+
 	/**
 	 * Find admin accounts by name
 	 * @param username
@@ -221,7 +99,7 @@ public class VehicleRepairShopService {
 		List<AdminAccount> users = adminAccountRepository.findAdminAccountByName(name);
 		return users;
 	}
-	
+
 	/**
 	 * Find all Admin Accounts
 	 * @return List of all accounts
@@ -230,7 +108,7 @@ public class VehicleRepairShopService {
 	public List<AdminAccount> getAllAdminAccounts() {
 		return toList(adminAccountRepository.findAll());
 	}
-	
+
 	/**
 	 * Find all Admin Accounts by business information
 	 * @return List of all accounts
@@ -240,8 +118,8 @@ public class VehicleRepairShopService {
 		List<AdminAccount> adminAccountsWithBusinessInfo = adminAccountRepository.findByBusinessInformation(businessInfo);
 		return adminAccountsWithBusinessInfo;
 	}
-	
-	
+
+
 
 	//--------- Customer Account Methods ---------
 
@@ -261,8 +139,8 @@ public class VehicleRepairShopService {
 		customerAccountRepository.save(user);
 		return user;
 	}
-	
-	
+
+
 	/**
 	 * Find customer account by username
 	 * @param username
@@ -273,7 +151,7 @@ public class VehicleRepairShopService {
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
 		return user;
 	}
-	
+
 	/**
 	 * Find customer accounts by name
 	 * @param username
@@ -284,7 +162,7 @@ public class VehicleRepairShopService {
 		List<CustomerAccount> users = customerAccountRepository.findCustomerAccountByName(name);
 		return users;
 	}
-	
+
 	/**
 	 * Find all Customer Accounts
 	 * @return List of all accounts
@@ -293,7 +171,7 @@ public class VehicleRepairShopService {
 	public List<CustomerAccount> getAllCustomerAccounts() {
 		return toList(customerAccountRepository.findAll());
 	}
-	
+
 	/**
 	 * Find Customer Account by car
 	 * @return Account linked to car
@@ -303,8 +181,8 @@ public class VehicleRepairShopService {
 		CustomerAccount user = customerAccountRepository.findByCar(car);
 		return user;
 	}
-	
-	
+
+
 	//--------- Technician Account Methods ---------
 
 	/**
@@ -323,8 +201,8 @@ public class VehicleRepairShopService {
 		technicianAccountRepository.save(user);
 		return user;
 	}
-	
-	
+
+
 	/**
 	 * Find technician account by username
 	 * @param username
@@ -335,7 +213,7 @@ public class VehicleRepairShopService {
 		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
 		return user;
 	}
-	
+
 	/**
 	 * Find technician accounts by name
 	 * @param username
@@ -346,7 +224,7 @@ public class VehicleRepairShopService {
 		List<TechnicianAccount> users = technicianAccountRepository.findTechnicianAccountByName(name);
 		return users;
 	}
-	
+
 	/**
 	 * Find all Technician Accounts
 	 * @return List of all accounts
@@ -355,7 +233,7 @@ public class VehicleRepairShopService {
 	public List<TechnicianAccount> getAllTechnicianAccounts() {
 		return toList(technicianAccountRepository.findAll());
 	}
-	
+
 	/**
 	 * Find all technician accounts linked to an appointment
 	 * @param username
@@ -368,8 +246,9 @@ public class VehicleRepairShopService {
 	}
 
 	// --------------------------- Catherine ends here ----------------------------
-	
-	
+
+
+
 	// helper method that converts iterable to list
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();

@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.sql.Time;
 import java.sql.Date;
 import java.util.*;
-import java.sql.Date;
 
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -12,11 +11,10 @@ import javax.persistence.Entity;
 
 
 @Entity
-public class Service
+public class OfferedService
 {
 
-
-  private String serviceId;
+  private String offeredServiceId;
   private String price;
   private String name;
   private String duration;
@@ -61,8 +59,8 @@ public class Service
     this.description = aDescription;
 
   }
-  public void setServiceId(String aServiceId) {
-	  this.serviceId = aServiceId;
+  public void setOfferedServiceId(String aServiceId) {
+	  this.offeredServiceId = aServiceId;
   }
 
   public String getPrice()
@@ -71,9 +69,9 @@ public class Service
   }
 
   @Id
-  public String getServiceId()
+  public String getOfferedServiceId()
   {
-	  return this.serviceId;
+	  return this.offeredServiceId;
   }
   public String getName()
   {
