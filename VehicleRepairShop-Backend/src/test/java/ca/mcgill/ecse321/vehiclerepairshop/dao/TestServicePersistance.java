@@ -22,7 +22,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Service;
+import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
@@ -48,7 +48,7 @@ public class TestServicePersistance {
 	@Autowired
 	private TimeSlotRepository timeslotRepository;
 	@Autowired
-	private ServiceRepository serviceRepository;
+	private OfferedServiceRepository offeredServiceRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
@@ -57,7 +57,7 @@ public class TestServicePersistance {
 		appointmentRepository.deleteAll();
 		technicianAccountRepository.deleteAll(); //technician needs to be deleted after appointment due to dependencies
 		timeslotRepository.deleteAll();
-		serviceRepository.deleteAll();
+		offeredServiceRepository.deleteAll();
 		carRepository.deleteAll();
 		customerAccountRepository.deleteAll();
 		garageRepository.deleteAll();
@@ -81,20 +81,20 @@ public class TestServicePersistance {
 		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
 		String description = "this is a test service";
 		
-		Service service = new Service();
+		OfferedService service = new OfferedService();
 		service.setName(serviceName);
-		service.setServiceId(serviceId);
+		service.setOfferedServiceId(serviceId);
 		service.setPrice(price);
 		service.setDuration(duration);
 		service.setReminderDate(reminderDate);
 		service.setReminderTime(reminderTime);
 		service.setDescription(description);
 		
-		serviceRepository.save(service);
+		offeredServiceRepository.save(service);
 		
 		service = null;
 		
-		service = serviceRepository.findByServiceId(serviceId);
+		service = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		
 		assertNotNull(service);
 		assertEquals(service.getName(), serviceName);
@@ -139,9 +139,9 @@ public class TestServicePersistance {
 		String passWord = "123";
 		String techID = "techID1";
 		
-		Service service = new Service();
+		OfferedService service = new OfferedService();
 		service.setName(serviceName);
-		service.setServiceId(serviceId);
+		service.setOfferedServiceId(serviceId);
 		service.setPrice(price);
 		service.setDuration(duration);
 		service.setReminderDate(reminderDate);
@@ -184,7 +184,7 @@ public class TestServicePersistance {
 		appointment1.setComment(appointment1Comment);
 		appointment1.setCar(car);
 		appointment1.setGarage(garage);
-		appointment1.setService(service);
+		appointment1.setOfferedService(service);
 		appointment1.setTimeSlot(timeSlot);
 		
 		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
@@ -195,7 +195,7 @@ public class TestServicePersistance {
 		customerAccountRepository.save(customer);
 		carRepository.save(car);
 		technicianAccountRepository.save(technician);
-		serviceRepository.save(service);
+		offeredServiceRepository.save(service);
 		timeslotRepository.save(timeSlot);
 		garageRepository.save(garage);
 		appointmentRepository.save(appointment1);
@@ -203,7 +203,7 @@ public class TestServicePersistance {
 		
 		service = null;
 		
-		service = serviceRepository.findByAppointment(appointment1);
+		service = offeredServiceRepository.findByAppointment(appointment1);
 		
 		assertNotNull(service);
 		assertEquals(service.getName(), serviceName);

@@ -23,7 +23,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Service;
+import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
@@ -50,7 +50,7 @@ public class TestVehicleAppointmentPersistence {
 	@Autowired
 	private TimeSlotRepository timeslotRepository;
 	@Autowired
-	private ServiceRepository serviceRepository;
+	private OfferedServiceRepository serviceRepository;
 	
 	
 	@AfterEach
@@ -142,8 +142,8 @@ public class TestVehicleAppointmentPersistence {
 		
 		
 		
-		Service service = new Service();
-		service.setServiceId(serviceId);
+		OfferedService service = new OfferedService();
+		service.setOfferedServiceId(serviceId);
 		service.setPrice(price);
 		service.setName(serviceName);
 		service.setDuration(duration);
@@ -182,7 +182,7 @@ public class TestVehicleAppointmentPersistence {
 		appointment1.setComment(appointment1Comment);
 		appointment1.setCar(car);
 		appointment1.setGarage(garage);
-		appointment1.setService(service);
+		appointment1.setOfferedService(service);
 		appointment1.setTimeSlot(timeSlot);
 		
 		
@@ -193,7 +193,7 @@ public class TestVehicleAppointmentPersistence {
 		appointment2.setComment(appointment2Comment);
 		appointment2.setCar(car);
 		appointment2.setGarage(garage);
-		appointment2.setService(service);
+		appointment2.setOfferedService(service);
 		appointment2.setTimeSlot(timeSlot2);
 		
 		customerAccountRepository.save(customer);
@@ -409,8 +409,8 @@ public class TestVehicleAppointmentPersistence {
 		customer.setName(customerName);
 		customer.setPassword(customerPassword);
 		customer.setUsername(customerID);
-		Service service = new Service();
-		service.setServiceId(serviceId);
+		OfferedService service = new OfferedService();
+		service.setOfferedServiceId(serviceId);
 		service.setPrice(price);
 		service.setName(serviceName);
 		service.setDuration(duration);
@@ -438,7 +438,7 @@ public class TestVehicleAppointmentPersistence {
 		appointment1.setComment(appointment1Comment);
 		appointment1.setCar(car);
 		appointment1.setGarage(garage);
-		appointment1.setService(service);
+		appointment1.setOfferedService(service);
 		appointment1.setTimeSlot(timeSlot);
 
 		
@@ -463,7 +463,7 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(appointment1ID, appointment1.getAppointmentId());
 		assertEquals(appointment1Comment, appointment1.getComment());
 		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
-		assertEquals(serviceName, appointment1.getService().getName());
+		assertEquals(serviceName, appointment1.getOfferedService().getName());
 		assertEquals(gID, appointment1.getGarage().getGarageId());
 
 	}
@@ -552,8 +552,8 @@ public class TestVehicleAppointmentPersistence {
 		customer2.setUsername(customerID2);
 		
 		
-		Service service = new Service();
-		service.setServiceId(serviceId);
+		OfferedService service = new OfferedService();
+		service.setOfferedServiceId(serviceId);
 		service.setPrice(price);
 		service.setName(serviceName);
 		service.setDuration(duration);
@@ -597,7 +597,7 @@ public class TestVehicleAppointmentPersistence {
 		appointment1.setComment(appointment1Comment);
 		appointment1.setCar(car);
 		appointment1.setGarage(garage);
-		appointment1.setService(service);
+		appointment1.setOfferedService(service);
 		appointment1.setTimeSlot(timeSlot);
 		
 		
@@ -608,7 +608,7 @@ public class TestVehicleAppointmentPersistence {
 		appointment2.setComment(appointment2Comment);
 		appointment2.setCar(car2);
 		appointment2.setGarage(garage);
-		appointment2.setService(service);
+		appointment2.setOfferedService(service);
 		appointment2.setTimeSlot(timeSlot2);
 
 		

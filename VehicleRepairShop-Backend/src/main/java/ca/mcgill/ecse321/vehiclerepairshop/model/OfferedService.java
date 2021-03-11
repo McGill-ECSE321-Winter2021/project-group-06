@@ -11,11 +11,11 @@ import javax.persistence.Entity;
 
 
 @Entity
-public class Service
+public class OfferedService
 {
 
 
-  private String serviceId;
+  private String offeredServiceId;
   private String price;
   private String name;
   private String duration;
@@ -60,8 +60,8 @@ public class Service
     this.description = aDescription;
 
   }
-  public void setServiceId(String aServiceId) {
-	  this.serviceId = aServiceId;
+  public void setOfferedServiceId(String aServiceId) {
+	  this.offeredServiceId = aServiceId;
   }
 
   public String getPrice()
@@ -70,9 +70,9 @@ public class Service
   }
 
   @Id
-  public String getServiceId()
+  public String getOfferedServiceId()
   {
-	  return this.serviceId;
+	  return this.offeredServiceId;
   }
   public String getName()
   {

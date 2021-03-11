@@ -18,7 +18,7 @@ public class Appointment
   private String comment;
   private Car car;
   private Garage garage;
-  private Service service;
+  private OfferedService service;
   private TimeSlot timeSlot;
   private List<TechnicianAccount> worker;
 
@@ -58,7 +58,7 @@ public class Appointment
     return this.garage;
   }
   @ManyToOne
-  public Service getService()
+  public OfferedService getOfferedService()
   {
     return this.service;
   }
@@ -87,7 +87,7 @@ public class Appointment
     this.garage = aGarage;
   }
 
-  public void setService(Service aService)
+  public void setOfferedService(OfferedService aService)
   {
     this.service = aService;
   }

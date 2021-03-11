@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.TechnicianAccountRepository;
-import ca.mcgill.ecse321.vehiclerepairshop.dao.ServiceRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.dao.OfferedServiceRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
@@ -51,7 +51,7 @@ public class VehicleRepairShopService {
 	@Autowired
 	private TimeSlotRepository timeslotRepository;
 	@Autowired
-	private ServiceRepository serviceRepository;
+	private OfferedServiceRepository serviceRepository;
 	// ----------------------------Cheng starts here ----------------------------
 	//-------TimeSlot methods-----
 	/**
@@ -113,13 +113,13 @@ public class VehicleRepairShopService {
 	 * @author chengchen
 	 */
 	@Transactional
-	public Appointment createAppointment(List<TechnicianAccount> worker,TimeSlot timeSlot, ca.mcgill.ecse321.vehiclerepairshop.model.Service service, Car car, Garage garage, String comment, String appointmentId) {
+	public Appointment createAppointment(List<TechnicianAccount> worker,TimeSlot timeSlot, ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService service, Car car, Garage garage, String comment, String appointmentId) {
 		Appointment appointment = new Appointment();
 		appointment.setAppointmentId(appointmentId);
 		appointment.setCar(car);
 		appointment.setComment(comment);
 		appointment.setGarage(garage);
-		appointment.setService(service);
+		appointment.setOfferedService(service);
 		appointment.setTimeSlot(timeSlot);
 		appointment.setWorker(worker);
 		appointmentRepository.save(appointment);

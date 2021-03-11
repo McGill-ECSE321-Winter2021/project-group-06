@@ -22,7 +22,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Service;
+import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
@@ -48,7 +48,7 @@ public class TestGaragePersistance {
 	@Autowired
 	private TimeSlotRepository timeslotRepository;
 	@Autowired
-	private ServiceRepository serviceRepository;
+	private OfferedServiceRepository offeredServiceRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
@@ -57,7 +57,7 @@ public class TestGaragePersistance {
 		appointmentRepository.deleteAll();
 		technicianAccountRepository.deleteAll(); //technician needs to be deleted after appointment due to dependencies
 		timeslotRepository.deleteAll();
-		serviceRepository.deleteAll();
+		offeredServiceRepository.deleteAll();
 		carRepository.deleteAll();
 		customerAccountRepository.deleteAll();
 		garageRepository.deleteAll();
@@ -144,10 +144,10 @@ public class TestGaragePersistance {
 		customer.setPassword(customerPassword);
 		customer.setUsername(customerUsername);
 		
-		Service service = new Service();
+		OfferedService service = new OfferedService();
 		service.setName(serviceName);
 		service.setPrice(price);
-		service.setServiceId(serviceId);
+		service.setOfferedServiceId(serviceId);
 		service.setDuration(duration);
 		service.setReminderDate(reminderDate);
 		service.setReminderTime(reminderTime);
@@ -172,8 +172,8 @@ public class TestGaragePersistance {
 		appointment1.setComment(appointment1Comment);
 		appointment1.setCar(car);
 		appointment1.setGarage(garageToTest);
-		appointment1.setService(service);
-		appointment1.setService(service);
+		appointment1.setOfferedService(service);
+		appointment1.setOfferedService(service);
 		appointment1.setTimeSlot(timeSlot);
 		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
 		workers.add(technician);
@@ -183,7 +183,7 @@ public class TestGaragePersistance {
 		technicianAccountRepository.save(technician);
 		customerAccountRepository.save(customer);
 		carRepository.save(car);
-		serviceRepository.save(service);
+		offeredServiceRepository.save(service);
 		timeslotRepository.save(timeSlot);
 		garageRepository.save(garageToTest);
 		appointmentRepository.save(appointment1);
