@@ -18,6 +18,11 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
+/**
+ * 
+ * @author mikewang
+ *
+ */
 public class OfferedServiceService {
 	@Autowired
 	private OfferedServiceRepository offeredServiceRepository;
