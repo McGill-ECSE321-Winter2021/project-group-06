@@ -60,7 +60,7 @@ public class TestServicePersistance {
 		offeredServiceRepository.deleteAll();
 		carRepository.deleteAll();
 		customerAccountRepository.deleteAll();
-		garageRepository.deleteAll();
+		garageRepository.deleteAll();             //TODO: the JUnit test tells me there is an error happening in here
 		adminAccountRepository.deleteAll();
 		businessInformationRepository.deleteAll();
 
