@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 public class OfferedService
 {
 
-
   private String offeredServiceId;
   private String price;
   private String name;
