@@ -11,21 +11,19 @@ import javax.persistence.Entity;
 public class TimeSlot
 {
 
-
-  private String timeSlotId;
+  private int timeSlotId;
   private Time startTime;
   private Time endTime;
   private Date startDate;
   private Date endDate;
 
 
-
   public void setStartTime(Time aStartTime)
   {
     this.startTime = aStartTime;
   }
-  
-  public void setTimeSlotId(String aTimeSlotId)
+
+  public void setTimeSlotId(int aTimeSlotId)
   {
 	  this.timeSlotId = aTimeSlotId;
   }
@@ -45,13 +43,12 @@ public class TimeSlot
     this.endDate = aEndDate;
   }
 
-  
+
   @Id
-  public String getTimeSlotId() 
+  public int getTimeSlotId()
   {
 	  return this.timeSlotId;
   }
-  
 
   public Time getStartTime()
   {
@@ -73,4 +70,3 @@ public class TimeSlot
     return this.endDate;
   }
 }
-

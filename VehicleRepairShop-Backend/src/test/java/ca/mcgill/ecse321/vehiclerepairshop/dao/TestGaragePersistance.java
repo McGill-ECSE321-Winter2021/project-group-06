@@ -49,11 +49,11 @@ public class TestGaragePersistance {
 	private TimeSlotRepository timeslotRepository;
 	@Autowired
 	private OfferedServiceRepository offeredServiceRepository;
-	
+
 	@AfterEach
 	public void clearDatabase() {
-	
-		
+
+
 		appointmentRepository.deleteAll();
 		technicianAccountRepository.deleteAll(); //technician needs to be deleted after appointment due to dependencies
 		timeslotRepository.deleteAll();
@@ -65,60 +65,60 @@ public class TestGaragePersistance {
 		businessInformationRepository.deleteAll();
 
 	}
-	
+
 	/*
 	 * @author: James Darby
 	 */
-	
+
 	@Test
 	public void testPersistAndLoadGarage() {
-		
+
 		boolean isAvailable = true;
 		String garageId = "testGarageID";
-		
+
 		Garage garageToTest = new Garage();
 		garageToTest.setGarageId(garageId);
 		garageToTest.setIsAvailable(isAvailable);
-		
+
 		garageRepository.save(garageToTest);
-		
+
 		garageToTest = null;
 		garageToTest = garageRepository.findByGarageId(garageId);
-		
+
 		assertNotNull(garageToTest);
 		assertEquals(garageToTest.getGarageId(), garageId);
 		assertEquals(garageToTest.getIsAvailable(), isAvailable);
 	}
-	
+
 	@Test
 	public void testPersistAndLoadGarageViaAppointment() {
-		
+
 		//makes a garage
 		boolean isAvailable = true;
 		String garageID = "testGarageID";
-		
+
 		Garage garageToTest = new Garage();
 		garageToTest.setGarageId(garageID);
 		garageToTest.setIsAvailable(isAvailable);
-		
 
-		
+
+
 		//makes an appointment
 		String licensePlate = "TestCar";
 		String model = "TestModel";
 		Integer year = 2021;
 		MotorType engine = MotorType.Gas;
-		
+
 		String customerName = "customer";
 		String customerPassword = "123";
 		String customerUsername = "customer1";
-		
-		String timeSlotId = "timeSlot1";
+
+		int timeSlotId = 12;
 		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
 		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
 		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
-		
+
 		String serviceId = "service1";
 		String price = "50";
 		String serviceName = "service";
@@ -126,24 +126,24 @@ public class TestGaragePersistance {
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
 		String description = "this is a test service";
-		
+
 		String techName = "techName1";
 		String passWord = "123";
 		String techID = "techID1";
-		
-		
+
+
 		TimeSlot timeSlot = new TimeSlot();
 		timeSlot.setStartTime(startTime);
 		timeSlot.setEndTime(endTime);
 		timeSlot.setStartDate(startDate);
 		timeSlot.setEndDate(endDate);
 		timeSlot.setTimeSlotId(timeSlotId);
-		
+
 		CustomerAccount customer = new CustomerAccount();
 		customer.setName(customerName);
 		customer.setPassword(customerPassword);
 		customer.setUsername(customerUsername);
-		
+
 		OfferedService service = new OfferedService();
 		service.setName(serviceName);
 		service.setPrice(price);
@@ -152,20 +152,20 @@ public class TestGaragePersistance {
 		service.setReminderDate(reminderDate);
 		service.setReminderTime(reminderTime);
 		service.setDescription(description);
-		
+
 		Car car = new Car();
 		car.setLicensePlate(licensePlate);
 		car.setModel(model);
 		car.setYear(year);
 		car.setMotorType(engine);
 		car.setOwner(customer);
-		
+
 		TechnicianAccount technician = new TechnicianAccount();
 		technician.setName(techName);
 		technician.setPassword(passWord);
 		technician.setUsername(techID);
-		
-		String appointment1ID = "appointment1";
+
+		int appointment1ID = 1;
 		String appointment1Comment = "this is a test Appointment";
 		Appointment appointment1 = new Appointment();
 		appointment1.setAppointmentId(appointment1ID);
@@ -179,7 +179,7 @@ public class TestGaragePersistance {
 		workers.add(technician);
 		appointment1.setWorker(workers);
 
-		
+
 		technicianAccountRepository.save(technician);
 		customerAccountRepository.save(customer);
 		carRepository.save(car);
@@ -187,16 +187,14 @@ public class TestGaragePersistance {
 		timeslotRepository.save(timeSlot);
 		garageRepository.save(garageToTest);
 		appointmentRepository.save(appointment1);
-		
-		
+
+
 		garageToTest = null;
 		garageToTest = garageRepository.findByAppointment(appointment1);
 		assertNotNull(garageToTest);
 		assertEquals(garageToTest.getGarageId(), garageID);
 		assertEquals(garageToTest.getIsAvailable(), isAvailable);
 	}
-	
-	
+
+
 }
-
-
