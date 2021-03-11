@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 
 
 import java.util.*;
+import java.sql.Time;
+import java.sql.Date;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -35,21 +37,33 @@ public class Appointment
 	  this.comment = aComment;
 
   }
-
+  public void setEndDate(Date endDate){
+	  this.endDate = endDate;
+  }
+  public void setEndTime(Time endTime) {
+	  this.endTime = endTime;
+  }
 
   public void setAppointmentId(int aAppointmentId)
   {
 	  this.appointmentId = aAppointmentId;
   }
 
-  @Id
+  public void setStartTime(Time startTime) {
+	  this.startTime = startTime;
+  }
+  
+  public void setStartDate(Date startDate) {
+	  this.startDate = startDate;
+  }
   public Time getStartTime(){
 		return this.startTime;
 	}
 
+  @Id
   public int getAppointmentId()
   {
-    return startTime;
+    return appointmentId;
   }
 
   public Time getEndTime()
@@ -64,7 +78,7 @@ public class Appointment
 
   public Date getEndDate()
   {
-    return this.appointmentId;
+    return this.endDate;
   }
 
   public String getComment()

@@ -186,7 +186,7 @@ public class TestVehicleAppointmentPersistence {
 		appointment1.setTimeSlot(timeSlot);
 
 
-		int appointment2ID = 1;
+		int appointment2ID = 2;
 		String appointment2Comment = "this is a test Appointment";
 		Appointment appointment2 = new Appointment();
 		appointment2.setAppointmentId(appointment2ID);
