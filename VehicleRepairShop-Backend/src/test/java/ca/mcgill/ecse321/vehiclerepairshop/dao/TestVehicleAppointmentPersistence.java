@@ -9,18 +9,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
@@ -29,7 +25,6 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Service;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 
@@ -232,19 +227,6 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(appointment2Comment, appointment2.getComment());
 		assertEquals(licensePlate, appointment2.getCar().getLicensePlate());
 		
-//		appointmentRepository.delete(appointment2);
-//		appointmentRepository.delete(appointment1);
-//		timeslotRepository.delete(timeSlot2);
-//		timeslotRepository.delete(timeSlot);
-//		serviceRepository.delete(service);
-//		technicianAccountRepository.delete(technician2);
-//		technicianAccountRepository.delete(technician);
-//		carRepository.delete(car);
-//		customerAccountRepository.delete(customer);
-//		garageRepository.delete(garage);
-		
-		
-
 	}
 	
 	/*
@@ -272,8 +254,7 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(businessAddress, businessInfo.getAddress());
 		assertEquals(businessPhoneNumber, businessInfo.getPhoneNumber());
 		assertEquals(businessEmail, businessInfo.getEmailAddress());
-		
-		//businessInformationRepository.delete(businessInfo);
+
 	}
 	
 	
@@ -310,8 +291,7 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(model, car.getModel());
 		assertEquals(year, car.getYear());
 		assertEquals(engine, car.getMotorType());
-		
-		//carRepository.delete(car);
+
 	}
 	
 	
@@ -380,20 +360,8 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(year2, car2.getYear());
 		assertEquals(engine, car2.getMotorType());
 		
-		
-		
-	//	carRepository.delete(car);
-//		carRepository.delete(car2);
-	//	customerAccountRepository.delete(customer);
-		
-		
-		
-		
 	}
-//	
-//	
-//	
-//	
+
 	/*
 	 * @author: Mike
 	 * Tests loading appointment via searching timeslots and car
@@ -497,14 +465,6 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
 		assertEquals(serviceName, appointment1.getService().getName());
 		assertEquals(gID, appointment1.getGarage().getGarageId());
-		
-//		appointmentRepository.delete(appointment1);
-//		timeslotRepository.delete(timeSlot);
-//		serviceRepository.delete(service);
-//		technicianAccountRepository.delete(technician);
-//		carRepository.delete(car);
-//		customerAccountRepository.delete(customer);
-//		garageRepository.delete(garage);
 
 	}
 	
@@ -678,296 +638,10 @@ public class TestVehicleAppointmentPersistence {
 		assertEquals(appointment1Comment, appointment1.getComment());
 		assertEquals(appointment2ID, appointment2.getAppointmentId());
 		assertEquals(appointment2Comment, appointment2.getComment());
-		
-//		appointmentRepository.delete(appointment2);
-//		appointmentRepository.delete(appointment1);
-//		timeslotRepository.delete(timeSlot2);
-//		timeslotRepository.delete(timeSlot);
-//		serviceRepository.delete(service);
-//		technicianAccountRepository.delete(technician2);
-//		technicianAccountRepository.delete(technician);
-//		carRepository.delete(car2);
-//		carRepository.delete(car);
-//		customerAccountRepository.delete(customer2);
-//		customerAccountRepository.delete(customer);
-//		garageRepository.delete(garage);
-
-	}
-//	
-//	
-//	// ************************* Mike end here **************************/
-//	
-//	
-//	// ************************* James starts here *************************
-//	
-//	/*
-//	 * @author: James Darby
-//	 */
-//	
-
-	@Test
-	public void testPersistAndLoadGarageViaAppointment() {
-		
-		//makes a garage
-		boolean isAvailable = true;
-		String garageID = "testGarageID";
-		
-		Garage garageToTest = new Garage();
-		garageToTest.setGarageId(garageID);
-		garageToTest.setIsAvailable(isAvailable);
-		
-
-		
-		//makes an appointment
-		String licensePlate = "TestCar";
-		String model = "TestModel";
-		Integer year = 2021;
-		MotorType engine = MotorType.Gas;
-		
-		String customerName = "customer";
-		String customerPassword = "123";
-		String customerUsername = "customer1";
-		
-		String timeSlotId = "timeSlot1";
-		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
-		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
-		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
-		
-		String serviceId = "service1";
-		String price = "50";
-		String serviceName = "service";
-		String duration = "18hrs";
-		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
-		String description = "this is a test service";
-		
-		String techName = "techName1";
-		String passWord = "123";
-		String techID = "techID1";
-		
-		
-		TimeSlot timeSlot = new TimeSlot();
-		timeSlot.setStartTime(startTime);
-		timeSlot.setEndTime(endTime);
-		timeSlot.setStartDate(startDate);
-		timeSlot.setEndDate(endDate);
-		timeSlot.setTimeSlotId(timeSlotId);
-		
-		CustomerAccount customer = new CustomerAccount();
-		customer.setName(customerName);
-		customer.setPassword(customerPassword);
-		customer.setUsername(customerUsername);
-		
-		Service service = new Service();
-		service.setName(serviceName);
-		service.setPrice(price);
-		service.setServiceId(serviceId);
-		service.setDuration(duration);
-		service.setReminderDate(reminderDate);
-		service.setReminderTime(reminderTime);
-		service.setDescription(description);
-		
-		Car car = new Car();
-		car.setLicensePlate(licensePlate);
-		car.setModel(model);
-		car.setYear(year);
-		car.setMotorType(engine);
-		car.setOwner(customer);
-		
-		TechnicianAccount technician = new TechnicianAccount();
-		technician.setName(techName);
-		technician.setPassword(passWord);
-		technician.setUsername(techID);
-		
-		String appointment1ID = "appointment1";
-		String appointment1Comment = "this is a test Appointment";
-		Appointment appointment1 = new Appointment();
-		appointment1.setAppointmentId(appointment1ID);
-		appointment1.setComment(appointment1Comment);
-		appointment1.setCar(car);
-		appointment1.setGarage(garageToTest);
-		appointment1.setService(service);
-		appointment1.setService(service);
-		appointment1.setTimeSlot(timeSlot);
-		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
-		workers.add(technician);
-		appointment1.setWorker(workers);
-
-		
-		technicianAccountRepository.save(technician);
-		customerAccountRepository.save(customer);
-		carRepository.save(car);
-		serviceRepository.save(service);
-		timeslotRepository.save(timeSlot);
-		garageRepository.save(garageToTest);
-		appointmentRepository.save(appointment1);
-		
-		
-		garageToTest = null;
-		garageToTest = garageRepository.findByAppointment(appointment1);
-		assertNotNull(garageToTest);
-		assertEquals(garageToTest.getGarageId(), garageID);
-		assertEquals(garageToTest.getIsAvailable(), isAvailable);
-		
-//		appointmentRepository.delete(appointment1);
-//		timeslotRepository.delete(timeSlot);
-//		serviceRepository.delete(service);
-//		technicianAccountRepository.delete(technician);
-//		carRepository.delete(car);
-//		customerAccountRepository.delete(customer);
-//		garageRepository.delete(garageToTest);
-	}
-	
-	@Test
-	public void testPersistAndLoadTimeSlot() {
-		
-		String timeSlotId = "timeSlot1";
-		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
-		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
-		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
-		
-		TimeSlot timeSlot = new TimeSlot();
-		timeSlot.setStartTime(startTime);
-		timeSlot.setEndTime(endTime);
-		timeSlot.setStartDate(startDate);
-		timeSlot.setEndDate(endDate);
-		timeSlot.setTimeSlotId(timeSlotId);
-		
-		timeslotRepository.save(timeSlot);
-		
-		timeSlot = null;
-		timeSlot = timeslotRepository.findByTimeSlotId(timeSlotId);
-		
-		assertNotNull(timeSlot);
-		assertEquals(timeSlot.getStartTime(), startTime);
-		assertEquals(timeSlot.getStartDate(), startDate);
-		assertEquals(timeSlot.getEndTime(), endTime);
-		assertEquals(timeSlot.getEndDate(), endDate);
-		
-	}
-
-	@Test
-	public void testPersistAndLoadServiceViaAppointment() {
-		
-		String serviceId = "service1";
-		String price = "50";
-		String serviceName = "service";
-		String duration = "18hrs";
-		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
-		String description = "this is a test service";
-		
-		String timeSlotId = "t1";
-		Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 20));
-		Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 21));
-		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
-		
-		String licensePlate = "TestCar";
-		String model = "TestModel";
-		Integer year = 2021;
-		MotorType engine = MotorType.Gas;
-		
-		String customerName = "customer";
-		String customerPassword = "123";
-		String customerUsername = "customer1";
-		
-		boolean available = true;
-		String gID = "1";
-		
-		String techName = "techName1";
-		String passWord = "123";
-		String techID = "techID1";
-		
-		Service service = new Service();
-		service.setName(serviceName);
-		service.setServiceId(serviceId);
-		service.setPrice(price);
-		service.setDuration(duration);
-		service.setReminderDate(reminderDate);
-		service.setReminderTime(reminderTime);
-		service.setDescription(description);
-		
-		TimeSlot timeSlot = new TimeSlot();
-		timeSlot.setStartTime(startTime);
-		timeSlot.setTimeSlotId(timeSlotId);
-		timeSlot.setEndTime(endTime);
-		timeSlot.setStartDate(startDate);
-		timeSlot.setEndDate(endDate);
-		
-		CustomerAccount customer = new CustomerAccount();
-		customer.setName(customerName);
-		customer.setPassword(customerPassword);
-		customer.setUsername(customerUsername);
-		
-		
-		Car car = new Car();
-		car.setLicensePlate(licensePlate);
-		car.setModel(model);
-		car.setYear(year);
-		car.setMotorType(engine);
-		car.setOwner(customer);
-		
-	    Garage garage = new Garage();
-		garage.setGarageId(gID);
-		garage.setIsAvailable(available);
-		
-		TechnicianAccount technician = new TechnicianAccount();
-		technician.setName(techName);
-		technician.setPassword(passWord);
-		technician.setUsername(techID);
-		
-		String appointment1ID = "appointment1";
-		String appointment1Comment = "this is a test Appointment";
-		Appointment appointment1 = new Appointment();
-		appointment1.setAppointmentId(appointment1ID);
-		appointment1.setComment(appointment1Comment);
-		appointment1.setCar(car);
-		appointment1.setGarage(garage);
-		appointment1.setService(service);
-		appointment1.setTimeSlot(timeSlot);
-		
-		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
-		workers.add(technician);
-		appointment1.setWorker(workers);
-
-		
-		customerAccountRepository.save(customer);
-		carRepository.save(car);
-		technicianAccountRepository.save(technician);
-		serviceRepository.save(service);
-		timeslotRepository.save(timeSlot);
-		garageRepository.save(garage);
-		appointmentRepository.save(appointment1);
-		
-		
-		service = null;
-		
-		service = serviceRepository.findByAppointment(appointment1);
-		
-		assertNotNull(service);
-		assertEquals(service.getName(), serviceName);
-		assertEquals(service.getPrice(), price);
-		assertEquals(service.getDuration(), duration);
-		assertEquals(service.getReminderDate(), reminderDate);
-		assertEquals(service.getReminderTime(), reminderTime);
-		assertEquals(service.getDescription(), description);
-		
-//		appointmentRepository.delete(appointment1);
-//		timeslotRepository.delete(timeSlot);
-//		serviceRepository.delete(service);
-//		technicianAccountRepository.delete(technician);
-//		carRepository.delete(car);
-//		customerAccountRepository.delete(customer);
-//		garageRepository.delete(garage);
-		
 
 	}
 	
 	
-	
-	// ************************* James ends here ***************************
+	// ************************* Mike end here **************************/
 	
 }
