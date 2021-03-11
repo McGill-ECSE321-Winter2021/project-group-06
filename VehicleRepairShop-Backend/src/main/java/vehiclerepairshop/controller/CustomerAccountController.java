@@ -8,10 +8,10 @@ import vehiclerepairshop.service.VehicleRepairShopService;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class VehicleRepairShopController {
-
+public class CustomerAccountController {
+	
 	@Autowired
-	private VehicleRepairShopService service;
+	private CustomerAccountController customerAccountService;
 
 
 }
