@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.sql.Time;
 import java.sql.Date;
 import java.util.*;
-import java.sql.Date;
 
 import javax.persistence.Id;
 import javax.persistence.OneToMany;

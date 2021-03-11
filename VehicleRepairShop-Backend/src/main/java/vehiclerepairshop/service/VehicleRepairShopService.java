@@ -79,13 +79,16 @@ public class VehicleRepairShopService {
 	/**
 	 * 
 	 * @param appointment
-	 * @return timsSlot
+	 * @return timeSlot
 	 * @author chengchen
 	 */
+	
+	//How our umple model is, you cant get a timeslot from appointment -James
 	@Transactional
 	public TimeSlot getTimeSlot(Appointment appointment) {
-		TimeSlot timeSlot = timeslotRepository.findByAppointment(appointment);
-		return timeSlot;
+	//	TimeSlot timeSlot = timeslotRepository.findByAppointment(appointment);
+	//	return timeSlot;
+		return null;
 	}
 	/**
 	 * 
