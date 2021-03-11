@@ -19,6 +19,7 @@ This table shows an overview of the team members and their roles for Sprint 1. T
 ***
 ## Sprint 2
 ### Project Report
+[Project report - Sprint 2](https://github.com/McGill-ECSE321-Winter2021/project-group-06/wiki)
 
 
 ### Team
