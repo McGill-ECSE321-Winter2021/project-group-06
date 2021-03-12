@@ -11,7 +11,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
  * @author mikewang
  *
  */
-public class OfferServiceDto {
+public class OfferedServiceDto {
 
 	private String offeredServiceId;
 	private String price;
@@ -22,16 +22,16 @@ public class OfferServiceDto {
 	private String description;
 	private List<AppointmentDto> appointments;
 	
-	public OfferServiceDto() {
+	public OfferedServiceDto() {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public OfferServiceDto(String offeredServiceId, String price, String name, String duration, Time reminderTime, Date reminderDate, String description) {
+	public OfferedServiceDto(String offeredServiceId, String price, String name, String duration, Time reminderTime, Date reminderDate, String description) {
 		this(offeredServiceId, price, name, duration, reminderTime, reminderDate, description, Collections.EMPTY_LIST);
 	}
 	
 	
-	public OfferServiceDto(String offeredServiceId, String price, String name, String duration, Time reminderTime, Date reminderDate, String description, List<AppointmentDto> arrayList) {
+	public OfferedServiceDto(String offeredServiceId, String price, String name, String duration, Time reminderTime, Date reminderDate, String description, List<AppointmentDto> arrayList) {
 		this.offeredServiceId = offeredServiceId;
 		this.price = price;
 		this.name = name;

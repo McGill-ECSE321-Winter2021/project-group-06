@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import vehiclerepairshop.service.VehicleRepairShopService;
+import vehiclerepairshop.service.AppointmentService;
 
 /**
  * 
@@ -16,7 +16,7 @@ import vehiclerepairshop.service.VehicleRepairShopService;
 public class AppointmentController {
 	
 	@Autowired
-	private VehicleRepairShopService service;
+	private AppointmentController service;
 	
 	
 	
