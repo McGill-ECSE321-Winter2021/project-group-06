@@ -26,13 +26,13 @@ public class TimeSlotService {
 		 * @author chengchen
 		 */
 		@Transactional
-		public TimeSlot createTimeSlot(Time startTime, Time endTime, Date StartDate, Date endDate) {
+		public TimeSlot createTimeSlot(Time startTime, Time endTime, Date startDate, Date endDate) {
 			TimeSlot timeSlot = new TimeSlot();
 			timeSlot.setEndDate(endDate);
 			timeSlot.setEndTime(endTime);
-			timeSlot.setStartDate(StartDate);
+			timeSlot.setStartDate(startDate);
 			timeSlot.setStartTime(startTime);
-			timeSlot.setTimeSlotId(startTime.hashCode());
+			timeSlot.setTimeSlotId(startTime.hashCode()*startDate.hashCode());
 			timeslotRepository.save(timeSlot);
 			
 			return timeSlot;
