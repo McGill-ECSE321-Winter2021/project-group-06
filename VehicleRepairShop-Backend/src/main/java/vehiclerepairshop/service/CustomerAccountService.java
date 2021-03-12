@@ -25,12 +25,9 @@ public class CustomerAccountService {
 	private TechnicianAccountRepository technicianAccountRepository;
 
 
-
-	// --------------------------- Catherine starts here -------------------------
-
-
 	/**
 	 * Create a Customer Account with given parameters
+	 * @author Catherine
 	 * @param username
 	 * @param password
 	 * @param name
@@ -73,6 +70,7 @@ public class CustomerAccountService {
 
 	/**
 	 * Find customer account by username
+	 * @author Catherine
 	 * @param username
 	 * @return the account
 	 */
@@ -85,6 +83,7 @@ public class CustomerAccountService {
 	/**
 	 * Update a Customer Account username, password, and name. 
 	 * If one parameter shouldn't change, pass old value as new value. 
+	 * @author Catherine
 	 * @param newUsername
 	 * @param newPassword
 	 * @param newName
@@ -129,6 +128,7 @@ public class CustomerAccountService {
 	
 	/**
 	 * Find customer account by username
+	 * @author Catherine
 	 * @param username
 	 * @return the account
 	 */
@@ -140,6 +140,7 @@ public class CustomerAccountService {
 	
 	/**
 	 * Find customer accounts by name
+	 * @author Catherine
 	 * @param username
 	 * @return a list of accounts
 	 */
@@ -151,6 +152,7 @@ public class CustomerAccountService {
 
 	/**
 	 * Find all Customer Accounts
+	 * @author Catherine
 	 * @return List of all accounts
 	 */
 	@Transactional
@@ -160,6 +162,7 @@ public class CustomerAccountService {
 
 	/**
 	 * Find Customer Account by car
+	 * @author Catherine
 	 * @return Account linked to car
 	 */
 	@Transactional
@@ -171,6 +174,7 @@ public class CustomerAccountService {
 
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use
+	 * @author Catherine
 	 * @param username
 	 * @return
 	 */

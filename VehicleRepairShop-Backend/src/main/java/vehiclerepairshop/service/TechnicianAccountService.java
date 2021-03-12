@@ -26,13 +26,9 @@ public class TechnicianAccountService {
 	private TechnicianAccountRepository technicianAccountRepository;
 
 
-
-	// --------------------------- Catherine starts here -------------------------
-
-	
-
 	/**
 	 * Create a Technician Account with given parameters
+	 * @author Catherine
 	 * @param username
 	 * @param password
 	 * @param name
@@ -75,6 +71,7 @@ public class TechnicianAccountService {
 
 	/**
 	 * Find technician account by username
+	 * @author Catherine
 	 * @param username
 	 * @return the account
 	 */
@@ -86,6 +83,7 @@ public class TechnicianAccountService {
 
 	/**
 	 * Find technician accounts by name
+	 * @author Catherine
 	 * @param username
 	 * @return a list of accounts
 	 */
@@ -97,6 +95,7 @@ public class TechnicianAccountService {
 
 	/**
 	 * Find all Technician Accounts
+	 * @author Catherine
 	 * @return List of all accounts
 	 */
 	@Transactional
@@ -106,6 +105,7 @@ public class TechnicianAccountService {
 
 	/**
 	 * Find all technician accounts linked to an appointment
+	 * @author Catherine
 	 * @param username
 	 * @return a list of accounts
 	 */
@@ -118,6 +118,7 @@ public class TechnicianAccountService {
 	/**
 	 * Update an Technician Account username, password, and name. 
 	 * If one parameter shouldn't change, pass old value as new value. 
+	 * @author Catherine
 	 * @param newUsername
 	 * @param newPassword
 	 * @param newName
@@ -162,6 +163,7 @@ public class TechnicianAccountService {
 	
 	/**
 	 * Find technician account by username
+	 * @author Catherine
 	 * @param username
 	 * @return the account
 	 */
@@ -173,6 +175,7 @@ public class TechnicianAccountService {
 	
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use
+	 * @author Catherine
 	 * @param username
 	 * @return
 	 */
@@ -196,6 +199,7 @@ public class TechnicianAccountService {
 	
 	/**
 	 *  helper method that converts iterable to list
+	 * 
 	 * @param <T>
 	 * @param iterable
 	 * @return

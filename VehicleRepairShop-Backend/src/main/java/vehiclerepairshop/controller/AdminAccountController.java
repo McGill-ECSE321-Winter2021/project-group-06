@@ -43,6 +43,7 @@ public class AdminAccountController {
 	
 	/**
 	 * Return a list of all Admin Account Dtos 
+	 * @author Catherine
 	 * @return list of Admin Dtos
 	 */
 	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
@@ -52,6 +53,7 @@ public class AdminAccountController {
 
 	/**
 	 * Return the admin account with specified username
+	 * @author Catherine
 	 * @param username
 	 * @return Admin Dto
 	 */
@@ -61,6 +63,7 @@ public class AdminAccountController {
 	}
 	/**
 	 * Return a list of all Admin Accounts with specified name
+	 * @author Catherine
 	 * @param name
 	 * @return list of Admin Dtos
 	 */
@@ -71,10 +74,11 @@ public class AdminAccountController {
 	
 	/**
 	 * Create an Admin Account Dto with provided parameters
+	 * @author Catherine
 	 * @param username
 	 * @param password
 	 * @param name
-	 * @return
+	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
@@ -84,8 +88,15 @@ public class AdminAccountController {
 	}
 
 	
-	/*
+	/**
 	 * Update an Admin Account Dto with provided parameters
+	 * @author Catherine
+	 * @param currentUsername
+	 * @param newUsername
+	 * @param newPassword
+	 * @param newName
+	 * @return Admin Account Dto
+	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
 	public AdminAccountDto updateAdminAccount(@PathVariable("username") String currentUsername, @RequestParam String newUsername, @RequestParam String newPassword, @RequestParam String newName) throws InvalidInputException {
@@ -93,8 +104,12 @@ public class AdminAccountController {
 		return convertToDto(user);
 	}
 
-	/*
-	 * Delete an Admin Account Dto
+	/**
+	 * Delete admin account
+	 * @author Catherine
+	 * @param username
+	 * @return boolean if successful
+	 * @throws InvalidInputException
 	 */
 	@DeleteMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
 	public boolean deleteAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
@@ -108,6 +123,7 @@ public class AdminAccountController {
 	
 	/**
 	 * Helper Method to convert an admin account to a Dto
+	 * @author Catherine
 	 * @param user
 	 * @return
 	 */
@@ -123,6 +139,7 @@ public class AdminAccountController {
 	/**
 	 * Helper Method to convert a business info to a Dto
 	 * Will return null if you pass null
+	 * @author Catherine
 	 * @param businessInformation
 	 * @return
 	 */

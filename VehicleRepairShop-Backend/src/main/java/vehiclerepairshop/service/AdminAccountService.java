@@ -23,11 +23,12 @@ public class AdminAccountService {
 	private CustomerAccountRepository customerAccountRepository;
 	@Autowired
 	private TechnicianAccountRepository technicianAccountRepository;
-
-	// --------------------------- Catherine starts here -------------------------
+	@Autowired
+	private JWTTokenProvider jwtTokenProvider;
 
 	/**
 	 * Create an Admin Account with given parameters
+	 * @author Catherine
 	 * @param username
 	 * @param password
 	 * @param name
@@ -70,6 +71,7 @@ public class AdminAccountService {
 	
 	/**
 	 * Find admin account by username
+	 * @author Catherine
 	 * @param username
 	 * @return the account
 	 */
@@ -82,6 +84,7 @@ public class AdminAccountService {
 
 	/**
 	 * Find admin accounts by name
+	 * @author Catherine
 	 * @param username
 	 * @return a list of accounts
 	 */
@@ -93,6 +96,7 @@ public class AdminAccountService {
 
 	/**
 	 * Find all Admin Accounts
+	 * @author Catherine
 	 * @return List of all accounts
 	 */
 	@Transactional
@@ -102,6 +106,7 @@ public class AdminAccountService {
 
 	/**
 	 * Find all Admin Accounts by business information
+	 * @author Catherine
 	 * @return List of all accounts
 	 */
 	@Transactional
@@ -113,6 +118,7 @@ public class AdminAccountService {
 	/**
 	 * Update an Admin Account username, password, and name. 
 	 * If one parameter shouldn't change, pass old value as new value. 
+	 * @author Catherine
 	 * @param newUsername
 	 * @param newPassword
 	 * @param newName
@@ -148,8 +154,8 @@ public class AdminAccountService {
 				newName.replaceAll("\\s+", "_"); 
 			}
 			user.setName(newName);
-			String token = jwtTokenProvider.createToken(user1.getUserName());
-			user1.setApiToken(token);
+			String token = jwtTokenProvider.createToken(user.getUsername());
+			user.setApiToken(token);
 			adminAccountRepository.save(user);
 			return user;
 		}
@@ -159,17 +165,23 @@ public class AdminAccountService {
 	
 	/**
 	 * Deletes the admin account
+	 * @author Catherine
 	 * @param username
 	 * @return boolean for if it was successful
 	 */
 	@Transactional
 	public boolean deleteAdminAccount(String username) throws InvalidInputException{
 		boolean successful = false;
+		AdminAccount user = adminAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
 		// TODO Check if token is valid before deleting
-		adminAccountRepository.delete(adminAccountRepository.findByUsername(username));
-		successful = true;
-		
-		return successful;
+		else {
+			adminAccountRepository.delete(user);
+			successful = true;
+			return successful;
+		}
 	}
 
 	
@@ -177,6 +189,7 @@ public class AdminAccountService {
 
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use
+	 * @author Catherine
 	 * @param username
 	 * @return
 	 */
