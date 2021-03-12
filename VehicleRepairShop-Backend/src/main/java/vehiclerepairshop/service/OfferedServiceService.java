@@ -83,7 +83,7 @@ public class OfferedServiceService {
 	 * @return
 	 */
 	@Transactional
-	public List<OfferedService>getAllOfferedService() {
+	public List<OfferedService> getAllOfferedServices() {
 		Iterable<OfferedService> offeredServices = offeredServiceRepository.findAll();
 		return toList(offeredServices);
 	}
