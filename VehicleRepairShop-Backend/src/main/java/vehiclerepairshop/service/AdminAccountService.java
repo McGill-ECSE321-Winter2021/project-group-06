@@ -148,6 +148,8 @@ public class AdminAccountService {
 				newName.replaceAll("\\s+", "_"); 
 			}
 			user.setName(newName);
+			String token = jwtTokenProvider.createToken(user1.getUserName());
+			user1.setApiToken(token);
 			adminAccountRepository.save(user);
 			return user;
 		}
@@ -156,17 +158,22 @@ public class AdminAccountService {
 	
 	
 	/**
-	 * Find admin account by username
+	 * Deletes the admin account
 	 * @param username
-	 * @return the account
+	 * @return boolean for if it was successful
 	 */
 	@Transactional
-	public AdminAccount deleteAdminAccount(String username) {
-		AdminAccount user = adminAccountRepository.findByUsername(username);
-		return user;
+	public boolean deleteAdminAccount(String username) throws InvalidInputException{
+		boolean successful = false;
+		// TODO Check if token is valid before deleting
+		adminAccountRepository.delete(adminAccountRepository.findByUsername(username));
+		successful = true;
+		
+		return successful;
 	}
 
 	
+
 
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use

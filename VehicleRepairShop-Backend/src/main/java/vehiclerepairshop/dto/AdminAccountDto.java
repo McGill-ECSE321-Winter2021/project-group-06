@@ -7,7 +7,9 @@ public class AdminAccountDto {
 	private String username;
 	private String password;
 	private String name;
+	private String token;
 	private BusinessInformationDto businessInformationDTO; 
+	
 
 	public AdminAccountDto() {
 	}
@@ -53,6 +55,14 @@ public class AdminAccountDto {
 	
 	public void setBusinessInformation(BusinessInformationDto businessInfo) {
 		this.businessInformationDTO = businessInfo;
+	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 }

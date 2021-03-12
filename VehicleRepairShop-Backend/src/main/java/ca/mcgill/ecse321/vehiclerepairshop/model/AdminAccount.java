@@ -11,6 +11,7 @@ public class AdminAccount
 	private String password;
 	private String username;
 	private BusinessInformation businessInformation;
+	private String apiToken;
 
 	public void setName(String aName)
 	{
@@ -55,5 +56,14 @@ public class AdminAccount
 	{
 
 		return this.businessInformation;
+	}
+	
+
+	public void setApiToken(String value) {
+		this.apiToken = value;
+	}
+
+	public String getApiToken() {
+		return this.apiToken;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,26 +30,52 @@ public class AdminAccountController {
 //	@Autowired
 //	private JWTTokenProvider jwtTokenProvider;
 
-	//create
-	//delete
-	//update
-	//login
+	//create -- done
+	//delete -- done
+	//update -- done
+	//login 
 	//logout
-	//get
-	//get all
-	//valid user/token
+	//valid user/token 
+	//get by username -- done
+	//get by name -- done
+	//get all -- done
+
 	
 	/**
 	 * Return a list of all Admin Account Dtos 
-	 * @return
+	 * @return list of Admin Dtos
 	 */
 	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
 	public List<AdminAccountDto> getAllAdminAccounts() {
 		return adminAccountService.getAllAdminAccounts().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 
-	/*
+	/**
+	 * Return the admin account with specified username
+	 * @param username
+	 * @return Admin Dto
+	 */
+	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
+	public AdminAccountDto getAdminAccountByUsername(@PathVariable("username") String username) {
+		return convertToDto(adminAccountService.getAdminAccountByUsername(username));
+	}
+	/**
+	 * Return a list of all Admin Accounts with specified name
+	 * @param name
+	 * @return list of Admin Dtos
+	 */
+	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
+	public List<AdminAccountDto> getAdminAccountsByName(@RequestParam String name) {
+		return adminAccountService.getAdminAccountsByName(name).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	
+	/**
 	 * Create an Admin Account Dto with provided parameters
+	 * @param username
+	 * @param password
+	 * @param name
+	 * @return
+	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
 	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @RequestParam String password, @RequestParam String name) throws InvalidInputException {
@@ -56,6 +83,29 @@ public class AdminAccountController {
 		return convertToDto(user);
 	}
 
+	
+	/*
+	 * Update an Admin Account Dto with provided parameters
+	 */
+	@PostMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
+	public AdminAccountDto updateAdminAccount(@PathVariable("username") String currentUsername, @RequestParam String newUsername, @RequestParam String newPassword, @RequestParam String newName) throws InvalidInputException {
+		AdminAccount user = adminAccountService.updateAdminAccount(currentUsername, newUsername, newPassword, newName);
+		return convertToDto(user);
+	}
+
+	/*
+	 * Delete an Admin Account Dto
+	 */
+	@DeleteMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
+	public boolean deleteAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
+		boolean successful = adminAccountService.deleteAdminAccount(username);
+		return successful;
+	}
+	
+	
+	
+	//-------------------------- Helper Methods -----------------------------
+	
 	/**
 	 * Helper Method to convert an admin account to a Dto
 	 * @param user
@@ -86,11 +136,6 @@ public class AdminAccountController {
 		}
 	}
 
-//	private BusinessInformationDto createBusinessInformationDtosForAdminAccount(AdminAccount user) {
-//		BusinessInformation businessInfo = adminAccountService.getAdminAccountByUsername(user.getUsername()).getBusinessInformation();
-//		return null;
-//
-//	}	
 		
 		
 }
