@@ -24,7 +24,7 @@ public class AdminAccountService {
 	@Autowired
 	private TechnicianAccountRepository technicianAccountRepository;
 	@Autowired
-	private JWTTokenProvider jwtTokenProvider;
+	private AuthenticationService authenticationService;
 
 	/**
 	 * Create an Admin Account with given parameters
@@ -64,6 +64,7 @@ public class AdminAccountService {
 			}
 			user.setName(name);
 			adminAccountRepository.save(user);
+			authenticationService.createToken(user.getUsername());
 			return user;
 		}
 	}
@@ -148,14 +149,13 @@ public class AdminAccountService {
 		}
 		else {
 			AdminAccount user = adminAccountRepository.findByUsername(currentUsername);
+			authenticationService.createToken(currentUsername);
 			user.setUsername(newUsername);
 			user.setPassword(newPassword);
 			if (newName.contains(" ")) {
 				newName.replaceAll("\\s+", "_"); 
 			}
 			user.setName(newName);
-			String token = jwtTokenProvider.createToken(user.getUsername());
-			user.setApiToken(token);
 			adminAccountRepository.save(user);
 			return user;
 		}

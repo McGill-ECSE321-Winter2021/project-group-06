@@ -13,6 +13,7 @@ public class CustomerAccount
   private String name;
   private String password;
   private String username;
+  private int token;
 
   
   public void setName(String aName)
@@ -57,5 +58,12 @@ public class CustomerAccount
 	  this.car = aCar;
   }
   
+  public void setToken(int token) {
+	  this.token = token;
+  }
 
+  public int getToken() {
+	  return this.token;
+  }
 }
+
