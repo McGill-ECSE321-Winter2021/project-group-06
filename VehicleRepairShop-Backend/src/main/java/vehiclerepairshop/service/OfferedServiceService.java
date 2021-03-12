@@ -18,6 +18,11 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
+/**
+ * 
+ * @author mikewang
+ *
+ */
 public class OfferedServiceService {
 	@Autowired
 	private OfferedServiceRepository offeredServiceRepository;
@@ -83,10 +88,15 @@ public class OfferedServiceService {
 		return toList(offeredServices);
 	}
 	
-//	public void deleteOfferedService(String serviceId) {
-//		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
-//		offeredService.delete();
-//	}
+	/**
+	 * delete service in the repository 
+	 * @param serviceId
+	 */
+	@Transactional
+	public void deleteOfferedService(String serviceId) {
+		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
+		offeredServiceRepository.delete(offeredService);
+	}
 	
 	/**
 	 * update service information by offering new information and offeredServiceId
@@ -98,6 +108,7 @@ public class OfferedServiceService {
 	 * @param newReminderDate
 	 * @param newDescription
 	 */
+	@Transactional
 	public void updateService(String serviceId, String newPrice, String newName, String newDuration, Time newReminderTime, Date newReminderDate, String newDescription) {
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		offeredService.setPrice(newPrice);
