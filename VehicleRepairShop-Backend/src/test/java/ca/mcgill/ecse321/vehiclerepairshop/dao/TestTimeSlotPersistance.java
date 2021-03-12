@@ -35,6 +35,7 @@ public class TestTimeSlotPersistance {
 	 * @author: James Darby
 	 */
 
+	//tests finding timeslot by timeSlotId
 	@Test
 	public void testPersistAndLoadTimeSlot() {
 
