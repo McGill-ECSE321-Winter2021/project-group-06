@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import vehiclerepairshop.dto.AppointmentDto;
-import vehiclerepairshop.dto.OfferServiceDto;
+import vehiclerepairshop.dto.OfferedServiceDto;
 
-import vehiclerepairshop.service.VehicleRepairShopService;
 
 @CrossOrigin(origins = "*")
 @RestController
