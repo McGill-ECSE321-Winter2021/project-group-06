@@ -107,6 +107,7 @@ public class OfferServiceDto {
 		this.appointments = appointments;
 	}
 	
+	
 //	public void deleteOfferedService() {
 //		this.delete();
 //	}
