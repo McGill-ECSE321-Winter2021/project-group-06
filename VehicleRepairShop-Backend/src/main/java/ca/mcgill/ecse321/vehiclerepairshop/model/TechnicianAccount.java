@@ -10,6 +10,7 @@ public class TechnicianAccount
 	private String name;
 	  private String password;
 	  private String username;
+	  private int token;
 
 	  
 	  public void setName(String aName)
@@ -66,5 +67,11 @@ public class TechnicianAccount
 	  this.appointment =  appointment;
   }
 
+  public void setToken(int token) {
+	  this.token = token;
+  }
 
+  public int getToken() {
+	  return this.token;
+  }
 }

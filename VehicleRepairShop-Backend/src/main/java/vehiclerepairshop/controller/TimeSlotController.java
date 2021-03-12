@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import vehiclerepairshop.service.VehicleRepairShopService;
-
 /**
  * 
  * @author chengchen
@@ -16,7 +14,7 @@ import vehiclerepairshop.service.VehicleRepairShopService;
 public class TimeSlotController {
 	
 	@Autowired
-	private VehicleRepairShopService service;
+	private TimeSlotController service;
 	
 	
 
