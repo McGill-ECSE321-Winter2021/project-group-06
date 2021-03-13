@@ -17,16 +17,16 @@ public class CarDto {
 	  private CustomerAccount owner;
 	  private List<AppointmentDto> appointmentsDTO;
 	  
-	  CarDto(){
+	  public CarDto(){
 		  
 	  }
 	  
 	  @SuppressWarnings("unchecked")
-	  CarDto(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner){
+	  public CarDto(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner){
 		  this(licensePlate, model, year, motorType, owner, Collections.EMPTY_LIST);  
 	  }
 	  
-	  CarDto(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner, List<AppointmentDto> appointments){
+	  public CarDto(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner, List<AppointmentDto> appointments){
 		  this.licensePlate = licensePlate;
 		  this.model = model;
 		  this.year = year;
@@ -35,51 +35,51 @@ public class CarDto {
 		  this.appointmentsDTO = appointments;		  
 	  }
 	  
-	  String getLicensePlate(){
+	  public String getLicensePlate(){
 		  return licensePlate;
 	  }
 	  
-	  String getModel() {
+	  public String getModel() {
 		  return model;
 	  }
 	  
-	  int getYear() {
+	  public int getYear() {
 		  return year;
 	  }
 	  
-	  MotorType getMotorType() {
+	  public MotorType getMotorType() {
 		  return motorType;
 	  }
 	  
-	  CustomerAccount getOwner() {
+	  public CustomerAccount getOwner() {
 		  return owner;
 	  }
 	  
-	  List<AppointmentDto> getAppointments(){
+	  public List<AppointmentDto> getAppointments(){
 		  return appointmentsDTO;
 	  }
 	  
-	  void setLicensePlate(String licensePlate) {
+	  public void setLicensePlate(String licensePlate) {
 		  this.licensePlate = licensePlate;
 	  }
 	  
-	  void setModel(String model) {
+	  public void setModel(String model) {
 		  this.model = model;
 	  }
 	  
-	  void setYear(int year) {
+	  public void setYear(int year) {
 		  this.year = year;
 	  }
 	  
-	  void setOwner(CustomerAccount owner) {
+	  public void setOwner(CustomerAccount owner) {
 		  this.owner = owner;
 	  }
 	  
-	  void setAppointments(List<AppointmentDto> appointments) {
+	  public void setAppointments(List<AppointmentDto> appointments) {
 		  appointmentsDTO = appointments;
 	  }
 	  
-	  void addAppointments(List<AppointmentDto> appointments) {
+	  public void addAppointments(List<AppointmentDto> appointments) {
 		  appointmentsDTO.addAll(appointments);
 	  }
 

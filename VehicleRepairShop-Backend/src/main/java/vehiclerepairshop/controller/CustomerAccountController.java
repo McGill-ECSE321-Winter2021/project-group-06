@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
+import vehiclerepairshop.dto.AppointmentDto;
 import vehiclerepairshop.dto.CarDto;
 import vehiclerepairshop.dto.CustomerAccountDto;
 import vehiclerepairshop.service.CustomerAccountService;
@@ -173,8 +175,26 @@ public class CustomerAccountController {
 			}
 			else {
 				// TODO add car attributes once CarDto is finished
-				CarDto carDto = new CarDto();
+				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
 				return carDto;
+			}
+		}
+		
+		/**
+		 * Helper Method to convert an appointment to a Dto
+		 * Will return null if you pass null
+		 * @author Catherine
+		 * @param car
+		 * @return
+		 */
+		private AppointmentDto convertToDto(Appointment apt)  {
+			if (apt == null) {
+				return null;
+			}
+			else {
+				// TODO add appointment attributes once AppointmentDto is finished
+				AppointmentDto aptDto = new AppointmentDto();
+				return aptDto;
 			}
 		}
 
