@@ -14,7 +14,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -597,7 +599,77 @@ public class TestOfferedServiceService {
 		assertEquals(extractedOfferedService.getOfferedServiceId(),offeredService.getOfferedServiceId() );
 	}
 	
+	/**
+	 * testing getting offered service with valid appointment input 
+	 */
+	@Test
+	public void testGetOfferedServiceWithValidAppointment() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = null;
+		OfferedService extractedOfferedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		Appointment apt = new Appointment();
+		apt.setAppointmentId(APPOINTMENT_KEY);
+		appointmentDao.save(apt);
+		List<Appointment> appointments = new ArrayList<Appointment>();
+		appointments.add(apt);
+		offeredService.setAppointment(appointments);
+		try {
+			extractedOfferedService = offeredServiceService.getOfferedServiceByAppointment(apt);
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(extractedOfferedService);
+		assertEquals(extractedOfferedService.getOfferedServiceId(),offeredService.getOfferedServiceId() );
+	}
 	
+	
+	/**
+	 * testing getting offered service with null appointment input 
+	 */
+	@Test
+	public void testGetOfferedServiceWithNullAppointment() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = null;
+		OfferedService extractedOfferedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		Appointment apt = null;
+		appointmentDao.save(apt);
+		List<Appointment> appointments = new ArrayList<Appointment>();
+		appointments.add(apt);
+		offeredService.setAppointment(appointments);
+		try {
+			extractedOfferedService = offeredServiceService.getOfferedServiceByAppointment(apt);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(extractedOfferedService);
+		assertEquals("appointment cannot be null!", error);
+	}
+	
+	
+
 	
 	
 	/**
