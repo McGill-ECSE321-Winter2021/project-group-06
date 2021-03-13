@@ -7,8 +7,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 
 public class CarDto {
-
-
+	
 	  private String licensePlate;
 	  private String model;
 	  private int year;
@@ -17,7 +16,7 @@ public class CarDto {
 	  private CustomerAccount owner;
 	  private List<AppointmentDto> appointmentsDTO;
 	  
-	  CarDto(){
+	  public CarDto(){
 		  
 	  }
 	  

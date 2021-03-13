@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
@@ -25,18 +24,6 @@ public class AdminAccountController {
 
 	@Autowired
 	private AdminAccountService adminAccountService;
-	
-
-	//create -- to fix
-	//delete -- to fix
-	//update (username and password) -- to fix
-	//login 
-	//logout
-	//valid user/token 
-	//get by username -- to fix
-	//get by name -- to fix
-	//get all -- done
-	//change name
 
 	
 	/**
@@ -44,7 +31,7 @@ public class AdminAccountController {
 	 * @author Catherine
 	 * @return list of Admin Dtos
 	 */
-	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
+	@GetMapping(value = { "/adminAccounts", "/adminAccounts/" })
 	public List<AdminAccountDto> getAllAdminAccounts() {
 		return adminAccountService.getAllAdminAccounts().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
@@ -55,18 +42,19 @@ public class AdminAccountController {
 	 * @param username
 	 * @return Admin Dto
 	 */
-	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
+	@GetMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
 	public AdminAccountDto getAdminAccountByUsername(@PathVariable("username") String username) {
 		return convertToDto(adminAccountService.getAdminAccountByUsername(username));
 	}
+	
 	/**
 	 * Return a list of all Admin Accounts with specified name
 	 * @author Catherine
 	 * @param name
 	 * @return list of Admin Dtos
 	 */
-	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
-	public List<AdminAccountDto> getAdminAccountsByName(@RequestParam String name) {
+	@GetMapping(value = { "/adminAccounts/{name}", "/adminAccounts/{name}" })
+	public List<AdminAccountDto> getAdminAccountsByName(@PathVariable("name") String name) {
 		return adminAccountService.getAdminAccountsByName(name).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
@@ -79,15 +67,16 @@ public class AdminAccountController {
 	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
-	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @RequestParam String password, @RequestParam String name) throws InvalidInputException {
+	@PostMapping(value = { "/adminAccount/{username}/{password}/{name}", "/adminAccount/{username}/{password}/{name}/" })
+	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name) throws InvalidInputException {
 		AdminAccount user = adminAccountService.createAdminAccount(username, password, name);
 		return convertToDto(user);
 	}
 
 	
 	/**
-	 * Update an Admin Account Dto with provided parameters
+	 * Update an Admin Account Dto username, password, and name
+	 * If not changing something, pass old value
 	 * @author Catherine
 	 * @param currentUsername
 	 * @param newUsername
@@ -96,8 +85,8 @@ public class AdminAccountController {
 	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
-	public AdminAccountDto updateAdminAccount(@PathVariable("username") String currentUsername, @RequestParam String newUsername, @RequestParam String newPassword, @RequestParam String newName) throws InvalidInputException {
+	@PostMapping(value = {"/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}", "/adminAccount/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
+	public AdminAccountDto updateAdminAccount(@PathVariable("currentUsername") String currentUsername, @PathVariable("newUsername") String newUsername, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) throws InvalidInputException {
 		AdminAccount user = adminAccountService.updateAdminAccount(currentUsername, newUsername, newPassword, newName);
 		return convertToDto(user);
 	}
@@ -109,12 +98,51 @@ public class AdminAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@DeleteMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
+	@DeleteMapping(value = { "/deleteAdminAccount/{username}", "/adminAccount/deleteAdminAccount/{username}/" })
 	public boolean deleteAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
 		boolean successful = adminAccountService.deleteAdminAccount(username);
 		return successful;
 	}
 	
+	/**
+	 * Login and generate token
+	 * @author Catherine
+	 * @param username
+	 * @param password
+	 * @return boolean if successful
+	 * @throws InvalidInputException
+	 */
+	@PostMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}/" })
+	public boolean loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
+		boolean successful = adminAccountService.loginAdminAccount(username, password);
+		return successful;
+	}
+	
+	/**
+	 * Logout and delete token
+	 * @author Catherine
+	 * @param username
+	 * @return boolean if successful
+	 * @throws InvalidInputException
+	 */
+	@PostMapping(value = {"/logoutAdminAccount/{username}", "/logoutAdminAccount/{username}/" })
+	public boolean logoutAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
+		boolean successful = adminAccountService.logoutAdminAccount(username);
+		return successful;
+	}
+	
+	/**
+	 * Authenticate token
+	 * @author Catherine
+	 * @param username
+	 * @return boolean authenticity
+	 * @throws InvalidInputException
+	 */
+	@PostMapping(value = {"/authenticateAdminAccount/{username}", "/authenticateAdminAccount/{username}/" })
+	public boolean authenticateAdminAccount(@PathVariable("username") String username) throws InvalidInputException{
+		boolean authentic = adminAccountService.authenticateAdminAccount(username);
+		return authentic;
+	}
 	
 	
 	//-------------------------- Helper Methods -----------------------------

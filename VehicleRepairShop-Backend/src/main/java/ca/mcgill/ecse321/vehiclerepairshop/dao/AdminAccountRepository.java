@@ -11,5 +11,5 @@ public interface AdminAccountRepository extends CrudRepository<AdminAccount, Str
 	AdminAccount findByUsername(String username); 
 	boolean existsByBusinessInformation(BusinessInformation businessInformation);
 	List<AdminAccount> findByBusinessInformation(BusinessInformation businessInformation);
-	AdminAccount findByApiToken(String token);
+	AdminAccount findByToken(int token);
 }
