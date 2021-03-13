@@ -50,6 +50,9 @@ public class OfferedServiceService {
 		if (price == null) {
 			error = error + "price cannot be empty!";
 		}
+		if (price < 0.0) {
+			error = error + "price cannot be Negative!";
+		}
 		if (name == null || name.trim().length()==0) {
 			error = error + "name cannot be empty!";
 		}
@@ -67,6 +70,9 @@ public class OfferedServiceService {
 		}
 		if (reminderDate < 0) {
 			error = error + "reminderDate cannot be negative!";
+		}
+		if (description == null || description.trim().length()==0) {
+			error = error + "Offered service description cannot be empty!";
 		}
 		if (error.length()>0) {
 			throw new IllegalArgumentException(error);
