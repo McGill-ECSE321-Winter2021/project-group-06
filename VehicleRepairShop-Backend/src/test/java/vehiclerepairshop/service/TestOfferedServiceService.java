@@ -508,6 +508,10 @@ public class TestOfferedServiceService {
 		assertEquals("Offered service description cannot be empty!", error);
 	}
 	
+	
+	/**
+	 * testing getOfferedService with empty offeredServiceId
+	 */
 	@Test
 	public void testGetOfferedServiceWithEmptyOfferedServiceId() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -534,6 +538,10 @@ public class TestOfferedServiceService {
 		assertEquals("offeredServiceId cannot be null!", error);
 	}
 	
+	
+	/**
+	 * testing getOfferedService with space offeredServiceId
+	 */
 	@Test
 	public void testGetOfferedServiceWithSpaceOfferedServiceId() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -560,6 +568,10 @@ public class TestOfferedServiceService {
 		assertEquals("offeredServiceId cannot be null!", error);
 	}
 	
+	
+	/**
+	 * testing getOfferedService with valid offeredServiceId
+	 */
 	@Test
 	public void testGetOfferedServiceWithValidOfferedServiceId() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -583,8 +595,10 @@ public class TestOfferedServiceService {
 		}
 		assertNotNull(extractedOfferedService);
 		assertEquals(extractedOfferedService.getOfferedServiceId(),offeredService.getOfferedServiceId() );
-		
 	}
+	
+	
+	
 	
 	/**
 	 * testing to extract an existing offered service 
