@@ -508,7 +508,105 @@ public class TestOfferedServiceService {
 		assertEquals("Offered service description cannot be empty!", error);
 	}
 	
-	//------- helper method ------------------
+	@Test
+	public void testGetOfferedServiceWithEmptyOfferedServiceId() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "Test1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = null;
+		OfferedService extractedOfferedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedSeriveId("");
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(extractedOfferedService);
+		assertEquals("offeredServiceId cannot be null!", error);
+	}
+	
+	@Test
+	public void testGetOfferedServiceWithSpaceOfferedServiceId() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "Test1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = null;
+		OfferedService extractedOfferedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedSeriveId(" ");
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(extractedOfferedService);
+		assertEquals("offeredServiceId cannot be null!", error);
+	}
+	
+	@Test
+	public void testGetOfferedServiceWithValidOfferedServiceId() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = null;
+		OfferedService extractedOfferedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedSeriveId("Test1");
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(extractedOfferedService);
+		assertEquals(extractedOfferedService.getOfferedServiceId(),offeredService.getOfferedServiceId() );
+		
+	}
+	
+	/**
+	 * testing to extract an existing offered service 
+	 */
+	@Test
+	public void testGetExistingOfferedService() {
+		assertEquals(OFFERED_SERVICE_KEY, offeredServiceService.getOfferedServiceByOfferedSeriveId(OFFERED_SERVICE_KEY).getOfferedServiceId());
+	}
+	
+	
+	/**
+	 * testing to extract an non-existing offered service
+	 */
+	
+	@Test
+	public void testGetNonExistingOfferedService() {
+		assertNull(offeredServiceService.getOfferedServiceByOfferedSeriveId(NONEXISTING_KEY));
+	}
+	
+	
+	
+	//----------------------------------- helper method --------------------------------------------------
 	
 	/**
 	 * This is a helper method which can help us determine if all the attribute statisfies the input value
@@ -532,7 +630,6 @@ public class TestOfferedServiceService {
 		assertEquals(description, offeredService.getDescription());
 	}
 	
-	
-	
+
 }
 	
