@@ -9,8 +9,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -93,7 +95,7 @@ public class OfferedServiceController {
 	 * @param description
 	 * @return
 	 */
-	@GetMapping(value = {"/updateOfferedService/{offeredServiceId}{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
+	@PostMapping(value = {"/updateOfferedService/{offeredServiceId}{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
 			"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
 												@PathVariable("price")String price, 
@@ -120,13 +122,13 @@ public class OfferedServiceController {
 	 * @param description
 	 * @return
 	 */
-	@GetMapping(value = {"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
+	@PostMapping(value = {"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
 			"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto createOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
 													@PathVariable("price")String price, 
 													@PathVariable("name")String name, 
 													@PathVariable("duration")int duration, 
-													@PathVariable("reminderTime")Time reminderTime, 
+													@PathVariable("reminderTime")@DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")Time reminderTime, 
 													@PathVariable("reminderDate")int reminderDate,
 													@PathVariable("description")String description) {
 		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
@@ -134,6 +136,9 @@ public class OfferedServiceController {
 		OfferedServiceDto createdOfferedServiceDto = convertToDto(createdOfferedService);
 		return createdOfferedServiceDto;
 	}
+	
+
+
 	
 	
 	
@@ -143,7 +148,7 @@ public class OfferedServiceController {
 	 * @return
 	 * @throws InvalidInputException
 	 */
-	@GetMapping(value = {"/deleteOfferedServiceById/{offeredServiceId}", "/deleteOfferedServiceById/{offeredServiceId}/"})
+	@DeleteMapping(value = {"/deleteOfferedServiceById/{offeredServiceId}", "/deleteOfferedServiceById/{offeredServiceId}/"})
 	public Boolean deleteOfferedServiceById(@PathVariable("offeredServiceId") String offeredServiceId) throws InvalidInputException{
 		Boolean isDeleted = false;  
 		 try {
@@ -188,8 +193,8 @@ public class OfferedServiceController {
 			throw new IllegalArgumentException("There is no such appointmentDto!");
 		}
 		
-		// Appointment appointment = AppointmentService.getAppointmentById(a.getId());
-		return null;
+		Appointment appointment = appointmentService.getAppointmentById(a.getAppointmentId());
+		return appointment;
 	}
 	
 }
