@@ -57,23 +57,23 @@ public class AuthenticationService {
 	 * @param username
 	 * @return boolean for authenticity
 	 */
-	public boolean authenticateToken(int token, String username){
+	public boolean authenticateToken(String username){
 		boolean isAuthentic = false;
 		if (adminAccountRepository.findByUsername(username) != null) {
 			AdminAccount user = adminAccountRepository.findByUsername(username);
-			if (user.getToken() == token) {
+			if (user.getToken() != 0) {
 				isAuthentic = true;
 			}
 		}
 		else if (customerAccountRepository.findByUsername(username) != null) {
 			CustomerAccount user = customerAccountRepository.findByUsername(username);
-			if (user.getToken() == token) {
+			if (user.getToken() != 0) {
 				isAuthentic = true;
 			}
 		}
 		else if (technicianAccountRepository.findByUsername(username) != null) {
 			TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-			if (user.getToken() == token) {
+			if (user.getToken() != 0) {
 				isAuthentic = true;
 			}
 		}

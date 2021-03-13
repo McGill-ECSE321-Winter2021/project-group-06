@@ -176,7 +176,9 @@ public class AdminAccountService {
 		if(user == null) {
 			throw new InvalidInputException("The user cannot be found.");
 		}
-		// TODO Check if token is valid before deleting
+		else if (!authenticationService.authenticateToken(username)) {
+			throw new InvalidInputException("You do not have permission to delete this account.");
+		}
 		else {
 			adminAccountRepository.delete(user);
 			successful = true;
@@ -184,8 +186,47 @@ public class AdminAccountService {
 		}
 	}
 
+	/**
+	 * Login the account and create a token for the account
+	 * @param username
+	 * @param password
+	 * @return boolean for success
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean loginAdminAccount(String username, String password) throws InvalidInputException{
+		boolean successful = false;
+		AdminAccount user = adminAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			successful = authenticationService.login(username, password);
+			return successful;
+		}
+	}
 	
-
+	/**
+	 * Logout the account and delete token for the account
+	 * @param username
+	 * @param password
+	 * @return boolean for success
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean logoutAdminAccount(String username) throws InvalidInputException{
+		boolean successful = false;
+		AdminAccount user = adminAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			successful = authenticationService.logout(username);
+			return successful;
+		}
+	}
+	
+	//----------------------------- Helper Methods --------------------------------
 
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use

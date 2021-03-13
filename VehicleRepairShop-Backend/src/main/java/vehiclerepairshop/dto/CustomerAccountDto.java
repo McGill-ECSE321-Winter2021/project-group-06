@@ -9,6 +9,7 @@ public class CustomerAccountDto {
 	private String username;
 	private String password;
 	private String name;
+	private int token;
 	private List<CarDto> carsDTO;
 
 	public CustomerAccountDto() {
@@ -40,6 +41,14 @@ public class CustomerAccountDto {
 	
 	public List<CarDto> getCars() {
 		return carsDTO;
+	}
+	
+	public int getToken() {
+		return token;
+	}
+
+	public void setToken(int token) {
+		this.token = token;
 	}
 	
 	public void setUsername(String username) {

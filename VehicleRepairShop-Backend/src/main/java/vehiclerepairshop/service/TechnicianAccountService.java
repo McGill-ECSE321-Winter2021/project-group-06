@@ -24,6 +24,8 @@ public class TechnicianAccountService {
 	private CustomerAccountRepository customerAccountRepository;
 	@Autowired
 	private TechnicianAccountRepository technicianAccountRepository;
+	@Autowired
+	private AuthenticationService authenticationService;
 
 
 	/**
@@ -64,6 +66,7 @@ public class TechnicianAccountService {
 			}
 			user.setName(name);
 			technicianAccountRepository.save(user);
+			authenticationService.createToken(user.getUsername());
 			return user;
 		}
 	}
@@ -148,6 +151,7 @@ public class TechnicianAccountService {
 		}
 		else {
 			TechnicianAccount user = technicianAccountRepository.findByUsername(currentUsername);
+			authenticationService.createToken(currentUsername);
 			user.setUsername(newUsername);
 			user.setPassword(newPassword);
 			if (newName.contains(" ")) {
@@ -162,16 +166,72 @@ public class TechnicianAccountService {
 	
 	
 	/**
-	 * Find technician account by username
+	 * Delete the account
 	 * @author Catherine
 	 * @param username
-	 * @return the account
+	 * @return boolean for successful
+	 * @throws InvalidInputException 
 	 */
 	@Transactional
-	public TechnicianAccount deleteTechnicianAccount(String username) {
+	public boolean deleteTechnicianAccount(String username) throws InvalidInputException {
+		boolean successful = false;
 		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-		return user;
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else if (!authenticationService.authenticateToken(username)) {
+			throw new InvalidInputException("You do not have permission to delete this account.");
+		}
+		else {
+			technicianAccountRepository.delete(user);
+			successful = true;
+			return successful;
+		}
 	}
+	
+	/**
+	 * Login the account and create a token for the account
+	 * @author Catherine
+	 * @param username
+	 * @param password
+	 * @return boolean for success
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean loginAdminAccount(String username, String password) throws InvalidInputException{
+		boolean successful = false;
+		AdminAccount user = adminAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			successful = authenticationService.login(username, password);
+			return successful;
+		}
+	}
+	
+	/**
+	 * Logout the account and delete token for the account
+	 * @author Catherine
+	 * @param username
+	 * @param password
+	 * @return boolean for success
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean logoutAdminAccount(String username) throws InvalidInputException{
+		boolean successful = false;
+		AdminAccount user = adminAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			successful = authenticationService.logout(username);
+			return successful;
+		}
+	}
+	
+	//----------------------------- Helper Methods --------------------------------
 	
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use
