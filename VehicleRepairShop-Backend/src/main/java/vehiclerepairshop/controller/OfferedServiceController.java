@@ -188,8 +188,8 @@ public class OfferedServiceController {
 			throw new IllegalArgumentException("There is no such appointmentDto!");
 		}
 		
-		// Appointment appointment = AppointmentService.getAppointmentById(a.getId());
-		return null;
+		Appointment appointment = appointmentService.getAppointmentById(a.getAppointmentId());
+		return appointment;
 	}
 	
 }
