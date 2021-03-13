@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import vehiclerepairshop.dto.AdminAccountDto;
+import vehiclerepairshop.dto.AppointmentDto;
 import vehiclerepairshop.dto.BusinessInformationDto;
 import vehiclerepairshop.service.AdminAccountService;
+import vehiclerepairshop.service.BusinessInformationService;
 import vehiclerepairshop.service.InvalidInputException;
 
 @CrossOrigin(origins = "*")
@@ -24,6 +28,8 @@ public class AdminAccountController {
 
 	@Autowired
 	private AdminAccountService adminAccountService;
+	@Autowired
+	private BusinessInformationService businessInformationService;
 
 	
 	/**
@@ -31,7 +37,7 @@ public class AdminAccountController {
 	 * @author Catherine
 	 * @return list of Admin Dtos
 	 */
-	@GetMapping(value = { "/adminAccounts", "/adminAccounts/" })
+	@GetMapping(value = { "/getAllAdminAccounts", "/getAllAdminAccounts/" })
 	public List<AdminAccountDto> getAllAdminAccounts() {
 		return adminAccountService.getAllAdminAccounts().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
@@ -42,7 +48,7 @@ public class AdminAccountController {
 	 * @param username
 	 * @return Admin Dto
 	 */
-	@GetMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
+	@GetMapping(value = { "/getAdminAccountByUsername/{username}", "/getAdminAccountByUsername/{username}/" })
 	public AdminAccountDto getAdminAccountByUsername(@PathVariable("username") String username) {
 		return convertToDto(adminAccountService.getAdminAccountByUsername(username));
 	}
@@ -53,7 +59,7 @@ public class AdminAccountController {
 	 * @param name
 	 * @return list of Admin Dtos
 	 */
-	@GetMapping(value = { "/adminAccounts/{name}", "/adminAccounts/{name}" })
+	@GetMapping(value = { "/getAdminAccountsByName/{name}", "/getAdminAccountsByName/{name}" })
 	public List<AdminAccountDto> getAdminAccountsByName(@PathVariable("name") String name) {
 		return adminAccountService.getAdminAccountsByName(name).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
@@ -67,7 +73,7 @@ public class AdminAccountController {
 	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = { "/adminAccount/{username}/{password}/{name}", "/adminAccount/{username}/{password}/{name}/" })
+	@PostMapping(value = { "/createAdminAccount/{username}/{password}/{name}", "/createAdminAccount/{username}/{password}/{name}/" })
 	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name) throws InvalidInputException {
 		AdminAccount user = adminAccountService.createAdminAccount(username, password, name);
 		return convertToDto(user);
@@ -144,6 +150,12 @@ public class AdminAccountController {
 		return authentic;
 	}
 	
+	// TODO findByBusinessInformation
+	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}", "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}" })
+	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("name") BusinessInformationDto businessInformationDto) {
+		return adminAccountService.getAllAdminAccountsWithBusinessInformation(convertToDomainObject(businessInformationDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	
 	
 	//-------------------------- Helper Methods -----------------------------
 	
@@ -178,7 +190,22 @@ public class AdminAccountController {
 			return businessInfoDto;
 		}
 	}
+	/**
+	 * Helper method to get the businessInformation for the businessInformationDto
+	 * @author Catherine
+	 * @param businessInformationDto
+	 * @return BusinessInformation
+	 */
+	private BusinessInformation convertToDomainObject(BusinessInformationDto appobusinessInformationDtointmentDto)  {
+		if (appobusinessInformationDtointmentDto == null) {
+			return null;
+		}
+		else {
+			// TODO
+			//return businessInformationService.getBusinessInformationByName(businessInformationDto.getName());
+			return null;
+		}
+	}
 
-		
 		
 }

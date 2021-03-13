@@ -17,6 +17,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import vehiclerepairshop.dto.AppointmentDto;
 import vehiclerepairshop.dto.CarDto;
 import vehiclerepairshop.dto.CustomerAccountDto;
+import vehiclerepairshop.service.CarService;
 import vehiclerepairshop.service.CustomerAccountService;
 import vehiclerepairshop.service.InvalidInputException;
 
@@ -26,13 +27,15 @@ public class CustomerAccountController {
 
 	@Autowired
 	private CustomerAccountService customerAccountService;
+	@Autowired
+	private CarService carService;
 
 	/**
 	 * Return a list of all Customer Account Dtos 
 	 * @author Catherine
 	 * @return list of Customer Dtos
 	 */
-	@GetMapping(value = { "/customerAccounts", "/customerAccounts/" })
+	@GetMapping(value = { "/getAllCustomerAccounts", "/getAllCustomerAccounts/" })
 	public List<CustomerAccountDto> getAllCustomerAccounts() {
 		return customerAccountService.getAllCustomerAccounts().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
@@ -43,22 +46,22 @@ public class CustomerAccountController {
 	 * @param username
 	 * @return Customer Dto
 	 */
-	@GetMapping(value = { "/customerAccount/{username}", "/customerAccount/{username}/" })
+	@GetMapping(value = { "/getCustomerAccountByUsername/{username}", "/getCustomerAccountByUsername/{username}/" })
 	public CustomerAccountDto getCustomerAccountByUsername(@PathVariable("username") String username) {
 		return convertToDto(customerAccountService.getCustomerAccountByUsername(username));
 	}
-	
+
 	/**
 	 * Return a list of all Customer Accounts with specified name
 	 * @author Catherine
 	 * @param name
 	 * @return list of Customer Dtos
 	 */
-	@GetMapping(value = { "/customerAccounts/{name}", "/customerAccounts/{name}" })
+	@GetMapping(value = { "/getCustomerAccountsByName/{name}", "/getCustomerAccountsByName/{name}" })
 	public List<CustomerAccountDto> getCustomerAccountsByName(@PathVariable("name") String name) {
 		return customerAccountService.getCustomerAccountsByName(name).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * Create an Customer Account Dto with provided parameters
 	 * @author Catherine
@@ -68,13 +71,13 @@ public class CustomerAccountController {
 	 * @return Customer Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = { "/customerAccount/{username}/{password}/{name}", "/customerAccount/{username}/{password}/{name}/" })
+	@PostMapping(value = { "/createCustomerAccount/{username}/{password}/{name}", "/createCustomerAccount/{username}/{password}/{name}/" })
 	public CustomerAccountDto createCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name) throws InvalidInputException {
 		CustomerAccount user = customerAccountService.createCustomerAccount(username, password, name);
 		return convertToDto(user);
 	}
 
-	
+
 	/**
 	 * Update an Customer Account Dto username, password, and name
 	 * If not changing something, pass old value
@@ -104,7 +107,7 @@ public class CustomerAccountController {
 		boolean successful = customerAccountService.deleteCustomerAccount(username);
 		return successful;
 	}
-	
+
 	/**
 	 * Login and generate token
 	 * @author Catherine
@@ -118,7 +121,7 @@ public class CustomerAccountController {
 		boolean successful = customerAccountService.loginCustomerAccount(username, password);
 		return successful;
 	}
-	
+
 	/**
 	 * Logout and delete token
 	 * @author Catherine
@@ -131,7 +134,7 @@ public class CustomerAccountController {
 		boolean successful = customerAccountService.logoutCustomerAccount(username);
 		return successful;
 	}
-	
+
 	/**
 	 * Authenticate token
 	 * @author Catherine
@@ -145,14 +148,26 @@ public class CustomerAccountController {
 		return authentic;
 	}
 
+	/**
+	 * Get the customer account associated to specified car
+	 * @author Catherine
+	 * @param carDto
+	 * @return
+	 */
+	// TODO fix URL once CarDto and Controller is complete
+	@GetMapping(value = { "/getCustomerAccountByCar/getCarByLicensePlate/{licensePlate}", "/getCustomerAccountByCar/getCarByLicensePlate/{licensePlate}/" })
+	public CustomerAccountDto getCustomerAccountByCar(@PathVariable("licensePlate") CarDto carDto) {
+		return convertToDto(customerAccountService.getCustomerAccountWithCar(convertToDomainObject(carDto)));
+	}
+
 	//-------------------------- Helper Methods -----------------------------
-	
-		/**
-		 * Helper Method to convert an customer account to a Dto
-		 * @author Catherine
-		 * @param user
-		 * @return
-		 */
+
+	/**
+	 * Helper Method to convert an customer account to a Dto
+	 * @author Catherine
+	 * @param user
+	 * @return CustomerAccountDto
+	 */
 	private CustomerAccountDto convertToDto(CustomerAccount user) throws IllegalArgumentException{
 		if (user == null) {
 			throw new IllegalArgumentException("This user does not exist");
@@ -161,46 +176,62 @@ public class CustomerAccountController {
 		customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 		return customerAccountDto;
 	}
-		
-		/**
-		 * Helper Method to convert a car to a Dto
-		 * Will return null if you pass null
-		 * @author Catherine
-		 * @param car
-		 * @return
-		 */
-		private CarDto convertToDto(Car car)  {
-			if (car == null) {
-				return null;
-			}
-			else {
-				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
-						car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
-				return carDto;
-			}
-		}
-		
-		
-		/**
-		 * Helper Method to convert an appointment to a Dto
-		 * Will return null if you pass null
-		 * @author Catherine
-		 * @param car
-		 * @return
-		 */
-		private AppointmentDto convertToDto(Appointment apt)  {
-			if (apt == null) {
-				return null;
-			}
-			else {
-				// TODO add appointment attributes once AppointmentDto is finished
-				
-				AppointmentDto aptDto = new AppointmentDto();
-				
-				return aptDto;
-			}
-		}
 
-			
+	/**
+	 * Helper Method to convert a car to a Dto
+	 * Will return null if you pass null
+	 * @author Catherine
+	 * @param car
+	 * @return CarDto
+	 */
+	private CarDto convertToDto(Car car)  {
+		if (car == null) {
+			return null;
+		}
+		else {
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
+					car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+			return carDto;
+		}
+	}
+
+	/**
+	 * Helper method to get the car for the carDto
+	 * @author Catherine
+	 * @param carDto
+	 * @return Car
+	 */
+	private Car convertToDomainObject(CarDto carDto)  {
+		if (carDto == null) {
+			return null;
+		}
+		else {
+			return carService.getCarsByLiscensePlate(carDto.getLicensePlate());
+		}
+	}
+
+
+	/**
+	 * Helper Method to convert an appointment to a Dto
+	 * Will return null if you pass null
+	 * @author Catherine
+	 * @author Catherine
+	 * @param car
+	 * @return AppointmentDto
+	 */
+	private AppointmentDto convertToDto(Appointment apt)  {
+		if (apt == null) {
+			return null;
+		}
+		else {
+			// TODO add appointment attributes once AppointmentDto is finished
+
+			AppointmentDto aptDto = new AppointmentDto();
+
+			return aptDto;
+		}
+	}
+
+
 
 }
