@@ -48,6 +48,25 @@ public class TimeSlotService {
 			return toList(timeSlots);
 		}
 		
+		/**
+		 * 
+		 * @param timeslotId
+		 * @author chengchen
+		 */
+		@Transactional
+		public void deleteTimeSlot(int timeslotId) {
+			TimeSlot timeSlot = timeslotRepository.findByTimeSlotId(timeslotId);
+			timeslotRepository.delete(timeSlot);
+		}
+		
+		/**
+		 * @author chengchen
+		 */
+		@Transactional
+		public void deleteAllTimeSlots() {
+			timeslotRepository.deleteAll();
+		}
+		
 		// helper method that converts iterable to list
 		private <T> List<T> toList(Iterable<T> iterable){
 			List<T> resultList = new ArrayList<T>();
