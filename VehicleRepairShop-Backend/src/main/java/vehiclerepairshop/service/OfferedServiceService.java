@@ -41,7 +41,7 @@ public class OfferedServiceService {
 	 * @return
 	 */
 	@Transactional
-	public OfferedService createOfferedService(String offeredServiceId, String price, String name, String duration, Time reminderTime, Date reminderDate, String description) {
+	public OfferedService createOfferedService(String offeredServiceId, String price, String name, int duration, Time reminderTime, int reminderDate, String description) {
 		OfferedService offeredService = new OfferedService();
 		offeredService.setOfferedServiceId(offeredServiceId);
 		offeredService.setPrice(price);
@@ -117,7 +117,7 @@ public class OfferedServiceService {
 	 * @param newDescription
 	 */
 	@Transactional
-	public OfferedService updateService(String serviceId, String newPrice, String newName, String newDuration, Time newReminderTime, Date newReminderDate, String newDescription) {
+	public OfferedService updateService(String serviceId, String newPrice, String newName, int newDuration, Time newReminderTime, int newReminderDate, String newDescription) {
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		offeredService.setPrice(newPrice);
 		offeredService.setName(newName);

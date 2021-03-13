@@ -98,9 +98,9 @@ public class OfferedServiceController {
 	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
 												@PathVariable("price")String price, 
 												@PathVariable("name")String name, 
-												@PathVariable("duration")String duration, 
+												@PathVariable("duration")int duration, 
 												@PathVariable("reminderTime")Time reminderTime, 
-												@PathVariable("reminderDate")Date reminderDate,
+												@PathVariable("reminderDate")int reminderDate,
 												@PathVariable("description")String description) {
 		OfferedServiceDto updatedServiceDtos = new OfferedServiceDto();
 		OfferedService updatedService = offeredServiceService.updateService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
@@ -125,9 +125,9 @@ public class OfferedServiceController {
 	public OfferedServiceDto createOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
 													@PathVariable("price")String price, 
 													@PathVariable("name")String name, 
-													@PathVariable("duration")String duration, 
+													@PathVariable("duration")int duration, 
 													@PathVariable("reminderTime")Time reminderTime, 
-													@PathVariable("reminderDate")Date reminderDate,
+													@PathVariable("reminderDate")int reminderDate,
 													@PathVariable("description")String description) {
 		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
 		//OfferedServiceDto createdOfferedServiceDto = new OfferedServiceDto(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);

@@ -16,9 +16,9 @@ public class OfferedServiceDto {
 	private String offeredServiceId;
 	private String price;
 	private String name;
-	private String duration;
+	private int duration;
 	private Time reminderTime;
-	private Date reminderDate;
+	private int reminderDate;
 	private String description;
 	private List<AppointmentDto> appointments;
 	
@@ -26,12 +26,12 @@ public class OfferedServiceDto {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public OfferedServiceDto(String offeredServiceId, String price, String name, String duration, Time reminderTime, Date reminderDate, String description) {
+	public OfferedServiceDto(String offeredServiceId, String price, String name, int duration, Time reminderTime, int reminderDate, String description) {
 		this(offeredServiceId, price, name, duration, reminderTime, reminderDate, description, Collections.EMPTY_LIST);
 	}
 	
 	
-	public OfferedServiceDto(String offeredServiceId, String price, String name, String duration, Time reminderTime, Date reminderDate, String description, List<AppointmentDto> arrayList) {
+	public OfferedServiceDto(String offeredServiceId, String price, String name, int duration, Time reminderTime, int reminderDate, String description, List<AppointmentDto> arrayList) {
 		this.offeredServiceId = offeredServiceId;
 		this.price = price;
 		this.name = name;
@@ -66,11 +66,11 @@ public class OfferedServiceDto {
 		this.name = aName;
 	}
 	
-	public String getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 	
-	public void setDuration(String aDuration) {
+	public void setDuration(int aDuration) {
 		this.duration = aDuration;
 	}
 	
@@ -83,11 +83,11 @@ public class OfferedServiceDto {
 		this.reminderTime = aTime;
 	}
 	
-	public Date getReminderDate() {
+	public int getReminderDate() {
 		return reminderDate;
 	}
 	
-	public void setReminderDate(Date aDate) {
+	public void setReminderDate(int aDate) {
 		this.reminderDate = aDate;
 	}
 	

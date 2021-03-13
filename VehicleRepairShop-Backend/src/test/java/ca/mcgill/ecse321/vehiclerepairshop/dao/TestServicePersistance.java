@@ -41,9 +41,9 @@ public class TestServicePersistance {
 	String serviceId;
 	String price;
 	String serviceName;
-	String duration;
+	int duration;
 	Time reminderTime;
-	Date reminderDate;
+	int reminderDate;
 	String description;
 	
 	@BeforeEach
@@ -52,9 +52,9 @@ public class TestServicePersistance {
 		serviceId = "service1";
 		price = "50";
 		serviceName = "service";
-		duration = "18hrs";
+		duration = 1080;
 		reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-		reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		reminderDate = 30;
 		description = "this is a test service";
 
 		service = new OfferedService();

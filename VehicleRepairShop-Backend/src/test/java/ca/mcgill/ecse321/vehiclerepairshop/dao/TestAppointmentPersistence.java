@@ -79,7 +79,7 @@ public class TestAppointmentPersistence {
 	public void testPersistAndLoadAppopintmentViaSearchCar() {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
-		Integer year = 2021;
+		int year = 2021;
 		MotorType engine = MotorType.Gas;
 
 
@@ -103,9 +103,9 @@ public class TestAppointmentPersistence {
 		String serviceId = "service1";
 		String price = "50";
 		String serviceName = "service";
-		String duration = "18hrs";
+		int duration = 1080;
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		int reminderDate = 30;
 		String description = "this is a test service";
 
 		boolean available = true;
@@ -238,7 +238,7 @@ public class TestAppointmentPersistence {
 	public void testPersistAndLoadAppointmentViaCarandTimeSlot() {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
-		Integer year = 2021;
+		int year = 2021;
 		MotorType engine = MotorType.Gas;
 
 		String customerName = "customer";
@@ -254,9 +254,9 @@ public class TestAppointmentPersistence {
 		String serviceId = "service1";
 		String price = "50";
 		String serviceName = "service";
-		String duration = "18hrs";
+		int duration = 1080;
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		int reminderDate = 30;
 		String description = "this is a test service";
 
 		boolean available = true;
@@ -345,12 +345,12 @@ public class TestAppointmentPersistence {
 	public void testPersistAndLoadAppopintmentViaSearchGarage() {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
-		Integer year = 2021;
+		int year = 2021;
 		MotorType engine = MotorType.Gas;
 
 		String licensePlate2 = "TestCar2";
 		String model2 = "TestModel2";
-		Integer year2 = 2021;
+		int year2 = 2021;
 		MotorType engine2 = MotorType.Gas;
 
 		String customerName = "customer";
@@ -376,9 +376,9 @@ public class TestAppointmentPersistence {
 		String serviceId = "service1";
 		String price = "50";
 		String serviceName = "service";
-		String duration = "18hrs";
+		int duration = 1080;
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-		Date reminderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 21));
+		int reminderDate = 30;
 		String description = "this is a test service";
 
 		boolean available = true;
