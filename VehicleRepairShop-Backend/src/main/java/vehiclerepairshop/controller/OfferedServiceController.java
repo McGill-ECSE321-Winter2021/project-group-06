@@ -30,7 +30,7 @@ public class OfferedServiceController {
 	/**
 	 * @TODO: check why OfferedServiceService.getAllOfferedServices() returns type OfferedServiceDto
 	 */
-	@GetMapping(value = {"/offeredServices", "/offeredServices/"})
+	@GetMapping(value = {"/getAllOfferedServices", "/getAllOfferedServices/"})
 	public List<OfferedServiceDto> getAllOfferedServices(){
 		List<OfferedServiceDto> offeredServiceDtos = new ArrayList<>();
 		for (OfferedService offeredService: offeredServiceService.getAllOfferedServices()) {
