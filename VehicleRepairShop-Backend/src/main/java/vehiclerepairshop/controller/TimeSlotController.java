@@ -6,11 +6,13 @@ import java.sql.Date;
 import java.sql.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.vehiclerepairshop.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 import java.util.*;
@@ -27,6 +29,8 @@ public class TimeSlotController {
 	
 	@Autowired
 	private TimeSlotService timeSlotService;
+	@Autowired
+	private TimeSlotRepository timeslotRepository;
 	
 	@GetMapping(value = { "/getAllTimeSlots", "/getAllTimeSlots/" })
 	public List<TimeSlotDto> getAllTimeSlots() throws IllegalArgumentException {
@@ -42,7 +46,22 @@ public class TimeSlotController {
 		return convertToDto(timeSlot);
 	}
 	
+	@DeleteMapping(value = {"/deleteTimeSlot/{timeslotId}","/deleteTimeSlot/{timeslotId}/"})
+	public boolean deleteTimeSlotDto(@PathVariable("timeslotId") int timeslotId) {
+		boolean isSuccess = false; 
+		TimeSlot timeSlot = timeslotRepository.findByTimeSlotId(timeslotId);
+		timeslotRepository.delete(timeSlot);
+		isSuccess = true;
+		return isSuccess;
+	}
 	
+	@DeleteMapping(value = {"/deleteAllTimeSlot","/deleteAllTimeSlot/"})
+	public boolean deleteTimeSlotDto() {
+		boolean isSuccess = false;
+		timeslotRepository.deleteAll();
+		isSuccess = true;
+		return isSuccess;
+	}
 	
 	
 	
