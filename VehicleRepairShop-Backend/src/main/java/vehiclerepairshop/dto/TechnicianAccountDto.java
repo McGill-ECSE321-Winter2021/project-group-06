@@ -8,6 +8,7 @@ public class TechnicianAccountDto {
 	private String username;
 	private String password;
 	private String name;
+	private int token;
 	private List<AppointmentDto> appointmentsDTO;
 
 	public TechnicianAccountDto() {
@@ -39,6 +40,14 @@ public class TechnicianAccountDto {
 	
 	public List<AppointmentDto> getAppointments() {
 		return appointmentsDTO;
+	}
+	
+	public int getToken() {
+		return token;
+	}
+
+	public void setToken(int token) {
+		this.token = token;
 	}
 	
 	public void setUsername(String username) {

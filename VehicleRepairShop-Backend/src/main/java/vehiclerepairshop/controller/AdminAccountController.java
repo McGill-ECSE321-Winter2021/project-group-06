@@ -27,15 +27,16 @@ public class AdminAccountController {
 	private AdminAccountService adminAccountService;
 	
 
-	//create -- done
-	//delete -- done
-	//update -- done
+	//create -- to fix
+	//delete -- to fix
+	//update (username and password) -- to fix
 	//login 
 	//logout
 	//valid user/token 
-	//get by username -- done
-	//get by name -- done
+	//get by username -- to fix
+	//get by name -- to fix
 	//get all -- done
+	//change name
 
 	
 	/**
