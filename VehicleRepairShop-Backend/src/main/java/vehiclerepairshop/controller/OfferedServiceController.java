@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -127,7 +128,7 @@ public class OfferedServiceController {
 													@PathVariable("price")String price, 
 													@PathVariable("name")String name, 
 													@PathVariable("duration")int duration, 
-													@PathVariable("reminderTime")Time reminderTime, 
+													@PathVariable("reminderTime")@DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")Time reminderTime, 
 													@PathVariable("reminderDate")int reminderDate,
 													@PathVariable("description")String description) {
 		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
@@ -135,6 +136,9 @@ public class OfferedServiceController {
 		OfferedServiceDto createdOfferedServiceDto = convertToDto(createdOfferedService);
 		return createdOfferedServiceDto;
 	}
+	
+
+
 	
 	
 	
