@@ -798,6 +798,348 @@ public class TestOfferedServiceService {
 	
 
 	
+	/**
+	 * test updateOfferedService with valid input 
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testUpdateOfferedServiceWithValidInput() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = null;
+
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = 20;
+		Double newTestOfferedServicePrice = 20.0;
+		String newTestOfferedServiceName = "inspection";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 40;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			modifiedService = offeredServiceService.updateService(testOfferedServiceId,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNotNull(modifiedService);
+		checkResultOfferedService(modifiedService, testOfferedServiceId,
+				newTestOfferedServicePrice,  newTestOfferedServiceName,
+				newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+				newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+	}
+	
+	
+	/**
+	 * test updateOfferedService with all null or zero input 
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testUpdateOfferedServiceWithAllNullOrZeroInput() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = null;
+
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = 0;
+		Double newTestOfferedServicePrice = null;
+		String newTestOfferedServiceName = null;
+		Time newTestOfferedServiceReminderTime = null;
+		int newTestOfferedServiceReminderDate = 0;
+		String newTestOfferedServiceDescription = null;
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			modifiedService = offeredServiceService.updateService(testOfferedServiceId,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(modifiedService);
+		checkResultOfferedService(offeredService, testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		assertEquals("price cannot be empty!name cannot be empty!duration cannot be zero!reminderTime cannot be empty!Offered service description cannot be empty!", error);
+	}
+	
+	
+	/**
+	 * testing updateOfferedService with new duration as 0
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testUpdateOfferedServiceWithZeroNewDuration() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = null;
+
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = 0;
+		Double newTestOfferedServicePrice = 20.0;
+		String newTestOfferedServiceName = "inspection";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 40;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			modifiedService = offeredServiceService.updateService(testOfferedServiceId,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(modifiedService);
+		checkResultOfferedService(offeredService, testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		assertEquals("duration cannot be zero!", error);
+	}
+	
+	
+	
+	
+	/**
+	 * testing updateOfferedService with new duration as negative number
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testUpdateOfferedServiceWithNegativeNewDuration() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = null;
+
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = -1;
+		Double newTestOfferedServicePrice = 20.0;
+		String newTestOfferedServiceName = "inspection";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 40;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			modifiedService = offeredServiceService.updateService(testOfferedServiceId,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(modifiedService);
+		checkResultOfferedService(offeredService, testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		assertEquals("duration cannot be negative!", error);
+	}
+	
+	/**
+	 * testing updateOfferedService with new price as negative number
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testUpdateOfferedServiceWithNegativeNewPrice() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = null;
+
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = 20;
+		Double newTestOfferedServicePrice = -20.0;
+		String newTestOfferedServiceName = "inspection";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 40;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			modifiedService = offeredServiceService.updateService(testOfferedServiceId,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(modifiedService);
+		checkResultOfferedService(offeredService, testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		assertEquals("price cannot be Negative!", error);
+	}
+	
+	
+	/**
+	 * testing updateOfferedService with new price as null
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testUpdateOfferedServiceWithNullNewPrice() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = null;
+
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = 20;
+		Double newTestOfferedServicePrice = null;
+		String newTestOfferedServiceName = "inspection";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 40;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			modifiedService = offeredServiceService.updateService(testOfferedServiceId,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(modifiedService);
+		checkResultOfferedService(offeredService, testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		assertEquals("price cannot be empty!", error);
+	}
+	
+	
+	
+	@Test
+	public void testUpdateOfferedServiceWithEmptyNewName() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = null;
+
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = 20;
+		Double newTestOfferedServicePrice = 20.0;
+		String newTestOfferedServiceName = "";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 40;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			modifiedService = offeredServiceService.updateService(testOfferedServiceId,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(modifiedService);
+		checkResultOfferedService(offeredService, testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		assertEquals("name cannot be empty!", error);
+	}
+	
+	
+	
+	
 	
 	
 	/**

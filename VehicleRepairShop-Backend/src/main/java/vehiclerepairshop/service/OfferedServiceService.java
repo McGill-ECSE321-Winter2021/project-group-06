@@ -171,12 +171,45 @@ public class OfferedServiceService {
 	@Transactional
 	public OfferedService updateService(String serviceId, Double newPrice, String newName, int newDuration, 
 										Time newReminderTime, int newReminderDate, String newDescription) throws InvalidInputException {
+		
+		String error = null;
 		if(serviceId == null || serviceId.trim().length()==0) {
 			throw new InvalidInputException("the serviceId can not be empty!");
 		}
+		if (newPrice == null) {
+			error = error + "price cannot be empty!";
+		}
+		if (newPrice < 0.0) {
+			error = error + "price cannot be Negative!";
+		}
+		if (newName == null || newName.trim().length()==0) {
+			error = error + "name cannot be empty!";
+		}
+		if (newDuration == 0) {
+			error = error + "duration cannot be zero!";
+		}
+		if (newDuration < 0) {
+			error = error + "duration cannot be negative!";
+		}
+		if (newReminderTime == null) {
+			error = error + "reminderTime cannot be empty!";
+		}
+		if (newReminderDate == 0) {
+			error = error + "reminderDate cannot be zero!";
+		}
+		if (newReminderDate < 0) {
+			error = error + "reminderDate cannot be negative!";
+		}
+		if (newDescription == null || newDescription.trim().length()==0) {
+			error = error + "Offered service description cannot be empty!";
+		}
+		
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		if(offeredService == null) {
-			throw new InvalidInputException("the offered service can not found in the system!");
+			error = error + "the offered service can not found in the system!";
+		}
+		if (error.length()>0) {
+			throw new IllegalArgumentException(error);
 		}
 		offeredService.setPrice(newPrice);
 		offeredService.setName(newName);
