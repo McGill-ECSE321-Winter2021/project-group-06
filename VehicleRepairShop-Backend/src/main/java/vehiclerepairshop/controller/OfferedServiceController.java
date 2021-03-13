@@ -94,18 +94,25 @@ public class OfferedServiceController {
 	 * @param reminderDate
 	 * @param description
 	 * @return
+	 * @throws InvalidInputException 
 	 */
 	@PostMapping(value = {"/updateOfferedService/{offeredServiceId}{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
 			"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
-												@PathVariable("price")String price, 
+												@PathVariable("price")Double price, 
 												@PathVariable("name")String name, 
 												@PathVariable("duration")int duration, 
 												@PathVariable("reminderTime")Time reminderTime, 
 												@PathVariable("reminderDate")int reminderDate,
-												@PathVariable("description")String description) {
+												@PathVariable("description")String description) throws InvalidInputException {
 		OfferedServiceDto updatedServiceDtos = new OfferedServiceDto();
-		OfferedService updatedService = offeredServiceService.updateService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
+		OfferedService updatedService;
+		try {
+			updatedService = offeredServiceService.updateService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			throw new InvalidInputException(e.getMessage());
+		}
 		updatedServiceDtos = convertToDto(updatedService);
 		return updatedServiceDtos; 
 	}
@@ -125,7 +132,7 @@ public class OfferedServiceController {
 	@PostMapping(value = {"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
 			"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto createOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
-													@PathVariable("price")String price, 
+													@PathVariable("price")Double price, 
 													@PathVariable("name")String name, 
 													@PathVariable("duration")int duration, 
 													@PathVariable("reminderTime")@DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")Time reminderTime, 

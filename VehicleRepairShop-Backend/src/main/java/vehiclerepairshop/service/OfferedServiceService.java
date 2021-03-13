@@ -42,25 +42,31 @@ public class OfferedServiceService {
 	 * @throws InvalidInputException 
 	 */
 	@Transactional
-	public OfferedService createOfferedService(String offeredServiceId, String price, String name, int duration, Time reminderTime, int reminderDate, String description) {
+	public OfferedService createOfferedService(String offeredServiceId, Double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
 		String error ="";
 		if (offeredServiceId == null || offeredServiceId.trim().length()==0) {
 			error = error + "OfferedServiceId cannot be empty!";
 		}
-		if (price == null || price.trim().length()==0) {
+		if (price == null) {
 			error = error + "price cannot be empty!";
 		}
 		if (name == null || name.trim().length()==0) {
 			error = error + "name cannot be empty!";
 		}
-		if (duration <= 0) {
-			error = error + "duration cannot be negative or empty or zero!";
+		if (duration == 0) {
+			error = error + "duration cannot be zero!";
+		}
+		if (duration < 0) {
+			error = error + "duration cannot be negative!";
 		}
 		if (reminderTime == null) {
 			error = error + "reminderTime cannot be empty!";
 		}
-		if (reminderDate <= 0) {
-			error = error + "reminderDate cannot be negative or empty or zero";
+		if (reminderDate == 0) {
+			error = error + "reminderDate cannot be zero!";
+		}
+		if (reminderDate < 0) {
+			error = error + "reminderDate cannot be negative!";
 		}
 		if (error.length()>0) {
 			throw new IllegalArgumentException(error);
@@ -153,7 +159,7 @@ public class OfferedServiceService {
 	 * @throws InvalidInputException 
 	 */
 	@Transactional
-	public OfferedService updateService(String serviceId, String newPrice, String newName, int newDuration, 
+	public OfferedService updateService(String serviceId, Double newPrice, String newName, int newDuration, 
 										Time newReminderTime, int newReminderDate, String newDescription) throws InvalidInputException {
 		if(serviceId == null || serviceId.trim().length()==0) {
 			throw new InvalidInputException("the serviceId can not be empty!");

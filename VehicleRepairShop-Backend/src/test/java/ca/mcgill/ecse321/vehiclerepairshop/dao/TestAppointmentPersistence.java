@@ -101,7 +101,7 @@ public class TestAppointmentPersistence {
 		Time endTime2 = java.sql.Time.valueOf(LocalTime.of(13, 25));
 
 		String serviceId = "service1";
-		String price = "50";
+		Double price = 50.0;
 		String serviceName = "service";
 		int duration = 1080;
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
@@ -252,7 +252,7 @@ public class TestAppointmentPersistence {
 		Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
 
 		String serviceId = "service1";
-		String price = "50";
+		Double price = 50.0;
 		String serviceName = "service";
 		int duration = 1080;
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
@@ -374,7 +374,7 @@ public class TestAppointmentPersistence {
 		Time endTime2 = java.sql.Time.valueOf(LocalTime.of(13, 25));
 
 		String serviceId = "service1";
-		String price = "50";
+		Double price = 50.0;
 		String serviceName = "service";
 		int duration = 1080;
 		Time reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));

@@ -99,7 +99,7 @@ public class TestOfferedServiceService {
 		
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
-		String testOfferedServicePrice = "10";
+		Double testOfferedServicePrice = 10.0;
 		String testOfferedServiceName = "wash";
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
@@ -133,7 +133,7 @@ public class TestOfferedServiceService {
 		
 		String testOfferedServiceId =  null;
 		int testOfferedServiceDuration = 0;
-		String testOfferedServicePrice = null;
+		Double testOfferedServicePrice = null;
 		String testOfferedServiceName = null;
 		Time testOfferedServiceReminderTime = null;
 		int testOfferedServiceReminderDate = 0;
@@ -148,7 +148,7 @@ public class TestOfferedServiceService {
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
-		assertEquals("OfferedServiceId cannot be empty!price cannot be empty!name cannot be empty!duration cannot be negative or empty or zero!reminderTime cannot be empty!reminderDate cannot be negative or empty or zero", error);
+		assertEquals("OfferedServiceId cannot be empty!price cannot be empty!name cannot be empty!duration cannot be zero!reminderTime cannot be empty!reminderDate cannot be zero!", error);
 	}
 	
 	
@@ -158,7 +158,7 @@ public class TestOfferedServiceService {
 		String error = null;
 		String testOfferedServiceId = "";
 		int testOfferedServiceDuration = 10;
-		String testOfferedServicePrice = "10";
+		Double testOfferedServicePrice = 10.0;
 		String testOfferedServiceName = "wash";
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
@@ -173,7 +173,7 @@ public class TestOfferedServiceService {
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
-		assertEquals("OfferedServiceId cannot be empty!price cannot be empty!", error);
+		assertEquals("OfferedServiceId cannot be empty!", error);
 	}
 	
 	@Test
@@ -182,7 +182,7 @@ public class TestOfferedServiceService {
 		String error = null;
 		String testOfferedServiceId = " ";
 		int testOfferedServiceDuration = 10;
-		String testOfferedServicePrice = "10";
+		Double testOfferedServicePrice = 10.0;
 		String testOfferedServiceName = "wash";
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
@@ -197,10 +197,132 @@ public class TestOfferedServiceService {
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
-		assertEquals("OfferedServiceId cannot be empty!price cannot be empty!", error);
+		assertEquals("OfferedServiceId cannot be empty!", error);
 	}
 	
 	
+	@Test
+	public void testCreatOfferedServiceWithEmptyDuration() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 0;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = new OfferedService();
+		try {
+			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+					testOfferedServicePrice,  testOfferedServiceName,
+					testOfferedServiceDuration,testOfferedServiceReminderTime, 
+					testOfferedServiceReminderDate, testOfferedServiceDescription);
+		}catch (IllegalArgumentException e){
+			error = e.getMessage();
+		}
+		assertNull(offeredService);
+		assertEquals("duration cannot be zero!", error);
+	}
+	
+	
+	@Test
+	public void testCreatOfferedServiceWithNegativeDuration() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = -1;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = new OfferedService();
+		try {
+			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+					testOfferedServicePrice,  testOfferedServiceName,
+					testOfferedServiceDuration,testOfferedServiceReminderTime, 
+					testOfferedServiceReminderDate, testOfferedServiceDescription);
+		}catch (IllegalArgumentException e){
+			error = e.getMessage();
+		}
+		assertNull(offeredService);
+		assertEquals("duration cannot be negative!", error);
+	}
+	
+	
+	@Test
+	public void testCreatOfferedServiceWithNegativeReminderDate() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = -1;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = new OfferedService();
+		try {
+			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+					testOfferedServicePrice,  testOfferedServiceName,
+					testOfferedServiceDuration,testOfferedServiceReminderTime, 
+					testOfferedServiceReminderDate, testOfferedServiceDescription);
+		}catch (IllegalArgumentException e){
+			error = e.getMessage();
+		}
+		assertNull(offeredService);
+		assertEquals("reminderDate cannot be negative!", error);
+	}
+	
+	@Test
+	public void testCreatOfferedServiceWithZeroReminderDate() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 0;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = new OfferedService();
+		try {
+			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+					testOfferedServicePrice,  testOfferedServiceName,
+					testOfferedServiceDuration,testOfferedServiceReminderTime, 
+					testOfferedServiceReminderDate, testOfferedServiceDescription);
+		}catch (IllegalArgumentException e){
+			error = e.getMessage();
+		}
+		assertNull(offeredService);
+		assertEquals("reminderDate cannot be zero!", error);
+	}
+	
+	
+	@Test
+	public void testCreatOfferedServiceWithEmptyPrice() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 0;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = new OfferedService();
+		try {
+			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+					testOfferedServicePrice,  testOfferedServiceName,
+					testOfferedServiceDuration,testOfferedServiceReminderTime, 
+					testOfferedServiceReminderDate, testOfferedServiceDescription);
+		}catch (IllegalArgumentException e){
+			error = e.getMessage();
+		}
+		assertNull(offeredService);
+		assertEquals("reminderDate cannot be zero!", error);
+	}
 	
 	
 	//------- helper method ------------------
@@ -216,7 +338,7 @@ public class TestOfferedServiceService {
 	 * @param reminderDate
 	 * @param description
 	 */
-	private void checkResultOfferedService(OfferedService offeredService, String offeredServiceId, String price, String name, 
+	private void checkResultOfferedService(OfferedService offeredService, String offeredServiceId, Double price, String name, 
 			int duration, Time reminderTime, int reminderDate, String description) {
 		assertNotNull(offeredService);
 		assertEquals(offeredServiceId, offeredService.getOfferedServiceId());

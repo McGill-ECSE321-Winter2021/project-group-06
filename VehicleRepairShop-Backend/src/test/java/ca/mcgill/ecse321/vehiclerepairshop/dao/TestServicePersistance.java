@@ -50,7 +50,7 @@ public class TestServicePersistance {
 	public void buildDatabase() {
 		
 		serviceId = "service1";
-		price = "50";
+		Double price = 50.0;
 		serviceName = "service";
 		duration = 1080;
 		reminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));

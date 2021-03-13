@@ -15,7 +15,7 @@ public class OfferedService
 {
 
   private String offeredServiceId;
-  private String price;
+  private Double price;
   private String name;
   private int duration;
   private Time reminderTime;
@@ -25,7 +25,7 @@ public class OfferedService
 
 
 
-  public void setPrice(String aPrice)
+  public void setPrice(Double aPrice)
   {
 	  this.price = aPrice;
   }
@@ -63,7 +63,7 @@ public class OfferedService
 	  this.offeredServiceId = aServiceId;
   }
 
-  public String getPrice()
+  public Double getPrice()
   {
     return this.price;
   }
