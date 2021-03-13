@@ -42,6 +42,29 @@ public class OfferedServiceService {
 	 */
 	@Transactional
 	public OfferedService createOfferedService(String offeredServiceId, String price, String name, int duration, Time reminderTime, int reminderDate, String description) {
+		String error ="";
+		if (offeredServiceId == null || offeredServiceId.trim().length()==0) {
+			error = error + "OfferedServiceId cannot be empty!";
+		}
+		if (price == null || price.trim().length()==0) {
+			error = error + "price cannot be empty!";
+		}
+		if (name == null || name.trim().length()==0) {
+			error = error + "name cannot be empty!";
+		}
+		if (duration <= 0) {
+			error = error + "duration cannot be negative or empty or zero!";
+		}
+		if (reminderTime == null) {
+			error = error + "reminderTime cannot be empty!";
+		}
+		if (reminderDate <= 0) {
+			error = error + "reminderDate cannot be negative or empty or zero";
+		}
+		if (error.length()>0) {
+			throw new IllegalArgumentException(error);
+		}
+		
 		OfferedService offeredService = new OfferedService();
 		offeredService.setOfferedServiceId(offeredServiceId);
 		offeredService.setPrice(price);
