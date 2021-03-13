@@ -17,9 +17,9 @@ public class OfferedService
   private String offeredServiceId;
   private Double price;
   private String name;
-  private int duration;
+  private Integer duration;
   private Time reminderTime;
-  private int reminderDate;
+  private Integer reminderDate;
   private String description;
   private List<Appointment> appointment;
 
