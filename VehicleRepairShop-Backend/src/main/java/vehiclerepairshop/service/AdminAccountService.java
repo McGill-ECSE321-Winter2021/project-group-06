@@ -127,8 +127,10 @@ public class AdminAccountService {
 	 */
 	@Transactional
 	public AdminAccount updateAdminAccount(String currentUsername, String newUsername, String newPassword, String newName) throws InvalidInputException {
-		
-		if (newUsername == null || newUsername.replaceAll("\\s+", "").length() == 0) {
+		if (!authenticationService.authenticateToken(currentUsername)) {
+			throw new InvalidInputException("You do not have permission to modify this account.");
+		}
+		else if (newUsername == null || newUsername.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else if (newUsername.contains(" ")) {
@@ -149,7 +151,6 @@ public class AdminAccountService {
 		}
 		else {
 			AdminAccount user = adminAccountRepository.findByUsername(currentUsername);
-			authenticationService.createToken(currentUsername);
 			user.setUsername(newUsername);
 			user.setPassword(newPassword);
 			if (newName.contains(" ")) {
@@ -225,6 +226,27 @@ public class AdminAccountService {
 			return successful;
 		}
 	}
+	
+	/**
+	 * Authenticate token
+	 * @author Catherine
+	 * @param username
+	 * @return
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean authenticateAdminAccount(String username) throws InvalidInputException{
+		boolean authentic = false;
+		AdminAccount user = adminAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			authentic = authenticationService.authenticateToken(username);
+			return authentic;
+		}
+	}
+	
 	
 	//----------------------------- Helper Methods --------------------------------
 

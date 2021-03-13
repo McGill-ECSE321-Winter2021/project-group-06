@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import vehiclerepairshop.dto.AdminAccountDto;
+import vehiclerepairshop.dto.AppointmentDto;
 import vehiclerepairshop.dto.BusinessInformationDto;
 import vehiclerepairshop.service.AdminAccountService;
+import vehiclerepairshop.service.BusinessInformationService;
 import vehiclerepairshop.service.InvalidInputException;
 
 @CrossOrigin(origins = "*")
@@ -25,18 +28,8 @@ public class AdminAccountController {
 
 	@Autowired
 	private AdminAccountService adminAccountService;
-	
-
-	//create -- to fix
-	//delete -- to fix
-	//update (username and password) -- to fix
-	//login 
-	//logout
-	//valid user/token 
-	//get by username -- to fix
-	//get by name -- to fix
-	//get all -- done
-	//change name
+	@Autowired
+	private BusinessInformationService businessInformationService;
 
 	
 	/**
@@ -44,7 +37,7 @@ public class AdminAccountController {
 	 * @author Catherine
 	 * @return list of Admin Dtos
 	 */
-	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
+	@GetMapping(value = { "/getAllAdminAccounts", "/getAllAdminAccounts/" })
 	public List<AdminAccountDto> getAllAdminAccounts() {
 		return adminAccountService.getAllAdminAccounts().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
@@ -55,18 +48,19 @@ public class AdminAccountController {
 	 * @param username
 	 * @return Admin Dto
 	 */
-	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
+	@GetMapping(value = { "/getAdminAccountByUsername/{username}", "/getAdminAccountByUsername/{username}/" })
 	public AdminAccountDto getAdminAccountByUsername(@PathVariable("username") String username) {
 		return convertToDto(adminAccountService.getAdminAccountByUsername(username));
 	}
+	
 	/**
 	 * Return a list of all Admin Accounts with specified name
 	 * @author Catherine
 	 * @param name
 	 * @return list of Admin Dtos
 	 */
-	@GetMapping(value = { "/adminAccount", "/adminAccounts/" })
-	public List<AdminAccountDto> getAdminAccountsByName(@RequestParam String name) {
+	@GetMapping(value = { "/getAdminAccountsByName/{name}", "/getAdminAccountsByName/{name}" })
+	public List<AdminAccountDto> getAdminAccountsByName(@PathVariable("name") String name) {
 		return adminAccountService.getAdminAccountsByName(name).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
@@ -79,15 +73,16 @@ public class AdminAccountController {
 	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
-	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @RequestParam String password, @RequestParam String name) throws InvalidInputException {
+	@PostMapping(value = { "/createAdminAccount/{username}/{password}/{name}", "/createAdminAccount/{username}/{password}/{name}/" })
+	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name) throws InvalidInputException {
 		AdminAccount user = adminAccountService.createAdminAccount(username, password, name);
 		return convertToDto(user);
 	}
 
 	
 	/**
-	 * Update an Admin Account Dto with provided parameters
+	 * Update an Admin Account Dto username, password, and name
+	 * If not changing something, pass old value
 	 * @author Catherine
 	 * @param currentUsername
 	 * @param newUsername
@@ -96,8 +91,8 @@ public class AdminAccountController {
 	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
-	public AdminAccountDto updateAdminAccount(@PathVariable("username") String currentUsername, @RequestParam String newUsername, @RequestParam String newPassword, @RequestParam String newName) throws InvalidInputException {
+	@PostMapping(value = {"/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}", "/adminAccount/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
+	public AdminAccountDto updateAdminAccount(@PathVariable("currentUsername") String currentUsername, @PathVariable("newUsername") String newUsername, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) throws InvalidInputException {
 		AdminAccount user = adminAccountService.updateAdminAccount(currentUsername, newUsername, newPassword, newName);
 		return convertToDto(user);
 	}
@@ -109,12 +104,57 @@ public class AdminAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@DeleteMapping(value = { "/adminAccount/{username}", "/adminAccount/{username}/" })
+	@DeleteMapping(value = { "/deleteAdminAccount/{username}", "/adminAccount/deleteAdminAccount/{username}/" })
 	public boolean deleteAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
 		boolean successful = adminAccountService.deleteAdminAccount(username);
 		return successful;
 	}
 	
+	/**
+	 * Login and generate token
+	 * @author Catherine
+	 * @param username
+	 * @param password
+	 * @return boolean if successful
+	 * @throws InvalidInputException
+	 */
+	@PostMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}/" })
+	public boolean loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
+		boolean successful = adminAccountService.loginAdminAccount(username, password);
+		return successful;
+	}
+	
+	/**
+	 * Logout and delete token
+	 * @author Catherine
+	 * @param username
+	 * @return boolean if successful
+	 * @throws InvalidInputException
+	 */
+	@PostMapping(value = {"/logoutAdminAccount/{username}", "/logoutAdminAccount/{username}/" })
+	public boolean logoutAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
+		boolean successful = adminAccountService.logoutAdminAccount(username);
+		return successful;
+	}
+	
+	/**
+	 * Authenticate token
+	 * @author Catherine
+	 * @param username
+	 * @return boolean authenticity
+	 * @throws InvalidInputException
+	 */
+	@PostMapping(value = {"/authenticateAdminAccount/{username}", "/authenticateAdminAccount/{username}/" })
+	public boolean authenticateAdminAccount(@PathVariable("username") String username) throws InvalidInputException{
+		boolean authentic = adminAccountService.authenticateAdminAccount(username);
+		return authentic;
+	}
+	
+	// TODO findByBusinessInformation
+	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}", "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}" })
+	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("name") BusinessInformationDto businessInformationDto) {
+		return adminAccountService.getAllAdminAccountsWithBusinessInformation(convertToDomainObject(businessInformationDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
 	
 	
 	//-------------------------- Helper Methods -----------------------------
@@ -150,7 +190,22 @@ public class AdminAccountController {
 			return businessInfoDto;
 		}
 	}
+	/**
+	 * Helper method to get the businessInformation for the businessInformationDto
+	 * @author Catherine
+	 * @param businessInformationDto
+	 * @return BusinessInformation
+	 */
+	private BusinessInformation convertToDomainObject(BusinessInformationDto appobusinessInformationDtointmentDto)  {
+		if (appobusinessInformationDtointmentDto == null) {
+			return null;
+		}
+		else {
+			// TODO
+			//return businessInformationService.getBusinessInformationByName(businessInformationDto.getName());
+			return null;
+		}
+	}
 
-		
 		
 }

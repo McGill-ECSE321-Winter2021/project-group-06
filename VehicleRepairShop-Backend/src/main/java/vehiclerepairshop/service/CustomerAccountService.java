@@ -93,9 +93,11 @@ public class CustomerAccountService {
 	 * @return the account updated
 	 */
 	@Transactional
-	public CustomerAccount updateAdminAccount(String currentUsername, String newUsername, String newPassword, String newName) throws InvalidInputException {
-		
-		if (newUsername == null || newUsername.replaceAll("\\s+", "").length() == 0) {
+	public CustomerAccount updateCustomerAccount(String currentUsername, String newUsername, String newPassword, String newName) throws InvalidInputException {
+		if (!authenticationService.authenticateToken(currentUsername)) {
+			throw new InvalidInputException("You do not have permission to modify this account.");
+		}
+		else if (newUsername == null || newUsername.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else if (newUsername.contains(" ")) {
@@ -116,7 +118,6 @@ public class CustomerAccountService {
 		}
 		else {
 			CustomerAccount user = customerAccountRepository.findByUsername(currentUsername);
-			authenticationService.createToken(currentUsername);
 			user.setUsername(newUsername);
 			user.setPassword(newPassword);
 			if (newName.contains(" ")) {
@@ -225,6 +226,26 @@ public class CustomerAccountService {
 		else {
 			successful = authenticationService.logout(username);
 			return successful;
+		}
+	}
+	
+	/**
+	 * Authenticate token
+	 * @author Catherine
+	 * @param username
+	 * @return authenticity
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean authenticateCustomerAccount(String username) throws InvalidInputException{
+		boolean authentic = false;
+		CustomerAccount user = customerAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			authentic = authenticationService.authenticateToken(username);
+			return authentic;
 		}
 	}
 	

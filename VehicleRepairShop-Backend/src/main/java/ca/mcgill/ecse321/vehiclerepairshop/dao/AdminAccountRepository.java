@@ -7,9 +7,9 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 
 public interface AdminAccountRepository extends CrudRepository<AdminAccount, String>{
-	List<AdminAccount> findAdminAccountByName(String name); //name is not unique
+	List<AdminAccount> findAdminAccountByName(String name); 
 	AdminAccount findByUsername(String username); 
 	boolean existsByBusinessInformation(BusinessInformation businessInformation);
 	List<AdminAccount> findByBusinessInformation(BusinessInformation businessInformation);
-	AdminAccount findByApiToken(String token);
+	AdminAccount findByToken(int token);
 }

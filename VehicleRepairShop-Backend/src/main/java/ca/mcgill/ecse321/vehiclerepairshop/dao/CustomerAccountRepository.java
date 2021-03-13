@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop.dao;
 
 import java.util.List;
-
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
@@ -11,4 +10,5 @@ public interface CustomerAccountRepository extends CrudRepository<CustomerAccoun
 	List<CustomerAccount> findCustomerAccountByName(String name); //name is not unique
 	CustomerAccount findByCar(Car carLicense);
 	CustomerAccount findByUsername(String username); 
+	CustomerAccount findByToken(int token);
 }

@@ -92,6 +92,89 @@ public class AppointmentService {
 		return toList(appointments);
 	}
 	
+	/**
+	 * 
+	 * @param appointmentId
+	 * @author chengchen
+	 */
+	@Transactional
+	public void deleteAppointment(int appointmentId) {
+		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		appointmentRepository.delete(appointment.get());
+	}
+	
+	/**
+	 * @author chengchen
+	 */
+	@Transactional
+	public void deleteAllAppointment() {
+		appointmentRepository.deleteAll();
+	}
+	
+	/**
+	 * @author chengchen
+	 * @param appointmentId
+	 * @param car
+	 */
+	@Transactional
+	public void updateAppointmentCar(int appointmentId, Car car) {
+		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		appointment.get().setCar(car);
+		appointmentRepository.save(appointment.get());
+	}
+	
+	/**
+	 * @author chengchen
+	 * @param appointmentId
+	 * @param garage
+	 */
+	@Transactional
+	public void updateAppointmentGarage(int appointmentId, Garage garage) {
+		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		appointment.get().setGarage(garage);
+		appointmentRepository.save(appointment.get());
+	}
+	
+	/**
+	 * @author chengchen
+	 * @param appointmentId
+	 * @param worker
+	 */
+	@Transactional
+	public void updateAppointmentWorker(int appointmentId, TechnicianAccount worker) {
+		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		List<TechnicianAccount> technicianAccounts = new ArrayList<TechnicianAccount>();
+		technicianAccounts.add(worker);
+		appointment.get().setWorker(technicianAccounts);
+		appointmentRepository.save(appointment.get());
+	}
+	
+	/**
+	 * @author chengchen
+	 * @param appointmentId
+	 * @param timeSlot
+	 */
+	@Transactional
+	public void updateAppointmentTimeSlot(int appointmentId, TimeSlot timeSlot) {
+		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		appointment.get().setTimeSlot(timeSlot);
+		appointmentRepository.save(appointment.get());
+	
+	}
+	
+	/**
+	 * @author chengchen
+	 * @param appointmentId
+	 * @param comment
+	 */
+	@Transactional
+	public void updateAppointmentComment(int appointmentId, String comment) {
+		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		appointment.get().setComment(comment);
+		appointmentRepository.save(appointment.get());
+	}
+	
+	
 	// helper method that converts iterable to list
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();

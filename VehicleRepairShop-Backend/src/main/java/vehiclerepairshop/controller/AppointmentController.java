@@ -16,7 +16,7 @@ import vehiclerepairshop.service.AppointmentService;
 public class AppointmentController {
 	
 	@Autowired
-	private AppointmentController service;
+	private AppointmentService appointmentService;
 	
 	
 	
