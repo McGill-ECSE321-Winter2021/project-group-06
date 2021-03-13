@@ -129,8 +129,10 @@ public class TechnicianAccountService {
 	 */
 	@Transactional
 	public TechnicianAccount updateTechnicianAccount(String currentUsername, String newUsername, String newPassword, String newName) throws InvalidInputException {
-		
-		if (newUsername == null || newUsername.replaceAll("\\s+", "").length() == 0) {
+		if (!authenticationService.authenticateToken(currentUsername)) {
+			throw new InvalidInputException("You do not have permission to modify this account.");
+		}
+		else if (newUsername == null || newUsername.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else if (newUsername.contains(" ")) {
@@ -151,7 +153,6 @@ public class TechnicianAccountService {
 		}
 		else {
 			TechnicianAccount user = technicianAccountRepository.findByUsername(currentUsername);
-			authenticationService.createToken(currentUsername);
 			user.setUsername(newUsername);
 			user.setPassword(newPassword);
 			if (newName.contains(" ")) {
@@ -198,9 +199,9 @@ public class TechnicianAccountService {
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean loginAdminAccount(String username, String password) throws InvalidInputException{
+	public boolean loginTechnicianAccount(String username, String password) throws InvalidInputException{
 		boolean successful = false;
-		AdminAccount user = adminAccountRepository.findByUsername(username);
+		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
 		if(user == null) {
 			throw new InvalidInputException("The user cannot be found.");
 		}
@@ -219,15 +220,35 @@ public class TechnicianAccountService {
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean logoutAdminAccount(String username) throws InvalidInputException{
+	public boolean logoutTechnicianAccount(String username) throws InvalidInputException{
 		boolean successful = false;
-		AdminAccount user = adminAccountRepository.findByUsername(username);
+		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
 		if(user == null) {
 			throw new InvalidInputException("The user cannot be found.");
 		}
 		else {
 			successful = authenticationService.logout(username);
 			return successful;
+		}
+	}
+	
+	/**
+	 * Authenticate token
+	 * @author Catherine
+	 * @param username
+	 * @return authenticity
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean authenticateTechnicianAccount(String username) throws InvalidInputException{
+		boolean authentic = false;
+		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			authentic = authenticationService.authenticateToken(username);
+			return authentic;
 		}
 	}
 	
