@@ -174,11 +174,12 @@ public class CustomerAccountController {
 				return null;
 			}
 			else {
-				// TODO add car attributes once CarDto is finished
-				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
+						car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
 				return carDto;
 			}
 		}
+		
 		
 		/**
 		 * Helper Method to convert an appointment to a Dto
@@ -193,7 +194,9 @@ public class CustomerAccountController {
 			}
 			else {
 				// TODO add appointment attributes once AppointmentDto is finished
+				
 				AppointmentDto aptDto = new AppointmentDto();
+				
 				return aptDto;
 			}
 		}

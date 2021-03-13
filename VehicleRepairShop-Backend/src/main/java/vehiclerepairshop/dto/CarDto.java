@@ -3,10 +3,11 @@ package vehiclerepairshop.dto;
 import java.util.Collections;
 import java.util.List;
 
+import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 
 public class CarDto {
-	public enum MotorType { Electric, Hybrid, Gas, Diesel }
+	//public enum MotorType { Electric, Hybrid, Gas, Diesel }
 
 
 	  private String licensePlate;
