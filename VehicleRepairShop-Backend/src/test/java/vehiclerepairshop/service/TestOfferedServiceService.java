@@ -148,10 +148,57 @@ public class TestOfferedServiceService {
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
-		assertEquals("OfferedServiceId cannot be empty!", error);
+		assertEquals("OfferedServiceId cannot be empty!price cannot be empty!name cannot be empty!duration cannot be negative or empty or zero!reminderTime cannot be empty!reminderDate cannot be negative or empty or zero", error);
 	}
 	
 	
+	@Test
+	public void testCreatOfferedServiceWithEmptyId() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = "";
+		int testOfferedServiceDuration = 10;
+		String testOfferedServicePrice = "10";
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = new OfferedService();
+		try {
+			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+					testOfferedServicePrice,  testOfferedServiceName,
+					testOfferedServiceDuration,testOfferedServiceReminderTime, 
+					testOfferedServiceReminderDate, testOfferedServiceDescription);
+		}catch (IllegalArgumentException e){
+			error = e.getMessage();
+		}
+		assertNull(offeredService);
+		assertEquals("OfferedServiceId cannot be empty!price cannot be empty!", error);
+	}
+	
+	@Test
+	public void testCreatOfferedServiceWithSpaceId() {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		String testOfferedServiceId = " ";
+		int testOfferedServiceDuration = 10;
+		String testOfferedServicePrice = "10";
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = new OfferedService();
+		try {
+			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+					testOfferedServicePrice,  testOfferedServiceName,
+					testOfferedServiceDuration,testOfferedServiceReminderTime, 
+					testOfferedServiceReminderDate, testOfferedServiceDescription);
+		}catch (IllegalArgumentException e){
+			error = e.getMessage();
+		}
+		assertNull(offeredService);
+		assertEquals("OfferedServiceId cannot be empty!price cannot be empty!", error);
+	}
 	
 	
 	
