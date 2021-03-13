@@ -26,7 +26,11 @@ import vehiclerepairshop.service.AppointmentService;
 import vehiclerepairshop.service.InvalidInputException;
 import vehiclerepairshop.service.OfferedServiceService;
 
-
+/**
+ * 
+ * @author mikewang
+ *
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class OfferedServiceController {
