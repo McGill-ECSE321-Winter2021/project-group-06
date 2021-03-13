@@ -76,7 +76,7 @@ public class TestVehicleAppointmentPersistence {
 	 * Tests finding appointments trough searching car
 	 */
 	@Test
-	public void testPersistAndLoadAppopintmentViaSearchCar() {
+	public void testPersistAndLoadAppointmentViaSearchCar() {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
 		Integer year = 2021;
@@ -475,7 +475,7 @@ public class TestVehicleAppointmentPersistence {
 	 * Tests loading appointment via searching garage
 	 */
 	@Test
-	public void testPersistAndLoadAppopintmentViaSearchGarage() {
+	public void testPersistAndLoadAppointmentViaSearchGarage() {
 		String licensePlate = "TestCar";
 		String model = "TestModel";
 		Integer year = 2021;
