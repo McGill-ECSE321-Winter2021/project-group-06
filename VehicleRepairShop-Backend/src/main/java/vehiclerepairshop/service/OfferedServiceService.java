@@ -115,7 +115,7 @@ public class OfferedServiceService {
 	 * @throws InvalidInputException s
 	 */
 	@Transactional
-	public  OfferedService getOfferedServiceByOfferedSeriveId(String serviceId) {
+	public  OfferedService getOfferedServiceByOfferedServiceId(String serviceId) {
 		if(serviceId == null || serviceId.trim().length()==0) {
 			throw new IllegalArgumentException("offeredServiceId cannot be null!");
 		}
@@ -140,13 +140,17 @@ public class OfferedServiceService {
 	 */
 	@Transactional
 	public boolean deleteOfferedService(String serviceId) throws InvalidInputException{
+		String error = null;
 		boolean isDeleted = false;
 		if(serviceId == null || serviceId.trim().length()==0) {
-			throw new InvalidInputException("the serviceId can not be empty!");
+			error = error + "the serviceId can not be empty!";
 		}
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		if (offeredService == null) {
-			throw new InvalidInputException("the offered service can not found in the system!");
+			error = error + "the offered service can not found in the system!" ;
+		}
+		if (error.length() >0) {
+			throw new InvalidInputException(error);
 		}
 		offeredServiceRepository.delete(offeredService);
 		isDeleted = true;

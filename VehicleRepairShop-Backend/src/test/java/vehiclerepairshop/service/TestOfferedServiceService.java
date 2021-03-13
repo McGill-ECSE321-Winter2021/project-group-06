@@ -532,7 +532,7 @@ public class TestOfferedServiceService {
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
-			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedSeriveId("");
+			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId("");
 		}catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -562,7 +562,7 @@ public class TestOfferedServiceService {
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
-			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedSeriveId(" ");
+			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(" ");
 		}catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -591,7 +591,7 @@ public class TestOfferedServiceService {
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
-			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedSeriveId("Test1");
+			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId("Test1");
 		}catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -668,8 +668,136 @@ public class TestOfferedServiceService {
 		assertEquals("appointment cannot be null!", error);
 	}
 	
+	/**
+	 * testing delete offered service with a valid offeredServiceId
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testDeleteOfferedServiceWithValidOfferedServiceId() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		Boolean isDeleted = false;
+		String testOfferedServiceId = "TEST1";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = null;
+		OfferedService deletedOfferedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			isDeleted = offeredServiceService.deleteOfferedService(testOfferedServiceId);
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		deletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(testOfferedServiceId);
+		assertNull(deletedOfferedService);
+		assertEquals(true, isDeleted);
+	}
+	
+	
+	/**
+	 * testing delete offered service with a empty offeredServiceId
+	 * @throws InvalidInputException
+	 */	
+	@Test
+	public void testDeleteOfferedServiceWithEmptyOfferedServiceId() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		Boolean isDeleted = false;
+		String testOfferedServiceId = "TEST1";
+		String deletedOfferedServiceId = "";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = null;
+		OfferedService deletedOfferedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			isDeleted = offeredServiceService.deleteOfferedService(deletedOfferedServiceId);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		deletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(testOfferedServiceId);
+		assertNotNull(deletedOfferedService);
+		assertEquals("the serviceId can not be empty!", error);
+	}
+
+	/**
+	 * testing delete offered service with a space offeredServiceId
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testDeleteOfferedServiceWithSpaceOfferedServiceId() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String error = null;
+		Boolean isDeleted = false;
+		String testOfferedServiceId = "TEST1";
+		String deletedOfferedServiceId = " ";
+		int testOfferedServiceDuration = 10;
+		Double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		OfferedService offeredService = null;
+		OfferedService deletedOfferedService = null;
+		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+				testOfferedServicePrice,  testOfferedServiceName,
+				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+				testOfferedServiceReminderDate, testOfferedServiceDescription);
+		try {
+			isDeleted = offeredServiceService.deleteOfferedService(deletedOfferedServiceId);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		deletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(testOfferedServiceId);
+		assertNotNull(deletedOfferedService);
+		assertEquals("the serviceId can not be empty!", error);
+		assertEquals(false, isDeleted);
+	}
+	
+	
+	
+	/**
+	 * testing delete offered service with a null offeredService
+	 * @throws InvalidInputException
+	 */
+	@Test
+	public void testDeleteOfferedServiceWithEmptyOfferedService() throws InvalidInputException {
+		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		String testOfferedServiceId = "TEST1";
+		String error = null;
+		Boolean isDeleted = null;
+		OfferedService deletedOfferedService = new OfferedService();
+		try {
+			isDeleted = offeredServiceService.deleteOfferedService(testOfferedServiceId);
+		}catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		deletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(testOfferedServiceId);
+		assertNull(deletedOfferedService);
+		assertEquals("the offered service can not found in the system!", error);
+		assertEquals(false, isDeleted);
+	}
 	
 
+	
 	
 	
 	/**
@@ -677,7 +805,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testGetExistingOfferedService() {
-		assertEquals(OFFERED_SERVICE_KEY, offeredServiceService.getOfferedServiceByOfferedSeriveId(OFFERED_SERVICE_KEY).getOfferedServiceId());
+		assertEquals(OFFERED_SERVICE_KEY, offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY).getOfferedServiceId());
 	}
 	
 	
@@ -687,7 +815,7 @@ public class TestOfferedServiceService {
 	
 	@Test
 	public void testGetNonExistingOfferedService() {
-		assertNull(offeredServiceService.getOfferedServiceByOfferedSeriveId(NONEXISTING_KEY));
+		assertNull(offeredServiceService.getOfferedServiceByOfferedServiceId(NONEXISTING_KEY));
 	}
 	
 	
