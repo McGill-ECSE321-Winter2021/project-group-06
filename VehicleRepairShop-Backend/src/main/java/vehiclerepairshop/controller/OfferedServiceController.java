@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import vehiclerepairshop.dto.AppointmentDto;
 import vehiclerepairshop.dto.OfferedServiceDto;
+import vehiclerepairshop.service.OfferedServiceService;
 
 
 @CrossOrigin(origins = "*")
@@ -24,29 +25,29 @@ import vehiclerepairshop.dto.OfferedServiceDto;
 public class OfferedServiceController {
 
 	@Autowired
-	private OfferedServiceController OfferedServiceService;
+	private OfferedServiceService offeredServiceService;
 	
 	/**
 	 * @TODO: check why OfferedServiceService.getAllOfferedServices() returns type OfferedServiceDto
 	 */
-//	@GetMapping(value = {"/offeredServices", "/offeredServices/"})
-//	public List<OfferServiceDto> getAllOfferedServices(){
-//		List<OfferServiceDto> offeredServiceDtos = new ArrayList<>();
-//		for (OfferedService offeredService: OfferedServiceService.getAllOfferedServices()) {
-//			offeredServiceDtos.add(convertToDto(offeredService));
-//		}
-//		return offeredServiceDtos;
-//	}
-//	
-//	
-//	private OfferServiceDto convertToDto(OfferedService s) {
-//		if (s == null) {
-//			throw new IllegalArgumentException("There is no such OfferedService!");
-//		}
-//		
-//		OfferServiceDto offerServiceDto = new OfferServiceDto(s.getOfferedServiceId(), s.getPrice(), 
-//				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
-//		return offerServiceDto;
-//	}
+	@GetMapping(value = {"/offeredServices", "/offeredServices/"})
+	public List<OfferedServiceDto> getAllOfferedServices(){
+		List<OfferedServiceDto> offeredServiceDtos = new ArrayList<>();
+		for (OfferedService offeredService: offeredServiceService.getAllOfferedServices()) {
+			offeredServiceDtos.add(convertToDto(offeredService));
+		}
+		return offeredServiceDtos;
+	}
+	
+	
+	private OfferedServiceDto convertToDto(OfferedService s) {
+		if (s == null) {
+			throw new IllegalArgumentException("There is no such OfferedService!");
+		}
+		
+		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
+				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
+		return offerServiceDto;
+	}
 	
 }
