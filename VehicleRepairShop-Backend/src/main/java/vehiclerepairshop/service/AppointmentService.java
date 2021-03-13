@@ -19,7 +19,7 @@ public class AppointmentService {
 	@Autowired
 	private AppointmentRepository appointmentRepository;
 	/**
-	 * 
+	 *  
 	 * @param worker
 	 * @param timeSlot
 	 * @param service
