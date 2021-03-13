@@ -93,9 +93,17 @@ public class OfferedServiceService {
 	 * @param serviceId
 	 */
 	@Transactional
-	public void deleteOfferedService(String serviceId) {
+	public boolean deleteOfferedService(String serviceId) throws InvalidInputException{
+		boolean isDeleted = false;
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
-		offeredServiceRepository.delete(offeredService);
+		if (offeredService == null) {
+			throw new InvalidInputException("the offered service can not found in the system!");
+		}
+		else { 
+			offeredServiceRepository.delete(offeredService);
+			isDeleted = true;
+		}
+		return isDeleted;
 	}
 	
 	/**
@@ -109,7 +117,7 @@ public class OfferedServiceService {
 	 * @param newDescription
 	 */
 	@Transactional
-	public void updateService(String serviceId, String newPrice, String newName, String newDuration, Time newReminderTime, Date newReminderDate, String newDescription) {
+	public OfferedService updateService(String serviceId, String newPrice, String newName, String newDuration, Time newReminderTime, Date newReminderDate, String newDescription) {
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		offeredService.setPrice(newPrice);
 		offeredService.setName(newName);
@@ -118,6 +126,8 @@ public class OfferedServiceService {
 		offeredService.setReminderDate(newReminderDate);
 		offeredService.setDescription(newDescription);
 		offeredServiceRepository.save(offeredService);
+		
+		return offeredService;
 	}
 	
 	// helper method that converts iterable to list
