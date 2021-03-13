@@ -104,7 +104,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -138,7 +138,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = null;
 		int testOfferedServiceReminderDate = 0;
 		String testOfferedServiceDescription = null;
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -151,7 +151,9 @@ public class TestOfferedServiceService {
 		assertEquals("OfferedServiceId cannot be empty!price cannot be empty!name cannot be empty!duration cannot be zero!reminderTime cannot be empty!reminderDate cannot be zero!Offered service description cannot be empty!", error);
 	}
 	
-	
+	/**
+	 * testing create an offeredService object with empty Id
+	 */
 	@Test
 	public void testCreatOfferedServiceWithEmptyId() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -163,7 +165,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -176,6 +178,10 @@ public class TestOfferedServiceService {
 		assertEquals("OfferedServiceId cannot be empty!", error);
 	}
 	
+	
+	/**
+	 * testing create an offeredService object with space Id
+	 */
 	@Test
 	public void testCreatOfferedServiceWithSpaceId() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -187,7 +193,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -200,7 +206,9 @@ public class TestOfferedServiceService {
 		assertEquals("OfferedServiceId cannot be empty!", error);
 	}
 	
-	
+	/**
+	 * testing create an offeredService object with empty duration
+	 */
 	@Test
 	public void testCreatOfferedServiceWithEmptyDuration() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -212,7 +220,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -225,7 +233,9 @@ public class TestOfferedServiceService {
 		assertEquals("duration cannot be zero!", error);
 	}
 	
-	
+	/**
+	 * testing create an offeredService object with negative duration
+	 */
 	@Test
 	public void testCreatOfferedServiceWithNegativeDuration() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -237,7 +247,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -250,7 +260,9 @@ public class TestOfferedServiceService {
 		assertEquals("duration cannot be negative!", error);
 	}
 	
-	
+	/**
+	 * testing create an offeredService object with negative reminder date
+	 */
 	@Test
 	public void testCreatOfferedServiceWithNegativeReminderDate() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -262,7 +274,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = -1;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -275,6 +287,10 @@ public class TestOfferedServiceService {
 		assertEquals("reminderDate cannot be negative!", error);
 	}
 	
+	
+	/**
+	 * testing create an offeredService object with zero reminder date
+	 */
 	@Test
 	public void testCreatOfferedServiceWithZeroReminderDate() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -286,7 +302,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 0;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -299,7 +315,9 @@ public class TestOfferedServiceService {
 		assertEquals("reminderDate cannot be zero!", error);
 	}
 	
-	
+	/**
+	 * testing create an offeredService object with empty price 
+	 */
 	@Test
 	public void testCreatOfferedServiceWithEmptyPrice() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -311,7 +329,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 10;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -324,6 +342,9 @@ public class TestOfferedServiceService {
 		assertEquals("price cannot be empty!", error);
 	}
 	
+	/**
+	 * testing create an offeredService object with negative price
+	 */
 	@Test
 	public void testCreatOfferedServiceWithNegativePrice() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -335,7 +356,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 10;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -348,6 +369,9 @@ public class TestOfferedServiceService {
 		assertEquals("price cannot be negative!", error);
 	}
 	
+	/**
+	 * testing create an offeredService object with empty service name 
+	 */
 	@Test
 	public void testCreatOfferedServiceWithEmptyServiceName() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -359,7 +383,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 10;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -372,6 +396,10 @@ public class TestOfferedServiceService {
 		assertEquals("name cannot be empty!", error);
 	}
 	
+	
+	/**
+	 * testing create an offeredService object with space service name 
+	 */
 	@Test
 	public void testCreatOfferedServiceWithSpaceServiceName() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -383,7 +411,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 10;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -396,6 +424,10 @@ public class TestOfferedServiceService {
 		assertEquals("name cannot be empty!", error);
 	}
 	
+	
+	/**
+	 * testing create an offeredService object with empty reminder time
+	 */
 	@Test
 	public void testCreatOfferedServiceWithEmptyReminderTime() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -407,7 +439,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = null;
 		int testOfferedServiceReminderDate = 10;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -420,6 +452,10 @@ public class TestOfferedServiceService {
 		assertEquals("reminderTime cannot be empty!", error);
 	}
 	
+	
+	/**
+	 * testing create an offeredService object with empty description
+	 */
 	@Test
 	public void testCreatOfferedServiceWithEmptyDescription() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -431,7 +467,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 0;
 		String testOfferedServiceDescription = "";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
@@ -444,6 +480,10 @@ public class TestOfferedServiceService {
 		assertEquals("Offered service description cannot be empty!", error);
 	}
 	
+	
+	/**
+	 * testing create an offeredService object with space description
+	 */
 	@Test
 	public void testCreatOfferedServiceWithSpaceDescription() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
@@ -455,7 +495,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 0;
 		String testOfferedServiceDescription = " ";
-		OfferedService offeredService = new OfferedService();
+		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName,
