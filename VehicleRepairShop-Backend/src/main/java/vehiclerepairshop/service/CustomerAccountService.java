@@ -23,6 +23,8 @@ public class CustomerAccountService {
 	private CustomerAccountRepository customerAccountRepository;
 	@Autowired
 	private TechnicianAccountRepository technicianAccountRepository;
+	@Autowired
+	private AuthenticationService authenticationService;
 
 
 	/**
@@ -63,6 +65,7 @@ public class CustomerAccountService {
 			}
 			user.setName(name);
 			customerAccountRepository.save(user);
+			authenticationService.createToken(user.getUsername());
 			return user;
 		}
 	}
@@ -113,6 +116,7 @@ public class CustomerAccountService {
 		}
 		else {
 			CustomerAccount user = customerAccountRepository.findByUsername(currentUsername);
+			authenticationService.createToken(currentUsername);
 			user.setUsername(newUsername);
 			user.setPassword(newPassword);
 			if (newName.contains(" ")) {
@@ -127,15 +131,27 @@ public class CustomerAccountService {
 	
 	
 	/**
-	 * Find customer account by username
+	 * Delete the account
 	 * @author Catherine
 	 * @param username
-	 * @return the account
+	 * @return boolean for successful
+	 * @throws InvalidInputException 
 	 */
 	@Transactional
-	public CustomerAccount deleteCustomerAccount(String username) {
+	public boolean deleteCustomerAccount(String username) throws InvalidInputException {
+		boolean successful = false;
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
-		return user;
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else if (!authenticationService.authenticateToken(username)) {
+			throw new InvalidInputException("You do not have permission to delete this account.");
+		}
+		else {
+			customerAccountRepository.delete(user);
+			successful = true;
+			return successful;
+		}
 	}
 	
 	/**
@@ -172,6 +188,48 @@ public class CustomerAccountService {
 	}
 
 
+	/**
+	 * Login the account and create a token for the account
+	 * @param username
+	 * @param password
+	 * @return boolean for success
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean loginCustomerAccount(String username, String password) throws InvalidInputException{
+		boolean successful = false;
+		CustomerAccount user = customerAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			successful = authenticationService.login(username, password);
+			return successful;
+		}
+	}
+	
+	/**
+	 * Logout the account and delete token for the account
+	 * @param username
+	 * @param password
+	 * @return boolean for success
+	 * @throws InvalidInputException
+	 */
+	@Transactional
+	public boolean logoutCustomerAccount(String username) throws InvalidInputException{
+		boolean successful = false;
+		CustomerAccount user = customerAccountRepository.findByUsername(username);
+		if(user == null) {
+			throw new InvalidInputException("The user cannot be found.");
+		}
+		else {
+			successful = authenticationService.logout(username);
+			return successful;
+		}
+	}
+	
+	//------------------------------- Helper Methods --------------------------
+	
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use
 	 * @author Catherine

@@ -27,9 +27,6 @@ public class AdminAccountController {
 	private AdminAccountService adminAccountService;
 	
 
-//	@Autowired
-//	private JWTTokenProvider jwtTokenProvider;
-
 	//create -- done
 	//delete -- done
 	//update -- done
