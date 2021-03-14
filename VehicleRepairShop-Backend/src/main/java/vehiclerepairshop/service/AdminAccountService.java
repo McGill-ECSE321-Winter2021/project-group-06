@@ -13,6 +13,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.dao.AdminAccountRepository;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
+import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 
 @Service
 public class AdminAccountService {
@@ -36,7 +38,7 @@ public class AdminAccountService {
 	 */
 	@Transactional
 	public AdminAccount createAdminAccount(String username, String password, String name) throws InvalidInputException {
-
+		
 		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
@@ -52,7 +54,7 @@ public class AdminAccountService {
 		else if (password.contains(" ")) {
 			throw new InvalidInputException("Password cannot contain spaces.");
 		}
-		else if (name == null || name.replaceAll("\\s+", "").length() == 0){
+		else if (name == null || name.replaceAll("\\s+", "").length() == 0){ //name.trim().length() == 0
 			throw new InvalidInputException("Name cannot be empty.");
 		}
 		else {
@@ -63,8 +65,9 @@ public class AdminAccountService {
 				name.replaceAll("\\s+", "_"); 
 			}
 			user.setName(name);
+			
 			adminAccountRepository.save(user);
-			authenticationService.createToken(user.getUsername());
+			createToken(username);
 			return user;
 		}
 	}
@@ -282,6 +285,31 @@ public class AdminAccountService {
 			available = true;
 			return available;
 		}
+	}
+	
+	public int createToken(String username) {
+
+		int token = 0;
+		
+		if (adminAccountRepository.findByUsername(username) != null) {
+			AdminAccount user = adminAccountRepository.findByUsername(username);
+			user.setToken(user.getUsername().hashCode());
+			adminAccountRepository.save(user);
+			return token;
+		}
+		else if (customerAccountRepository.findByUsername(username) != null) {
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
+			user.setToken(user.getUsername().hashCode());
+			customerAccountRepository.save(user);
+			return token;
+		}
+		else if (technicianAccountRepository.findByUsername(username) != null) {
+			TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+			user.setToken(user.getUsername().hashCode());
+			technicianAccountRepository.save(user);
+			return token;
+		}
+		else return token;
 	}
 	
 	
