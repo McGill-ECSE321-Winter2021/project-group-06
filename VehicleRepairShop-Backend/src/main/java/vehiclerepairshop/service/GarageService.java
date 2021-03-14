@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
-import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 
 
@@ -20,6 +18,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 public class GarageService {
 	@Autowired
 	private GarageRepository garageRepository;
+	@Autowired
+	GarageService garageService;
 
 
 	/**
@@ -29,22 +29,19 @@ public class GarageService {
 	 * @return
 	 */
 	@Transactional
-	public Garage createGarage(Boolean isAvailable, String garageId){
-		if(isAvailable == null && (garageId == null || garageId.replaceAll("\\s+", "").length() == 0)){
-			throw new InvalidInputException("IsAvailable and GarageId cannot be empty!");
-		}
-		else if (isAvailable == null) {
-			throw new InvalidInputException("IsAvailable cannot be empty!");
-		}
-		else if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
+	public Garage createGarage(boolean isAvailable, String garageId){
+		if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
 			throw new InvalidInputException("GarageId cannot be empty!");
+		}
+		else if (garageRepository.findByGarageId(garageId) != null) {
+			throw new InvalidInputException("GarageId not available!");
 		}
 
 		Garage garage = new Garage();
-
 		garage.setIsAvailable(isAvailable);
 		garage.setGarageId(garageId);
 		garageRepository.save(garage);
+		
 		return garage;
 	}
 
@@ -55,9 +52,6 @@ public class GarageService {
 	 */
 	@Transactional
 	public Garage getGarageByGarageId(String garageId) {
-		if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("GarageId cannot be empty!");
-		}
 		Garage garage = garageRepository.findByGarageId(garageId);
 		return garage;
 	}
@@ -98,9 +92,12 @@ public class GarageService {
 	 * Update garage information by offering new information and garageId
 	 */
 	@Transactional
-	public Garage updateGarage(String garageId, Boolean newIsAvailable) {
-		if(garageId == null || garageId.trim().length()==0) {
-			throw new InvalidInputException("the garageId cannot be empty!");
+	public Garage updateGarage(String garageId, boolean newIsAvailable) {
+		if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
+			throw new InvalidInputException("GarageId cannot be empty!");
+		}
+		else if (garageRepository.findByGarageId(garageId) == null) {
+			throw new InvalidInputException("GarageId does not exist!");
 		}
 		Garage garage = garageRepository.findByGarageId(garageId);
 		if(garage == null) {
@@ -118,6 +115,12 @@ public class GarageService {
 	 */
 	@Transactional
 	public boolean deleteGarage(String garageId) {
+		if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
+			throw new InvalidInputException("GarageId cannot be empty!");
+		}
+		else if (garageRepository.findByGarageId(garageId) == null) {
+			throw new InvalidInputException("GarageId does not exist!");
+		}
 		Garage garage = garageRepository.findByGarageId(garageId);
 		if(garage == null) {
 			throw new InvalidInputException("The garage cannot be found.");
