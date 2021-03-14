@@ -12,11 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import vehiclerepairshop.dto.AdminAccountDto;
-import vehiclerepairshop.dto.AppointmentDto;
 import vehiclerepairshop.dto.BusinessInformationDto;
 import vehiclerepairshop.service.AdminAccountService;
 import vehiclerepairshop.service.BusinessInformationService;
@@ -150,8 +147,14 @@ public class AdminAccountController {
 		return authentic;
 	}
 	
-	// TODO findByBusinessInformation
-	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}", "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}" })
+	/**
+	 * Get admin account associated to business information
+	 * Uses get business information by name from business information controller
+	 * @author Catherine
+	 * @param businessInformationDto
+	 * @return
+	 */
+	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}", "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}/" })
 	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("name") BusinessInformationDto businessInformationDto) {
 		return adminAccountService.getAllAdminAccountsWithBusinessInformation(convertToDomainObject(businessInformationDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
@@ -196,14 +199,12 @@ public class AdminAccountController {
 	 * @param businessInformationDto
 	 * @return BusinessInformation
 	 */
-	private BusinessInformation convertToDomainObject(BusinessInformationDto appobusinessInformationDtointmentDto)  {
-		if (appobusinessInformationDtointmentDto == null) {
+	private BusinessInformation convertToDomainObject(BusinessInformationDto businessInformationDto)  {
+		if (businessInformationDto == null) {
 			return null;
 		}
 		else {
-			// TODO
-			//return businessInformationService.getBusinessInformationByName(businessInformationDto.getName());
-			return null;
+			return businessInformationService.getBusinessInformationByName(businessInformationDto.getName());
 		}
 	}
 
