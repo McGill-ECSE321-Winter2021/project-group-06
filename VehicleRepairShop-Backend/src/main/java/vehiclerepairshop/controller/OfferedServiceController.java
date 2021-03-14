@@ -78,7 +78,7 @@ public class OfferedServiceController {
 	@GetMapping(value = {"/getOfferedServiceById/{offeredServiceId}", "/getOfferedServiceById/{offeredServiceId}/"})
 	public OfferedServiceDto getOfferedServiceById(@PathVariable("offeredServiceId") String offeredServiceId){
 		OfferedServiceDto foundedServiceDtos = new OfferedServiceDto();
-		OfferedService foundedService = offeredServiceService.getOfferedServiceByOfferedSeriveId(offeredServiceId);
+		OfferedService foundedService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceId);
 		foundedServiceDtos = convertToDto(foundedService);
 		return foundedServiceDtos;
 	}
