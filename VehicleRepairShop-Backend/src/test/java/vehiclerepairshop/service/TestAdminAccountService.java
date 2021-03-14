@@ -101,7 +101,7 @@ public class TestAdminAccountService {
 				user = adminAccountService.createAdminAccount(username, password, name);
 			} catch (InvalidInputException e) {
 				// Check that no error occurred
-				fail(e);
+				fail();
 			}
 			assertNotNull(user);
 			assertEquals(username, user.getUsername());
@@ -114,7 +114,23 @@ public class TestAdminAccountService {
 		/**
 		 * Create Admin Account with empty username	
 		 */
-				
+		@Test
+		public void testCreateAdminAccountWithEmptyUsername() {
+			String name = "Mira";
+			String username = "";
+			String password = "GhostPassword101";
+			String error = null;
+			AdminAccount user = null; 
+			try {
+				user = adminAccountService.createAdminAccount(username, password, name);
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			}
+
+			assertNull(user);
+			// check error
+			assertEquals("Username cannot be empty.", error);
+		}
 				
 		/**
 		 * Create Admin Account with spaces in username	
