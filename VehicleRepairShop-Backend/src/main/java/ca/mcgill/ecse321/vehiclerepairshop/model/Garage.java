@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 public class Garage
 {
 
-  private Boolean isAvailable;
+  private boolean isAvailable;
   private String garageId;
   private List<Appointment> appointment;
 

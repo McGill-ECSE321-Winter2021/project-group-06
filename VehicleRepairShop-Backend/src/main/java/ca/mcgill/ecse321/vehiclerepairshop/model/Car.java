@@ -19,7 +19,7 @@ public class Car
 
   private String licensePlate;
   private String model;
-  private Integer year;
+  private int year;
   private MotorType motorType;
 
   private CustomerAccount owner;

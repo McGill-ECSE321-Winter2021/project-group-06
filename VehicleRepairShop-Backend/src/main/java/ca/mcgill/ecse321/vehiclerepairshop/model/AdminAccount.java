@@ -11,7 +11,7 @@ public class AdminAccount
 	private String password;
 	private String username;
 	private BusinessInformation businessInformation;
-	private Integer token;
+	private int token;
 
 	public void setName(String aName)
 	{

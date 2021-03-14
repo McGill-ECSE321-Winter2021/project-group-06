@@ -76,7 +76,7 @@ public class TestGaragePersistance {
 
 		garage = null;
 		garage = garageRepository.findByGarageId(garageId);
-
+		
 		assertNotNull(garage);
 		assertEquals(garage.getGarageId(), garageId);
 		assertEquals(garage.getIsAvailable(), isAvailable);

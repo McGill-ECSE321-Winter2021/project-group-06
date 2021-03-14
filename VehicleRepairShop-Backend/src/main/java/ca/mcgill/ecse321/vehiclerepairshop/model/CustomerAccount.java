@@ -13,7 +13,7 @@ public class CustomerAccount
   private String name;
   private String password;
   private String username;
-  private Integer token;
+  private int token;
 
   
   public void setName(String aName)
