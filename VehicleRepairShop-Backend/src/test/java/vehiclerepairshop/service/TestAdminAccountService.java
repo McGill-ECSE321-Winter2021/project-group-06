@@ -134,7 +134,6 @@ public class TestAdminAccountService {
 				// Check that no error occurred
 				fail();
 			}
-			AdminAccount user2 = adminAccountservice.get.getTimeSlot(TIMESLOTID);
 			assertNotNull(user);
 			assertEquals(username, user.getUsername());
 			assertEquals(password, user.getPassword());

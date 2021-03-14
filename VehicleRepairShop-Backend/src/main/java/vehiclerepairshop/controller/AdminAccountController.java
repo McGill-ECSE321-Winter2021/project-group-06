@@ -147,8 +147,14 @@ public class AdminAccountController {
 		return authentic;
 	}
 	
-	// @ TODO Fix url once BusinessInformationController is done
-	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}", "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}" })
+	/**
+	 * Get admin account associated to business information
+	 * Uses get business information by name from business information controller
+	 * @author Catherine
+	 * @param businessInformationDto
+	 * @return
+	 */
+	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}", "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}/" })
 	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("name") BusinessInformationDto businessInformationDto) {
 		return adminAccountService.getAllAdminAccountsWithBusinessInformation(convertToDomainObject(businessInformationDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
