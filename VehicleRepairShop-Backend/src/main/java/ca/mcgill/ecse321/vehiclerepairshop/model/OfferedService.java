@@ -14,11 +14,11 @@ public class OfferedService
 {
 
   private String offeredServiceId;
-  private Double price;
+  private double price;
   private String name;
-  private Integer duration;
+  private int duration;
   private Time reminderTime;
-  private Integer reminderDate;
+  private int reminderDate;
   private String description;
   private List<Appointment> appointment;
 

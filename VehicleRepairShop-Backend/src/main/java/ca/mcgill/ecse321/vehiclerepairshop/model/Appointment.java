@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 public class Appointment
 {
 	
-  private Integer appointmentId;
+  private int appointmentId;
   private String comment;
   private Car car;
   private Garage garage;

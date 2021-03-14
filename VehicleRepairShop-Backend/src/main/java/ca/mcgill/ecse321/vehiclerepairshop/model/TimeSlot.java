@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 public class TimeSlot
 {
 
-  private Integer timeSlotId;
+  private int timeSlotId;
   private Time startTime;
   private Time endTime;
   private Date startDate;
