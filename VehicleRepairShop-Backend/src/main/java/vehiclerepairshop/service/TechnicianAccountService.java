@@ -203,11 +203,16 @@ public class TechnicianAccountService {
 		boolean successful = false;
 		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
 		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
+			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
 		}
 		else {
 			successful = authenticationService.login(username, password);
-			return successful;
+			if (successful) {
+				return successful;
+			}
+			else {
+				throw new InvalidInputException("An error occured. Please try again.");
+			}
 		}
 	}
 	
@@ -228,7 +233,12 @@ public class TechnicianAccountService {
 		}
 		else {
 			successful = authenticationService.logout(username);
-			return successful;
+			if (successful) {
+				return successful;
+			}
+			else {
+				throw new InvalidInputException("An error occured. Please try again.");
+			}
 		}
 	}
 	
@@ -248,7 +258,13 @@ public class TechnicianAccountService {
 		}
 		else {
 			authentic = authenticationService.authenticateToken(username);
-			return authentic;
+			if (authentic) {
+				return authentic;
+			}
+			else {
+				//General error message to capture if the session expired or the user does not have permission
+				throw new InvalidInputException("An error occured. Please try again."); 
+			}		
 		}
 	}
 	

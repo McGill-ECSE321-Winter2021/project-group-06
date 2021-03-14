@@ -41,7 +41,7 @@ public class OfferedServiceService {
 	 * @return
 	 * @throws InvalidInputException 
 	 */
-	@Transactional
+	@Transactional 
 	public OfferedService createOfferedService(String offeredServiceId, Double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
 		String error ="";
 		if (offeredServiceId == null || offeredServiceId.trim().length()==0) {

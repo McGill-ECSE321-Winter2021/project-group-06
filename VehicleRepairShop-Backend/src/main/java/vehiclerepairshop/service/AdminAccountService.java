@@ -199,11 +199,16 @@ public class AdminAccountService {
 		boolean successful = false;
 		AdminAccount user = adminAccountRepository.findByUsername(username);
 		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
+			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
 		}
 		else {
 			successful = authenticationService.login(username, password);
-			return successful;
+			if (successful) {
+				return successful;
+			}
+			else {
+				throw new InvalidInputException("Username or password incorrect. Please try again.");
+			}
 		}
 	}
 	
@@ -223,7 +228,7 @@ public class AdminAccountService {
 		}
 		else {
 			successful = authenticationService.logout(username);
-			return successful;
+			return successful; // should always be true, because it's only false if user is not found, which is captured above
 		}
 	}
 	
@@ -243,7 +248,13 @@ public class AdminAccountService {
 		}
 		else {
 			authentic = authenticationService.authenticateToken(username);
-			return authentic;
+			if (authentic) {
+				return authentic;
+			}
+			else {
+				//General error message to capture if the session expired or the user does not have permission
+				throw new InvalidInputException("An error occured. Please try again."); 
+			}
 		}
 	}
 	
