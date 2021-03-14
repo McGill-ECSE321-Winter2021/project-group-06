@@ -64,5 +64,6 @@ public class TestTimeSlotPersistance {
 		assertEquals(timeSlot.getEndDate(), endDate);
 
 	}
+	
 
 }

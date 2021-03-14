@@ -10,31 +10,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 /**
  * @author aureliahaas
@@ -51,14 +37,11 @@ public class TestGarageService {
 	private GarageService garageService;
 
 	private static final String GARAGE_KEY = "TestID";
-	private static final int APPOINTMENT_KEY = 1; 
-	private static final String NONEXISTING_KEY = "NotATestID";
+	//private static final int APPOINTMENT_KEY = 1; 
+	//private static final String NONEXISTING_KEY = "NotATestID";
 	
 	private static final String GARAGE_ID = "garageId";
-	private static final Boolean IS_AVAILABLE = false; 
-	
-//	boolean isAvailable;
-//	String garageId;
+	private static final boolean IS_AVAILABLE = false; 
 
 	@BeforeEach
 	public void setMockOutput() {
@@ -88,7 +71,7 @@ public class TestGarageService {
 	public void testCreateGarage() {
 		assertEquals(0, garageService.getAllGarages().size());
 		
-		Boolean isAvailable = IS_AVAILABLE;
+		boolean isAvailable = IS_AVAILABLE;
 		String garageId = GARAGE_ID;
 
 		Garage garage = null;
@@ -99,44 +82,22 @@ public class TestGarageService {
 		}
 		checkResultGarage(garage, isAvailable, garageId);
 	}
-
-	/**
-	 * Testing when we are creating a null garage
-	 */
-	@Test
-	public void testCreateNullGarage() {
-		assertEquals(0, garageService.getAllGarages().size());
-		
-		String error = null;
-		
-		Boolean isAvailable = null;
-		String garageId = null;
-
-		Garage garage = null;
-		try {
-			garage = garageService.createGarage(isAvailable,garageId);
-		}catch (InvalidInputException e){
-			error = e.getMessage();
-		}
-		assertNull(garage);
-		assertEquals("IsAvailable and GarageId cannot be empty!", error);
-	}
 	
 	/**
-	 * Testing when we are creating a garage with no garageId
+	 * Testing when we are creating a garage with an empty garageId
 	 */
 	@Test
-	public void testCreateGarageWithNoGarageId() {
+	public void testCreateGarageWithEmptyGarageId() {
 		assertEquals(0, garageService.getAllGarages().size());
 		
 		String error = null;
 		
-		Boolean isAvailable = IS_AVAILABLE;
+		boolean isAvailable = IS_AVAILABLE;
 		String garageId = null;
 
 		Garage garage = null;
 		try {
-			garage = garageService.createGarage(isAvailable,garageId);
+			garage = garageService.createGarage(isAvailable, garageId);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
@@ -153,39 +114,41 @@ public class TestGarageService {
 		
 		String error = null;
 		
-		Boolean isAvailable = IS_AVAILABLE;
+		boolean isAvailable = IS_AVAILABLE;
 		String garageId = " ";
 
 		Garage garage = null;
 		try {
-			garage = garageService.createGarage(isAvailable,garageId);
+			garage = garageService.createGarage(isAvailable, garageId);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(garage);
 		assertEquals("GarageId cannot be empty!", error);
 	}
-
+	
 	/**
-	 * Testing when we are creating a garage with a spaced garageId
+	 * Testing when we are creating a garage if the garageId is already taken
 	 */
 	@Test
-	public void testCreateGarageWithNoIsAvailable() {
+	public void testCreateGarageWithTakenGarageId() {
 		assertEquals(0, garageService.getAllGarages().size());
 		
 		String error = null;
 		
-		Boolean isAvailable = null;
+		boolean isAvailable = IS_AVAILABLE;
 		String garageId = GARAGE_ID;
 
+		garageService.createGarage(isAvailable, garageId);
 		Garage garage = null;
+		
 		try {
-			garage = garageService.createGarage(isAvailable,garageId);
+			garage = garageService.createGarage(isAvailable, garageId);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(garage);
-		assertEquals("IsAvailable cannot be empty!", error);
+		assertEquals("GarageId not available!", error);
 	}
 	
 	//----------------------------------- getGarageByGarageId --------------------------------------------------
@@ -196,7 +159,7 @@ public class TestGarageService {
 //	public void testGetGarage() {
 //		assertEquals(0, garageService.getAllGarages().size());
 //		
-//		Boolean isAvailable = IS_AVAILABLE;
+//		boolean isAvailable = IS_AVAILABLE;
 //		String garageId = GARAGE_ID;
 //
 //		Garage garage = garageService.createGarage(isAvailable, garageId);
@@ -222,7 +185,7 @@ public class TestGarageService {
 //		
 //		String error = null;
 //		
-//		Boolean isAvailable = IS_AVAILABLE;
+//		boolean isAvailable = IS_AVAILABLE;
 //		String garageId = null;
 //
 //		Garage garage = null;
@@ -242,24 +205,97 @@ public class TestGarageService {
 	/**
 	 * Testing updateGarage
 	 */
-//	@Test
-//	public void testUpdateGarage() {
-//		assertEquals(0, garageService.getAllGarages().size());
-//		
-//		Boolean isAvailable = false;//IS_AVAILABLE;
-//		String garageId = GARAGE_ID;
-//		
-//		Boolean newIsAvailable = true; //!IS_AVAILABLE;
-//
-//		Garage garage = garageService.createGarage(isAvailable,garageId);;
-//		
-//		try {
-//			garage = garageService.updateGarage(garageId, newIsAvailable);
-//		}catch (InvalidInputException e){
-//			e.printStackTrace();
-//		}
-//		checkResultGarage(garage, newIsAvailable, garageId);
-//	}
+	@Test
+	public void testUpdateGarage() {
+		assertEquals(0, garageService.getAllGarages().size());
+		
+		boolean isAvailable = IS_AVAILABLE;
+		String garageId = GARAGE_ID;
+		
+		boolean newIsAvailable = !IS_AVAILABLE;
+
+		garageService.createGarage(isAvailable, garageId);
+		Garage garage = null;
+		
+		try {
+			garage = garageService.updateGarage(garageId, newIsAvailable);
+		}catch (InvalidInputException e){
+			fail();//e.printStackTrace();
+		}
+		checkResultGarage(garage, newIsAvailable, garageId);
+	}
+	
+	/**
+	 * Testing updateGarage with an empty garageId
+	 */
+	@Test
+	public void testUpdateGarageWithEmptyGarageId() {
+		assertEquals(0, garageService.getAllGarages().size());
+		String error = null;
+		
+		boolean isAvailable = IS_AVAILABLE;
+		String garageId = null;
+		
+		//boolean newIsAvailable = !IS_AVAILABLE;
+
+		Garage garage = null; // garageService.createGarage(isAvailable,garageId);
+		
+		try {
+			garage = garageService.updateGarage(garageId, isAvailable);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(garage);
+		assertEquals("GarageId cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing updateGarage with a spaced garageId
+	 */
+	@Test
+	public void testUpdateGarageWithSpacedGarageId() {
+		assertEquals(0, garageService.getAllGarages().size());
+		String error = null;
+		
+		boolean isAvailable = IS_AVAILABLE;
+		String garageId = " ";
+		
+		//boolean newIsAvailable = !IS_AVAILABLE;
+
+		Garage garage = null; //garageService.createGarage(isAvailable,garageId);
+		
+		try {
+			garage = garageService.updateGarage(garageId, isAvailable);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(garage);
+		assertEquals("GarageId cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing updateGarage with a non-existing garageId
+	 */
+	@Test
+	public void testUpdateGarageWithNonExistingGarageId() {
+		assertEquals(0, garageService.getAllGarages().size());
+		String error = null;
+		
+		boolean isAvailable = IS_AVAILABLE;
+		String garageId = "nonExistingGarageId";
+		
+		//boolean newIsAvailable = !IS_AVAILABLE;
+
+		Garage garage = null;
+		
+		try {
+			garage = garageService.updateGarage(garageId, isAvailable);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(garage);
+		assertEquals("GarageId does not exist!", error);
+	}
 	
 	//----------------------------------- 	deleteGarage --------------------------------------------------
 	/**
@@ -268,24 +304,135 @@ public class TestGarageService {
 	@Test
 	public void testDeleteGarage() {
 		assertEquals(0, garageService.getAllGarages().size());
-		String error = null;
+		boolean isDeleted = false;
 		
-		Boolean isDeleted = false;
-		
-		Boolean isAvailable = IS_AVAILABLE;
+		boolean isAvailable = IS_AVAILABLE;
 		String garageId = GARAGE_ID;
 
-		Garage garage = garageService.createGarage(isAvailable, garageId);
-		Garage deletedGarage = null;
+		garageService.createGarage(isAvailable, garageId);
+		Garage garage = null;
 		try {
 			isDeleted = garageService.deleteGarage(garageId);
 		}catch (InvalidInputException e) {
-			e.printStackTrace();
+			fail();//e.printStackTrace();
+		}
+		garage = garageService.getGarageByGarageId(garageId);
+		//assertEquals(0, garageService.getAllGarages().size());
+		assertNull(garage);
+		assertEquals(true, isDeleted);
+	}
+	
+	/**
+	 * Testing deleteAllGarages 
+	 */
+	@Test
+	public void testDeleteAllGarages() {
+		assertEquals(0, garageService.getAllGarages().size());
+		
+		boolean isAvailable = IS_AVAILABLE;
+		String garageId1 = GARAGE_ID;
+		String garageId2 = "garageId2";
+		
+		garageService.createGarage(isAvailable, garageId1);
+		garageService.createGarage(isAvailable, garageId2);
+		
+		Garage garage1 = null;
+		Garage garage2 = null;
+		
+		try {
+			garageService.deleteAllGarages();
+		}catch (InvalidInputException e) {
+			fail();
 		}
 	
-		deletedGarage = garageService.getGarageByGarageId(garageId);
-		assertNull(deletedGarage);
-		assertEquals(true, isDeleted);
+		garage1 = garageService.getGarageByGarageId(garageId1);
+		garage2 = garageService.getGarageByGarageId(garageId2);
+
+		assertNull(garage1);
+		assertNull(garage2);
+		assertEquals(0, garageService.getAllGarages().size());
+	}
+	
+	/**
+	 * Testing deleteGarage with empty garageId
+	 */
+	@Test
+	public void testDeleteGarageWithEmptyGarageId() {
+		assertEquals(0, garageService.getAllGarages().size());
+		String error = null;
+		
+		boolean isDeleted = false;
+		
+		//boolean isAvailable = IS_AVAILABLE;
+		String garageId = null;
+
+		//garageService.createGarage(isAvailable, garageId);
+		Garage garage = null;
+		try {
+			isDeleted = garageService.deleteGarage(garageId);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+	
+		garage = garageService.getGarageByGarageId(garageId);
+		//assertEquals(0, garageService.getAllGarages().size());
+		assertNull(garage);
+		assertEquals(false, isDeleted);
+		assertEquals("GarageId cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing deleteGarage with a spaced garageId
+	 */
+	@Test
+	public void testDeleteGarageWithSpacedGarageId() {
+		assertEquals(0, garageService.getAllGarages().size());
+		String error = null;
+		
+		boolean isDeleted = false;
+		
+		//boolean isAvailable = IS_AVAILABLE;
+		String garageId = " ";
+
+		//garageService.createGarage(isAvailable, garageId);
+		Garage garage = null;
+		try {
+			isDeleted = garageService.deleteGarage(garageId);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+	
+		garage = garageService.getGarageByGarageId(garageId);
+		//assertEquals(0, garageService.getAllGarages().size());
+		assertNull(garage);
+		assertEquals(false, isDeleted);
+		assertEquals("GarageId cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing deleteGarage with a non-existing garageId
+	 */
+	@Test
+	public void testDeleteGarageWithNonExistingGarageId() {
+		assertEquals(0, garageService.getAllGarages().size());
+		String error = null;
+		boolean isDeleted = false;
+		
+		//boolean isAvailable = IS_AVAILABLE;
+		String garageId = GARAGE_ID;
+		
+		Garage garage = null;
+		try {
+			isDeleted = garageService.deleteGarage(garageId);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+	
+		garage = garageService.getGarageByGarageId(garageId);
+		//assertEquals(0, garageService.getAllGarages().size());
+		assertNull(garage);
+		assertEquals(false, isDeleted);
+		assertEquals("GarageId does not exist!", error);
 	}
 	
 	//----------------------------------- helper method --------------------------------------------------
@@ -301,7 +448,7 @@ public class TestGarageService {
 	 * @param reminderDate
 	 * @param description
 	 */
-	private void checkResultGarage(Garage garage, Boolean isAvailable, String garageId) {
+	private void checkResultGarage(Garage garage, boolean isAvailable, String garageId) {
 		assertNotNull(garage);
 		assertEquals(isAvailable, garage.getIsAvailable());
 		assertEquals(garageId, garage.getGarageId());
@@ -479,7 +626,7 @@ public class TestGarageService {
 //public void testDeleteOfferedServiceWithValidOfferedServiceId() throws InvalidInputException {
 //	assertEquals(0, garageService.getAllOfferedServices().size());
 //	String error = null;
-//	Boolean isDeleted = false;
+//	boolean isDeleted = false;
 //	String testOfferedServiceId = "TEST1";
 //	int testOfferedServiceDuration = 10;
 //	Double testOfferedServicePrice = 10.0;
@@ -513,7 +660,7 @@ public class TestGarageService {
 //public void testDeleteOfferedServiceWithEmptyOfferedServiceId() throws InvalidInputException {
 //	assertEquals(0, garageService.getAllOfferedServices().size());
 //	String error = null;
-//	Boolean isDeleted = false;
+//	boolean isDeleted = false;
 //	String testOfferedServiceId = "TEST1";
 //	String deletedOfferedServiceId = "";
 //	int testOfferedServiceDuration = 10;
@@ -547,7 +694,7 @@ public class TestGarageService {
 //public void testDeleteOfferedServiceWithSpaceOfferedServiceId() throws InvalidInputException {
 //	assertEquals(0, garageService.getAllOfferedServices().size());
 //	String error = null;
-//	Boolean isDeleted = false;
+//	boolean isDeleted = false;
 //	String testOfferedServiceId = "TEST1";
 //	String deletedOfferedServiceId = " ";
 //	int testOfferedServiceDuration = 10;
@@ -585,7 +732,7 @@ public class TestGarageService {
 //	assertEquals(0, garageService.getAllOfferedServices().size());
 //	String testOfferedServiceId = "TEST1";
 //	String error = null;
-//	Boolean isDeleted = null;
+//	boolean isDeleted = null;
 //	OfferedService deletedOfferedService = new OfferedService();
 //	try {
 //		isDeleted = offeredServiceService.deleteOfferedService(testOfferedServiceId);
