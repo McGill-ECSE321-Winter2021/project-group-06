@@ -7,12 +7,12 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 
 public interface AppointmentRepository extends CrudRepository<Appointment, Integer>{
 	List<Appointment> findByCar(Car carLicense);
 	List<Appointment> findByGarage(Garage garageID);
-	boolean existsByCarAndTimeSlot(Car carLicense, TimeSlot timeSlot);
+	List<Appointment> findByWorker(TechnicianAccount worker);
 	Appointment findByCarAndTimeSlot(Car car, TimeSlot timeSlot);
-//	// added by mike
-//	Appointment findByAppointmentId(int Id);
+	
 }

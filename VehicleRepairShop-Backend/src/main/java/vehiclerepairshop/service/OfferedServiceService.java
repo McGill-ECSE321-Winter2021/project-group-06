@@ -41,17 +41,19 @@ public class OfferedServiceService {
 	 * @return
 	 * @throws InvalidInputException 
 	 */
-	@Transactional 
-	public OfferedService createOfferedService(String offeredServiceId, Double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
+
+	@Transactional
+	public OfferedService createOfferedService(String offeredServiceId, double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
+
 		String error ="";
 		if (offeredServiceId == null || offeredServiceId.trim().length()==0) {
 			error = error + "OfferedServiceId cannot be empty!";
 		}
-		if (price == null) {
-			error = error + "price cannot be empty!";
+		if (isOfferedServiceIdAvailable(offeredServiceId) == false) {
+			error = error + "can not create OfferedService with same Id!";
 		}
 		if (price < 0.0) {
-			error = error + "price cannot be Negative!";
+			error = error + "price cannot be negative!";
 		}
 		if (name == null || name.trim().length()==0) {
 			error = error + "name cannot be empty!";
@@ -77,17 +79,21 @@ public class OfferedServiceService {
 		if (error.length()>0) {
 			throw new IllegalArgumentException(error);
 		}
+		else {
+			OfferedService offeredService = new OfferedService();
+			offeredService.setOfferedServiceId(offeredServiceId);
+			offeredService.setPrice(price);
+			offeredService.setName(name);
+			offeredService.setDuration(duration);
+			offeredService.setReminderTime(reminderTime);
+			offeredService.setReminderDate(reminderDate);
+			offeredService.setDescription(description);
+			offeredServiceRepository.save(offeredService);
+			
+			return offeredService;
+		}
 		
-		OfferedService offeredService = new OfferedService();
-		offeredService.setOfferedServiceId(offeredServiceId);
-		offeredService.setPrice(price);
-		offeredService.setName(name);
-		offeredService.setDuration(duration);
-		offeredService.setReminderTime(reminderTime);
-		offeredService.setReminderDate(reminderDate);
-		offeredService.setDescription(description);
-		offeredServiceRepository.save(offeredService);
-		return offeredService;
+		
 	}
 	
 	
@@ -136,24 +142,25 @@ public class OfferedServiceService {
 	/**
 	 * delete service in the repository 
 	 * @param serviceId
-	 * @throws InvalidInputException 
+	 * 
 	 */
 	@Transactional
-	public boolean deleteOfferedService(String serviceId) throws InvalidInputException{
-		String error = null;
+	public boolean deleteOfferedService(String serviceId){
+		String error = "";
 		boolean isDeleted = false;
 		if(serviceId == null || serviceId.trim().length()==0) {
 			error = error + "the serviceId can not be empty!";
 		}
-		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
-		if (offeredService == null) {
+		if (offeredServiceRepository.findByOfferedServiceId(serviceId) == null) {
 			error = error + "the offered service can not found in the system!" ;
 		}
 		if (error.length() >0) {
-			throw new InvalidInputException(error);
+			throw new IllegalArgumentException(error);
 		}
+		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		offeredServiceRepository.delete(offeredService);
 		isDeleted = true;
+		
 		return isDeleted;
 	}
 	
@@ -166,21 +173,20 @@ public class OfferedServiceService {
 	 * @param newReminderTime
 	 * @param newReminderDate
 	 * @param newDescription
-	 * @throws InvalidInputException 
 	 */
 	@Transactional
-	public OfferedService updateService(String serviceId, Double newPrice, String newName, int newDuration, 
-										Time newReminderTime, int newReminderDate, String newDescription) throws InvalidInputException {
+	public OfferedService updateService(String serviceId, double newPrice, String newName, int newDuration, 
+										Time newReminderTime, int newReminderDate, String newDescription){
 		
-		String error = null;
+		String error = "";
 		if(serviceId == null || serviceId.trim().length()==0) {
-			throw new InvalidInputException("the serviceId can not be empty!");
+			error = error + "the serviceId can not be empty!";
 		}
-		if (newPrice == null) {
-			error = error + "price cannot be empty!";
-		}
+//		if (newPrice == null) {
+//			error = error + "price cannot be empty!";
+//		}
 		if (newPrice < 0.0) {
-			error = error + "price cannot be Negative!";
+			error = error + "price cannot be negative!";
 		}
 		if (newName == null || newName.trim().length()==0) {
 			error = error + "name cannot be empty!";
@@ -231,5 +237,28 @@ public class OfferedServiceService {
 		return resultList;
 	}
 	
+	
+	/**
+	 * helper method to determine if the offered Service id has been taken
+	 * @param Id
+	 * @return
+	 */
+	private boolean isOfferedServiceIdAvailable(String Id) {
+		boolean available = false;
+		if (offeredServiceRepository.findByOfferedServiceId(Id) == null) {
+			available = true;
+		}
+			return available;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// --------------------------- Mike ends here ----------------------------------
-}
+

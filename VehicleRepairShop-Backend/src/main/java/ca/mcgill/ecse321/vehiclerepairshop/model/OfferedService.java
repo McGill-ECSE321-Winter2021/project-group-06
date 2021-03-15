@@ -24,7 +24,7 @@ public class OfferedService
 
 
 
-  public void setPrice(Double aPrice)
+  public void setPrice(double aPrice)
   {
 	  this.price = aPrice;
   }
@@ -62,7 +62,7 @@ public class OfferedService
 	  this.offeredServiceId = aServiceId;
   }
 
-  public Double getPrice()
+  public double getPrice()
   {
     return this.price;
   }
