@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 /**
  * 
  * @author chengchen
+ * @author mikewang (some minor addtions)
  *
  */
 @CrossOrigin(origins = "*")
@@ -35,6 +36,18 @@ public class TimeSlotController {
 	@GetMapping(value = { "/getAllTimeSlots", "/getAllTimeSlots/" })
 	public List<TimeSlotDto> getAllTimeSlots() throws IllegalArgumentException {
 		return timeSlotService.getAllTimeSlots().stream().map(timeslot->convertToDto(timeslot)).collect(Collectors.toList());
+	}
+	
+	/**
+	 * get a time slot by id
+	 * @author mikewang
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(value = {"/getTimeSlot/{id}", "/getTimeSlot/{id}/" })
+	public TimeSlotDto getTimeSlot(@PathVariable("id") int id) {
+		TimeSlot timeSlot = timeSlotService.getTimeSlot(id);
+		return convertToDto(timeSlot);
 	}
 	
 	@PostMapping(value = { "/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}","/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}/"})

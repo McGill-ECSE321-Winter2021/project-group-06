@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,8 @@ import vehiclerepairshop.service.AppointmentService;
 import vehiclerepairshop.service.CarService;
 import vehiclerepairshop.service.GarageService;
 import vehiclerepairshop.service.TechnicianAccountService;
+import vehiclerepairshop.service.TimeSlotService;
+import vehiclerepairshop.service.OfferedServiceService;
 
 
 /**
@@ -58,7 +61,15 @@ public class AppointmentController {
 	private TechnicianAccountService technicianAccountService;
 	
 	@Autowired
+	private TimeSlotService timeSlotService;
+	
+	@Autowired
+	private OfferedServiceService offeredServiceService;
+	
+	@Autowired
 	private AppointmentRepository appointmentRepository;
+	
+	
 	
 	/**
 	 * get all appointment 
@@ -114,35 +125,84 @@ public class AppointmentController {
 		return appointmentService.getAppointmentByWorker(convertToTechnicianAccountDomainObject(technicianAccountDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
 	
-	/**
-	 * create an appointment 
-	 * @param appointment
-	 * @return
-	 */
+//	TimeSlotDto timeSlotDto,
+//	CarDto carDto, 
+//	String comment, 
+//	GarageDto garageDto, 
+//	List<TechnicianAccountDto> workerDto, 
+//	OfferedServiceDto serviceDto
+//	/**
+//	 * create an appointment 
+//	 * @param appointment
+//	 * @return
+//	 */
+//	@PostMapping(value = {"/createAppointment/{comment}/getTimeSlot/{id}/getCarByLicensePlate/{licensePlate}/getGarageByGarageId/{garageId}", 
+//	"/createAppointment/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
+//	public OfferedServiceDto createAppointment(@PathVariable("offeredServiceId")String offeredServiceId, 
+//												@PathVariable("price")double price, 
+//												@PathVariable("name")String name, 
+//												@PathVariable("duration")int duration, 
+//												@PathVariable("reminderTime")@DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")Time reminderTime, 
+//												@PathVariable("reminderDate")int reminderDate,
+//												@PathVariable("description")String description) {
+//		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
+//		//OfferedServiceDto createdOfferedServiceDto = new OfferedServiceDto(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
+//		OfferedServiceDto createdOfferedServiceDto = convertToDto(createdOfferedService);
+//		return createdOfferedServiceDto;
+//	}
+	
 	
 	/**
-	 * update an appointment car 
+	 * update an appointment garage
 	 * @param appointment
 	 * @return
 	 */
+	@PostMapping(value = {"/updateAppointmentGarage/{appointmentId}/getGarageByGarageId/{garageId}","/updateAppointmentGarage/{appointmentId}/getGarageByGarageId/{garageId}/"})
+	public AppointmentDto updateAppointmentGarage(@PathVariable("appointmentId") int appointmentId,
+												@PathVariable("garageId") GarageDto garageDto) {
+		Appointment appointment = appointmentService.updateAppointmentGarage(appointmentId, convertToGarageDomainObject(garageDto));
+		return convertToDto(appointment); 
+	}
+	
+	
+//	/**
+//	 * update an appointment Worker 
+//	 * @param appointment
+//	 * @return
+//	 */
+//	@PostMapping(value = {"/updateAppointmentByCar/{appointmentId}/getTechnicianAccountByUsername/{username}"})
+//	public AppointmentDto updateAppointmentWorker(@PathVariable("appointmentId") int appointmentId,
+//												@PathVariable("licensePlate") CarDto carDto) {
+//		Appointment appointment = appointmentService.updateAppointmentCar(appointmentId, convertToCarDomainObject(carDto));
+//		return convertToDto(appointment); 
+//	}
+	
 	
 	/**
-	 * update an appointment Worker 
+	 * update an appointment car
 	 * @param appointment
 	 * @return
 	 */
+	@PostMapping(value = {"/updateAppointmentCar/{appointmentId}/getCarByLicensePlate/{licensePlate}","/updateAppointmentCar/{appointmentId}/getCarByLicensePlate/{licensePlate}/"})
+	public AppointmentDto updateAppointmentCar(@PathVariable("appointmentId") int appointmentId,
+												@PathVariable("licensePlate") CarDto carDto) {
+		Appointment appointment = appointmentService.updateAppointmentCar(appointmentId, convertToCarDomainObject(carDto));
+		return convertToDto(appointment); 
+	}
 	
-	/**
-	 * update an appointment Garage 
-	 * @param appointment
-	 * @return
-	 */
 	
 	/**
 	 * update an appointment TimeSlot 
 	 * @param appointment
 	 * @return
 	 */
+	@PostMapping(value = {"/updateAppointmentOfferedService/{appointmentId}/getOfferedServiceById/{offeredServiceId}","/updateAppointmentOfferedService/{appointmentId}/getOfferedServiceById/{offeredServiceId}/"})
+	public AppointmentDto updateAppointmentOfferedService(@PathVariable("appointmentId") int appointmentId,
+															@PathVariable("offeredServiceId") OfferedServiceDto offeredServiceDto) {
+		Appointment appointment = appointmentService.updateAppointmentOfferedService(appointmentId, convertToOfferedServiceDomainObject(offeredServiceDto));
+		return convertToDto(appointment); 
+	}
+	
 	
 	/**
 	 * update an appointment offeredService  
@@ -150,11 +210,24 @@ public class AppointmentController {
 	 * @return
 	 */
 	
+	@PostMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/getTimeSlot/{id}","/updateAppointmentTimeSlot/{appointmentId}/getTimeSlot/{id}/"})
+	public AppointmentDto updateAppointmentTimeSlot(@PathVariable("appointmentId") int appointmentId,
+												@PathVariable("id") TimeSlotDto timeSlotDto) {
+		Appointment appointment = appointmentService.updateAppointmentTimeSlot(appointmentId, convertToTimeSlotDomainObject(timeSlotDto));
+		return convertToDto(appointment); 
+	}
+	
 	/**
 	 * update an appointment Comment
 	 * @param appointment
 	 * @return
 	 */
+	@PostMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/{comment}","/updateAppointmentTimeSlot/{appointmentId}/{comment}/"})
+	public AppointmentDto updateAppointmentTimeSlot(@PathVariable("appointmentId") int appointmentId,
+												@PathVariable("comment") String comment) {
+		Appointment appointment = appointmentService.updateAppointmentComment(appointmentId, comment);
+		return convertToDto(appointment);
+	}
 	
 	
 	/**
@@ -163,11 +236,23 @@ public class AppointmentController {
 	 * @return
 	 */
 	
+	@DeleteMapping(value = {"/deleteAppointmentById/{appointmentId}"})
+	public AppointmentDto deleteAppointmentByid(@PathVariable("appointmentId") int appointmentId) {
+		Appointment appointment = appointmentService.deleteAppointment(appointmentId);
+		return convertToDto(appointment);
+	}
+	
 	/**
 	 * delete all appointment 
 	 * @param appointment
 	 * @return
 	 */
+	@DeleteMapping(value = {"/deleteAllAppointment", "/deleteAllAppointment/"})
+	public List<AppointmentDto> deleteAllAppointment() {
+		List<Appointment> appointments = appointmentService.deleteAllAppointment();
+		return convertToDtoApplointmentList(appointments);
+	}
+	
 	
 	
 	
@@ -184,16 +269,32 @@ public class AppointmentController {
 //	
 	
 	//helper method
+	/**
+	 * Covert appointment to AppointmentDto
+	 * @param appointment
+	 * @return
+	 */
 	private AppointmentDto convertToDto(Appointment appointment) {
 		if (appointment == null) {
 			throw new IllegalArgumentException("There is no such appointment!");
 		}
-		AppointmentDto appointmentDto = new AppointmentDto(convertToDto(appointment.getTimeSlot()),convertToDto(appointment.getCar()),appointment.getComment(), 
-										convertToDto(appointment.getGarage()),convertToDtos(appointment.getWorker()), convertToDto(appointment.getOfferedService()));
+		AppointmentDto appointmentDto = new AppointmentDto(convertToTimeSlotDto(appointment.getTimeSlot()),
+															convertToCarDto(appointment.getCar()),
+															appointment.getComment(), 
+															convertToGarageDto(appointment.getGarage()),
+															convertToTechnicianAccountListDtos(appointment.getWorker()), 
+															convertToOfferedServiceDto(appointment.getOfferedService()));
 		return appointmentDto;
 	}
 	
-	private OfferedServiceDto convertToDto(OfferedService s) {
+	
+	
+	/**
+	 * Convert OfferedService to offeredServiceDto
+	 * @param s
+	 * @return
+	 */
+	private OfferedServiceDto convertToOfferedServiceDto(OfferedService s) {
 		if (s == null) {
 			throw new IllegalArgumentException("There is no such OfferedService!");
 		}
@@ -203,39 +304,15 @@ public class AppointmentController {
 		return offerServiceDto;
 	}
 	
-	private TimeSlotDto convertToDto(TimeSlot timeSlot) {
-		if (timeSlot == null) {
-			throw new IllegalArgumentException("There is no such timeslot!");
-		}
-		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
-		return timeSlotDto;
-	}
 	
 	
-	private CarDto convertToDto(Car car)  {
-		if (car == null) {
-			return null;
-		}
-		else {
-			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), 
-						   			car.getMotorType(), car.getOwner());
-			return carDto;
-		}
-	}
-	
-	
-	private GarageDto convertToDto(Garage garage)  {
-		if (garage == null) {
-			return null;
-		}
-		else {
-			GarageDto garageDto = new GarageDto(garage.getGarageId());
-			garageDto.setAvailability(garage.getIsAvailable());
-			return garageDto;
-		}
-	}
-	
-	private List<TechnicianAccountDto> convertToDtos(List<TechnicianAccount> users) throws IllegalArgumentException{
+	/**
+	 * Convert a list of TechinicianAccounts to a list of TechnicianAccountDtos
+	 * @param users
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	private List<TechnicianAccountDto> convertToTechnicianAccountListDtos(List<TechnicianAccount> users) throws IllegalArgumentException{
 		List<TechnicianAccountDto> technicianAccountDtos = new ArrayList<TechnicianAccountDto>();
 		if (users == null) {
 			throw new IllegalArgumentException("This user does not exist");
@@ -267,7 +344,6 @@ public class AppointmentController {
 		
 	}
 	
-	
 	/**
 	 * Helper method which can turn a garageDto to garage
 	 * @param garageDto
@@ -296,6 +372,112 @@ public class AppointmentController {
 		return technicianAccount;
 	}
 	
+	
+	/**
+	 * Helper method which can turn a CarDto to Car
+	 * @param carDto
+	 * @return
+	 */
+	private Car convertToCarDomainObject(CarDto carDto) {
+		if (carDto == null) {
+			throw new IllegalArgumentException("There is no such carDto!");
+		}
+		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
+		return car;
+	}
+	
+	/**
+	 * Helper method which can turn a timeSlotDto to timeSlot
+	 * @param timeSlotDto
+	 * @return
+	 */
+	private TimeSlot convertToTimeSlotDomainObject(TimeSlotDto timeSlotDto) {
+		if (timeSlotDto == null) {
+			throw new IllegalArgumentException("There is no such timeSlotDto!");
+		}
+		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getTimeslotId());
+		return timeSlot;
+	}
 
+	/**
+	 * Helper method which can turn a OfferedServiceDto to OfferedService
+	 * @param offeredServiceDto
+	 * @return
+	 */
+	private OfferedService convertToOfferedServiceDomainObject(OfferedServiceDto offeredServiceDto) {
+		if (offeredServiceDto == null) {
+			throw new IllegalArgumentException("There is no such offeredServiceDto!");
+		}
+		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
+		return offeredService;
+	}
+	
+	
+	/**
+	 * convert TimeSlot to timeslotDto
+	 * @param timeSlot
+	 * @return
+	 */
+	private TimeSlotDto convertToTimeSlotDto(TimeSlot timeSlot) {
+		if (timeSlot == null) {
+			throw new IllegalArgumentException("There is no such timeslot!");
+		}
+		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
+		return timeSlotDto;
+	}
+	
+	/**
+	 * Convert Car to carDto
+	 * @param car
+	 * @return
+	 */
+	private CarDto convertToCarDto(Car car)  {
+		if (car == null) {
+			return null;
+		} else {
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
+					car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+			return carDto;
+		}
+	}
+	
+	
+	/**
+	 * convert garage to garageDto
+	 * @param garage
+	 * @return
+	 */
+	private GarageDto convertToGarageDto(Garage garage) {
+		if (garage == null) {
+			throw new IllegalArgumentException("There is no such Garage");
+		}
+
+		GarageDto garageDto = new GarageDto(garage.getGarageId());
+		return garageDto;
+	}
+
+	/**
+	 * convert list of appointment to list of appointmentDto
+	 * @param appointments
+	 * @return
+	 */
+	// TimeSlotDto timeSlotDto,CarDto carDto, String comment, GarageDto garageDto, List<TechnicianAccountDto> workerDto, OfferedServiceDto serviceDto
+	private List<AppointmentDto> convertToDtoApplointmentList(List<Appointment> appointments){
+		List<AppointmentDto> aptDtos = new ArrayList<AppointmentDto>();
+		if (appointments.size() == 0) {
+			throw new IllegalArgumentException("There is no such Appointment List!");
+		}
+		for (Appointment apt: appointments) {
+			AppointmentDto aptDto = new AppointmentDto( convertToTimeSlotDto(apt.getTimeSlot()),
+														convertToCarDto(apt.getCar()), 
+														apt.getComment(), 
+														convertToGarageDto(apt.getGarage()),
+														convertToTechnicianAccountListDtos(apt.getWorker()), 
+														convertToOfferedServiceDto(apt.getOfferedService()));
+			aptDtos.add(aptDto);
+		}
+		return aptDtos; 
+		
+	}
 
 }
