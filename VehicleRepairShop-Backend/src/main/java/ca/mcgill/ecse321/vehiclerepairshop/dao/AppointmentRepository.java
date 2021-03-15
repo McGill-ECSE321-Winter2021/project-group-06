@@ -13,4 +13,6 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
 	List<Appointment> findByGarage(Garage garageID);
 	boolean existsByCarAndTimeSlot(Car carLicense, TimeSlot timeSlot);
 	Appointment findByCarAndTimeSlot(Car car, TimeSlot timeSlot);
+//	// added by mike
+//	Appointment findByAppointmentId(int Id);
 }

@@ -1,7 +1,6 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.sql.Time;
-import java.sql.Date;
 import java.util.*;
 
 import javax.persistence.Id;
@@ -15,17 +14,17 @@ public class OfferedService
 {
 
   private String offeredServiceId;
-  private String price;
+  private double price;
   private String name;
-  private String duration;
+  private int duration;
   private Time reminderTime;
-  private Date reminderDate;
+  private int reminderDate;
   private String description;
   private List<Appointment> appointment;
 
 
 
-  public void setPrice(String aPrice)
+  public void setPrice(Double aPrice)
   {
 	  this.price = aPrice;
   }
@@ -36,7 +35,7 @@ public class OfferedService
 	  this.name = aName; 
   }
 
-  public void setDuration(String aDuration)
+  public void setDuration(int aDuration)
   {
 	  this.duration = aDuration; 
   }
@@ -47,7 +46,7 @@ public class OfferedService
   }
 
   
-  public void setReminderDate(Date aReminderDate)
+  public void setReminderDate(int aReminderDate)
   {
     this.reminderDate = aReminderDate; 
 
@@ -63,7 +62,7 @@ public class OfferedService
 	  this.offeredServiceId = aServiceId;
   }
 
-  public String getPrice()
+  public Double getPrice()
   {
     return this.price;
   }
@@ -79,7 +78,7 @@ public class OfferedService
   }
 
 
-  public String getDuration()
+  public int getDuration()
   {
     return this.duration;
 
@@ -92,7 +91,7 @@ public class OfferedService
 
   }
   
-  public Date getReminderDate()
+  public int getReminderDate()
   {
     return this.reminderDate;
   }

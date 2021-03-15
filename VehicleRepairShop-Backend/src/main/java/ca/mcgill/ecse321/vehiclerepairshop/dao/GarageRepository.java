@@ -7,6 +7,6 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 
 public interface GarageRepository extends CrudRepository<Garage, String>{
 	Garage findByAppointment(Appointment appointment);
-	Garage findByGarageId(String Id);
+	Garage findByGarageId(String garageId);
 	boolean existsByAppointment(Appointment appointment);
 }
