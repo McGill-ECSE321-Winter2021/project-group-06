@@ -99,7 +99,7 @@ public class OfferedServiceController {
 	@PostMapping(value = {"/updateOfferedService/{offeredServiceId}{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
 			"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
-												@PathVariable("price")Double price, 
+												@PathVariable("price")double price, 
 												@PathVariable("name")String name, 
 												@PathVariable("duration")int duration, 
 												@PathVariable("reminderTime")Time reminderTime, 
@@ -132,7 +132,7 @@ public class OfferedServiceController {
 	@PostMapping(value = {"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
 			"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto createOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
-													@PathVariable("price")Double price, 
+													@PathVariable("price")double price, 
 													@PathVariable("name")String name, 
 													@PathVariable("duration")int duration, 
 													@PathVariable("reminderTime")@DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")Time reminderTime, 
