@@ -8,34 +8,24 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.*;
 import ca.mcgill.ecse321.vehiclerepairshop.model.*;
-import vehiclerepairshop.dto.AdminAccountDto;
 
 
 
@@ -51,10 +41,10 @@ public class TestAdminAccountService {
 	private static final String USERNAME2 = "Username2";
 	private static final String NAME2 = "Catherine The 1st";
 	private static final String PASSWORD2 = "GhostPassword101?!";
-	private static final int TOKEN2 = 1000001;
+	private static final int TOKEN2 = 0; //invalid
 
 	private static final String INFO_NAME = "business info name";
-	private BusinessInformation businessInformation = new BusinessInformation();
+
 	
 
 	@Mock
@@ -91,7 +81,16 @@ public class TestAdminAccountService {
 				user.setName(NAME1);
 				user.setToken(TOKEN1);
 				return user;
-			} else {
+			} 
+			else if (invocation.getArgument(0).equals(USERNAME2)) {
+				AdminAccount user = new AdminAccount();
+				user.setUsername(USERNAME2);
+				user.setPassword(PASSWORD2);
+				user.setName(NAME2);
+				user.setToken(TOKEN2);
+				return user;
+			}
+			else {
 				return null;
 			}
 		});
@@ -157,22 +156,21 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testCreateAdminAccountSuccessfully() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
+			
+			String username = "newUsername";
 			AdminAccount user = null;
 			try {
-				user = adminAccountService.createAdminAccount(username, password, name);
+				user = adminAccountService.createAdminAccount(username, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				// Check that no error occurred
 				fail();
 			}
+			//AdminAccount savedUser = adminAccountService.getAdminAccountByUsername(USERNAME1);
 			assertNotNull(user);
 			assertEquals(username, user.getUsername());
-			assertEquals(password, user.getPassword());
-			assertEquals(name, user.getName());
+			assertEquals(PASSWORD1, user.getPassword());
+			assertEquals(NAME1, user.getName());
 		}
 		
 	
@@ -182,13 +180,11 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testCreateAdminAccountWithEmptyUsername() {
-			String name = NAME2;
 			String username = "";
-			String password = PASSWORD2;
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.createAdminAccount(username, password, name);
+				user = adminAccountService.createAdminAccount(username, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -203,13 +199,11 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testCreateAdminAccountWithSpacesInUsername() {
-			String name = NAME2;
 			String username = "This is a bad username";
-			String password = PASSWORD2;
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.createAdminAccount(username, password, name);
+				user = adminAccountService.createAdminAccount(username, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -224,22 +218,11 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testCreateAdminAccountWithTakenUsername() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size());
-			
-			String name2 = NAME1;
-			String password2 = PASSWORD1;
 			
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.createAdminAccount(username, password2, name2);
+				user = adminAccountService.createAdminAccount(USERNAME1, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -254,13 +237,12 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testCreateAdminAccountWithEmptyPassword() {
-			String name = NAME2;
-			String username = USERNAME2;
+			String username = "Catherine";
 			String password = "";
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.createAdminAccount(username, password, name);
+				user = adminAccountService.createAdminAccount(username, password, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -275,13 +257,12 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testCreateAdminAccountWithSpacesInPassword() {
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = "This is a bad password!";
+			String username = "Catherine";
+			String password = "this is a bad password";
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.createAdminAccount(username, password, name);
+				user = adminAccountService.createAdminAccount(username, password, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -297,12 +278,11 @@ public class TestAdminAccountService {
 		@Test
 		public void testCreateAdminAccountWithEmptyName() {
 			String name = "";
-			String username = USERNAME2;
-			String password = PASSWORD2;
+			String username = "Catherine";
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.createAdminAccount(username, password, name);
+				user = adminAccountService.createAdminAccount(username, PASSWORD1, name);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -317,24 +297,15 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountSuccessfully() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
+			String newName = "New Name";
+			String newUsername = "Catherine";
+			String newPassword = "newPassword";
 			
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size());
-			
-			String newName = NAME1;
-			String newUsername = USERNAME1;
-			String newPassword = PASSWORD1;
-			
-			
-			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(username, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, newPassword, newName);
 			} catch (InvalidInputException e) {
 				// Check that no error occurred
 				fail();
@@ -350,30 +321,14 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountWithInvalidToken() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			//adminAccountService.getAdminAccountByUsername(username).setToken(0);
-			adminAccountService.logoutAdminAccount(username); // this should set token as invalid
-			
-			// from tutorial
-//			lenient().when(adminAccountService.existsByUsername(anyString())).thenReturn(true);
-//			lenient().when(eventDao.existsById(anyString())).thenReturn(true);
-			
-			String newName = NAME1;
-			String newUsername = USERNAME1;
-			String newPassword = PASSWORD1;
+			String newUsername = "Catherine";
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(username, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME2, newUsername, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -388,22 +343,14 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountWithEmptyUsername() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			String newName = NAME1;
 			String newUsername = "";
-			String newPassword = PASSWORD1;
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(username, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -418,22 +365,14 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountWithSpacesInUsername() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			String newName = NAME1;
-			String newUsername = "This is a bad username";
-			String newPassword = PASSWORD1;
+			String newUsername = "this is a bad username";
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(username, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -448,27 +387,12 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountWithTakenUsername() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-			
-			String name1 = NAME1;
-			String username1 = USERNAME1;
-			String password1 = PASSWORD1;
-			adminAccountService.createAdminAccount(username1, password1, name1);
-			assertEquals(2, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			String name2 = NAME2;
-			String username2 = USERNAME2;
-			String password2 = PASSWORD2;
-			adminAccountService.createAdminAccount(username2, password2, name2);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			String newName = "New Name";
-			String newPassword = "NewPassword";
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(username1, username2, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1, USERNAME2, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -483,22 +407,13 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountWithEmptyPassword() {
-//			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-//
-//			String name = NAME2;
-//			String username = USERNAME2;
-//			String password = PASSWORD2;
-//			adminAccountService.createAdminAccount(username, password, name);
-//			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-//			
-			String newName = NAME2;
-			String newUsername = USERNAME2;
+			String newUsername = "Catherine";
 			String newPassword = "";
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(USERNAME2, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, newPassword, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -513,22 +428,15 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountWithSpacesInPassword() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			String newName = NAME1;
-			String newUsername = USERNAME1;
-			String newPassword = "This is a bad password!";
+			String newUsername = "Catherine";
+			String newPassword = "this is a bad password";
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(username, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, newPassword, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -543,22 +451,15 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountWithEmptyName() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
+			String newUsername = "Catherine";
 			String newName = "";
-			String newUsername = USERNAME1;
-			String newPassword = PASSWORD1;
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(username, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, PASSWORD1, newName);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -573,23 +474,19 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testDeleteAdminAccountSuccessfully() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.deleteAdminAccount(username);
+				user = adminAccountService.deleteAdminAccount(USERNAME1);
 			} catch (InvalidInputException e) {
 				fail();
 			}
-			assertTrue(successful);
-			assertNull(adminAccountService.getAdminAccountByUsername(username));
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			AdminAccount savedUser = adminAccountService.getAdminAccountByUsername(USERNAME1);
+			assertNotNull(user);
+			assertEquals(savedUser.getUsername(), user.getUsername());
+			assertEquals(savedUser.getPassword(), user.getPassword());
+			assertEquals(savedUser.getName(), user.getName());
 		}
 		
 		/**
@@ -597,16 +494,17 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testDeleteAdminAccountWithNonExistingUser() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-			
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
+
+			String username = "Catherine";
 			String error = null;
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.deleteAdminAccount("genericUsername");
+				user = adminAccountService.deleteAdminAccount(username);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
-			assertFalse(successful);
+			assertNull(user);
 			// check error
 			assertEquals("The user cannot be found.", error);
 		}
@@ -617,23 +515,16 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testDeleteAdminAccountWithInvalidToken() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-			
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			adminAccountService.logoutAdminAccount(username); // this should set token as invalid
-			
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
+
 			String error = null;
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.deleteAdminAccount(username);
+				user = adminAccountService.deleteAdminAccount(USERNAME2);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
-			assertFalse(successful);
+			assertNull(user);
 			// check error
 			assertEquals("You do not have permission to delete this account.", error);
 		}
@@ -643,22 +534,19 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testLoginAdminAccountSuccessfully() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.loginAdminAccount(username, password);
+				user = adminAccountService.loginAdminAccount(USERNAME2, PASSWORD2);
 			} catch (InvalidInputException e) {
 				fail();
 			}
-			assertTrue(successful);
-			assertNotEquals(0, adminAccountService.getAdminAccountByUsername(username).getToken());
+			 
+			assertNotNull(user);			
+			assertEquals(USERNAME2, user.getUsername());
+			assertEquals(PASSWORD2, user.getPassword());
+			assertEquals(NAME2, user.getName());
 		}
 		
 		/**
@@ -666,16 +554,18 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testLoginAdminAccountWithNonExistingUser() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-			
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
+
+			String username = "Catherine";
 			String error = null;
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.loginAdminAccount("aUsername", "aPassword");
+				user = adminAccountService.loginAdminAccount(username, PASSWORD2);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
-			assertFalse(successful);
+			 
+			assertNull(user);
 			// check error
 			assertEquals("The user cannot be found. Please sign up if you do not have an account yet.", error);
 		}
@@ -685,24 +575,17 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testLoginAdminAccountWithInvalidCredentials() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-			
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			String wrongPassword = "wrongPassword";
-			
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
+
 			String error = null;
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.loginAdminAccount(username, wrongPassword);
+				user = adminAccountService.loginAdminAccount(USERNAME2, PASSWORD1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
-			assertFalse(successful);
+			 
+			assertNull(user);
 			// check error
 			assertEquals("Username or password incorrect. Please try again.", error);
 		}
@@ -712,22 +595,19 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testLogoutAdminAccountSuccessfully() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.logoutAdminAccount(username);
+				user = adminAccountService.logoutAdminAccount(USERNAME1);
 			} catch (InvalidInputException e) {
 				fail();
 			}
-			assertTrue(successful);
-			assertEquals(0, adminAccountService.getAdminAccountByUsername(username).getToken());
+			 
+			assertNotNull(user);
+			assertEquals(USERNAME1, user.getUsername());
+			assertEquals(PASSWORD1, user.getPassword());
+			assertEquals(NAME1, user.getName());
 		}
 		
 		/**
@@ -735,16 +615,17 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testLogoutAdminAccountWithNonExistingUser() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-			
+			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
+
+			String username = "Catherine";
 			String error = null;
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.logoutAdminAccount("someUsername");
+				user = adminAccountService.logoutAdminAccount(username);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
-			assertFalse(successful);
+			assertNull(user);
 			// check error
 			assertEquals("The user cannot be found.", error);
 		}
@@ -754,22 +635,15 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testAuthenticateAdminAccountSuccessfully() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
 
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			boolean successful = false;
+			AdminAccount user = null; 
 			try {
-				successful = adminAccountService.authenticateAdminAccount(username);
+				user = adminAccountService.authenticateAdminAccount(USERNAME1);
 			} catch (InvalidInputException e) {
 				fail();
 			}
-			assertTrue(successful);
-			assertNotEquals(0, adminAccountService.getAdminAccountByUsername(username).getToken());
+			assertNotNull(user);
+			assertNotEquals(0, user.getToken());
 		}
 		
 		/**
@@ -777,16 +651,16 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testAuthenticateAdminAccountWithNonExistingUser() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
 			
+			String username = "Catherine";
 			String error = null;
-			boolean successful = false;
+			AdminAccount user = null;
 			try {
-				successful = adminAccountService.authenticateAdminAccount("username");
+				user = adminAccountService.authenticateAdminAccount(username);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
-			assertFalse(successful);
+			assertNull(user);
 			// check error
 			assertEquals("The user cannot be found.", error);
 		}
@@ -796,24 +670,15 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testAuthenticateAdminAccountWithInvalidToken() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
 			
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			adminAccountService.logoutAdminAccount(username); // this should set token as invalid	
-
 			String error = null;
-			boolean successful = false;
+			AdminAccount user = null;
 			try {
-				successful = adminAccountService.authenticateAdminAccount(username);
+				user = adminAccountService.authenticateAdminAccount(USERNAME2);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
-			assertFalse(successful);
+			assertNull(user);
 			// check error
 			assertEquals("An error occured. Please try again.", error);
 		
