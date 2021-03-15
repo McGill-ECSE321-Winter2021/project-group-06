@@ -141,7 +141,7 @@ public class CustomerAccountService {
 	public CustomerAccount deleteCustomerAccount(String username)  {
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
 		if(user == null) {
-			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
+			throw new InvalidInputException("The user cannot be found.");
 		}
 		else if (!authenticateToken(username)) {
 			throw new InvalidInputException("You do not have permission to delete this account.");
@@ -198,7 +198,7 @@ public class CustomerAccountService {
 		boolean successful = false;
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
 		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
+			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
 		}
 		else {
 			successful = login(username, password);
@@ -206,7 +206,7 @@ public class CustomerAccountService {
 				return user;
 			}
 			else {
-				throw new InvalidInputException("An error occured. Please try again.");
+				throw new InvalidInputException("Username or password incorrect. Please try again.");
 			}
 		}
 	}

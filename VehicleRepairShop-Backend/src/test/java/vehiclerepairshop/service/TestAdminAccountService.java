@@ -4,7 +4,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -12,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,17 +52,7 @@ public class TestAdminAccountService {
 	@Mock
 	private CustomerAccountRepository customerAccountRepository;
 	@Mock
-	private CarRepository carRepository;
-	@Mock
 	private TechnicianAccountRepository technicianAccountRepository;
-	@Mock
-	private AppointmentRepository appointmentRepository;
-	@Mock
-	private TimeSlotRepository timeSlotRepository;
-	@Mock
-	private OfferedServiceRepository offeredServiceRepository;
-	@Mock
-	private GarageRepository garageRepository;
 
 
 	@InjectMocks
@@ -165,15 +153,11 @@ public class TestAdminAccountService {
 			return invocation.getArgument(0);
 		};
 		lenient().when(adminAccountRepository.save(any(AdminAccount.class))).thenAnswer(returnParameterAsAnswer);
-		// Used for Delete Tests
+		// Used for Delete, Authenticate, and Login/out Tests
 		lenient().when(businessInformationRepository.save(any(BusinessInformation.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(customerAccountRepository.save(any(CustomerAccount.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(carRepository.save(any(Car.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(technicianAccountRepository.save(any(TechnicianAccount.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(appointmentRepository.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(timeSlotRepository.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(offeredServiceRepository.save(any(OfferedService.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(garageRepository.save(any(Garage.class))).thenAnswer(returnParameterAsAnswer);
+
 	}
 	
 		/**
@@ -582,10 +566,11 @@ public class TestAdminAccountService {
 			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
 			String username = "Catherine";
+			String password = "password";
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.loginAdminAccount(username, PASSWORD2);
+				user = adminAccountService.loginAdminAccount(username, password);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}

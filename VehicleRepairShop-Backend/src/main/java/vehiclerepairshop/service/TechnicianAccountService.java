@@ -207,7 +207,7 @@ public class TechnicianAccountService {
 				return user;
 			}
 			else {
-				throw new InvalidInputException("An error occured. Please try again.");
+				throw new InvalidInputException("Username or password incorrect. Please try again.");
 			}
 		}
 	}
