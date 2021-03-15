@@ -15,11 +15,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
-import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
+import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import vehiclerepairshop.dto.AppointmentDto;
 import vehiclerepairshop.dto.CarDto;
+import vehiclerepairshop.dto.GarageDto;
+import vehiclerepairshop.dto.OfferedServiceDto;
 import vehiclerepairshop.dto.TechnicianAccountDto;
+import vehiclerepairshop.dto.TimeSlotDto;
 import vehiclerepairshop.service.TechnicianAccountService;
 import vehiclerepairshop.service.AppointmentService;
 import vehiclerepairshop.service.InvalidInputException;
@@ -183,7 +188,6 @@ public class TechnicianAccountController {
 	 * Helper Method to convert an appointment to a Dto
 	 * Will return null if you pass null
 	 * @author Catherine
-	 * @author Catherine
 	 * @param car
 	 * @return AppointmentDto
 	 */
@@ -192,11 +196,79 @@ public class TechnicianAccountController {
 			return null;
 		}
 		else {
-			// TODO add appointment attributes once AppointmentDto is finished
-
-			AppointmentDto aptDto = new AppointmentDto();
-
+			AppointmentDto aptDto = new AppointmentDto(convertToDto(apt.getTimeSlot()), convertToDto(apt.getCar()), 
+					apt.getComment(), convertToDto(apt.getGarage()), 
+					apt.getWorker().stream().map(a -> convertToDto(a)).collect(Collectors.toList()), convertToDto(apt.getOfferedService()));
 			return aptDto;
+		}
+	}
+
+	/**
+	 * Helper Method to convert an offeredService to a Dto
+	 * Will return null if you pass null
+	 * @author Catherine
+	 * @param offeredService
+	 * @return OfferedServiceDto
+	 */
+	private OfferedServiceDto convertToDto(OfferedService offeredService) {
+		if (offeredService == null) {
+			return null;
+		}
+		else {
+		OfferedServiceDto offeredServiceDto = new OfferedServiceDto(offeredService.getOfferedServiceId(), offeredService.getPrice(), 
+				offeredService.getName(), offeredService.getDuration(), offeredService.getReminderTime(), offeredService.getReminderDate(), offeredService.getDescription());
+		return offeredServiceDto;
+		}
+	}
+	
+	
+	/**
+	 * Helper Method to convert a garage to a Dto
+	 * Will return null if you pass null
+	 * @author Catherine	 
+	 * @param garage
+	 * @return Dto
+	 */
+	private GarageDto convertToDto(Garage garage) {
+		if (garage == null) {
+			return null;
+		}
+		
+		GarageDto garageDto = new GarageDto(garage.getIsAvailable(), garage.getGarageId(), 
+				garage.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+		return garageDto;
+	}
+
+	/**
+	 * Helper Method to convert a timeSlot to a Dto
+	 * Will return null if you pass null
+	 * @author Catherine	 
+	 * @param timeSlot
+	 * @return Dto
+	 */
+	private TimeSlotDto convertToDto(TimeSlot timeSlot) {
+		if (timeSlot == null) {
+			return null;
+		}
+		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(), timeSlot.getEndTime(), timeSlot.getStartDate(), timeSlot.getEndDate());
+		return timeSlotDto;
+	}
+	
+	/**
+	 * Helper Method to convert a car to a Dto
+	 * Will return null if you pass null
+	 * @author Catherine
+	 * @param car
+	 * @return CarDto
+	 */
+	private CarDto convertToDto(Car car)  {
+		if (car == null) {
+			return null;
+		}
+		else {
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
+					car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+			return carDto;
 		}
 	}
 	
@@ -211,9 +283,7 @@ public class TechnicianAccountController {
 			return null;
 		}
 		else {
-			// TODO
-			//return appointmentService.getAppointmentById(appointmentDto.getId());
-			return null;
+			return appointmentService.getAppointmentById(appointmentDto.getAppointmentId());
 		}
 	}
 

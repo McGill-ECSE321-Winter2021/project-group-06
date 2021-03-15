@@ -119,7 +119,7 @@ public class TestOfferedServiceService {
 	 * testing if we can create an offeredService and stored in the persistence 
 	 */
 	@Test
-	public void testCreatOfferedService() {
+	public void testCreateOfferedService() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		
 		String testOfferedServiceId = "TEST1";
@@ -153,7 +153,7 @@ public class TestOfferedServiceService {
 	 */
 	
 	@Test
-	public void testCreatNullOfferedService() {
+	public void testCreateNullOfferedService() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		
@@ -181,7 +181,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with empty Id
 	 */
 	@Test
-	public void testCreatOfferedServiceWithEmptyId() {
+	public void testCreateOfferedServiceWithEmptyId() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "";
@@ -209,7 +209,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with space Id
 	 */
 	@Test
-	public void testCreatOfferedServiceWithSpaceId() {
+	public void testCreateOfferedServiceWithSpaceId() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = " ";
@@ -236,7 +236,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with empty duration
 	 */
 	@Test
-	public void testCreatOfferedServiceWithEmptyDuration() {
+	public void testCreateOfferedServiceWithEmptyDuration() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -263,7 +263,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with negative duration
 	 */
 	@Test
-	public void testCreatOfferedServiceWithNegativeDuration() {
+	public void testCreateOfferedServiceWithNegativeDuration() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -290,7 +290,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with negative reminder date
 	 */
 	@Test
-	public void testCreatOfferedServiceWithNegativeReminderDate() {
+	public void testCreateOfferedServiceWithNegativeReminderDate() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -318,7 +318,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with zero reminder date
 	 */
 	@Test
-	public void testCreatOfferedServiceWithZeroReminderDate() {
+	public void testCreateOfferedServiceWithZeroReminderDate() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -372,7 +372,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with negative price
 	 */
 	@Test
-	public void testCreatOfferedServiceWithNegativePrice() {
+	public void testCreateOfferedServiceWithNegativePrice() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -399,7 +399,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with empty service name 
 	 */
 	@Test
-	public void testCreatOfferedServiceWithEmptyServiceName() {
+	public void testCreateOfferedServiceWithEmptyServiceName() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -427,7 +427,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with space service name 
 	 */
 	@Test
-	public void testCreatOfferedServiceWithSpaceServiceName() {
+	public void testCreateOfferedServiceWithSpaceServiceName() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -455,7 +455,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with empty reminder time
 	 */
 	@Test
-	public void testCreatOfferedServiceWithEmptyReminderTime() {
+	public void testCreateOfferedServiceWithEmptyReminderTime() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -483,7 +483,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with empty description
 	 */
 	@Test
-	public void testCreatOfferedServiceWithEmptyDescription() {
+	public void testCreateOfferedServiceWithEmptyDescription() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
@@ -511,7 +511,7 @@ public class TestOfferedServiceService {
 	 * testing create an offeredService object with space description
 	 */
 	@Test
-	public void testCreatOfferedServiceWithSpaceDescription() {
+	public void testCreateOfferedServiceWithSpaceDescription() {
 		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";

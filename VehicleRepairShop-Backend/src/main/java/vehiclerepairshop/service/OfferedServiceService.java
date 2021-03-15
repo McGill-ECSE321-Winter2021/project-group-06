@@ -41,8 +41,10 @@ public class OfferedServiceService {
 	 * @return
 	 * @throws InvalidInputException 
 	 */
+
 	@Transactional
 	public OfferedService createOfferedService(String offeredServiceId, double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
+
 		String error ="";
 		if (offeredServiceId == null || offeredServiceId.trim().length()==0) {
 			error = error + "OfferedServiceId cannot be empty!";

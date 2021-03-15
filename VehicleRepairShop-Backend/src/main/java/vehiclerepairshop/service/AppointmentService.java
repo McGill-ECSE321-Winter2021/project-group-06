@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+import java.sql.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +16,13 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
+import java.time.LocalTime;
 
 public class AppointmentService {
 	@Autowired
 	private AppointmentRepository appointmentRepository;
 	/**
-	 * 
+	 *  
 	 * @param worker
 	 * @param timeSlot
 	 * @param service
@@ -33,13 +36,14 @@ public class AppointmentService {
 	@Transactional
 	public Appointment createAppointment(List<TechnicianAccount> worker,TimeSlot timeSlot, OfferedService service, Car car, Garage garage, String comment) {
 		Appointment appointment = new Appointment();
-		appointment.setAppointmentId(timeSlot.getStartTime().hashCode()*service.getName().hashCode());
+		
 		appointment.setCar(car);
 		appointment.setComment(comment);
 		appointment.setGarage(garage);
 		appointment.setOfferedService(service);
 		appointment.setTimeSlot(timeSlot);
 		appointment.setWorker(worker);
+		appointment.setAppointmentId(timeSlot.getStartTime().hashCode()*service.getOfferedServiceId().hashCode());
 		appointmentRepository.save(appointment);
 		
 		return appointment;
@@ -55,6 +59,7 @@ public class AppointmentService {
 	public Appointment getAppointmentById(int id) {
 		Optional<Appointment> appointment = appointmentRepository.findById(id);
 		return appointment.get();
+		
 	}
 	
 	/**
@@ -98,17 +103,20 @@ public class AppointmentService {
 	 * @author chengchen
 	 */
 	@Transactional
-	public void deleteAppointment(int appointmentId) {
+	public Appointment deleteAppointment(int appointmentId) {
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointmentRepository.delete(appointment.get());
+		return appointment.get();
 	}
 	
 	/**
 	 * @author chengchen
 	 */
 	@Transactional
-	public void deleteAllAppointment() {
+	public List<Appointment> deleteAllAppointment() {
+		Iterable<Appointment> appointment = appointmentRepository.findAll();
 		appointmentRepository.deleteAll();
+		return toList(appointment);
 	}
 	
 	/**
@@ -117,10 +125,11 @@ public class AppointmentService {
 	 * @param car
 	 */
 	@Transactional
-	public void updateAppointmentCar(int appointmentId, Car car) {
+	public Appointment updateAppointmentCar(int appointmentId, Car car) {
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointment.get().setCar(car);
 		appointmentRepository.save(appointment.get());
+		return appointment.get();
 	}
 	
 	/**
@@ -129,10 +138,11 @@ public class AppointmentService {
 	 * @param garage
 	 */
 	@Transactional
-	public void updateAppointmentGarage(int appointmentId, Garage garage) {
+	public Appointment updateAppointmentGarage(int appointmentId, Garage garage) {
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointment.get().setGarage(garage);
 		appointmentRepository.save(appointment.get());
+		return appointment.get();
 	}
 	
 	/**
@@ -141,12 +151,13 @@ public class AppointmentService {
 	 * @param worker
 	 */
 	@Transactional
-	public void updateAppointmentWorker(int appointmentId, TechnicianAccount worker) {
+	public Appointment updateAppointmentWorker(int appointmentId, TechnicianAccount worker) {
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		List<TechnicianAccount> technicianAccounts = new ArrayList<TechnicianAccount>();
 		technicianAccounts.add(worker);
 		appointment.get().setWorker(technicianAccounts);
 		appointmentRepository.save(appointment.get());
+		return appointment.get();
 	}
 	
 	/**
@@ -155,9 +166,17 @@ public class AppointmentService {
 	 * @param timeSlot
 	 */
 	@Transactional
-	public void updateAppointmentTimeSlot(int appointmentId, TimeSlot timeSlot) {
+	public void updateAppointmentStartTime(int appointmentId, Time startTime) {
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
-		appointment.get().setTimeSlot(timeSlot);
+		TimeSlot existingTimeSlot = appointment.get().getTimeSlot();
+		TimeSlot newTimeSlot = new TimeSlot();
+		newTimeSlot.setStartTime(startTime);
+		LocalTime endLocalTime = startTime.toLocalTime();
+		Time endTime = Time.valueOf(endLocalTime.plusMinutes(appointment.get().getOfferedService().getDuration()));
+		newTimeSlot.setEndTime(endTime);
+		newTimeSlot.setStartDate(existingTimeSlot.getStartDate());
+		newTimeSlot.setEndDate(existingTimeSlot.getEndDate());
+		appointment.get().setTimeSlot(newTimeSlot);
 		appointmentRepository.save(appointment.get());
 	
 	}
@@ -168,10 +187,11 @@ public class AppointmentService {
 	 * @param comment
 	 */
 	@Transactional
-	public void updateAppointmentComment(int appointmentId, String comment) {
+	public Appointment updateAppointmentComment(int appointmentId, String comment) {
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointment.get().setComment(comment);
 		appointmentRepository.save(appointment.get());
+		return appointment.get();
 	}
 	
 	
