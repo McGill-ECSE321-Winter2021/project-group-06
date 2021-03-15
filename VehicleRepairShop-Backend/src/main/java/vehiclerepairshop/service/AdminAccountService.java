@@ -35,7 +35,7 @@ public class AdminAccountService {
 	 * @return the account created
 	 */
 	@Transactional
-	public AdminAccount createAdminAccount(String username, String password, String name) throws InvalidInputException {
+	public AdminAccount createAdminAccount(String username, String password, String name)   {
 		
 		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
@@ -127,7 +127,7 @@ public class AdminAccountService {
 	 * @return the account updated
 	 */
 	@Transactional
-	public AdminAccount updateAdminAccount(String currentUsername, String newUsername, String newPassword, String newName) throws InvalidInputException {
+	public AdminAccount updateAdminAccount(String currentUsername, String newUsername, String newPassword, String newName)   {
 		if (!authenticateToken(currentUsername)) {
 			throw new InvalidInputException("You do not have permission to modify this account.");
 		}
@@ -169,11 +169,10 @@ public class AdminAccountService {
 	 * Deletes the admin account
 	 * @author Catherine
 	 * @param username
-	 * @return boolean for if it was successful
+	 * @return user
 	 */
 	@Transactional
-	public boolean deleteAdminAccount(String username) throws InvalidInputException{
-		boolean successful = false;
+	public AdminAccount deleteAdminAccount(String username)  {
 		AdminAccount user = adminAccountRepository.findByUsername(username);
 		if(user == null) {
 			throw new InvalidInputException("The user cannot be found.");
@@ -183,8 +182,7 @@ public class AdminAccountService {
 		}
 		else {
 			adminAccountRepository.delete(user);
-			successful = true;
-			return successful;
+			return user;
 		}
 	}
 
@@ -192,11 +190,11 @@ public class AdminAccountService {
 	 * Login the account and create a token for the account
 	 * @param username
 	 * @param password
-	 * @return boolean for success
-	 * @throws InvalidInputException
+	 * @return user
+	 * @ 
 	 */
 	@Transactional
-	public boolean loginAdminAccount(String username, String password) throws InvalidInputException{
+	public AdminAccount loginAdminAccount(String username, String password)  {
 		boolean successful = false;
 		AdminAccount user = adminAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -205,7 +203,7 @@ public class AdminAccountService {
 		else {
 			successful = login(username, password);
 			if (successful) {
-				return successful;
+				return user;
 			}
 			else {
 				throw new InvalidInputException("Username or password incorrect. Please try again.");
@@ -217,11 +215,11 @@ public class AdminAccountService {
 	 * Logout the account and delete token for the account
 	 * @param username
 	 * @param password
-	 * @return boolean for success
+	 * @return user
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean logoutAdminAccount(String username) throws InvalidInputException{
+	public AdminAccount logoutAdminAccount(String username) {
 		boolean successful = false;
 		AdminAccount user = adminAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -229,7 +227,7 @@ public class AdminAccountService {
 		}
 		else {
 			successful = logout(username);
-			return successful; // should always be true, because it's only false if user is not found, which is captured above
+			return user; // should always be true, because it's only false if user is not found, which is captured above
 		}
 	}
 	
@@ -237,11 +235,11 @@ public class AdminAccountService {
 	 * Authenticate token
 	 * @author Catherine
 	 * @param username
-	 * @return
+	 * @return user
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean authenticateAdminAccount(String username) throws InvalidInputException{
+	public AdminAccount authenticateAdminAccount(String username) {
 		boolean authentic = false;
 		AdminAccount user = adminAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -250,7 +248,7 @@ public class AdminAccountService {
 		else {
 			authentic = authenticateToken(username);
 			if (authentic) {
-				return authentic;
+				return user;
 			}
 			else {
 				//General error message to capture if the session expired or the user does not have permission

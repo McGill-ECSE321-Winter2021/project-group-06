@@ -164,7 +164,6 @@ public class TestAdminAccountPersistence {
 		Boolean isExist;
 
 		users = adminAccountRepository.findByBusinessInformation(business);
-		isExist = adminAccountRepository.existsByBusinessInformation(business);
 
 
 		if (users.get(0).getUsername().equals(username1)) {
@@ -178,8 +177,6 @@ public class TestAdminAccountPersistence {
 		else {
 			assertEquals(0,1); //always fails
 		}
-
-		assertEquals(true,isExist);
 
 		assertNotNull(user1);
 		assertEquals(user1.getName(), name1);

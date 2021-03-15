@@ -56,16 +56,6 @@ public class GarageService {
 		return garage;
 	}
 
-	/**
-	 * Find if the garage exists by appointment
-	 * @param appointment
-	 * @return
-	 */
-	@Transactional
-	public boolean garageExistsByAppointment(Appointment appointment) {
-		boolean garageExists = garageRepository.existsByAppointment(appointment);
-		return garageExists;
-	}
 
 	/**
 	 * Find garage through an appointment
