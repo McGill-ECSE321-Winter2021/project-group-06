@@ -55,7 +55,7 @@ public class CarService {
 	 * @return
 	 */
 	@Transactional
-	public Car getCarsByLiscensePlate(String licensePlate) {
+	public Car getCarByLicensePlate(String licensePlate) {
 		Car car = carRepository.findByLicensePlate(licensePlate);
 		return car;	
 	}
