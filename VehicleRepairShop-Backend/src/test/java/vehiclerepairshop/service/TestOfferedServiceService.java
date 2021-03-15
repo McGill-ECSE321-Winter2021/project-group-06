@@ -191,7 +191,7 @@ public class TestOfferedServiceService {
 	
 	
 	/**
-	 * testing if we can create an offeredService and stored in the persistence 
+	 * testing if we can create an offeredService with an exisiting Id 
 	 */
 	@Test
 	public void testCreateAnotherOfferedServiceWithTheSameId() {

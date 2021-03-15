@@ -29,12 +29,17 @@ import vehiclerepairshop.dto.OfferedServiceDto;
 import vehiclerepairshop.dto.TechnicianAccountDto;
 import vehiclerepairshop.dto.TimeSlotDto;
 import vehiclerepairshop.service.AppointmentService;
+import vehiclerepairshop.service.CarService;
+import vehiclerepairshop.service.GarageService;
+
 
 /**
  * 
  * @author chengchen
+ * @author mikewang
  *
  */
+
 @CrossOrigin(origins = "*")
 @RestController
 public class AppointmentController {
@@ -43,12 +48,54 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 	
 	@Autowired
+	private CarService carService;
+	
+	@Autowired
+	private GarageService garageService;
+	
+	@Autowired
 	private AppointmentRepository appointmentRepository;
 	
+	/**
+	 * get all appointment 
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	@GetMapping(value = { "/getAllAppointment", "/getAllAppointment/" })
 	public List<AppointmentDto> getAllAppointment() throws IllegalArgumentException {
 		return appointmentService.getAllAppointments().stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
+	
+	/**
+	 * get appointment by appointment id 
+	 * @param id
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	@GetMapping(value = {"/getAppointmentById/{id}","/getAppointmentById/{id}/"})
+	public AppointmentDto getAppointmentById(@PathVariable("id") int id) throws IllegalArgumentException {
+		return convertToDto(appointmentService.getAppointmentById(id));
+	}
+	
+	/**
+	 * get appointments by car
+	 * @param carDto
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	@GetMapping(value = { "/getAppointmentByCar/getCarByLicensePlate/{licensePlate}", "/getAppointmentByCar/{carId}/" })
+	public List<AppointmentDto> getAppointmentByCar(@PathVariable("carId") CarDto carDto) throws IllegalArgumentException {
+		return appointmentService.getAppointmentByCar(converToCarDomainObject(carDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
+	}
+	
+	
+	@GetMapping(value = { "/getAppointmentByGarage/getGarageByGarageId/{garageId}", "/getAppointmentByGarage/getGarageByGarageId/{garageId}/" })
+	public List<AppointmentDto> getAppointmentByGarage(@PathVariable("garageId") GarageDto garageDto)  throws IllegalArgumentException{
+		return appointmentService.getAppointmentByGarage(convertToGarageDomainObject(garageDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
+	}
+	
+	
+	
 	
 //	@PostMapping(value = { "/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}","/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}/"})
 //	public TimeSlotDto createAppointment(@PathVariable("startTime") Time startTime,
@@ -129,7 +176,29 @@ public class AppointmentController {
 	}
 	
 	
+	/**
+	 * Helper method which can turn a carDto to car 
+	 * @param carDto
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	private Car converToCarDomainObject(CarDto carDto) throws IllegalArgumentException{
+		if (carDto == null) {
+			throw new IllegalArgumentException("There is no such carDto!");
+		}
+		
+		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
+		return car;
+		
+	}
 	
+	
+	private Garage convertToGarageDomainObject(GarageDto garageDto) throws IllegalArgumentException{
+		if (garageDto == null) {
+			throw new IllegalArgumentException("There is no such garageDto!");
+		}
+		Garage garage = garageService.
+	}
 	
 
 

@@ -96,7 +96,7 @@ public class OfferedServiceController {
 	 * @return
 	 * @throws InvalidInputException 
 	 */
-	@PostMapping(value = {"/updateOfferedService/{offeredServiceId}{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
+	@PostMapping(value = {"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
 			"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
 												@PathVariable("price")double price, 
