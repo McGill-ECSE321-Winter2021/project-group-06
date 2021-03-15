@@ -324,10 +324,8 @@ public class TestAppointmentPersistence {
 		Boolean isExist;
 
 		appointment1 = appointmentRepository.findByCarAndTimeSlot(car, timeSlot);
-		isExist = appointmentRepository.existsByCarAndTimeSlot(car, timeSlot);
 
 		assertNotNull(appointment1);
-		assertEquals(true,isExist);
 		assertEquals(appointment1ID, appointment1.getAppointmentId());
 		assertEquals(appointment1Comment, appointment1.getComment());
 		assertEquals(licensePlate, appointment1.getCar().getLicensePlate());
