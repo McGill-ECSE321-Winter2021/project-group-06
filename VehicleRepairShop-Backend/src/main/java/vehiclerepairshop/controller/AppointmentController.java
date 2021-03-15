@@ -31,6 +31,7 @@ import vehiclerepairshop.dto.TimeSlotDto;
 import vehiclerepairshop.service.AppointmentService;
 import vehiclerepairshop.service.CarService;
 import vehiclerepairshop.service.GarageService;
+import vehiclerepairshop.service.TechnicianAccountService;
 
 
 /**
@@ -52,6 +53,9 @@ public class AppointmentController {
 	
 	@Autowired
 	private GarageService garageService;
+	
+	@Autowired
+	private TechnicianAccountService technicianAccountService;
 	
 	@Autowired
 	private AppointmentRepository appointmentRepository;
@@ -88,11 +92,82 @@ public class AppointmentController {
 		return appointmentService.getAppointmentByCar(converToCarDomainObject(carDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
 	
-	
+	/**
+	 * get appointment by garage 
+	 * @param garageDto
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	@GetMapping(value = { "/getAppointmentByGarage/getGarageByGarageId/{garageId}", "/getAppointmentByGarage/getGarageByGarageId/{garageId}/" })
 	public List<AppointmentDto> getAppointmentByGarage(@PathVariable("garageId") GarageDto garageDto)  throws IllegalArgumentException{
 		return appointmentService.getAppointmentByGarage(convertToGarageDomainObject(garageDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
+	
+	/**
+	 * get appointments by worker
+	 * @param technicianAccountDto
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	@GetMapping(value = { "/getAppointmentByWorker/getTechnicianAccountByUsername/{username}", "/getAppointmentByGarage/getTechnicianAccountByUsername/{username}/" })
+	public List<AppointmentDto> getAppointmentByWorker(@PathVariable("username") TechnicianAccountDto technicianAccountDto)  throws IllegalArgumentException{
+		return appointmentService.getAppointmentByWorker(convertToTechnicianAccountDomainObject(technicianAccountDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
+	}
+	
+	/**
+	 * create an appointment 
+	 * @param appointment
+	 * @return
+	 */
+	
+	/**
+	 * update an appointment car 
+	 * @param appointment
+	 * @return
+	 */
+	
+	/**
+	 * update an appointment Worker 
+	 * @param appointment
+	 * @return
+	 */
+	
+	/**
+	 * update an appointment Garage 
+	 * @param appointment
+	 * @return
+	 */
+	
+	/**
+	 * update an appointment TimeSlot 
+	 * @param appointment
+	 * @return
+	 */
+	
+	/**
+	 * update an appointment offeredService  
+	 * @param appointment
+	 * @return
+	 */
+	
+	/**
+	 * update an appointment Comment
+	 * @param appointment
+	 * @return
+	 */
+	
+	
+	/**
+	 * delete an appointment by id 
+	 * @param appointment
+	 * @return
+	 */
+	
+	/**
+	 * delete all appointment 
+	 * @param appointment
+	 * @return
+	 */
 	
 	
 	
@@ -193,11 +268,32 @@ public class AppointmentController {
 	}
 	
 	
+	/**
+	 * Helper method which can turn a garageDto to garage
+	 * @param garageDto
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	private Garage convertToGarageDomainObject(GarageDto garageDto) throws IllegalArgumentException{
 		if (garageDto == null) {
 			throw new IllegalArgumentException("There is no such garageDto!");
 		}
-		Garage garage = garageService.
+		Garage garage = garageService.getGarageByGarageId(garageDto.getGarageId());
+		return garage;
+	}
+	
+	/**
+	 * Helper method which can turn a technicianAccountDto to technicianAccount
+	 * @param technicianAccountDto
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	private TechnicianAccount convertToTechnicianAccountDomainObject(TechnicianAccountDto technicianAccountDto) throws IllegalArgumentException{
+		if (technicianAccountDto == null) {
+			throw new IllegalArgumentException("There is no such technicianAccountDto!");
+		}
+		TechnicianAccount technicianAccount = technicianAccountService.getTechnicianAccountByUsername(technicianAccountDto.getUsername());
+		return technicianAccount;
 	}
 	
 
