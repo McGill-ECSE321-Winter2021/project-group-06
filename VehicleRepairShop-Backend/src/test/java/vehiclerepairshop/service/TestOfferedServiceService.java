@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,13 +47,6 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 @ExtendWith(MockitoExtension.class)
 public class TestOfferedServiceService {
 
-	@Mock
-	private AppointmentRepository appointmentDao;
-	@Mock
-	private OfferedServiceRepository offeredServiceDao;
-	
-	@InjectMocks
-	private OfferedServiceService offeredServiceService;
 	private Appointment apt = new Appointment();
 	private static final String OFFERED_SERVICE_KEY = "Test1";
 	private static final String EMPTY_SERVICE_KEY = "";
@@ -65,9 +59,19 @@ public class TestOfferedServiceService {
 	private static final int APPOINTMENT_KEY = 1; 
 	private static final String NONEXISTING_KEY = "NotATestID";
 	
+	
+	@Mock
+	private AppointmentRepository appointmentRepository;
+	@Mock
+	private OfferedServiceRepository offeredServiceRepository;
+	
+	@InjectMocks
+	private OfferedServiceService offeredServiceService;
+
+	
 	@BeforeEach
 	public void setMockOutput() {
-		lenient().when(offeredServiceDao.findByOfferedServiceId(anyString())).thenAnswer((InvocationOnMock invocation)->{
+		lenient().when(offeredServiceRepository.findByOfferedServiceId(anyString())).thenAnswer((InvocationOnMock invocation)->{
 			if (invocation.getArgument(0).equals(OFFERED_SERVICE_KEY)) {
 				OfferedService offeredService = new OfferedService();
 				offeredService.setOfferedServiceId(OFFERED_SERVICE_KEY);
@@ -87,7 +91,7 @@ public class TestOfferedServiceService {
 		/**
 		 * @TODO: finish this if understand how to implement
 		 */
-		lenient().when(offeredServiceDao.findByAppointment(any(Appointment.class))).thenAnswer((InvocationOnMock invocation)->{
+		lenient().when(offeredServiceRepository.findByAppointment(any(Appointment.class))).thenAnswer((InvocationOnMock invocation)->{
 			if (invocation.getArgument(0).equals(apt)) {
 				apt.setAppointmentId(APPOINTMENT_KEY);
 				List<Appointment> apts = new ArrayList<Appointment>(); 
@@ -106,23 +110,61 @@ public class TestOfferedServiceService {
 			else {
 				return null;
 			}
+			
 		});
+		
+		
+		lenient().when(offeredServiceRepository.findAll()).thenAnswer((InvocationOnMock invocation)->{
+			apt.setAppointmentId(APPOINTMENT_KEY);
+			List<Appointment> apts = new ArrayList<Appointment>(); 
+			apts.add(apt);
+			OfferedService offeredService = new OfferedService();
+			offeredService.setOfferedServiceId(OFFERED_SERVICE_KEY);
+			offeredService.setName(NAME);
+			offeredService.setPrice(PRICE);
+			offeredService.setReminderTime(REMINDER_TIME);
+			offeredService.setReminderDate(REMINDER_DATE);
+			offeredService.setDescription(DESCRIPTION);
+			offeredService.setDuration(DURATION);
+			offeredService.setAppointment(apts);
+			
+			List<OfferedService> offeredServices = new ArrayList<OfferedService>();
+			offeredServices.add(offeredService);
+			return offeredServices;
+		});
+		
+		
+		
 		//Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
-		lenient().when(offeredServiceDao.save(any(OfferedService.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(appointmentDao.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(offeredServiceRepository.save(any(OfferedService.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(appointmentRepository.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
 	}
+	
+	@AfterEach
+	public void clearDatabase() {
+			//order matters
+			offeredServiceRepository.deleteAll();
+	
+		}
+	
+	
+	
+	
+	
 	
 	/**
 	 * testing if we can create an offeredService and stored in the persistence 
 	 */
 	@Test
-	public void testCreateOfferedService() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+	public void testCreateOfferedServiceSuccessfully() {
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
-		String testOfferedServiceId = "TEST1";
+		String error = "";
+		
+		String testOfferedServiceId = "Test2";
 		int testOfferedServiceDuration = 10;
 		double testOfferedServicePrice = 10.0;
 		String testOfferedServiceName = "wash";
@@ -133,18 +175,49 @@ public class TestOfferedServiceService {
 		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
-					testOfferedServicePrice,  testOfferedServiceName,
-					testOfferedServiceDuration,testOfferedServiceReminderTime, 
-					testOfferedServiceReminderDate, testOfferedServiceDescription);
+					testOfferedServicePrice,  testOfferedServiceName, testOfferedServiceDuration,
+					testOfferedServiceReminderTime, testOfferedServiceReminderDate, testOfferedServiceDescription);
 		}catch (IllegalArgumentException e){
-			fail();
+			error = e.getMessage();
 		}
+		
+		
+		assertEquals("",error);
 		checkResultOfferedService(offeredService, testOfferedServiceId,
 				testOfferedServicePrice,  testOfferedServiceName,
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
 	}
 	
+	
+	/**
+	 * testing if we can create an offeredService and stored in the persistence 
+	 */
+	@Test
+	public void testCreateAnotherOfferedServiceWithTheSameId() {
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
+	
+		String error = "";
+		int testOfferedServiceDuration = 10;
+		double testOfferedServicePrice = 10.0;
+		String testOfferedServiceName = "wash";
+		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int testOfferedServiceReminderDate = 30;
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		
+		OfferedService offeredService = null;
+		try {
+			offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+					testOfferedServicePrice,  testOfferedServiceName,
+					testOfferedServiceDuration,testOfferedServiceReminderTime, 
+					testOfferedServiceReminderDate, testOfferedServiceDescription);
+		}catch (IllegalArgumentException e){
+			error = error + e.getMessage();
+		}
+		
+		assertEquals("can not create OfferedService with same Id!", error);
+	}
 	
 	
 	
@@ -154,7 +227,7 @@ public class TestOfferedServiceService {
 	
 	@Test
 	public void testCreateNullOfferedService() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		
 		String testOfferedServiceId =  null;
@@ -182,7 +255,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithEmptyId() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "";
 		int testOfferedServiceDuration = 10;
@@ -210,7 +283,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithSpaceId() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = " ";
 		int testOfferedServiceDuration = 10;
@@ -237,7 +310,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithEmptyDuration() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 0;
@@ -264,7 +337,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithNegativeDuration() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = -1;
@@ -291,7 +364,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithNegativeReminderDate() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
@@ -319,7 +392,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithZeroReminderDate() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
@@ -346,7 +419,7 @@ public class TestOfferedServiceService {
 //	 */
 //	@Test
 //	public void testCreatOfferedServiceWithEmptyPrice() {
-//		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+//		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 //		String error = null;
 //		String testOfferedServiceId = "TEST1";
 //		int testOfferedServiceDuration = 10;
@@ -373,7 +446,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithNegativePrice() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
@@ -400,7 +473,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithEmptyServiceName() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
@@ -428,7 +501,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithSpaceServiceName() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
@@ -456,7 +529,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithEmptyReminderTime() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
@@ -484,7 +557,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithEmptyDescription() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
@@ -512,7 +585,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testCreateOfferedServiceWithSpaceDescription() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		String testOfferedServiceId = "TEST1";
 		int testOfferedServiceDuration = 10;
@@ -540,9 +613,9 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testGetOfferedServiceWithEmptyOfferedServiceId() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		String testOfferedServiceId = "Test1";
+		String testOfferedServiceId = "testGetOfferedServiceWithEmptyOfferedServiceId";
 		int testOfferedServiceDuration = 10;
 		double testOfferedServicePrice = 10.0;
 		String testOfferedServiceName = "wash";
@@ -572,9 +645,9 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testGetOfferedServiceWithSpaceOfferedServiceId() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		String testOfferedServiceId = "Test1";
+		String testOfferedServiceId = "testGetOfferedServiceWithSpaceOfferedServiceId";
 		int testOfferedServiceDuration = 10;
 		double testOfferedServicePrice = 10.0;
 		String testOfferedServiceName = "wash";
@@ -603,7 +676,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testGetOfferedServiceWithValidOfferedServiceId() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = "";
 
 		int testOfferedServiceDuration = 10;
@@ -614,10 +687,10 @@ public class TestOfferedServiceService {
 		String testOfferedServiceDescription = "this is a testing Wash service";
 		OfferedService offeredService = null;
 		OfferedService extractedOfferedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		}catch (IllegalArgumentException e) {
@@ -632,17 +705,14 @@ public class TestOfferedServiceService {
 		
 	}
 	
-//	private void checkResultOfferedService(OfferedService offeredService, 
-//	String offeredServiceId, double price, String name, 
-//	int duration, Time reminderTime, 
-//	int reminderDate, String description)
+
 	
 	/**
 	 * testing getting offered service with valid appointment input 
 	 */
 	@Test
 	public void testGetOfferedServiceWithValidAppointment() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		//String testOfferedServiceId = "TEST1";
 		String error = "";
 		int testOfferedServiceDuration = 10;
@@ -653,17 +723,17 @@ public class TestOfferedServiceService {
 		String testOfferedServiceDescription = "this is a testing Wash service";
 		OfferedService offeredService = null;
 		OfferedService extractedOfferedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
-		assertNotNull(offeredService);
-		
-		apt.setAppointmentId(APPOINTMENT_KEY);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		assertNotNull(offeredService);
+//		
+//		apt.setAppointmentId(APPOINTMENT_KEY);
 		List<Appointment> appointments = new ArrayList<Appointment>();
 		appointments.add(apt);
-		offeredService.setAppointment(appointments);
-		assertNotNull(offeredService);
+//		offeredService.setAppointment(appointments);
+//		assertNotNull(offeredService);
 
 		try {
 			extractedOfferedService = offeredServiceService.getOfferedServiceByAppointment(apt);
@@ -676,7 +746,7 @@ public class TestOfferedServiceService {
 				testOfferedServicePrice,  testOfferedServiceName,
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription,appointments);
-		assertEquals(extractedOfferedService.getOfferedServiceId(),offeredService.getOfferedServiceId() );
+//		assertEquals(extractedOfferedService.getOfferedServiceId(),offeredService.getOfferedServiceId() );
 	}
 	
 	
@@ -685,9 +755,9 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testGetOfferedServiceWithNullAppointment() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		String testOfferedServiceId = "TEST1";
+		String testOfferedServiceId = "testGetOfferedServiceWithNullAppointment";
 		int testOfferedServiceDuration = 10;
 		double testOfferedServicePrice = 10.0;
 		String testOfferedServiceName = "wash";
@@ -701,7 +771,7 @@ public class TestOfferedServiceService {
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		Appointment apt = null;
-		appointmentDao.save(apt);
+		appointmentRepository.save(apt);
 		List<Appointment> appointments = new ArrayList<Appointment>();
 		appointments.add(apt);
 		offeredService.setAppointment(appointments);
@@ -732,14 +802,15 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testDeleteOfferedServiceWithValidOfferedServiceId() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = "";
+		String testOfferedServiceId = "testDeleteOfferedServiceWithValidOfferedServiceId";
 		Boolean isDeleted = false;
 		OfferedService offeredService = null;
 
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				PRICE,NAME,DURATION,REMINDER_TIME,REMINDER_DATE,DESCRIPTION);
-		assertNotNull(offeredService);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				PRICE,NAME,DURATION,REMINDER_TIME,REMINDER_DATE,DESCRIPTION);
+//		assertNotNull(offeredService);
 		
 		try {
 			isDeleted = offeredServiceService.deleteOfferedService(OFFERED_SERVICE_KEY);
@@ -758,7 +829,7 @@ public class TestOfferedServiceService {
 	 */	
 	@Test
 	public void testDeleteOfferedServiceWithEmptyOfferedServiceId() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		Boolean isDeleted = false;
 		//String testOfferedServiceId = "TEST1";
@@ -771,10 +842,10 @@ public class TestOfferedServiceService {
 		String testOfferedServiceDescription = "this is a testing Wash service";
 		OfferedService offeredService = null;
 		OfferedService deletedOfferedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			isDeleted = offeredServiceService.deleteOfferedService(deletedOfferedServiceId);
 		}catch (IllegalArgumentException e) {
@@ -792,7 +863,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testDeleteOfferedServiceWithSpaceOfferedServiceId() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 		Boolean isDeleted = false;
 		
@@ -805,10 +876,10 @@ public class TestOfferedServiceService {
 		String testOfferedServiceDescription = "this is a testing Wash service";
 		OfferedService offeredService = null;
 		OfferedService deletedOfferedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			isDeleted = offeredServiceService.deleteOfferedService(deletedOfferedServiceId);
 		}catch (IllegalArgumentException e) {
@@ -829,7 +900,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testDeleteOfferedServiceWithEmptyOfferedService() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String testOfferedServiceId = "TEST2";
 		String error = "";
 		Boolean isDeleted = false;
@@ -839,7 +910,6 @@ public class TestOfferedServiceService {
 		}catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
 		deletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(testOfferedServiceId);
 		assertNull(deletedOfferedService);
 		assertEquals("the offered service can not found in the system!", error);
@@ -854,7 +924,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithValidInput() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -875,11 +945,11 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
-		//assertNotNull(offeredService);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		//assertNotNull(offeredService);
 		
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -904,7 +974,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithAllNullOrZeroInput() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -925,10 +995,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -939,10 +1009,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(modifiedService, OFFERED_SERVICE_KEY,
+//				newTestOfferedServicePrice,  newTestOfferedServiceName,
+//				newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+//				newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
 		assertEquals("name cannot be empty!duration cannot be zero!reminderTime cannot be empty!reminderDate cannot be zero!Offered service description cannot be empty!", error);
 	}
 	
@@ -953,7 +1023,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithZeroNewDuration() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -974,10 +1044,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -988,10 +1058,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(modifiedService, OFFERED_SERVICE_KEY,
+//				newTestOfferedServicePrice,  newTestOfferedServiceName,
+//				newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+//				newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
 		assertEquals("duration cannot be zero!", error);
 	}
 	
@@ -1004,7 +1074,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithNegativeNewDuration() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1025,10 +1095,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1039,10 +1109,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("duration cannot be negative!", error);
 	}
 	
@@ -1052,7 +1122,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithNegativeNewPrice() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1073,10 +1143,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1087,70 +1157,23 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("price cannot be negative!", error);
 	}
 	
-//	
-//	/**
-//	 * testing updateOfferedService with new price as null
-//	 * @throws InvalidInputException
-//	 */
-//	@Test
-//	public void testUpdateOfferedServiceWithNullNewPrice() throws InvalidInputException {
-//		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
-//		
-//		String error = null;
-//
-//		String testOfferedServiceId = "TEST1";
-//		int testOfferedServiceDuration = 10;
-//		double testOfferedServicePrice = 10.0;
-//		String testOfferedServiceName = "wash";
-//		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-//		int testOfferedServiceReminderDate = 30;
-//		String testOfferedServiceDescription = "this is a testing Wash service";
-//		
-//		int newTestOfferedServiceDuration = 20;
-//		double newTestOfferedServicePrice = null;
-//		String newTestOfferedServiceName = "inspection";
-//		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-//		int newTestOfferedServiceReminderDate = 40;
-//		String newTestOfferedServiceDescription = "this is a testing inspection service";
-//		
-//		OfferedService offeredService = null;
-//		OfferedService modifiedService = null;
-//		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
-//				testOfferedServicePrice,  testOfferedServiceName,
-//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-//				testOfferedServiceReminderDate, testOfferedServiceDescription);
-//		try {
-//			modifiedService = offeredServiceService.updateService(testOfferedServiceId,
-//					newTestOfferedServicePrice,  newTestOfferedServiceName,
-//					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
-//					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-//		}catch (IllegalArgumentException e) {
-//			error = e.getMessage();
-//		}
-//		
-//		assertNull(modifiedService);
-//		checkResultOfferedService(offeredService, testOfferedServiceId,
-//				testOfferedServicePrice,  testOfferedServiceName,
-//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-//				testOfferedServiceReminderDate, testOfferedServiceDescription);
-//		assertEquals("price cannot be empty!", error);
-//	}
-//	
-//	
+
+	
+	
 	/**
 	 * test update OfferedService with an new name as empty string 
 	 * @throws InvalidInputException
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithEmptyNewName() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1171,10 +1194,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1185,10 +1208,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("name cannot be empty!", error);
 	}
 	
@@ -1197,11 +1220,11 @@ public class TestOfferedServiceService {
 	
 	/**
 	 * test update OfferedService with an new name as a space
-	 * @throws InvalidInputException
+	 * 
 	 */
 	@Test
-	public void testUpdateOfferedServiceWithSpaceNewName() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+	public void testUpdateOfferedServiceWithSpaceNewName(){
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1222,10 +1245,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1236,10 +1259,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("name cannot be empty!", error);
 	}
 	
@@ -1252,7 +1275,7 @@ public class TestOfferedServiceService {
 	
 	@Test
 	public void testUpdateOfferedServiceWithNullNewReminderTime() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1273,10 +1296,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1287,10 +1310,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("reminderTime cannot be empty!", error);
 	}
 	
@@ -1302,7 +1325,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithZeroNewReminderDate(){
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1323,10 +1346,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1337,10 +1360,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("reminderDate cannot be zero!", error);
 	}
 	
@@ -1351,7 +1374,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithNegativeReminderDate() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1372,10 +1395,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1386,10 +1409,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("reminderDate cannot be negative!", error);
 	}
 	
@@ -1401,7 +1424,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithEmptyDescription() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1422,10 +1445,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1436,10 +1459,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("Offered service description cannot be empty!", error);
 	}
 	
@@ -1451,7 +1474,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithSpaceDescription() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1472,10 +1495,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1486,10 +1509,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("Offered service description cannot be empty!", error);
 	}
 	
@@ -1499,7 +1522,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithEmptyOfferServiceId() {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1521,10 +1544,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(modifyingServiceId,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1535,10 +1558,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("the serviceId can not be empty!the offered service can not found in the system!", error);
 	}
 	
@@ -1551,7 +1574,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithSpaceOfferServiceId() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1573,10 +1596,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(modifyingServiceId,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1587,10 +1610,10 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("the serviceId can not be empty!the offered service can not found in the system!", error);
 	}
 	
@@ -1601,7 +1624,7 @@ public class TestOfferedServiceService {
 	 */
 	@Test
 	public void testUpdateOfferedServiceWithNonFoundOfferServiceId() throws InvalidInputException {
-		assertEquals(0, offeredServiceService.getAllOfferedServices().size());
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		
 		String error = null;
 
@@ -1623,10 +1646,10 @@ public class TestOfferedServiceService {
 		
 		OfferedService offeredService = null;
 		OfferedService modifiedService = null;
-		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			modifiedService = offeredServiceService.updateService(modifyingServiceId,
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
@@ -1637,20 +1660,20 @@ public class TestOfferedServiceService {
 		}
 		
 		assertNull(modifiedService);
-		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+//		checkResultOfferedService(offeredService, OFFERED_SERVICE_KEY,
+//				testOfferedServicePrice,  testOfferedServiceName,
+//				testOfferedServiceDuration,testOfferedServiceReminderTime, 
+//				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		assertEquals("the offered service can not found in the system!", error);
 	}
-	
-	
-	
-	/**
-	 * @TODO: add the last testing case with is the getAllOfferedService()
-	 */
-	
-	
+//	
+//	
+//	
+//	/**
+//	 * @TODO: add the last testing case with is the getAllOfferedService()
+//	 */
+//	
+//	
 	/**
 	 * testing to extract an existing offered service 
 	 */
@@ -1669,8 +1692,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredServiceService.getOfferedServiceByOfferedServiceId(NONEXISTING_KEY));
 	}
 	
-	
-	
+//	
+//	
 	//----------------------------------- helper method --------------------------------------------------
 	
 	/**

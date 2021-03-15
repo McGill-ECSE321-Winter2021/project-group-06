@@ -49,9 +49,9 @@ public class OfferedServiceService {
 		if (offeredServiceId == null || offeredServiceId.trim().length()==0) {
 			error = error + "OfferedServiceId cannot be empty!";
 		}
-//		if (price == null) {
-//			error = error + "price cannot be empty!";
-//		}
+		if (isOfferedServiceIdAvailable(offeredServiceId) == false) {
+			error = error + "can not create OfferedService with same Id!";
+		}
 		if (price < 0.0) {
 			error = error + "price cannot be negative!";
 		}
@@ -79,18 +79,21 @@ public class OfferedServiceService {
 		if (error.length()>0) {
 			throw new IllegalArgumentException(error);
 		}
+		else {
+			OfferedService offeredService = new OfferedService();
+			offeredService.setOfferedServiceId(offeredServiceId);
+			offeredService.setPrice(price);
+			offeredService.setName(name);
+			offeredService.setDuration(duration);
+			offeredService.setReminderTime(reminderTime);
+			offeredService.setReminderDate(reminderDate);
+			offeredService.setDescription(description);
+			offeredServiceRepository.save(offeredService);
+			
+			return offeredService;
+		}
 		
-		OfferedService offeredService = new OfferedService();
-		offeredService.setOfferedServiceId(offeredServiceId);
-		offeredService.setPrice(price);
-		offeredService.setName(name);
-		offeredService.setDuration(duration);
-		offeredService.setReminderTime(reminderTime);
-		offeredService.setReminderDate(reminderDate);
-		offeredService.setDescription(description);
-		offeredServiceRepository.save(offeredService);
 		
-		return offeredService;
 	}
 	
 	
@@ -234,5 +237,28 @@ public class OfferedServiceService {
 		return resultList;
 	}
 	
+	
+	/**
+	 * helper method to determine if the offered Service id has been taken
+	 * @param Id
+	 * @return
+	 */
+	private boolean isOfferedServiceIdAvailable(String Id) {
+		boolean available = false;
+		if (offeredServiceRepository.findByOfferedServiceId(Id) == null) {
+			available = true;
+		}
+			return available;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// --------------------------- Mike ends here ----------------------------------
-}
+
