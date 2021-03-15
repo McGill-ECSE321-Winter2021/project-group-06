@@ -79,15 +79,16 @@ public class BusinessInformationController {
 	 * @return
 	 * @throws InvalidInputException 
 	 */
-	@PostMapping(value = {"/updateBusinessInformation/{name}/{address}/{phoneNumber}/{emailAddress}", "/updateBusinessInformation/{name}/{address}/{phoneNumber}/{emailAddress}/"})
-	public BusinessInformationDto updateBusinessInformation(@PathVariable("name")String name, 
+	@PostMapping(value = {"/updateBusinessInformation/{currentName}/{name}/{address}/{phoneNumber}/{emailAddress}", "/updateBusinessInformation/{currentName}/{name}/{address}/{phoneNumber}/{emailAddress}/"})
+	public BusinessInformationDto updateBusinessInformation(@PathVariable("currentName")String currentName,
+			@PathVariable("name")String name, 
 			@PathVariable("address")String address, 
 			@PathVariable("phoneNumber")String phoneNumber, 
 			@PathVariable("emailAddress")String emailAddress) throws InvalidInputException {
 		BusinessInformationDto updatedBusinessInformation = new BusinessInformationDto();
 		BusinessInformation businessInformation;
 		try {
-			businessInformation = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
 			throw new InvalidInputException(e.getMessage());
@@ -102,7 +103,7 @@ public class BusinessInformationController {
 	 * @return
 	 */
 	@DeleteMapping(value = {"/deleteBusinessInformation/{name}","/deleteBusinessInformation/{name}/"})
-	public boolean deleteBusinessInformationDto(@PathVariable("name") String name) {
+	public boolean deleteBusinessInformation(@PathVariable("name") String name) {
 		boolean isSuccess = false; 
 		BusinessInformation businessInformation = businessInformationRepository.findBusinessInformationByName(name);
 		businessInformationRepository.delete(businessInformation);
@@ -115,7 +116,7 @@ public class BusinessInformationController {
 	 * @return
 	 */
 	@DeleteMapping(value = {"/deleteAllBusinessInformation","/deleteAllBusinessInformation/"})
-	public boolean deleteBusinessInformationDto() {
+	public boolean deleteBusinessInformation() {
 		boolean isSuccess = false;
 		businessInformationRepository.deleteAll();
 		isSuccess = true;

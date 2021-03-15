@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +55,7 @@ public class GarageController {
 	 * @param garageId
 	 * @return
 	 */
-	@GetMapping(value = {"/getGarageByGarageId/{garageId}", "//getGarageByGarageId/{garageId}/"})
+	@GetMapping(value = {"/getGarageByGarageId/{garageId}", "/getGarageByGarageId/{garageId}/"})
 	public GarageDto getGarageByGarageId(@PathVariable("garageId") String garageId){
 		GarageDto foundedGarage = new GarageDto();
 		Garage garage = garageService.getGarageByGarageId(garageId);
@@ -68,16 +68,12 @@ public class GarageController {
 	 * @param appointmentId
 	 * @return
 	 */
-	/**
-	 * @param appointmentId
-	 * @return
-	 */
-	@GetMapping(value = {"/getGarageByAppointment/getAppointmentByAppointmentId/{appointmentId}", "/getGarageByAppointment/{appointmentId}/"})
+	@GetMapping(value = {"/getGarageByAppointment/getAppointmentByAppointmentId/{appointmentId}", "/getGarageByAppointment/getGarageByAppointment/{appointmentId}/"})
 	public GarageDto getGarageByAppointment(@PathVariable("appointmentId") AppointmentDto appointmentId){
-		GarageDto foundedGarage = new GarageDto();
+		GarageDto foundGarage = new GarageDto();
 		Garage garage = garageService.getGarageByAppointment(convertToDomainObject(appointmentId));
-		foundedGarage = convertToDto(garage);
-		return foundedGarage;
+		foundGarage = convertToDto(garage);
+		return foundGarage;
 	}
 
 	/**
@@ -101,12 +97,12 @@ public class GarageController {
 	 * @return
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = {"/updateGarage/{garageId}{isAvailable}", "/updateGarage/{garageId}{isAvailable}/"})
-	public GarageDto updateGarage(@PathVariable("garageId")String garageId, @PathVariable("isAvailable")Boolean isAvailable) throws InvalidInputException{
+	@PostMapping(value = {"/updateGarage/{currentGarageId}/{isAvailable}/{garageId}", "/updateGarage/{currentGarageId}/{isAvailable}/{garageId}/"})
+	public GarageDto updateGarage(@PathVariable("currentGarageId")String currentGarageId, @PathVariable("isAvailable")Boolean isAvailable, @PathVariable("garageId")String garageId) throws InvalidInputException{
 		GarageDto updatedGarage = new GarageDto();
 		Garage garage;
 		try {
-			garage = garageService.updateGarage(garageId, isAvailable);
+			garage = garageService.updateGarage(currentGarageId, isAvailable, garageId);
 		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
 			throw new InvalidInputException(e.getMessage());
@@ -118,20 +114,29 @@ public class GarageController {
 	/**
 	 * Delete a garage
 	 * @param garageId
+	 * @return
 	 */
-	@Transactional
-	public void deleteGarage(String garageId) {
+	@DeleteMapping(value = {"/deleteGarage/{garageId}","/deleteGarage/{garageId}/"})
+	public boolean deleteGarage(@PathVariable("garageId") String garageId) {
+		boolean isSuccess = false; 
 		Garage garage = garageRepository.findByGarageId(garageId);
 		garageRepository.delete(garage);
+		isSuccess = true;
+		return isSuccess;
 	}
 
 	/**
 	 * Delete all the garages
+	 * @return
 	 */
-	@Transactional
-	public void deleteAllGarages() {
+	@DeleteMapping(value = {"/deleteAllGarages","/deleteAllGarages/"})
+	public boolean deleteAllGarages() {
+		boolean isSuccess = false;
 		garageRepository.deleteAll();
+		isSuccess = true;
+		return isSuccess;
 	}
+
 
 	// ---------------------------- Helper method ---------------------------
 	/**
