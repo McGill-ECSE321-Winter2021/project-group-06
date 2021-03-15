@@ -117,7 +117,7 @@ public class TestBusinessInformationService {
 		try {
 			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
-			fail();
+			fail(e.getMessage());
 		}
 		checkResultBusinessInformation(businessInformation, name, address, phoneNumber, emailAddress);
 	}
@@ -159,6 +159,54 @@ public class TestBusinessInformationService {
 		String address = null;
 		String phoneNumber = null;
 		String emailAddress = null;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing when we are creating an empty BusinessInformation
+	 */
+	@Test
+	public void testCreateEmptyBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+
+		String name = "";
+		String address = "";
+		String phoneNumber = "";
+		String emailAddress = "";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing when we are creating a spaced BusinessInformation
+	 */
+	@Test
+	public void testCreateSpacedBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+
+		String name = "  ";
+		String address = "  ";
+		String phoneNumber = "  ";
+		String emailAddress = "  ";
 
 		BusinessInformation businessInformation = null;
 		try {
@@ -465,7 +513,7 @@ public class TestBusinessInformationService {
 	 * Testing getBusinessInformationByName
 	 */
 	@Test
-	public void testGetBusinessInformation() {
+	public void testGetBusinessInformationByName() {
 		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String name = NAME1;
@@ -474,7 +522,7 @@ public class TestBusinessInformationService {
 		try {
 			businessInformation = businessInformationService.getBusinessInformationByName(name);
 		}catch (InvalidInputException e) {
-			fail();//e.printStackTrace();
+			fail(e.getMessage());
 		}
 		checkResultBusinessInformation(businessInformation, NAME1, ADDRESS1, PHONE_NUMBER1, EMAIL_ADDRESS1);
 	}
@@ -578,10 +626,10 @@ public class TestBusinessInformationService {
 
 	//----------------------------------- 	updateBusinessInformation --------------------------------------------------
 	/**
-	 * Testing updateBusinessInformation, update name, update address, phoneNumber and emailAddress
+	 * Testing updateBusinessInformationByName, update name, update address, phoneNumber and emailAddress
 	 */
 	@Test
-	public void testUpdateBusinessInformation() {
+	public void testUpdateBusinessInformationByName() {
 		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String currentName = NAME1;
@@ -595,33 +643,9 @@ public class TestBusinessInformationService {
 		try {
 			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
-			fail();//e.printStackTrace();
+			fail(e.getMessage());
 		}
 		checkResultBusinessInformation(businessInformation, name, address, phoneNumber, emailAddress);
-	}
-
-	/**
-	 * Testing updateBusinessInformation with null parameters
-	 */
-	@Test
-	public void testUpdateBusinessInformationWithNullBusinessInformation() {
-		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
-		String error = null;
-
-		String currentName = null;
-		String name = null;
-		String address = null;
-		String phoneNumber = null;
-		String emailAddress = null;
-
-		BusinessInformation businessInformation = null;
-		try {
-			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
-		}catch (InvalidInputException e){
-			error = e.getMessage();
-		}
-		assertNull(businessInformation);
-		assertEquals("CurrentName cannot be empty!", error);
 	}
 
 	/**
@@ -646,6 +670,102 @@ public class TestBusinessInformationService {
 		}
 		assertNull(businessInformation);
 		assertEquals("Name not available!", error);
+	}
+	
+	/**
+	 * Testing updateBusinessInformation with a non-existing currentName
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithNonExistingCurrentName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = NON_EXISTING_NAME;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName does not exist!", error);
+	}
+	
+	/**
+	 * Testing updateBusinessInformation with null parameters
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithNullBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = null;
+		String name = null;
+		String address = null;
+		String phoneNumber = null;
+		String emailAddress = null;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing updateBusinessInformation with empty parameters
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithEmptyBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = "";
+		String name = "";
+		String address = "";
+		String phoneNumber = "";
+		String emailAddress = "";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing updateBusinessInformation with spaced parameters
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithSpacedBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = "  ";
+		String name = "  ";
+		String address = "  ";
+		String phoneNumber = "  ";
+		String emailAddress = "  ";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
 	}
 
 	/**
@@ -701,7 +821,7 @@ public class TestBusinessInformationService {
 	 * Testing updateBusinessInformation with a spaced currentName
 	 */
 	@Test
-	public void testUpdateBusinessInformationWithspacedCurrentName() {
+	public void testUpdateBusinessInformationWithSpacedCurrentName() {
 		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
@@ -774,7 +894,7 @@ public class TestBusinessInformationService {
 	 * Testing updateBusinessInformation with a spaced name
 	 */
 	@Test
-	public void testUpdateBusinessInformationWithspacedName() {
+	public void testUpdateBusinessInformationWithSpacedName() {
 		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
@@ -846,7 +966,7 @@ public class TestBusinessInformationService {
 	 * Testing updateBusinessInformation with a spaced address
 	 */
 	@Test
-	public void testUpdateBusinessInformationWithspacedAddress() {
+	public void testUpdateBusinessInformationWithSpacedAddress() {
 		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
@@ -919,7 +1039,7 @@ public class TestBusinessInformationService {
 	 * Testing updateBusinessInformation with a spaced phoneNumber
 	 */
 	@Test
-	public void testUpdateBusinessInformationWithspacedPhoneNumber() {
+	public void testUpdateBusinessInformationWithSpacedPhoneNumber() {
 		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
@@ -991,7 +1111,7 @@ public class TestBusinessInformationService {
 	 * Testing updateBusinessInformation with a spaced emailAddress
 	 */
 	@Test
-	public void testUpdateBusinessInformationWithspacedEmailAddress() {
+	public void testUpdateBusinessInformationWithSpacedEmailAddress() {
 		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
@@ -1014,10 +1134,10 @@ public class TestBusinessInformationService {
 
 	//----------------------------------- 	deleteBusinessInformation --------------------------------------------------
 	/**
-	 * Testing deleteBusinessInformation
+	 * Testing deleteBusinessInformationByName
 	 */
 	@Test
-	public void testDeleteBusinessInformation() {
+	public void testDeleteBusinessInformationByName() {
 		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String name = NAME1;
@@ -1027,7 +1147,7 @@ public class TestBusinessInformationService {
 		try {
 			deletedBusinessInformation = businessInformationService.deleteBusinessInformation(name);
 		}catch (InvalidInputException e) {
-			fail();//e.printStackTrace();
+			fail(e.getMessage());
 		}
 		businessInformation = businessInformationService.getBusinessInformationByName(name);
 		checkResultBusinessInformation(deletedBusinessInformation, businessInformation.getName(), businessInformation.getAddress(), businessInformation.getPhoneNumber(), businessInformation.getEmailAddress());
