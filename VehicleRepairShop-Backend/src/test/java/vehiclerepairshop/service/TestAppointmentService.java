@@ -38,12 +38,6 @@ public class TestAppointmentService {
 	@InjectMocks
 	private AppointmentService appointmentService;
 
-	//	private Car car;
-	//	private Garage garage;
-	//	private TimeSlot timeSlot;
-	//	private List<TechnicianAccount> workers;
-	//	private OfferedService offeredService;
-	//	private String comment;
 	private static final int APPOINTMENTID = 21;
 
 
@@ -236,7 +230,7 @@ public class TestAppointmentService {
 		});
 		
 		
-		lenient().when(appointmentRepository.findByTechnicianAccount(any(TechnicianAccount.class))).thenAnswer( (InvocationOnMock invocation) -> {
+		lenient().when(appointmentRepository.findByWorker(any(TechnicianAccount.class))).thenAnswer( (InvocationOnMock invocation) -> {
 			//Car
 			TechnicianAccount worker = new TechnicianAccount();
 			worker.setUsername("1");

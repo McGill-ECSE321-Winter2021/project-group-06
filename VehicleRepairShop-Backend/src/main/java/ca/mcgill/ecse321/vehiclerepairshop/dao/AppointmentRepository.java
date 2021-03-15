@@ -12,7 +12,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 public interface AppointmentRepository extends CrudRepository<Appointment, Integer>{
 	List<Appointment> findByCar(Car carLicense);
 	List<Appointment> findByGarage(Garage garageID);
-	List<Appointment> findByTechnicianAccount(TechnicianAccount technicianAccount);
+	List<Appointment> findByWorker(TechnicianAccount worker);
 	Appointment findByCarAndTimeSlot(Car car, TimeSlot timeSlot);
 	
 }

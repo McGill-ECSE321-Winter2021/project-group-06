@@ -138,14 +138,14 @@ public class AppointmentService {
 	@Transactional
 	public List<Appointment> getAppointmentByWorker(TechnicianAccount worker){
 		String error = "";
-		if (appointmentRepository.findByTechnicianAccount(worker)==null) {
+		if (appointmentRepository.findByWorker(worker)==null) {
 			error = error + "appointment not found";
 		}
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-		List<Appointment> appointments = appointmentRepository.findByTechnicianAccount(worker);
+		List<Appointment> appointments = appointmentRepository.findByWorker(worker);
 		return appointments;
 	}
 
