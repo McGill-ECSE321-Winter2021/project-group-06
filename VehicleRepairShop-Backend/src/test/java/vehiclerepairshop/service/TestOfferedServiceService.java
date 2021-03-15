@@ -678,7 +678,7 @@ public class TestOfferedServiceService {
 
 	
 	/**
-	 * testing getting offered service with valid appointment input 
+	 * testing getOfferedService  with valid appointment input 
 	 */
 	@Test
 	public void testGetOfferedServiceWithValidAppointment() {
@@ -710,7 +710,7 @@ public class TestOfferedServiceService {
 	
 	
 	/**
-	 * testing getting offered service with null appointment input 
+	 * testing getOfferedService  with null appointment input 
 	 */
 	@Test
 	public void testGetOfferedServiceWithNullAppointment() {
@@ -1383,7 +1383,7 @@ public class TestOfferedServiceService {
 //	
 //	
 	/**
-	 * @TODO: add the last testing case with is the getAllOfferedService()
+	 * test get all offered service
 	 */
 	
 	public void testGetAllOfferedService() {
