@@ -101,15 +101,40 @@ public class TestAdminAccountService {
 			user.setName(NAME1);
 			user.setToken(TOKEN1);
 			AdminAccount user2 = new AdminAccount();
-			user.setUsername(USERNAME2);
-			user.setPassword(PASSWORD2);
-			user.setName(NAME2);
-			user.setToken(TOKEN2);
+			user2.setUsername(USERNAME2);
+			user2.setPassword(PASSWORD2);
+			user2.setName(NAME2);
+			user2.setToken(TOKEN2);
 			List<AdminAccount> adminAccounts = new ArrayList<AdminAccount>();
 			adminAccounts.add(user);
 			adminAccounts.add(user2);
             return adminAccounts;
          });
+		lenient().when(adminAccountRepository.findAdminAccountByName(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(NAME1)) {
+				AdminAccount user = new AdminAccount();
+				user.setUsername(USERNAME1);
+				user.setPassword(PASSWORD1);
+				user.setName(NAME1);
+				user.setToken(TOKEN1);
+				List<AdminAccount> adminAccounts = new ArrayList<AdminAccount>();
+				adminAccounts.add(user);
+				return adminAccounts;
+			} 
+			else if (invocation.getArgument(0).equals(NAME2)) {
+				AdminAccount user = new AdminAccount();
+				user.setUsername(USERNAME2);
+				user.setPassword(PASSWORD2);
+				user.setName(NAME2);
+				user.setToken(TOKEN2);
+				List<AdminAccount> adminAccounts = new ArrayList<AdminAccount>();
+				adminAccounts.add(user);
+				return adminAccounts;
+			}
+			else {
+				return null;
+			}
+		});
 		lenient().when(adminAccountRepository.findByBusinessInformation(any(BusinessInformation.class))).thenAnswer( (InvocationOnMock invocation) -> { 
 			BusinessInformation businessInfo = invocation.getArgument(0);
 			
@@ -120,10 +145,10 @@ public class TestAdminAccountService {
 				user.setName(NAME1);
 				user.setToken(TOKEN1);
 				AdminAccount user2 = new AdminAccount();
-				user.setUsername(USERNAME2);
-				user.setPassword(PASSWORD2);
-				user.setName(NAME2);
-				user.setToken(TOKEN2);
+				user2.setUsername(USERNAME2);
+				user2.setPassword(PASSWORD2);
+				user2.setName(NAME2);
+				user2.setToken(TOKEN2);
 				List<AdminAccount> adminAccounts = new ArrayList<AdminAccount>();
 				adminAccounts.add(user);
 				adminAccounts.add(user2);
@@ -682,6 +707,30 @@ public class TestAdminAccountService {
 			// check error
 			assertEquals("An error occured. Please try again.", error);
 		
+		}
+		
+		/**
+		 * Get Admin Accounts by Name
+		 */
+		@Test
+		public void testGetAdminAccountsByName() {
+			
+			List<AdminAccount> users = adminAccountService.getAdminAccountsByName(NAME1);
+			assertNotNull(users);
+			assertEquals(users.get(0).getUsername(), USERNAME1);
+		}
+		
+		/**
+		 * Get Admin Accounts by BusinessInformation
+		 */
+		@Test
+		public void testGetAllAdminAccountsWithBusinessInformation() {
+			BusinessInformation businessInformation = new BusinessInformation();
+			businessInformation.setName(INFO_NAME);
+			List<AdminAccount> users = adminAccountService.getAllAdminAccountsWithBusinessInformation(businessInformation);
+			assertNotNull(users);
+			assertEquals(users.get(0).getUsername(), USERNAME1);
+			assertEquals(users.get(1).getUsername(), USERNAME2);
 		}
 		
 
