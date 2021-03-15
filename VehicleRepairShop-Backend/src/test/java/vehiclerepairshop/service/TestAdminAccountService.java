@@ -19,7 +19,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +51,11 @@ public class TestAdminAccountService {
 	private static final String USERNAME2 = "Username2";
 	private static final String NAME2 = "Catherine The 1st";
 	private static final String PASSWORD2 = "GhostPassword101?!";
+	private static final int TOKEN2 = 1000001;
 
+	private static final String INFO_NAME = "business info name";
+	private BusinessInformation businessInformation = new BusinessInformation();
+	
 
 	@Mock
 	private AdminAccountRepository adminAccountRepository;
@@ -89,18 +95,47 @@ public class TestAdminAccountService {
 				return null;
 			}
 		});
-		// TODO find by name (returns a list) -- do we need it tho?
-//		lenient().when(adminAccountRepository.fin(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-//			if (invocation.getArgument(0).equals(USER_EMAIL)) {
-//				User user = new User();
-//				user.setUserName(USER_NAME);
-//				user.setEmail(USER_EMAIL);
-//				user.setPassword(passwordEncoder.encode(USER_PASSWORD));
-//				return user;
-//			} else {
-//				return null;
-//			}
-//		});
+		lenient().when(adminAccountRepository.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+			AdminAccount user = new AdminAccount();
+			user.setUsername(USERNAME1);
+			user.setPassword(PASSWORD1);
+			user.setName(NAME1);
+			user.setToken(TOKEN1);
+			AdminAccount user2 = new AdminAccount();
+			user.setUsername(USERNAME2);
+			user.setPassword(PASSWORD2);
+			user.setName(NAME2);
+			user.setToken(TOKEN2);
+			List<AdminAccount> adminAccounts = new ArrayList<AdminAccount>();
+			adminAccounts.add(user);
+			adminAccounts.add(user2);
+            return adminAccounts;
+         });
+		lenient().when(adminAccountRepository.findByBusinessInformation(any(BusinessInformation.class))).thenAnswer( (InvocationOnMock invocation) -> { 
+			BusinessInformation businessInfo = invocation.getArgument(0);
+			
+			if (businessInfo.getName().equals(INFO_NAME)) {
+				AdminAccount user = new AdminAccount();
+				user.setUsername(USERNAME1);
+				user.setPassword(PASSWORD1);
+				user.setName(NAME1);
+				user.setToken(TOKEN1);
+				AdminAccount user2 = new AdminAccount();
+				user.setUsername(USERNAME2);
+				user.setPassword(PASSWORD2);
+				user.setName(NAME2);
+				user.setToken(TOKEN2);
+				List<AdminAccount> adminAccounts = new ArrayList<AdminAccount>();
+				adminAccounts.add(user);
+				adminAccounts.add(user2);
+	            return adminAccounts;
+				
+			}
+			else {
+				return null;
+			}
+			
+         });
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -448,22 +483,22 @@ public class TestAdminAccountService {
 		 */
 		@Test
 		public void testUpdateAdminAccountWithEmptyPassword() {
-			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
-
-			String name = NAME2;
-			String username = USERNAME2;
-			String password = PASSWORD2;
-			adminAccountService.createAdminAccount(username, password, name);
-			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
-			
-			String newName = NAME1;
-			String newUsername = USERNAME1;
+//			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
+//
+//			String name = NAME2;
+//			String username = USERNAME2;
+//			String password = PASSWORD2;
+//			adminAccountService.createAdminAccount(username, password, name);
+//			assertEquals(1, adminAccountService.getAllAdminAccounts().size()); // may not be needed
+//			
+			String newName = NAME2;
+			String newUsername = USERNAME2;
 			String newPassword = "";
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(username, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME2, newUsername, newPassword, newName);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -553,6 +588,7 @@ public class TestAdminAccountService {
 				fail();
 			}
 			assertTrue(successful);
+			assertNull(adminAccountService.getAdminAccountByUsername(username));
 			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
 		}
 		
@@ -560,7 +596,7 @@ public class TestAdminAccountService {
 		 * Delete Admin Account with user null
 		 */
 		@Test
-		public void testDeleteAdminAccountWithUserNull() {
+		public void testDeleteAdminAccountWithNonExistingUser() {
 			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
 			
 			String error = null;
@@ -629,7 +665,7 @@ public class TestAdminAccountService {
 		 * Login Admin Account with user null
 		 */
 		@Test
-		public void testLoginAdminAccountWithUserNull() {
+		public void testLoginAdminAccountWithNonExistingUser() {
 			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
 			
 			String error = null;
@@ -698,7 +734,7 @@ public class TestAdminAccountService {
 		 * Logout Admin Account with user null
 		 */
 		@Test
-		public void testLogoutAdminAccountWithUserNull() {
+		public void testLogoutAdminAccountWithNonExistingUser() {
 			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
 			
 			String error = null;
@@ -733,13 +769,14 @@ public class TestAdminAccountService {
 				fail();
 			}
 			assertTrue(successful);
+			assertNotEquals(0, adminAccountService.getAdminAccountByUsername(username).getToken());
 		}
 		
 		/**
 		 * Authenticate Admin Account with user null
 		 */
 		@Test
-		public void testAuthenticateAdminAccountWithUserNull() {
+		public void testAuthenticateAdminAccountWithNonExistingUser() {
 			assertEquals(0, adminAccountService.getAllAdminAccounts().size());
 			
 			String error = null;

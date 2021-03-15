@@ -35,7 +35,7 @@ public class CustomerAccountService {
 	 * @return the account created
 	 */
 	@Transactional
-	public CustomerAccount createCustomerAccount(String username, String password, String name) throws InvalidInputException {
+	public CustomerAccount createCustomerAccount(String username, String password, String name)  {
 
 		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
@@ -92,7 +92,7 @@ public class CustomerAccountService {
 	 * @return the account updated
 	 */
 	@Transactional
-	public CustomerAccount updateCustomerAccount(String currentUsername, String newUsername, String newPassword, String newName) throws InvalidInputException {
+	public CustomerAccount updateCustomerAccount(String currentUsername, String newUsername, String newPassword, String newName)  {
 		if (!authenticateToken(currentUsername)) {
 			throw new InvalidInputException("You do not have permission to modify this account.");
 		}
@@ -134,12 +134,11 @@ public class CustomerAccountService {
 	 * Delete the account
 	 * @author Catherine
 	 * @param username
-	 * @return boolean for successful
+	 * @return user
 	 * @throws InvalidInputException 
 	 */
 	@Transactional
-	public boolean deleteCustomerAccount(String username) throws InvalidInputException {
-		boolean successful = false;
+	public CustomerAccount deleteCustomerAccount(String username)  {
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
 		if(user == null) {
 			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
@@ -149,8 +148,7 @@ public class CustomerAccountService {
 		}
 		else {
 			customerAccountRepository.delete(user);
-			successful = true;
-			return successful;
+			return user;
 		}
 	}
 	
@@ -192,11 +190,11 @@ public class CustomerAccountService {
 	 * Login the account and create a token for the account
 	 * @param username
 	 * @param password
-	 * @return boolean for success
+	 * @return user
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean loginCustomerAccount(String username, String password) throws InvalidInputException{
+	public CustomerAccount loginCustomerAccount(String username, String password) {
 		boolean successful = false;
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -205,7 +203,7 @@ public class CustomerAccountService {
 		else {
 			successful = login(username, password);
 			if (successful) {
-				return successful;
+				return user;
 			}
 			else {
 				throw new InvalidInputException("An error occured. Please try again.");
@@ -217,11 +215,11 @@ public class CustomerAccountService {
 	 * Logout the account and delete token for the account
 	 * @param username
 	 * @param password
-	 * @return boolean for success
+	 * @return user
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean logoutCustomerAccount(String username) throws InvalidInputException{
+	public CustomerAccount logoutCustomerAccount(String username) {
 		boolean successful = false;
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -230,7 +228,7 @@ public class CustomerAccountService {
 		else {
 			successful = logout(username);
 			if (successful) {
-				return successful;
+				return user;
 			}
 			else {
 				throw new InvalidInputException("An error occured. Please try again.");
@@ -242,11 +240,11 @@ public class CustomerAccountService {
 	 * Authenticate token
 	 * @author Catherine
 	 * @param username
-	 * @return authenticity
+	 * @return user
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean authenticateCustomerAccount(String username) throws InvalidInputException{
+	public CustomerAccount authenticateCustomerAccount(String username) {
 		boolean authentic = false;
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -255,7 +253,7 @@ public class CustomerAccountService {
 		else {
 			authentic = authenticateToken(username);
 			if (authentic) {
-				return authentic;
+				return user;
 			}
 			else {
 				//General error message to capture if the session expired or the user does not have permission

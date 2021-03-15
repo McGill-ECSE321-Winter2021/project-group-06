@@ -35,7 +35,7 @@ public class TechnicianAccountService {
 	 * @return the account created
 	 */
 	@Transactional
-	public TechnicianAccount createTechnicianAccount(String username, String password, String name) throws InvalidInputException{
+	public TechnicianAccount createTechnicianAccount(String username, String password, String name) {
 
 		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
@@ -126,7 +126,7 @@ public class TechnicianAccountService {
 	 * @return the account updated
 	 */
 	@Transactional
-	public TechnicianAccount updateTechnicianAccount(String currentUsername, String newUsername, String newPassword, String newName) throws InvalidInputException {
+	public TechnicianAccount updateTechnicianAccount(String currentUsername, String newUsername, String newPassword, String newName)  {
 		if (!authenticateToken(currentUsername)) {
 			throw new InvalidInputException("You do not have permission to modify this account.");
 		}
@@ -168,12 +168,11 @@ public class TechnicianAccountService {
 	 * Delete the account
 	 * @author Catherine
 	 * @param username
-	 * @return boolean for successful
+	 * @return user
 	 * @throws InvalidInputException 
 	 */
 	@Transactional
-	public boolean deleteTechnicianAccount(String username) throws InvalidInputException {
-		boolean successful = false;
+	public TechnicianAccount deleteTechnicianAccount(String username)  {
 		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
 		if(user == null) {
 			throw new InvalidInputException("The user cannot be found.");
@@ -183,8 +182,7 @@ public class TechnicianAccountService {
 		}
 		else {
 			technicianAccountRepository.delete(user);
-			successful = true;
-			return successful;
+			return user;
 		}
 	}
 	
@@ -193,11 +191,11 @@ public class TechnicianAccountService {
 	 * @author Catherine
 	 * @param username
 	 * @param password
-	 * @return boolean for success
+	 * @return user
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean loginTechnicianAccount(String username, String password) throws InvalidInputException{
+	public TechnicianAccount loginTechnicianAccount(String username, String password) {
 		boolean successful = false;
 		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -206,7 +204,7 @@ public class TechnicianAccountService {
 		else {
 			successful = login(username, password);
 			if (successful) {
-				return successful;
+				return user;
 			}
 			else {
 				throw new InvalidInputException("An error occured. Please try again.");
@@ -219,11 +217,11 @@ public class TechnicianAccountService {
 	 * @author Catherine
 	 * @param username
 	 * @param password
-	 * @return boolean for success
+	 * @return user
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean logoutTechnicianAccount(String username) throws InvalidInputException{
+	public TechnicianAccount logoutTechnicianAccount(String username) {
 		boolean successful = false;
 		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -232,7 +230,7 @@ public class TechnicianAccountService {
 		else {
 			successful = logout(username);
 			if (successful) {
-				return successful;
+				return user;
 			}
 			else {
 				throw new InvalidInputException("An error occured. Please try again.");
@@ -248,7 +246,7 @@ public class TechnicianAccountService {
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public boolean authenticateTechnicianAccount(String username) throws InvalidInputException{
+	public TechnicianAccount authenticateTechnicianAccount(String username) {
 		boolean authentic = false;
 		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
 		if(user == null) {
@@ -257,7 +255,7 @@ public class TechnicianAccountService {
 		else {
 			authentic = authenticateToken(username);
 			if (authentic) {
-				return authentic;
+				return user;
 			}
 			else {
 				//General error message to capture if the session expired or the user does not have permission

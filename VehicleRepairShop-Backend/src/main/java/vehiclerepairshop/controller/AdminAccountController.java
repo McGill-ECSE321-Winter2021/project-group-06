@@ -158,7 +158,7 @@ public class AdminAccountController {
 	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("name") BusinessInformationDto businessInformationDto) {
 		return adminAccountService.getAllAdminAccountsWithBusinessInformation(convertToDomainObject(businessInformationDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
-	
+	 
 	
 	//-------------------------- Helper Methods -----------------------------
 	
