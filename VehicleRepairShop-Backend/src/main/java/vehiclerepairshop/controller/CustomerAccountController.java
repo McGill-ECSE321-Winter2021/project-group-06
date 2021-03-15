@@ -214,7 +214,7 @@ public class CustomerAccountController {
 			return null;
 		}
 		else {
-			return carService.getCarsByLiscensePlate(carDto.getLicensePlate());
+			return carService.getCarByLicensePlate(carDto.getLicensePlate());
 		}
 	}
 
