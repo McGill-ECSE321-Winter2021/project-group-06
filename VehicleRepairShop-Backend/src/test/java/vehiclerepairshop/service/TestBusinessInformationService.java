@@ -10,6 +10,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,101 +27,234 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
  * @author aureliahaas
  *
  */
+
 @ExtendWith(MockitoExtension.class)
 public class TestBusinessInformationService {
 	@Mock
-	private BusinessInformationRepository businessInformationDao;
+	private BusinessInformationRepository businessInformationRepository;
 
 
 	@InjectMocks
 	private BusinessInformationService businessInformationService;
 
-	private static final String BUSINESS_INFORMATION_KEY = "TestID"; 
-	//private static final String NONEXISTING_KEY = "NotATestID";
+	private static final String NAME1 = "name1";
+	private static final String ADDRESS1 = "address1"; 
+	private static final String PHONE_NUMBER1 = "phoneNumber1";
+	private static final String EMAIL_ADDRESS1 = "emailAddress1"; 
 
-	private static final String NAME = "name";
-	private static final String ADDRESS = "address"; 
-	private static final String PHONE_NUMBER = "phoneNumber";
-	private static final String EMAIL_ADDRESS = "emailAddress"; 
+	private static final String NAME2 = "name2";
+	private static final String ADDRESS2 = "address2"; 
+	private static final String PHONE_NUMBER2 = "phoneNumber2";
+	private static final String EMAIL_ADDRESS2 = "emailAddress2"; 
+
+	private static final String NON_EXISTING_NAME = "nonExistingName";
+	private static final String NON_EXISTING_ADDRESS = "nonExistingAddress"; 
+	private static final String NON_EXISTING_PHONE_NUMBER = "nonExistingPhoneNumber";
+	private static final String NON_EXISTING_EMAIL_ADDRESS = "nonExistingEmailAddress";
 
 	@BeforeEach
 	public void setMockOutput() {
-		lenient().when(businessInformationDao.findById(anyString())).thenAnswer((InvocationOnMock invocation)->{
-			if (invocation.getArgument(0).equals(BUSINESS_INFORMATION_KEY)) {
+		lenient().when(businessInformationRepository.findBusinessInformationByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+			if(invocation.getArgument(0).equals(NAME1)) {
 				BusinessInformation businessInformation = new BusinessInformation();
-				businessInformation.setName(BUSINESS_INFORMATION_KEY);
+				businessInformation.setName(NAME1);
+				businessInformation.setAddress(ADDRESS1);
+				businessInformation.setPhoneNumber(PHONE_NUMBER1);
+				businessInformation.setEmailAddress(EMAIL_ADDRESS1);
 				return businessInformation;
-			}
-			else {
+			} 
+			else if(invocation.getArgument(0).equals(NAME2)) {
+				BusinessInformation businessInformation = new BusinessInformation();
+				businessInformation.setName(NAME2);
+				businessInformation.setAddress(ADDRESS2);
+				businessInformation.setPhoneNumber(PHONE_NUMBER2);
+				businessInformation.setEmailAddress(EMAIL_ADDRESS2);
+				return businessInformation;
+			}else {
 				return null;
 			}
 		});
-		// Whenever anything is saved, just return the parameter object
-		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
-			return invocation.getArgument(0);
-		};
-		lenient().when(businessInformationDao.save(any(BusinessInformation.class))).thenAnswer(returnParameterAsAnswer);
+
+		lenient().when(businessInformationRepository.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+			BusinessInformation businessInformation1 = new BusinessInformation();
+			businessInformation1.setName(NAME1);
+			businessInformation1.setAddress(ADDRESS1);
+			businessInformation1.setPhoneNumber(PHONE_NUMBER1);
+			businessInformation1.setEmailAddress(EMAIL_ADDRESS1);
+
+			BusinessInformation businessInformation2 = new BusinessInformation();
+			businessInformation2.setName(NAME2);
+			businessInformation2.setAddress(ADDRESS2);
+			businessInformation2.setPhoneNumber(PHONE_NUMBER2);
+			businessInformation2.setEmailAddress(EMAIL_ADDRESS2);
+
+			List<BusinessInformation> businessInformation = new ArrayList<BusinessInformation>();
+			businessInformation.add(businessInformation1);
+			businessInformation.add(businessInformation2);
+
+			return businessInformation;
+		});
+
+		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
+		lenient().when(businessInformationRepository.save(any(BusinessInformation.class))).thenAnswer(returnParameterAsAnswer);
 	}
+
 
 	//----------------------------------- createBusinessInformation --------------------------------------------------
 	/**
 	 * Testing createBusinessInformation
 	 */
 	@Test
-	public void testBusinessInformation() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+	public void testCreateBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
 		try {
 			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
-			fail();
+			fail(e.getMessage());
 		}
 		checkResultBusinessInformation(businessInformation, name, address, phoneNumber, emailAddress);
 	}
 
-	//	/**
-	//	 * Testing when we are creating a null BusinessInformation
-	//	 */
-	//	@Test
-	//	public void testCreateNullBusinessInformation() {
-	//		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
-	//		
-	//		String error = null;
-	//		
-	//		String name = null;
-	//		String address = null;
-	//		String phoneNumber = null;
-	//		String emailAddress = null;
-	//
-	//		BusinessInformation businessInformation = null;
-	//		try {
-	//			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
-	//		}catch (InvalidInputException e){
-	//			error = e.getMessage();
-	//		}
-	//		assertNull(businessInformation);
-	//		assertEquals("Name, Address, phoneNumber and emailAddress cannot be empty!", error);
-	//	}
-	//	
+	/**
+	 * Testing when we are creating a business information with a taken name
+	 */
+	@Test
+	public void testCreateBusinessInformationWithTakenName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+
+		String name = NAME1;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name not available!", error);
+	}
+	
+	/**
+	 * Testing when we are creating a null BusinessInformation
+	 */
+	@Test
+	public void testCreateNullBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+
+		String name = null;
+		String address = null;
+		String phoneNumber = null;
+		String emailAddress = null;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing when we are creating an empty BusinessInformation
+	 */
+	@Test
+	public void testCreateEmptyBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+
+		String name = "";
+		String address = "";
+		String phoneNumber = "";
+		String emailAddress = "";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing when we are creating a spaced BusinessInformation
+	 */
+	@Test
+	public void testCreateSpacedBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+
+		String name = "  ";
+		String address = "  ";
+		String phoneNumber = "  ";
+		String emailAddress = "  ";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+
+	/**
+	 * Testing when we are creating a business information with a null name
+	 */
+	@Test
+	public void testCreateBusinessInformationWithNullName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+
+		String name = null;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+
 	/**
 	 * Testing when we are creating a business information with an empty name
 	 */
 	@Test
 	public void testCreateBusinessInformationWithEmptyName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = null;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String name = "";
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;;
 
 		BusinessInformation businessInformation = null;
 		try {
@@ -135,14 +271,14 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testCreateBusinessInformationWithSpacedName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = " ";
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String name = "  ";
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
 		try {
@@ -155,47 +291,43 @@ public class TestBusinessInformationService {
 	}
 
 	/**
-	 * Testing when we are creating a business information with a taken name
+	 * Testing when we are creating a business information with a null address
 	 */
 	@Test
-	public void testCreateBusinessInformationWithTakenName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+	public void testCreateBusinessInformationWithNullAddress() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String name = NON_EXISTING_NAME;
+		String address = null;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
-		String address2 = "address2";
-		String phoneNumber2 = "phoneNumber2";
-		String emailAddress2 = "emailAddress2";
-
-		businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
 		BusinessInformation businessInformation = null;
 		try {
-			businessInformation = businessInformationService.createBusinessInformation(name, address2, phoneNumber2, emailAddress2);
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(businessInformation);
-		assertEquals("Name not available!", error);
+		assertEquals("Address cannot be empty!", error);
 	}
+
 
 	/**
 	 * Testing when we are creating a business information with an empty address
 	 */
 	@Test
 	public void testCreateBusinessInformationWithEmptyAddress() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = NAME;
-		String address = null;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String name = NON_EXISTING_NAME;
+		String address = "";
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
 		try {
@@ -207,20 +339,19 @@ public class TestBusinessInformationService {
 		assertEquals("Address cannot be empty!", error);
 	}
 
-	//Not sure 
 	/**
 	 * Testing when we are creating a business information with a spaced address
 	 */
 	@Test
 	public void testCreateBusinessInformationWithSpacedAddress() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = NAME;
-		String address = " ";
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String name = NON_EXISTING_NAME;
+		String address = "  ";
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
 		try {
@@ -230,6 +361,30 @@ public class TestBusinessInformationService {
 		}
 		assertNull(businessInformation);
 		assertEquals("Address cannot be empty!", error);
+	}
+
+	/**
+	 * Testing when we are creating a business information with a null phone number
+	 */
+	@Test
+	public void testCreateBusinessInformationWithNullPhoneNumber() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = null;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("PhoneNumber cannot be empty!", error);
 	}
 
 	/**
@@ -237,14 +392,14 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testCreateBusinessInformationWithEmptyPhoneNumber() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = null;
-		String emailAddress = EMAIL_ADDRESS;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = "";
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
 		try {
@@ -262,14 +417,14 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testCreateBusinessInformationWithSpacedPhoneNumber() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = " ";
-		String emailAddress = EMAIL_ADDRESS;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = "  ";
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
 		try {
@@ -282,17 +437,17 @@ public class TestBusinessInformationService {
 	}
 
 	/**
-	 * Testing when we are creating a business information with an empty email address
+	 * Testing when we are creating a business information with a null email address
 	 */
 	@Test
-	public void testCreateBusinessInformationWithEmptyEmailAddress() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+	public void testCreateBusinessInformationWithNullEmailAddress() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
 		String emailAddress = null;
 
 		BusinessInformation businessInformation = null;
@@ -304,21 +459,19 @@ public class TestBusinessInformationService {
 		assertNull(businessInformation);
 		assertEquals("EmailAddress cannot be empty!", error);
 	}
-
-	//Not sure 
 	/**
-	 * Testing when we are creating a business information with a spaced email address
+	 * Testing when we are creating a business information with an empty email address
 	 */
 	@Test
-	public void testCreateBusinessInformationWithSpacedEmailAddress() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+	public void testCreateBusinessInformationWithEmptyEmailAddress() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = " ";
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = "";
 
 		BusinessInformation businessInformation = null;
 		try {
@@ -330,83 +483,387 @@ public class TestBusinessInformationService {
 		assertEquals("EmailAddress cannot be empty!", error);
 	}
 
-	//	
-	//	//----------------------------------- getGarageByGarageId --------------------------------------------------
-	////	/**
-	////	 * Testing getGarage
-	////	 */
-	////	@Test
-	////	public void testGetGarage() {
-	////		assertEquals(0, garageService.getAllGarages().size());
-	////		
-	////		Boolean isAvailable = IS_AVAILABLE;
-	////		String garageId = GARAGE_ID;
-	////
-	////		Garage garage = garageService.createGarage(isAvailable, garageId);
-	////		Garage extractedGarage = null;
-	////		
-	////		try {
-	////			extractedGarage = garageService.getGarageByGarageId(garageId);
-	////		}catch (InvalidInputException e) {
-	////			fail();
-	////		}
-	////		//checkResultGarage(garage, isAvailable, garageId);
-	////		assertNotNull(extractedGarage);
-	//////		assertEquals(extractedGarage.getIsAvailable(), garage.getIsAvailable());
-	//////		assertEquals(extractedGarage.getGarageId(), garage.getGarageId());
-	////	}
-	//	
-	////	/**
-	////	 * testing getGarage with empty GarageId
-	////	 */
-	////	@Test
-	////	public void testGetGarageWithNoGarageId() {
-	////		assertEquals(0, garageService.getAllGarages().size());
-	////		
-	////		String error = null;
-	////		
-	////		Boolean isAvailable = IS_AVAILABLE;
-	////		String garageId = null;
-	////
-	////		Garage garage = null;
-	////		Garage extractedGarage = null;
-	////		//garage = garageService.createGarage(isAvailable, garageId);
-	////		
-	////		try {
-	////			extractedGarage = garageService.getGarageByGarageId(garageId);
-	////		}catch (IllegalArgumentException e) {
-	////			error = e.getMessage();
-	////		}
-	////		assertNull(extractedGarage);
-	////		assertEquals("GarageId cannot be empty!", error);
-	////	}
-	//	
-	//----------------------------------- 	updateBusinessInformation --------------------------------------------------
 	/**
-	 * Testing updateBusinessInformation, update address, phoneNumber and emailAddress
+	 * Testing when we are creating a business information with a spaced email address
 	 */
 	@Test
-	public void testUpdateBusinessInformation() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+	public void testCreateBusinessInformationWithSpacedEmailAddress() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String error = null;
 
-		String address2 = "address2";
-		String phoneNumber2 = "phoneNumber2";
-		String emailAddress2 = "emailAddress2";
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = "  ";
 
-		businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("EmailAddress cannot be empty!", error);
+	}
+
+
+	//----------------------------------- getBusinessInformation --------------------------------------------------
+	/**
+	 * Testing getBusinessInformationByName
+	 */
+	@Test
+	public void testGetBusinessInformationByName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String name = NAME1;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.getBusinessInformationByName(name);
+		}catch (InvalidInputException e) {
+			fail(e.getMessage());
+		}
+		checkResultBusinessInformation(businessInformation, NAME1, ADDRESS1, PHONE_NUMBER1, EMAIL_ADDRESS1);
+	}
+
+	/**
+	 * Testing getBusinessInformation with a non-existing name
+	 */
+	@Test
+	public void testGetBusinessInformationWithNonExsitingName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+		String name = NON_EXISTING_NAME;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.getBusinessInformationByName(name);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name does not exist!", error);
+	}
+
+	/**
+	 * Testing getBusinessInformation with a null name
+	 */
+	@Test
+	public void testGetBusinessInformationWithNullName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+		String name = null;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.getBusinessInformationByName(name);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+
+	/**
+	 * Testing getBusinessInformation with an empty name
+	 */
+	@Test
+	public void testGetBusinessInformationWithEmptyName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+		String name = "";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.getBusinessInformationByName(name);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+
+	/**
+	 * Testing getBusinessInformation with a spaced name
+	 */
+	@Test
+	public void testGetBusinessInformationWithSpacedName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+		String name = "  ";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.getBusinessInformationByName(name);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+	
+	//----------------------------------- getAllBusinessInformation ----------------------------------------------------
+	/**
+	 * Test getAllBusinessInformation
+	 */
+	@Test
+	public void testGetAllBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		List<BusinessInformation> businessInformation = new ArrayList<BusinessInformation>();
+		businessInformation = businessInformationService.getAllBusinessInformation();
+
+		BusinessInformation businessInformation1 = businessInformation.get(0);
+		checkResultBusinessInformation(businessInformation1, NAME1, ADDRESS1, PHONE_NUMBER1, EMAIL_ADDRESS1);
+		BusinessInformation businessInformation2 = businessInformation.get(1);
+		checkResultBusinessInformation(businessInformation2, NAME2, ADDRESS2, PHONE_NUMBER2, EMAIL_ADDRESS2);
+	}
+
+	//----------------------------------- 	updateBusinessInformation --------------------------------------------------
+	/**
+	 * Testing updateBusinessInformationByName, update name, update address, phoneNumber and emailAddress
+	 */
+	@Test
+	public void testUpdateBusinessInformationByName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
 		BusinessInformation businessInformation = null;
 
 		try {
-			businessInformation = businessInformationService.updateBusinessInformation(name, address2, phoneNumber2, emailAddress2);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
-			fail();//e.printStackTrace();
+			fail(e.getMessage());
 		}
-		checkResultBusinessInformation(businessInformation, name, address2, phoneNumber2, emailAddress2);
+		checkResultBusinessInformation(businessInformation, name, address, phoneNumber, emailAddress);
+	}
+
+	/**
+	 * Testing updateBusinessInformation with a taken name
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithTakenName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = NAME1;
+		String name = NAME2;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name not available!", error);
+	}
+	
+	/**
+	 * Testing updateBusinessInformation with a non-existing currentName
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithNonExistingCurrentName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = NON_EXISTING_NAME;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName does not exist!", error);
+	}
+	
+	/**
+	 * Testing updateBusinessInformation with null parameters
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithNullBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = null;
+		String name = null;
+		String address = null;
+		String phoneNumber = null;
+		String emailAddress = null;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing updateBusinessInformation with empty parameters
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithEmptyBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = "";
+		String name = "";
+		String address = "";
+		String phoneNumber = "";
+		String emailAddress = "";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
+	}
+	
+	/**
+	 * Testing updateBusinessInformation with spaced parameters
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithSpacedBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = "  ";
+		String name = "  ";
+		String address = "  ";
+		String phoneNumber = "  ";
+		String emailAddress = "  ";
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
+	}
+
+	/**
+	 * Testing updateBusinessInformation with a null currentName
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithNullCurrentName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = null;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName,name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
+	}
+
+	/**
+	 * Testing updateBusinessInformation with an empty currentName
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithEmptyCurrentName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = "";
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
+	}
+
+	/**
+	 * Testing updateBusinessInformation with a spaced currentName
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithSpacedCurrentName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = "  ";
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("CurrentName cannot be empty!", error);
+	}
+
+	/**
+	 * Testing updateBusinessInformation with a null name
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithNullName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = NAME1;
+		String name = null;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName,name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("Name cannot be empty!", error);
 	}
 
 	/**
@@ -414,24 +871,22 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testUpdateBusinessInformationWithEmptyName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = null;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String currentName = NAME1;
+		String name = "";
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
-		//boolean newIsAvailable = !IS_AVAILABLE;
-
-		BusinessInformation garage = null; // garageService.createGarage(isAvailable,garageId);
-
+		BusinessInformation businessInformation = null;
 		try {
-			garage = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
-		assertNull(garage);
+		assertNull(businessInformation);
 		assertEquals("Name cannot be empty!", error);
 	}
 
@@ -440,18 +895,18 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testUpdateBusinessInformationWithSpacedName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = " ";
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String currentName = NAME1;
+		String name = "  ";
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
-
 		try {
-			businessInformation = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
@@ -460,27 +915,27 @@ public class TestBusinessInformationService {
 	}
 
 	/**
-	 * Testing updateBusinessInformation with a non-existing name
+	 * Testing updateBusinessInformation with a null address
 	 */
 	@Test
-	public void testUpdateBusinessInformationWithNonExistingName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+	public void testUpdateBusinessInformationWithNullAddress() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = null;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
-
 		try {
-			businessInformation = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName,name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(businessInformation);
-		assertEquals("Name does not exist!", error);
+		assertEquals("Address cannot be empty!", error);
 	}
 
 	/**
@@ -488,22 +943,22 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testUpdateBusinessInformationWithEmptyAddress() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = NAME;
-		String address = null;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = "";
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
-		BusinessInformation garage = null;
-
+		BusinessInformation businessInformation = null;
 		try {
-			garage = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
-		assertNull(garage);
+		assertNull(businessInformation);
 		assertEquals("Address cannot be empty!", error);
 	}
 
@@ -512,18 +967,18 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testUpdateBusinessInformationWithSpacedAddress() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = NAME;
-		String address = " ";
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = "  ";
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
-
 		try {
-			businessInformation = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
@@ -532,26 +987,51 @@ public class TestBusinessInformationService {
 	}
 
 	/**
+	 * Testing updateBusinessInformation with a null phoneNumber
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithNullPhoneNumber() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = null;
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
+
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName,name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("PhoneNumber cannot be empty!", error);
+	}
+
+	/**
 	 * Testing updateBusinessInformation with an empty phoneNumber
 	 */
 	@Test
 	public void testUpdateBusinessInformationWithEmptyPhoneNumber() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = null;
-		String emailAddress = EMAIL_ADDRESS;
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = "";
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
-		BusinessInformation garage = null;
-
+		BusinessInformation businessInformation = null;
 		try {
-			garage = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
-		assertNull(garage);
+		assertNull(businessInformation);
 		assertEquals("PhoneNumber cannot be empty!", error);
 	}
 
@@ -560,18 +1040,18 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testUpdateBusinessInformationWithSpacedPhoneNumber() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = null;
-		String emailAddress = EMAIL_ADDRESS;
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = "  ";
+		String emailAddress = NON_EXISTING_EMAIL_ADDRESS;
 
 		BusinessInformation businessInformation = null;
-
 		try {
-			businessInformation = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
@@ -580,26 +1060,50 @@ public class TestBusinessInformationService {
 	}
 
 	/**
+	 * Testing updateBusinessInformation with a null emailAddress
+	 */
+	@Test
+	public void testUpdateBusinessInformationWithNullEmailAddress() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+		String error = null;
+
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = null;
+
+		BusinessInformation businessInformation = null;
+		try {
+			businessInformation = businessInformationService.updateBusinessInformation(currentName,name, address, phoneNumber, emailAddress);
+		}catch (InvalidInputException e){
+			error = e.getMessage();
+		}
+		assertNull(businessInformation);
+		assertEquals("EmailAddress cannot be empty!", error);
+	}
+
+	/**
 	 * Testing updateBusinessInformation with an empty emailAddress
 	 */
 	@Test
 	public void testUpdateBusinessInformationWithEmptyEmailAddress() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = null;
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = "";
 
-		BusinessInformation garage = null;
-
+		BusinessInformation businessInformation = null;
 		try {
-			garage = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
-		assertNull(garage);
+		assertNull(businessInformation);
 		assertEquals("EmailAddress cannot be empty!", error);
 	}
 
@@ -608,18 +1112,18 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testUpdateBusinessInformationWithSpacedEmailAddress() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = " ";
+		String currentName = NAME1;
+		String name = NON_EXISTING_NAME;
+		String address = NON_EXISTING_ADDRESS;
+		String phoneNumber = NON_EXISTING_PHONE_NUMBER;
+		String emailAddress = "  ";
 
 		BusinessInformation businessInformation = null;
-
 		try {
-			businessInformation = businessInformationService.updateBusinessInformation(name, address, phoneNumber, emailAddress);
+			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
@@ -627,89 +1131,85 @@ public class TestBusinessInformationService {
 		assertEquals("EmailAddress cannot be empty!", error);
 	}
 
-	//----------------------------------- 	deleteGarage --------------------------------------------------
+
+	//----------------------------------- 	deleteBusinessInformation --------------------------------------------------
 	/**
-	 * Testing deleteBusinessInformation
+	 * Testing deleteBusinessInformationByName
 	 */
 	@Test
-	public void testDeleteBusinessInformation() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
-		boolean isDeleted = false;
+	public void testDeleteBusinessInformationByName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
-		String name = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
+		String name = NAME1;
 
-		businessInformationService.createBusinessInformation(name, address, phoneNumber, emailAddress);
+		BusinessInformation deletedBusinessInformation = null;
 		BusinessInformation businessInformation = null;
 		try {
-			isDeleted = businessInformationService.deleteBusinessInformation(name);
+			deletedBusinessInformation = businessInformationService.deleteBusinessInformation(name);
 		}catch (InvalidInputException e) {
-			fail();//e.printStackTrace();
+			fail(e.getMessage());
 		}
 		businessInformation = businessInformationService.getBusinessInformationByName(name);
-		//assertEquals(0, garageService.getAllGarages().size());
-		assertNull(businessInformation);
-		assertEquals(true, isDeleted);
+		checkResultBusinessInformation(deletedBusinessInformation, businessInformation.getName(), businessInformation.getAddress(), businessInformation.getPhoneNumber(), businessInformation.getEmailAddress());
 	}
 
 	/**
-	 * Testing deleteAllBusinessInformation
+	 * Testing deleteBusinessInformation with a non-existing name
 	 */
 	@Test
-	public void testDeleteAllBusinessInformation() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+	public void testDeleteBusinessInformationWithNonExsitingName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
-		String name1 = NAME;
-		String address = ADDRESS;
-		String phoneNumber = PHONE_NUMBER;
-		String emailAddress = EMAIL_ADDRESS;
-
-		String name2 = "name2";
-
-		businessInformationService.createBusinessInformation(name1, address, phoneNumber, emailAddress);
-		businessInformationService.createBusinessInformation(name2, address, phoneNumber, emailAddress);
-
-		BusinessInformation businessInformation1 = null;
-		BusinessInformation businessInformation2 = null;
-
-		try {
-			businessInformationService.deleteAllBusinessInformation();
-		}catch (InvalidInputException e) {
-			fail();
-		}
-
-		businessInformation1 = businessInformationService.getBusinessInformationByName(name1);
-		businessInformation2 = businessInformationService.getBusinessInformationByName(name2);
-		//assertEquals(0, garageService.getAllGarages().size());
-		assertNull(businessInformation1);
-		assertNull(businessInformation2);
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
-	}
-
-	/**
-	 * Testing deleteBusinessInformation with empty name
-	 */
-	@Test
-	public void testDeleteBusinessInformationWithEmptyName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
 		String error = null;
-		boolean isDeleted = false;
+		String name = NON_EXISTING_NAME;
 
-		String name = null;
-
-		BusinessInformation businessInformation = null;
+		BusinessInformation deletedBusinessInformation = null;
 		try {
-			isDeleted = businessInformationService.deleteBusinessInformation(name);
+			deletedBusinessInformation = businessInformationService.deleteBusinessInformation(name);
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
+		assertNull(deletedBusinessInformation);
+		assertEquals("Name does not exist!", error);
+	}
 
-		businessInformation = businessInformationService.getBusinessInformationByName(name);
-		//assertEquals(0, garageService.getAllGarages().size());
-		assertNull(businessInformation);
-		assertEquals(false, isDeleted);
+	/**
+	 * Testing deleteBusinessInformation with a null name
+	 */
+	@Test
+	public void testDeleteBusinessInformationWithNullName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+		String name = null;
+
+		BusinessInformation deletedBusinessInformation = null;
+		try {
+			deletedBusinessInformation = businessInformationService.deleteBusinessInformation(name);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(deletedBusinessInformation);
+		assertEquals("Name cannot be empty!", error);
+	}
+
+	/**
+	 * Testing deleteBusinessInformation with an empty name
+	 */
+	@Test
+	public void testDeleteBusinessInformationWithEmptyName() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
+		String error = null;
+		String name = "";
+
+		BusinessInformation deletedBusinessInformation = null;
+		try {
+			deletedBusinessInformation = businessInformationService.deleteBusinessInformation(name);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(deletedBusinessInformation);
 		assertEquals("Name cannot be empty!", error);
 	}
 
@@ -718,63 +1218,47 @@ public class TestBusinessInformationService {
 	 */
 	@Test
 	public void testDeleteBusinessInformationWithSpacedName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
+
 		String error = null;
-		boolean isDeleted = false;
+		String name = "  ";
 
-		String name = " ";
-
-		BusinessInformation businessInformation = null;
+		BusinessInformation deletedBusinessInformation = null;
 		try {
-			isDeleted = businessInformationService.deleteBusinessInformation(name);
+			deletedBusinessInformation = businessInformationService.deleteBusinessInformation(name);
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-
-		businessInformation = businessInformationService.getBusinessInformationByName(name);
-		//assertEquals(0, garageService.getAllGarages().size());
-		assertNull(businessInformation);
-		assertEquals(false, isDeleted);
+		assertNull(deletedBusinessInformation);
 		assertEquals("Name cannot be empty!", error);
 	}
 
 	/**
-	 * Testing deleteBusinessInformation with a non-existing name
+	 * Testing deleteAllBusinessInformation
 	 */
 	@Test
-	public void testDeleteBusinessInformationWithNonExistingName() {
-		assertEquals(0, businessInformationService.getAllBusinessInformation().size());
-		String error = null;
-		boolean isDeleted = false;
+	public void testDeleteAllBusinessInformation() {
+		assertEquals(2, businessInformationService.getAllBusinessInformation().size());
 
-		String name = "nonExistingName";
+		List<BusinessInformation> businessInformation = new ArrayList<BusinessInformation>();
+		businessInformation = businessInformationService.deleteAllBusinessInformation();
 
-		BusinessInformation businessInformation = null;
-		try {
-			isDeleted = businessInformationService.deleteBusinessInformation(name);
-		}catch (InvalidInputException e) {
-			error = e.getMessage();
-		}
-
-		businessInformation = businessInformationService.getBusinessInformationByName(name);
-		//assertEquals(0, garageService.getAllGarages().size());
-		assertNull(businessInformation);
-		assertEquals(false, isDeleted);
-		assertEquals("Name does not exist!", error);
+		BusinessInformation businessInformation1 = businessInformation.get(0);
+		checkResultBusinessInformation(businessInformation1, NAME1, ADDRESS1, PHONE_NUMBER1, EMAIL_ADDRESS1);
+		BusinessInformation businessInformation2 = businessInformation.get(1);
+		checkResultBusinessInformation(businessInformation2, NAME2, ADDRESS2, PHONE_NUMBER2, EMAIL_ADDRESS2);	
 	}
 
 	//----------------------------------- helper method --------------------------------------------------
 
 	/**
 	 * This is a helper method which can help us determine if all the attribute statisfies the input value
+	/**
 	 * @param businessInformation
 	 * @param name
-	 * @param address, String phoneNumber, String emailAddress
-	 * @param name
-	 * @param duration
-	 * @param reminderTime
-	 * @param reminderDate
-	 * @param description
+	 * @param address
+	 * @param phoneNumber
+	 * @param emailAddress
 	 */
 	private void checkResultBusinessInformation(BusinessInformation businessInformation, String name, String address, String phoneNumber, String emailAddress) {
 		assertNotNull(businessInformation);
