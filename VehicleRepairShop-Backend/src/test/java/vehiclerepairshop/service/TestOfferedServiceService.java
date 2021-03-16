@@ -3,6 +3,7 @@ package vehiclerepairshop.service;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -59,7 +60,8 @@ public class TestOfferedServiceService {
 	private static final int APPOINTMENT_KEY = 1; 
 	private static final String NONEXISTING_KEY = "NotATestID";
 	List<OfferedService> offeredServicesFindAll = new ArrayList<OfferedService>();
-	
+//	InvalidInputException
+//	InvalidInputException
 	
 	@Mock
 	private AppointmentRepository appointmentRepository;
@@ -177,7 +179,7 @@ public class TestOfferedServiceService {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
 					testOfferedServicePrice,  testOfferedServiceName, testOfferedServiceDuration,
 					testOfferedServiceReminderTime, testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		
@@ -212,7 +214,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = error + e.getMessage();
 		}
 		
@@ -243,7 +245,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -270,7 +272,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -298,7 +300,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -325,7 +327,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -352,7 +354,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -379,7 +381,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -407,7 +409,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -435,7 +437,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -462,7 +464,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -490,7 +492,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -518,7 +520,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -546,7 +548,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -574,7 +576,7 @@ public class TestOfferedServiceService {
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
-		}catch (IllegalArgumentException e){
+		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
 		assertNull(offeredService);
@@ -604,7 +606,7 @@ public class TestOfferedServiceService {
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId("");
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertNull(extractedOfferedService);
@@ -636,7 +638,7 @@ public class TestOfferedServiceService {
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
 		try {
 			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(" ");
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertNull(extractedOfferedService);
@@ -663,7 +665,7 @@ public class TestOfferedServiceService {
 		OfferedService extractedOfferedService = null;
 		try {
 			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -697,7 +699,7 @@ public class TestOfferedServiceService {
 
 		try {
 			extractedOfferedService = offeredServiceService.getOfferedServiceByAppointment(apt);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals("", error);
@@ -736,7 +738,7 @@ public class TestOfferedServiceService {
 		offeredService.setAppointment(appointments);
 		try {
 			extractedOfferedService = offeredServiceService.getOfferedServiceByAppointment(apt);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertNull(extractedOfferedService);
@@ -752,16 +754,17 @@ public class TestOfferedServiceService {
 	public void testDeleteOfferedServiceWithValidOfferedServiceId() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = "";
-		Boolean isDeleted = false;
+		OfferedService deletingOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
+		OfferedService deletedOfferedService = new OfferedService();
 		
 		try {
-			isDeleted = offeredServiceService.deleteOfferedService(OFFERED_SERVICE_KEY);
-		}catch (IllegalArgumentException e) {
+			deletedOfferedService = offeredServiceService.deleteOfferedService(OFFERED_SERVICE_KEY);
+		}catch (InvalidInputException e) {
 			fail();
 		}
 
 		assertEquals("",error);
-		assertEquals(true, isDeleted);
+		assertEquals(deletedOfferedService.getOfferedServiceId(),deletingOfferedService.getOfferedServiceId());
 	}
 	
 	
@@ -773,18 +776,18 @@ public class TestOfferedServiceService {
 	public void testDeleteOfferedServiceWithEmptyOfferedServiceId() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		Boolean isDeleted = false;
+		OfferedService deletingOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		//String testOfferedServiceId = "TEST1";
 		String deletedOfferedServiceId = "";
 		OfferedService deletedOfferedService = null;
 		try {
-			isDeleted = offeredServiceService.deleteOfferedService(deletedOfferedServiceId);
-		}catch (IllegalArgumentException e) {
+			deletedOfferedService = offeredServiceService.deleteOfferedService(deletedOfferedServiceId);
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
-		assertEquals(false, isDeleted);
 		assertNull(deletedOfferedService);
+		assertNotEquals(deletingOfferedService,deletedOfferedService);
 		assertEquals("the serviceId can not be empty!the offered service can not found in the system!", error);
 	}
 
@@ -796,21 +799,23 @@ public class TestOfferedServiceService {
 	public void testDeleteOfferedServiceWithSpaceOfferedServiceId() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		Boolean isDeleted = false;
 		
+		OfferedService deletingOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		String deletedOfferedServiceId = " ";
 		OfferedService deletedOfferedService = null;
+		OfferedService getDeletedOfferedService = null;
 
 		try {
-			isDeleted = offeredServiceService.deleteOfferedService(deletedOfferedServiceId);
-		}catch (IllegalArgumentException e) {
+			deletedOfferedService = offeredServiceService.deleteOfferedService(deletedOfferedServiceId);
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
-		deletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
-		assertNotNull(deletedOfferedService);
+		getDeletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
+		assertNull(deletedOfferedService);
+		assertNotNull(getDeletedOfferedService);
+		assertEquals(getDeletedOfferedService.getOfferedServiceId(),deletingOfferedService.getOfferedServiceId());
 		assertEquals("the serviceId can not be empty!the offered service can not found in the system!", error);
-		assertEquals(false, isDeleted);
 	}
 	
 	
@@ -824,17 +829,20 @@ public class TestOfferedServiceService {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String testOfferedServiceId = "TEST2";
 		String error = "";
-		Boolean isDeleted = false;
+		
+		OfferedService deletingOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		OfferedService deletedOfferedService = null;
+		OfferedService getDeletedOfferedService = null;
 		try {
-			isDeleted = offeredServiceService.deleteOfferedService(testOfferedServiceId);
-		}catch (IllegalArgumentException e) {
+			deletedOfferedService = offeredServiceService.deleteOfferedService(testOfferedServiceId);
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		deletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(testOfferedServiceId);
+		getDeletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
+		assertNotNull(getDeletedOfferedService);
 		assertNull(deletedOfferedService);
+		assertEquals(getDeletedOfferedService.getOfferedServiceId(),deletingOfferedService.getOfferedServiceId());
 		assertEquals("the offered service can not found in the system!", error);
-		assertEquals(false, isDeleted);
 	}
 	
 
@@ -863,7 +871,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -899,7 +907,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -931,7 +939,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -965,7 +973,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -996,7 +1004,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1029,7 +1037,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1062,7 +1070,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1096,7 +1104,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1129,7 +1137,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1163,7 +1171,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1204,7 +1212,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1245,7 +1253,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1289,7 +1297,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1332,7 +1340,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		
@@ -1372,7 +1380,7 @@ public class TestOfferedServiceService {
 					newTestOfferedServicePrice,  newTestOfferedServiceName,
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		}catch (IllegalArgumentException e) {
+		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		

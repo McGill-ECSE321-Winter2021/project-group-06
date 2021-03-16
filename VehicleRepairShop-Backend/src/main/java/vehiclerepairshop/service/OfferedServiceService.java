@@ -42,6 +42,7 @@ public class OfferedServiceService {
 	 * @throws InvalidInputException 
 	 */
 
+	
 	@Transactional
 	public OfferedService createOfferedService(String offeredServiceId, double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
 
@@ -77,7 +78,7 @@ public class OfferedServiceService {
 			error = error + "Offered service description cannot be empty!";
 		}
 		if (error.length()>0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		else {
 			OfferedService offeredService = new OfferedService();
@@ -108,7 +109,7 @@ public class OfferedServiceService {
 	public OfferedService getOfferedServiceByAppointment(Appointment appointment){
 		
 		if(appointment == null) {
-			throw new IllegalArgumentException("appointment cannot be null!");
+			throw new InvalidInputException("appointment cannot be null!");
 		}
 		OfferedService offeredService = offeredServiceRepository.findByAppointment(appointment);
 		return offeredService;
@@ -123,7 +124,7 @@ public class OfferedServiceService {
 	@Transactional
 	public  OfferedService getOfferedServiceByOfferedServiceId(String serviceId) {
 		if(serviceId == null || serviceId.trim().length()==0) {
-			throw new IllegalArgumentException("offeredServiceId cannot be null!");
+			throw new InvalidInputException("offeredServiceId cannot be null!");
 		}
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		return offeredService;
@@ -145,9 +146,9 @@ public class OfferedServiceService {
 	 * 
 	 */
 	@Transactional
-	public boolean deleteOfferedService(String serviceId){
+	public OfferedService deleteOfferedService(String serviceId){
 		String error = "";
-		boolean isDeleted = false;
+		
 		if(serviceId == null || serviceId.trim().length()==0) {
 			error = error + "the serviceId can not be empty!";
 		}
@@ -155,13 +156,13 @@ public class OfferedServiceService {
 			error = error + "the offered service can not found in the system!" ;
 		}
 		if (error.length() >0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		offeredServiceRepository.delete(offeredService);
-		isDeleted = true;
 		
-		return isDeleted;
+		
+		return offeredService;
 	}
 	
 	/**
@@ -215,7 +216,7 @@ public class OfferedServiceService {
 			error = error + "the offered service can not found in the system!";
 		}
 		if (error.length()>0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		offeredService.setPrice(newPrice);
 		offeredService.setName(newName);
