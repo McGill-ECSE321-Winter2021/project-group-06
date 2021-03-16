@@ -58,6 +58,7 @@ public class TestOfferedServiceService {
 	private static String DESCRIPTION = "this is a testing Wash service";
 	private static final int APPOINTMENT_KEY = 1; 
 	private static final String NONEXISTING_KEY = "NotATestID";
+	List<OfferedService> offeredServicesFindAll = new ArrayList<OfferedService>();
 	
 	
 	@Mock
@@ -118,19 +119,18 @@ public class TestOfferedServiceService {
 			apt.setAppointmentId(APPOINTMENT_KEY);
 			List<Appointment> apts = new ArrayList<Appointment>(); 
 			apts.add(apt);
-			OfferedService offeredService = new OfferedService();
-			offeredService.setOfferedServiceId(OFFERED_SERVICE_KEY);
-			offeredService.setName(NAME);
-			offeredService.setPrice(PRICE);
-			offeredService.setReminderTime(REMINDER_TIME);
-			offeredService.setReminderDate(REMINDER_DATE);
-			offeredService.setDescription(DESCRIPTION);
-			offeredService.setDuration(DURATION);
-			offeredService.setAppointment(apts);
+			OfferedService offeredServiceFindAll = new OfferedService();
+			offeredServiceFindAll.setOfferedServiceId(OFFERED_SERVICE_KEY);
+			offeredServiceFindAll.setName(NAME);
+			offeredServiceFindAll.setPrice(PRICE);
+			offeredServiceFindAll.setReminderTime(REMINDER_TIME);
+			offeredServiceFindAll.setReminderDate(REMINDER_DATE);
+			offeredServiceFindAll.setDescription(DESCRIPTION);
+			offeredServiceFindAll.setDuration(DURATION);
+			offeredServiceFindAll.setAppointment(apts);
 			
-			List<OfferedService> offeredServices = new ArrayList<OfferedService>();
-			offeredServices.add(offeredService);
-			return offeredServices;
+			offeredServicesFindAll.add(offeredServiceFindAll);
+			return offeredServicesFindAll;
 		});
 		
 		
@@ -1385,43 +1385,15 @@ public class TestOfferedServiceService {
 	/**
 	 * test get all offered service
 	 */
-	
+	@Test
 	public void testGetAllOfferedService() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		String OfferedServiceId = "testGetAllOfferedService";
-		int testOfferedServiceDuration = 10;
-		double testOfferedServicePrice = 10.0;
-		String testOfferedServiceName = "wash";
-		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int testOfferedServiceReminderDate = 30;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
-		String newModifyingServiceId = "testGetAllOfferedService2";
-		int newTestOfferedServiceDuration = 20;
-		double newTestOfferedServicePrice = 20.0;
-		String newTestOfferedServiceName = "inspection";
-		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
-		int newTestOfferedServiceReminderDate = 10;
-		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = offeredServiceService.createOfferedService(OfferedServiceId,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
-		
-		OfferedService offeredService2 = offeredServiceService.updateService(newModifyingServiceId,
-				newTestOfferedServicePrice,  newTestOfferedServiceName,
-				newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
-				newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
-		List<OfferedService> offeredServices = new ArrayList<OfferedService>();
-		offeredServices.add(offeredService);
-		offeredServices.add(offeredService2);
 		
 		List<OfferedService> extractedOfferedServices = new ArrayList<OfferedService>();
 		extractedOfferedServices = offeredServiceService.getAllOfferedServices();
 		
 		assertEquals(2, extractedOfferedServices.size());
-		assertEquals(extractedOfferedServices, offeredServices);
+		assertEquals(extractedOfferedServices, offeredServicesFindAll);
 		
 		
 	}
