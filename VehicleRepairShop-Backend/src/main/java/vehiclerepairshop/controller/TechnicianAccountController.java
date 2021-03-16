@@ -111,9 +111,9 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@DeleteMapping(value = { "/deleteTechnicianAccount/{username}", "/technicianAccount/deleteTechnicianAccount/{username}/" })
-	public boolean deleteTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException {
-		boolean successful = technicianAccountService.deleteTechnicianAccount(username);
-		return successful;
+	public TechnicianAccount deleteTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException {
+		TechnicianAccount user = technicianAccountService.deleteTechnicianAccount(username);
+		return user;
 	}
 	
 	/**
@@ -125,9 +125,9 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/loginTechnicianAccount/{username}/{password}", "/loginTechnicianAccount/{username}/{password}/" })
-	public boolean loginTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
-		boolean successful = technicianAccountService.loginTechnicianAccount(username, password);
-		return successful;
+	public TechnicianAccount loginTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
+		TechnicianAccount user = technicianAccountService.loginTechnicianAccount(username, password);
+		return user;
 	}
 	
 	/**
@@ -138,9 +138,9 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/logoutTechnicianAccount/{username}", "/logoutTechnicianAccount/{username}/" })
-	public boolean logoutTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException {
-		boolean successful = technicianAccountService.logoutTechnicianAccount(username);
-		return successful;
+	public TechnicianAccount logoutTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException {
+		TechnicianAccount user = technicianAccountService.logoutTechnicianAccount(username);
+		return user;
 	}
 	
 	/**
@@ -151,9 +151,9 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/authenticateTechnicianAccount/{username}", "/authenticateTechnicianAccount/{username}/" })
-	public boolean authenticateTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException{
-		boolean authentic = technicianAccountService.authenticateTechnicianAccount(username);
-		return authentic;
+	public TechnicianAccount authenticateTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException{
+		TechnicianAccount user = technicianAccountService.authenticateTechnicianAccount(username);
+		return user;
 	}
 	/**
 	 * Get all technicians associated with specified appointment

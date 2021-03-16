@@ -102,9 +102,9 @@ public class AdminAccountController {
 	 * @throws InvalidInputException
 	 */
 	@DeleteMapping(value = { "/deleteAdminAccount/{username}", "/adminAccount/deleteAdminAccount/{username}/" })
-	public boolean deleteAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
-		boolean successful = adminAccountService.deleteAdminAccount(username);
-		return successful;
+	public AdminAccount deleteAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
+		AdminAccount user = adminAccountService.deleteAdminAccount(username);
+		return user;
 	}
 	
 	/**
@@ -116,9 +116,9 @@ public class AdminAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}/" })
-	public boolean loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
-		boolean successful = adminAccountService.loginAdminAccount(username, password);
-		return successful;
+	public AdminAccount loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
+		AdminAccount user = adminAccountService.loginAdminAccount(username, password);
+		return user;
 	}
 	
 	/**
@@ -129,9 +129,9 @@ public class AdminAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/logoutAdminAccount/{username}", "/logoutAdminAccount/{username}/" })
-	public boolean logoutAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
-		boolean successful = adminAccountService.logoutAdminAccount(username);
-		return successful;
+	public AdminAccount logoutAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
+		AdminAccount user = adminAccountService.logoutAdminAccount(username);
+		return user;
 	}
 	
 	/**
@@ -142,9 +142,9 @@ public class AdminAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/authenticateAdminAccount/{username}", "/authenticateAdminAccount/{username}/" })
-	public boolean authenticateAdminAccount(@PathVariable("username") String username) throws InvalidInputException{
-		boolean authentic = adminAccountService.authenticateAdminAccount(username);
-		return authentic;
+	public AdminAccount authenticateAdminAccount(@PathVariable("username") String username) throws InvalidInputException{
+		AdminAccount user = adminAccountService.authenticateAdminAccount(username);
+		return user;
 	}
 	
 	/**
