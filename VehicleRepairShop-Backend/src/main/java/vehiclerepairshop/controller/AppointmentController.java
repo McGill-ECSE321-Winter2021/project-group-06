@@ -33,6 +33,7 @@ import vehiclerepairshop.dto.TimeSlotDto;
 import vehiclerepairshop.service.AppointmentService;
 import vehiclerepairshop.service.CarService;
 import vehiclerepairshop.service.GarageService;
+import vehiclerepairshop.service.InvalidInputException;
 import vehiclerepairshop.service.TechnicianAccountService;
 import vehiclerepairshop.service.TimeSlotService;
 import vehiclerepairshop.service.OfferedServiceService;
@@ -75,10 +76,10 @@ public class AppointmentController {
 	/**
 	 * get all appointment 
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
 	@GetMapping(value = { "/getAllAppointment", "/getAllAppointment/" })
-	public List<AppointmentDto> getAllAppointment() throws IllegalArgumentException {
+	public List<AppointmentDto> getAllAppointment() throws InvalidInputException {
 		return appointmentService.getAllAppointments().stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
 	
@@ -86,10 +87,10 @@ public class AppointmentController {
 	 * get appointment by appointment id 
 	 * @param id
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
 	@GetMapping(value = {"/getAppointmentById/{id}","/getAppointmentById/{id}/"})
-	public AppointmentDto getAppointmentById(@PathVariable("id") int id) throws IllegalArgumentException {
+	public AppointmentDto getAppointmentById(@PathVariable("id") int id) throws InvalidInputException {
 		return convertToDto(appointmentService.getAppointmentById(id));
 	}
 	
@@ -97,10 +98,10 @@ public class AppointmentController {
 	 * get appointments by car
 	 * @param carDto
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
 	@GetMapping(value = { "/getAppointmentByCar/getCarByLicensePlate/{licensePlate}", "/getAppointmentByCar/{carId}/" })
-	public List<AppointmentDto> getAppointmentByCar(@PathVariable("carId") CarDto carDto) throws IllegalArgumentException {
+	public List<AppointmentDto> getAppointmentByCar(@PathVariable("carId") CarDto carDto) throws InvalidInputException {
 		return appointmentService.getAppointmentByCar(converToCarDomainObject(carDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
 	
@@ -108,10 +109,10 @@ public class AppointmentController {
 	 * get appointment by garage 
 	 * @param garageDto
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
 	@GetMapping(value = { "/getAppointmentByGarage/getGarageByGarageId/{garageId}", "/getAppointmentByGarage/getGarageByGarageId/{garageId}/" })
-	public List<AppointmentDto> getAppointmentByGarage(@PathVariable("garageId") GarageDto garageDto)  throws IllegalArgumentException{
+	public List<AppointmentDto> getAppointmentByGarage(@PathVariable("garageId") GarageDto garageDto)  throws InvalidInputException{
 		return appointmentService.getAppointmentByGarage(convertToGarageDomainObject(garageDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
 	
@@ -119,10 +120,10 @@ public class AppointmentController {
 	 * get appointments by worker
 	 * @param technicianAccountDto
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
 	@GetMapping(value = { "/getAppointmentByWorker/getTechnicianAccountByUsername/{username}", "/getAppointmentByGarage/getTechnicianAccountByUsername/{username}/" })
-	public List<AppointmentDto> getAppointmentByWorker(@PathVariable("username") TechnicianAccountDto technicianAccountDto)  throws IllegalArgumentException{
+	public List<AppointmentDto> getAppointmentByWorker(@PathVariable("username") TechnicianAccountDto technicianAccountDto)  throws InvalidInputException{
 		return appointmentService.getAppointmentByWorker(convertToTechnicianAccountDomainObject(technicianAccountDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
 	
@@ -253,7 +254,7 @@ public class AppointmentController {
 	 */
 	private AppointmentDto convertToDto(Appointment appointment) {
 		if (appointment == null) {
-			throw new IllegalArgumentException("There is no such appointment!");
+			throw new InvalidInputException("There is no such appointment!");
 		}
 		AppointmentDto appointmentDto = new AppointmentDto(convertToTimeSlotDto(appointment.getTimeSlot()),
 															convertToCarDto(appointment.getCar()),
@@ -273,7 +274,7 @@ public class AppointmentController {
 	 */
 	private OfferedServiceDto convertToOfferedServiceDto(OfferedService s) {
 		if (s == null) {
-			throw new IllegalArgumentException("There is no such OfferedService!");
+			throw new InvalidInputException("There is no such OfferedService!");
 		}
 		
 		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
@@ -287,12 +288,12 @@ public class AppointmentController {
 	 * Convert a list of TechinicianAccounts to a list of TechnicianAccountDtos
 	 * @param users
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
-	private List<TechnicianAccountDto> convertToTechnicianAccountListDtos(List<TechnicianAccount> users) throws IllegalArgumentException{
+	private List<TechnicianAccountDto> convertToTechnicianAccountListDtos(List<TechnicianAccount> users) throws InvalidInputException{
 		List<TechnicianAccountDto> technicianAccountDtos = new ArrayList<TechnicianAccountDto>();
 		if (users == null) {
-			throw new IllegalArgumentException("This user does not exist");
+			throw new InvalidInputException("This user does not exist");
 		}
 		for (TechnicianAccount user:users) {
 			TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
@@ -309,11 +310,11 @@ public class AppointmentController {
 	 * Helper method which can turn a carDto to car 
 	 * @param carDto
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
-	private Car converToCarDomainObject(CarDto carDto) throws IllegalArgumentException{
+	private Car converToCarDomainObject(CarDto carDto) throws InvalidInputException{
 		if (carDto == null) {
-			throw new IllegalArgumentException("There is no such carDto!");
+			throw new InvalidInputException("There is no such carDto!");
 		}
 		
 		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
@@ -325,11 +326,11 @@ public class AppointmentController {
 	 * Helper method which can turn a garageDto to garage
 	 * @param garageDto
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
-	private Garage convertToGarageDomainObject(GarageDto garageDto) throws IllegalArgumentException{
+	private Garage convertToGarageDomainObject(GarageDto garageDto) throws InvalidInputException{
 		if (garageDto == null) {
-			throw new IllegalArgumentException("There is no such garageDto!");
+			throw new InvalidInputException("There is no such garageDto!");
 		}
 		Garage garage = garageService.getGarageByGarageId(garageDto.getGarageId());
 		return garage;
@@ -339,11 +340,11 @@ public class AppointmentController {
 	 * Helper method which can turn a technicianAccountDto to technicianAccount
 	 * @param technicianAccountDto
 	 * @return
-	 * @throws IllegalArgumentException
+	 * @throws InvalidInputException
 	 */
-	private TechnicianAccount convertToTechnicianAccountDomainObject(TechnicianAccountDto technicianAccountDto) throws IllegalArgumentException{
+	private TechnicianAccount convertToTechnicianAccountDomainObject(TechnicianAccountDto technicianAccountDto) throws InvalidInputException{
 		if (technicianAccountDto == null) {
-			throw new IllegalArgumentException("There is no such technicianAccountDto!");
+			throw new InvalidInputException("There is no such technicianAccountDto!");
 		}
 		TechnicianAccount technicianAccount = technicianAccountService.getTechnicianAccountByUsername(technicianAccountDto.getUsername());
 		return technicianAccount;
@@ -357,7 +358,7 @@ public class AppointmentController {
 	 */
 	private Car convertToCarDomainObject(CarDto carDto) {
 		if (carDto == null) {
-			throw new IllegalArgumentException("There is no such carDto!");
+			throw new InvalidInputException("There is no such carDto!");
 		}
 		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
 		return car;
@@ -370,7 +371,7 @@ public class AppointmentController {
 	 */
 	private TimeSlot convertToTimeSlotDomainObject(TimeSlotDto timeSlotDto) {
 		if (timeSlotDto == null) {
-			throw new IllegalArgumentException("There is no such timeSlotDto!");
+			throw new InvalidInputException("There is no such timeSlotDto!");
 		}
 		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getTimeslotId());
 		return timeSlot;
@@ -383,7 +384,7 @@ public class AppointmentController {
 	 */
 	private OfferedService convertToOfferedServiceDomainObject(OfferedServiceDto offeredServiceDto) {
 		if (offeredServiceDto == null) {
-			throw new IllegalArgumentException("There is no such offeredServiceDto!");
+			throw new InvalidInputException("There is no such offeredServiceDto!");
 		}
 		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
 		return offeredService;
@@ -397,7 +398,7 @@ public class AppointmentController {
 	 */
 	private TimeSlotDto convertToTimeSlotDto(TimeSlot timeSlot) {
 		if (timeSlot == null) {
-			throw new IllegalArgumentException("There is no such timeslot!");
+			throw new InvalidInputException("There is no such timeslot!");
 		}
 		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
 		return timeSlotDto;
@@ -426,7 +427,7 @@ public class AppointmentController {
 	 */
 	private GarageDto convertToGarageDto(Garage garage) {
 		if (garage == null) {
-			throw new IllegalArgumentException("There is no such Garage");
+			throw new InvalidInputException("There is no such Garage");
 		}
 
 		GarageDto garageDto = new GarageDto(garage.getGarageId());
@@ -442,7 +443,7 @@ public class AppointmentController {
 	private List<AppointmentDto> convertToDtoApplointmentList(List<Appointment> appointments){
 		List<AppointmentDto> aptDtos = new ArrayList<AppointmentDto>();
 		if (appointments.size() == 0) {
-			throw new IllegalArgumentException("There is no such Appointment List!");
+			throw new InvalidInputException("There is no such Appointment List!");
 		}
 		for (Appointment apt: appointments) {
 			AppointmentDto aptDto = new AppointmentDto( convertToTimeSlotDto(apt.getTimeSlot()),

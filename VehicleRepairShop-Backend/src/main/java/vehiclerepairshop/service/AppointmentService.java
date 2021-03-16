@@ -228,26 +228,6 @@ public class AppointmentService {
 		return appointment.get();
 	}
 
-	/**
-	 * @author chengchen
-	 * @param appointmentId
-	 * @param worker
-	 */
-	@Transactional
-	public Appointment updateAppointmentWorker(int appointmentId, List<TechnicianAccount> workers) {
-		String error = "";
-		if (appointmentRepository.findById(appointmentId)==null) {
-			error = error + "appointment not found";
-		}
-		error = error.trim();
-		if (error.length() > 0) {
-			throw new InvalidInputException(error);
-		}
-		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
-		appointment.get().setWorker(workers);
-		appointmentRepository.save(appointment.get());
-		return appointment.get();
-	}
 
 	/**
 	 * @author chengchen

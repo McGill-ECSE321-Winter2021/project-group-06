@@ -936,10 +936,23 @@ public class TestAppointmentService {
 	
 	
 	@Test 
-	public void testInvalidDeleteTimeSlot() {
+	public void testInvalidDeleteAppointment() {
 		String error = "";
 		try {
 			appointmentService.deleteAppointment(2);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals(error,"appointment not found");
+	}
+	
+	
+	
+	@Test 
+	public void testInvalidGetAppointment() {
+		String error = "";
+		try {
+			appointmentService.getAppointmentById(1000);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -1050,6 +1063,7 @@ public class TestAppointmentService {
 		}
 		assertEquals(error,"appointment not found");
 	}
+	
 	
 	
 		

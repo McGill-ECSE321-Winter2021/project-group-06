@@ -300,7 +300,7 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testMissingEndTimeUpdateTimeSlot() {
-		TimeSlot timeSlot = null;
+		TimeSlot timeSlot = new TimeSlot();
 		String error = "";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), null, Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
