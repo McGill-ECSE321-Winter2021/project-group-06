@@ -84,7 +84,7 @@ public class TestTimeSlotService {
 		TimeSlot timeSlot = null;
 		try {
 			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 		TimeSlot timeSlot2 = timeSlotService.getTimeSlot(TIMESLOTID);
@@ -114,7 +114,7 @@ public class TestTimeSlotService {
 		TimeSlot timeSlot = null;
 		try {
 			timeSlot = timeSlotService.deleteTimeSlot(TIMESLOTID);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 		TimeSlot timeSlot2 = timeSlotService.getTimeSlot(TIMESLOTID);
@@ -130,7 +130,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.createTimeSlot(null, Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"start time cannot be empty!");
@@ -142,7 +142,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), null, Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"start date cannot be empty!");
@@ -154,7 +154,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), null);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"end date cannot be empty!");
@@ -167,7 +167,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), null, Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"end time cannot be empty!");
@@ -182,7 +182,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(newStartTime), Time.valueOf(newEndTime), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"start time can't be after end time");
@@ -196,7 +196,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"start date can't be after end date");
@@ -210,7 +210,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlotService.deleteTimeSlot(1);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"timeslot not found");
@@ -223,7 +223,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlotService.getTimeSlot(1);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"timeslot not found");
@@ -250,7 +250,7 @@ public class TestTimeSlotService {
 		String newEndDate = "2021-03-02";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(newStartTime), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 
@@ -267,7 +267,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, null,Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"start time cannot be empty!");
@@ -279,7 +279,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), null, Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"start date cannot be empty!");
@@ -291,7 +291,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID,Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), null);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"end date cannot be empty!");
@@ -304,7 +304,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), null, Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"end time cannot be empty!");
@@ -319,7 +319,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(newStartTime), Time.valueOf(newEndTime), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"start time can't be after end time");
@@ -333,7 +333,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"start date can't be after end date");
@@ -348,7 +348,7 @@ public class TestTimeSlotService {
 		String error = "";
 		try {
 			timeSlot = timeSlotService.updateTimeSlot(1, Time.valueOf(newStartTime), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 

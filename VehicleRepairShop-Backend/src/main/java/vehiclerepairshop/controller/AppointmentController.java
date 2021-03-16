@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -131,25 +132,24 @@ public class AppointmentController {
 //	GarageDto garageDto, 
 //	List<TechnicianAccountDto> workerDto, 
 //	OfferedServiceDto serviceDto
-//	/**
-//	 * create an appointment 
-//	 * @param appointment
-//	 * @return
-//	 */
-//	@PostMapping(value = {"/createAppointment/{comment}/getTimeSlot/{id}/getCarByLicensePlate/{licensePlate}/getGarageByGarageId/{garageId}", 
-//	"/createAppointment/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
-//	public OfferedServiceDto createAppointment(@PathVariable("offeredServiceId")String offeredServiceId, 
-//												@PathVariable("price")double price, 
-//												@PathVariable("name")String name, 
-//												@PathVariable("duration")int duration, 
-//												@PathVariable("reminderTime")@DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")Time reminderTime, 
-//												@PathVariable("reminderDate")int reminderDate,
-//												@PathVariable("description")String description) {
-//		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
-//		//OfferedServiceDto createdOfferedServiceDto = new OfferedServiceDto(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
-//		OfferedServiceDto createdOfferedServiceDto = convertToDto(createdOfferedService);
-//		return createdOfferedServiceDto;
-//	}
+	/**
+	 * create an appointment 
+	 * @param appointment
+	 * @return
+	 */
+	@PostMapping(value = {"/createAppointment/{comment}/getTimeSlot/{timeslotId}/getCarByLicensePlate/{licensePlate}/getGarageByGarageId/{garageId}/getOfferedServiceById/{offeredServiceId}",
+			"/createAppointment/{comment}/getTimeSlot/{timeslotId}/getCarByLicensePlate/{licensePlate}/getGarageByGarageId/{garageId}/getOfferedServiceById/{offeredServiceId}/"})
+	public AppointmentDto createAppointment(@PathVariable("comment")String comment,
+												@PathVariable("timeslotId")TimeSlotDto timeSlotDto,
+												@PathVariable("licensePlate")CarDto carDto,
+												@PathVariable("garageId")GarageDto garageDto,
+												@PathVariable("offeredServiceId")OfferedServiceDto offeredServiceDto) {
+		Appointment appointment = appointmentService.createAppointment(convertToTimeSlotDomainObject(timeSlotDto), 
+																		convertToOfferedServiceDomainObject(offeredServiceDto), 
+																		converToCarDomainObject(carDto), 
+																		convertToGarageDomainObject(garageDto), comment);
+		return convertToDto(appointment);
+	}
 	
 	
 	/**
@@ -164,18 +164,7 @@ public class AppointmentController {
 		return convertToDto(appointment); 
 	}
 	
-	
-//	/**
-//	 * update an appointment Worker 
-//	 * @param appointment
-//	 * @return
-//	 */
-//	@PostMapping(value = {"/updateAppointmentByCar/{appointmentId}/getTechnicianAccountByUsername/{username}"})
-//	public AppointmentDto updateAppointmentWorker(@PathVariable("appointmentId") int appointmentId,
-//												@PathVariable("licensePlate") CarDto carDto) {
-//		Appointment appointment = appointmentService.updateAppointmentCar(appointmentId, convertToCarDomainObject(carDto));
-//		return convertToDto(appointment); 
-//	}
+
 	
 	
 	/**
@@ -254,19 +243,7 @@ public class AppointmentController {
 	}
 	
 	
-	
-	
-	
-//	@PostMapping(value = { "/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}","/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}/"})
-//	public TimeSlotDto createAppointment(@PathVariable("startTime") Time startTime,
-//			@PathVariable("endTime") Time endTime,
-//			@PathVariable("startDate") Date startDate,
-//			@PathVariable("endDate") Date endDate) throws IllegalArgumentException {
-//		TimeSlot timeSlot = timeSlotService.createTimeSlot(startTime,endTime,startDate,endDate);
-//		return convertToDto(timeSlot);
-//	}
-//	
-//	
+
 	
 	//helper method
 	/**

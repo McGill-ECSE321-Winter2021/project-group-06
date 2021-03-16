@@ -229,7 +229,6 @@ public class TestAppointmentService {
 			}
 		});
 		
-		
 		lenient().when(appointmentRepository.findByWorker(any(TechnicianAccount.class))).thenAnswer( (InvocationOnMock invocation) -> {
 			//Car
 			TechnicianAccount worker = new TechnicianAccount();
@@ -291,6 +290,8 @@ public class TestAppointmentService {
 				return null;
 			}
 		});
+
+		
 		
 		
 		
@@ -449,10 +450,10 @@ public class TestAppointmentService {
 		Appointment appointment2 = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(workers,timeSlot, offeredService, car, garage, comment);
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, garage, comment);
 			appointment.setAppointmentId(APPOINTMENTID);
 
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 		appointment2 = appointmentService.getAppointmentById(APPOINTMENTID);
@@ -462,7 +463,6 @@ public class TestAppointmentService {
 		assertEquals(appointment2.getCar().getLicensePlate(), appointment.getCar().getLicensePlate());
 		assertEquals(appointment2.getGarage().getGarageId(), appointment.getGarage().getGarageId());
 		assertEquals(appointment2.getTimeSlot().getTimeSlotId(), appointment.getTimeSlot().getTimeSlotId());
-		assertEquals(appointment2.getWorker().get(0).getUsername(), appointment.getWorker().get(0).getUsername());
 		assertEquals(appointment2.getOfferedService().getOfferedServiceId(), appointment.getOfferedService().getOfferedServiceId());
 	}
 
@@ -501,8 +501,8 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(workers,timeSlot, offeredService, null, garage, comment);
-		} catch (IllegalArgumentException e) {
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, null, garage, comment);
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 
@@ -544,56 +544,12 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(workers,timeSlot, offeredService, car, null, comment);
-		} catch (IllegalArgumentException e) {
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, null, comment);
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 
 		assertEquals(error, "garage cannot be empty!");
-
-	}
-
-
-	@Test
-	public void testMissingWorkerCreateAppointment(){
-		String error = "";	
-		//offered service 
-		OfferedService offeredService = new OfferedService();
-		offeredService.setOfferedServiceId("1");
-		offeredService.setDuration(60);
-
-		//Car
-		Car car = new Car();
-		car.setLicensePlate("1");
-
-		//garage
-		Garage garage = new Garage();
-		garage.setGarageId("1");
-
-
-		//timeslot
-		String startTime = "10:00:00";
-		String endTime = "11:00:00";
-		String startDate = "2021-03-01";
-		String endDate = "2021-03-01";
-		TimeSlot timeSlot = new TimeSlot();
-		timeSlot.setTimeSlotId(1);
-		timeSlot.setEndDate(Date.valueOf(endDate));
-		timeSlot.setEndTime(Time.valueOf(endTime));
-		timeSlot.setStartDate(Date.valueOf(startDate));
-		timeSlot.setStartTime(Time.valueOf(startTime));
-
-		String comment = "comment";
-
-		Appointment appointment = new Appointment();
-
-		try {
-			appointment = appointmentService.createAppointment(null,timeSlot, offeredService, car, garage, comment);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertEquals(error, "technicians cannot be empty!");
 
 	}
 
@@ -626,8 +582,8 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(workers,null, offeredService, car, garage, comment);
-		} catch (IllegalArgumentException e) {
+			appointment = appointmentService.createAppointment(null, offeredService, car, garage, comment);
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 
 			assertEquals(error, "timeslot cannot be empty!");
@@ -675,8 +631,8 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(workers,timeSlot, offeredService, car, garage, null);
-		} catch (IllegalArgumentException e) {
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, garage, null);
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 
 			assertEquals(error, "comment cannot be empty!");
@@ -722,8 +678,8 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(workers,timeSlot, null, car, garage, comment);
-		} catch (IllegalArgumentException e) {
+			appointment = appointmentService.createAppointment(timeSlot, null, car, garage, comment);
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 
 			assertEquals(error, "service cannot be empty!");
@@ -739,7 +695,7 @@ public class TestAppointmentService {
 		garage.setGarageId("3");
 		try {
 			appointment = appointmentService.updateAppointmentGarage(APPOINTMENTID,garage);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 
@@ -756,7 +712,7 @@ public class TestAppointmentService {
 		car.setLicensePlate("3");
 		try {
 			appointment = appointmentService.updateAppointmentCar(APPOINTMENTID,car);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 
@@ -774,7 +730,7 @@ public class TestAppointmentService {
 		offeredService.setDuration(40);
 		try {
 			appointment = appointmentService.updateAppointmentOfferedService(APPOINTMENTID,offeredService);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 
@@ -787,35 +743,12 @@ public class TestAppointmentService {
 	
 	
 	@Test
-	public void testUpdateAppointmentWorker() {
-		Appointment appointment = null;
-		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
-		TechnicianAccount worker1 = new TechnicianAccount();
-		TechnicianAccount worker2 = new TechnicianAccount();
-		worker1.setUsername("4");
-		worker2.setUsername("5");
-		workers.add(worker1);
-		workers.add(worker2);
-		try {
-			appointment = appointmentService.updateAppointmentWorker(APPOINTMENTID,workers);
-		} catch (IllegalArgumentException e) {
-			fail(e.getMessage());
-		}
-		assertNotNull(appointment);
-		assertEquals(worker1.getUsername(),appointment.getWorker().get(0).getUsername());
-		assertEquals(worker2.getUsername(),appointment.getWorker().get(1).getUsername());
-	
-	}
-	
-	
-	
-	@Test
 	public void testUpdateAppointmentComment() {
 		Appointment appointment = null;
 		String comment = "new comment";
 		try {
 			appointment = appointmentService.updateAppointmentComment(APPOINTMENTID,comment);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 		assertNotNull(appointment);
@@ -840,7 +773,7 @@ public class TestAppointmentService {
 		timeSlot.setTimeSlotId(APPOINTMENTID);
 		try {
 			appointment = appointmentService.updateAppointmentTimeSlot(APPOINTMENTID,timeSlot);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 		assertNotNull(appointment);
@@ -867,7 +800,7 @@ public class TestAppointmentService {
 		timeSlot.setTimeSlotId(APPOINTMENTID);
 		try {
 			appointment = appointmentService.updateAppointmentTimeSlot(56,timeSlot);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = error + e.getMessage();
 		}
 		assertEquals(error,"appointment not found");
@@ -882,33 +815,13 @@ public class TestAppointmentService {
 		String error = "";
 		try {
 			appointment = appointmentService.updateAppointmentComment(56,comment);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = error + e.getMessage();
 		}
 		assertEquals(error,"appointment not found");
 	
 	}
 	
-	
-	@Test
-	public void testUpdateNonexistingAppointmentWorker() {
-		Appointment appointment = null;
-		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
-		TechnicianAccount worker1 = new TechnicianAccount();
-		TechnicianAccount worker2 = new TechnicianAccount();
-		worker1.setUsername("4");
-		worker2.setUsername("5");
-		workers.add(worker1);
-		workers.add(worker2);
-		String error = "";
-		try {
-			appointment = appointmentService.updateAppointmentWorker(56,workers);
-		} catch (IllegalArgumentException e) {
-			error = error + e.getMessage();
-		}
-		assertEquals(error,"appointment not found");
-	
-	}
 	
 	
 	
@@ -921,7 +834,7 @@ public class TestAppointmentService {
 		offeredService.setDuration(40);
 		try {
 			appointment = appointmentService.updateAppointmentOfferedService(56,offeredService);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = error + e.getMessage();
 		}
 
@@ -939,7 +852,7 @@ public class TestAppointmentService {
 		garage.setGarageId("3");
 		try {
 			appointment = appointmentService.updateAppointmentGarage(56,garage);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = error + e.getMessage();
 		}
 
@@ -956,7 +869,7 @@ public class TestAppointmentService {
 		car.setLicensePlate("3");
 		try {
 			appointment = appointmentService.updateAppointmentCar(56,car);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = error + e.getMessage();
 		}
 		assertEquals(error,"appointment not found");
@@ -981,7 +894,7 @@ public class TestAppointmentService {
 		String error = "";
 		try {
 			appointment = appointmentService.updateAppointmentTimeSlot(APPOINTMENTID,timeSlot);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = error + e.getMessage();
 		}
 		assertEquals(error,"this new timeslot conflicts with another existing timeslot");
@@ -999,7 +912,7 @@ public class TestAppointmentService {
 		String error = "";
 		try {
 			appointment = appointmentService.updateAppointmentOfferedService(APPOINTMENTID,offeredService);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = error + e.getMessage();
 		}
 		assertEquals(error,"this new timeslot conflicts with another existing timeslot");
@@ -1012,7 +925,7 @@ public class TestAppointmentService {
 		Appointment appointment = null;
 		try {
 			appointment = appointmentService.deleteAppointment(APPOINTMENTID);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 		Appointment appointment2 = appointmentService.getAppointmentById(APPOINTMENTID);
@@ -1027,7 +940,7 @@ public class TestAppointmentService {
 		String error = "";
 		try {
 			appointmentService.deleteAppointment(2);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"appointment not found");
@@ -1102,7 +1015,7 @@ public class TestAppointmentService {
 		String error = "";
 		try {
 			appointmentService.getAppointmentByGarage(garage);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"appointment not found");
@@ -1117,7 +1030,7 @@ public class TestAppointmentService {
 		String error = "";
 		try {
 			appointmentService.getAppointmentByCar(car);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"appointment not found");
@@ -1132,7 +1045,7 @@ public class TestAppointmentService {
 		String error = "";
 		try {
 			appointmentService.getAppointmentByWorker(worker);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error,"appointment not found");

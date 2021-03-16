@@ -48,7 +48,7 @@ public class TimeSlotService {
 			}
 			error = error.trim();
 		    if (error.length() > 0) {
-		        throw new IllegalArgumentException(error);
+		        throw new InvalidInputException(error);
 		    }
 			TimeSlot timeSlot = new TimeSlot();
 			timeSlot.setEndDate(endDate);
@@ -82,7 +82,7 @@ public class TimeSlotService {
 			}
 			error = error.trim();
 		    if (error.length() > 0) {
-		        throw new IllegalArgumentException(error);
+		        throw new InvalidInputException(error);
 		    }
 			return timeslotRepository.findByTimeSlotId(id);
 		}
@@ -100,7 +100,7 @@ public class TimeSlotService {
 			}
 			error = error.trim();
 		    if (error.length() > 0) {
-		        throw new IllegalArgumentException(error);
+		        throw new InvalidInputException(error);
 		    }
 			TimeSlot timeSlot = timeslotRepository.findByTimeSlotId(timeslotId);
 			timeslotRepository.delete(timeSlot);
@@ -145,7 +145,7 @@ public class TimeSlotService {
 			}
 			error = error.trim();
 		    if (error.length() > 0) {
-		        throw new IllegalArgumentException(error);
+		        throw new InvalidInputException(error);
 		    }
 
 			timeSlot.setEndDate(endDate);

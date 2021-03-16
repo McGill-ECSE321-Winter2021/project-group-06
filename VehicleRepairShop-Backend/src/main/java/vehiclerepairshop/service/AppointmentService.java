@@ -34,7 +34,7 @@ public class AppointmentService {
 	 * @author chengchen
 	 */
 	@Transactional
-	public Appointment createAppointment(List<TechnicianAccount> worker,TimeSlot timeSlot, OfferedService service, Car car, Garage garage, String comment) {
+	public Appointment createAppointment(TimeSlot timeSlot, OfferedService service, Car car, Garage garage, String comment) {
 		String error = "";
 		if (car == null) {
 			error = error + "car cannot be empty! ";
@@ -51,12 +51,9 @@ public class AppointmentService {
 		if (timeSlot == null) {
 			error = error + "timeslot cannot be empty! ";
 		}
-		if (worker == null || worker.isEmpty()) {
-			error = error + "technicians cannot be empty! ";
-		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 
 		Appointment appointment = new Appointment();
@@ -65,7 +62,6 @@ public class AppointmentService {
 		appointment.setGarage(garage);
 		appointment.setOfferedService(service);
 		appointment.setTimeSlot(timeSlot);
-		appointment.setWorker(worker);
 		appointment.setAppointmentId(timeSlot.getStartTime().hashCode()*service.getOfferedServiceId().hashCode());
 		appointmentRepository.save(appointment);
 
@@ -86,7 +82,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		Optional<Appointment> appointment = appointmentRepository.findById(id);
 		return appointment.get();
@@ -107,7 +103,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		List<Appointment> appointments = new ArrayList<Appointment>();
 		appointments.add(appointmentRepository.findByCar(car).get(0));
@@ -128,7 +124,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		List<Appointment> appointments = appointmentRepository.findByGarage(garage);
 		return appointments;
@@ -143,7 +139,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		List<Appointment> appointments = appointmentRepository.findByWorker(worker);
 		return appointments;
@@ -173,7 +169,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 	    if (error.length() > 0) {
-	        throw new IllegalArgumentException(error);
+	        throw new InvalidInputException(error);
 	    }
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointmentRepository.delete(appointment.get());
@@ -203,7 +199,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointment.get().setCar(car);
@@ -224,7 +220,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointment.get().setGarage(garage);
@@ -245,7 +241,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointment.get().setWorker(workers);
@@ -286,7 +282,7 @@ public class AppointmentService {
 		
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 
 		appointment.get().setTimeSlot(updatedTimeSlot);
@@ -333,7 +329,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		
 		appointment.get().setTimeSlot(newTimeSlot);
@@ -358,7 +354,7 @@ public class AppointmentService {
 		}
 		error = error.trim();
 		if (error.length() > 0) {
-			throw new IllegalArgumentException(error);
+			throw new InvalidInputException(error);
 		}
 		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
 		appointment.get().setComment(comment);
