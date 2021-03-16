@@ -9,6 +9,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.dao.CarRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 public class CarService {
 	@Autowired
@@ -61,17 +62,6 @@ public class CarService {
 	}
 	
 	/*
-	 * returns if a customer account has a car as a boolean
-	 * @param owner
-	 * @return
-	 */
-	@Transactional
-	public boolean carExistsByOwner(CustomerAccount owner) {
-		List<Car> cars = carRepository.findByOwner(owner);
-		return cars.size() > 0;	
-	}
-	
-	/*
 	 * gets all cars in the database
 	 * @return
 	 */
@@ -79,6 +69,26 @@ public class CarService {
 	public List<Car> getAllCars() {
 		Iterable<Car> cars = carRepository.findAll();
 		return toList(cars);	
+	}
+	
+	/**
+	 * 
+	 * @param licensePlate
+	 * @return
+	 */
+	@Transactional
+	public Car deleteCar(String licensePlate) { 
+		String error = "";
+		if (carRepository.findByLicensePlate(licensePlate)==null) {
+			error = error + "car not found";
+		}
+		error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+		Car car = carRepository.findByLicensePlate(licensePlate);
+		carRepository.delete(car);
+		return car;
 	}
 	
 	// Helper method that converts iterable to list

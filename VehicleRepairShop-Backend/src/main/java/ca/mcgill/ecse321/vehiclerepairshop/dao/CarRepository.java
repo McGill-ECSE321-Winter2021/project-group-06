@@ -9,6 +9,5 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 
 public interface CarRepository extends CrudRepository<Car, String>{
 	List<Car> findByOwner(CustomerAccount customerAccount);
-	boolean existsByOwner(CustomerAccount customerAccount);
 	Car findByLicensePlate(String license);
 }
