@@ -49,7 +49,7 @@ public class OfferedServiceController {
 	 * @return
 	 */
 	@GetMapping(value = {"/getAllOfferedServices", "/getAllOfferedServices/"})
-	public List<OfferedServiceDto> getAllOfferedServices(){
+	public List<OfferedServiceDto> getAllOfferedServices() {
 		List<OfferedServiceDto> offeredServiceDtos = new ArrayList<>();
 		for (OfferedService offeredService: offeredServiceService.getAllOfferedServices()) {
 			offeredServiceDtos.add(convertToDto(offeredService));
@@ -63,7 +63,7 @@ public class OfferedServiceController {
 	 * @return
 	 */
 	@GetMapping(value = {"/getOfferedServiceByAppointment/getAppointmentByAppointmentId/{appointmentId}", "/getOfferedServiceByAppointment/{appointmentId}/"})
-	public OfferedServiceDto getOfferedServiceByAppointment(@PathVariable("appointmentId") AppointmentDto appointmentDto){
+	public OfferedServiceDto getOfferedServiceByAppointment(@PathVariable("appointmentId") AppointmentDto appointmentDto) throws InvalidInputException{
 		OfferedServiceDto foundedServiceDtos = new OfferedServiceDto();
 		OfferedService foundedService = offeredServiceService.getOfferedServiceByAppointment(convertToDomainObject(appointmentDto));
 		foundedServiceDtos = convertToDto(foundedService);
@@ -76,7 +76,7 @@ public class OfferedServiceController {
 	 * @return
 	 */
 	@GetMapping(value = {"/getOfferedServiceById/{offeredServiceId}", "/getOfferedServiceById/{offeredServiceId}/"})
-	public OfferedServiceDto getOfferedServiceById(@PathVariable("offeredServiceId") String offeredServiceId){
+	public OfferedServiceDto getOfferedServiceById(@PathVariable("offeredServiceId") String offeredServiceId) throws InvalidInputException{
 		OfferedServiceDto foundedServiceDtos = new OfferedServiceDto();
 		OfferedService foundedService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceId);
 		foundedServiceDtos = convertToDto(foundedService);
@@ -136,7 +136,7 @@ public class OfferedServiceController {
 													@PathVariable("duration")int duration, 
 													@PathVariable("reminderTime")@DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")Time reminderTime, 
 													@PathVariable("reminderDate")int reminderDate,
-													@PathVariable("description")String description) {
+													@PathVariable("description")String description) throws InvalidInputException{
 		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
 		//OfferedServiceDto createdOfferedServiceDto = new OfferedServiceDto(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
 		OfferedServiceDto createdOfferedServiceDto = convertToDto(createdOfferedService);
