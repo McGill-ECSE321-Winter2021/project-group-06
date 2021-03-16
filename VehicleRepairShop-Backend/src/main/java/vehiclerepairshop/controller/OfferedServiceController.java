@@ -83,7 +83,6 @@ public class OfferedServiceController {
 		return foundedServiceDtos;
 	}
 	
-	
 	/**
 	 * update offered service 
 	 * @param offeredServiceId
@@ -181,7 +180,7 @@ public class OfferedServiceController {
 	 */
 	private OfferedServiceDto convertToDto(OfferedService s) {
 		if (s == null) {
-			throw new IllegalArgumentException("There is no such OfferedService!");
+			throw new InvalidInputException("There is no such OfferedService!");
 		}
 		
 		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
@@ -197,7 +196,7 @@ public class OfferedServiceController {
 	 */
 	private Appointment convertToDomainObject(AppointmentDto a) {
 		if (a == null) {
-			throw new IllegalArgumentException("There is no such appointmentDto!");
+			throw new InvalidInputException("There is no such appointmentDto!");
 		}
 		
 		Appointment appointment = appointmentService.getAppointmentById(a.getAppointmentId());
