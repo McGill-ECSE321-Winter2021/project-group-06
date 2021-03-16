@@ -111,9 +111,9 @@ public class CustomerAccountController {
 	 * @throws InvalidInputException
 	 */
 	@DeleteMapping(value = { "/deleteCustomerAccount/{username}", "/customerAccount/deleteCustomerAccount/{username}/" })
-	public boolean deleteCustomerAccount(@PathVariable("username") String username) throws InvalidInputException {
-		boolean successful = customerAccountService.deleteCustomerAccount(username);
-		return successful;
+	public CustomerAccount deleteCustomerAccount(@PathVariable("username") String username) throws InvalidInputException {
+		CustomerAccount user = customerAccountService.deleteCustomerAccount(username);
+		return user;
 	}
 
 	/**
@@ -125,9 +125,9 @@ public class CustomerAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/loginCustomerAccount/{username}/{password}", "/loginCustomerAccount/{username}/{password}/" })
-	public boolean loginCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
-		boolean successful = customerAccountService.loginCustomerAccount(username, password);
-		return successful;
+	public CustomerAccount loginCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
+		CustomerAccount user = customerAccountService.loginCustomerAccount(username, password);
+		return user;
 	}
 
 	/**
@@ -138,9 +138,9 @@ public class CustomerAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/logoutCustomerAccount/{username}", "/logoutCustomerAccount/{username}/" })
-	public boolean logoutCustomerAccount(@PathVariable("username") String username) throws InvalidInputException {
-		boolean successful = customerAccountService.logoutCustomerAccount(username);
-		return successful;
+	public CustomerAccount logoutCustomerAccount(@PathVariable("username") String username) throws InvalidInputException {
+		CustomerAccount user = customerAccountService.logoutCustomerAccount(username);
+		return user;
 	}
 
 	/**
@@ -151,9 +151,9 @@ public class CustomerAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/authenticateCustomerAccount/{username}", "/authenticateCustomerAccount/{username}/" })
-	public boolean authenticateCustomerAccount(@PathVariable("username") String username) throws InvalidInputException{
-		boolean authentic = customerAccountService.authenticateCustomerAccount(username);
-		return authentic;
+	public CustomerAccount authenticateCustomerAccount(@PathVariable("username") String username) throws InvalidInputException{
+		CustomerAccount user = customerAccountService.authenticateCustomerAccount(username);
+		return user;
 	}
 
 	/**
