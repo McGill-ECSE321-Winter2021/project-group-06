@@ -59,13 +59,10 @@ public class AdminAccountService {
 			AdminAccount user = new AdminAccount();
 			user.setUsername(username);
 			user.setPassword(password);
-			if (name.contains(" ")) {
-				name.replaceAll("\\s+", "_"); 
-			}
 			user.setName(name);
 			
 			adminAccountRepository.save(user);
-			createToken(username);
+			user.setToken(createToken(username));
 			return user;
 		}
 	}
