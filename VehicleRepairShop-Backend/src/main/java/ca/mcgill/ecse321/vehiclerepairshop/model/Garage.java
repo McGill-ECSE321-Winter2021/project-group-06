@@ -11,25 +11,12 @@ import javax.persistence.Entity;
 @Entity
 public class Garage
 {
-
-  private boolean isAvailable;
   private String garageId;
   private List<Appointment> appointment;
-
-
-  public void setIsAvailable(boolean aIsAvailable)
-  {
-    this.isAvailable = aIsAvailable; 
-  }
 
   public void setGarageId(String aGarageId)
   {
     this.garageId = aGarageId;
-  }
-
-  public boolean getIsAvailable()
-  {
-    return this.isAvailable;
   }
 
   @Id

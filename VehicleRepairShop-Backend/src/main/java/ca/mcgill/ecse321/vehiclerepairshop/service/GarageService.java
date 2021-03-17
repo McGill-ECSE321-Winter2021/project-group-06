@@ -29,7 +29,7 @@ public class GarageService {
 	 * @return
 	 */
 	@Transactional
-	public Garage createGarage(boolean isAvailable, String garageId){
+	public Garage createGarage(String garageId){
 		if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
 			throw new InvalidInputException("GarageId cannot be empty!");
 		}
@@ -38,7 +38,6 @@ public class GarageService {
 		}
 
 		Garage garage = new Garage();
-		garage.setIsAvailable(isAvailable);
 		garage.setGarageId(garageId);
 		garageRepository.save(garage);
 		
@@ -94,38 +93,37 @@ public class GarageService {
 		return toList(garages);
 	}
 
-	/**
-	 * Update garage information by offering new information and garageId
-	 * @param currentGarageId
-	 * @param newIsAvailable
-	 * @param garageId
-	 * @return
-	 */
-	@Transactional
-	public Garage updateGarage(String currentGarageId, boolean newIsAvailable, String garageId) {
-		if (currentGarageId == null || currentGarageId.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("CurrentGarageId cannot be empty!");
-		}
-		else if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("GarageId cannot be empty!");
-		}
-		else if (garageRepository.findByGarageId(currentGarageId) == null) {
-			throw new InvalidInputException("CurrentGarageId does not exist!");
-		}
-		else if (garageRepository.findByGarageId(garageId) != null) {
-			throw new InvalidInputException("GarageId not available!");
-		}
-		
-		Garage garage = garageRepository.findByGarageId(currentGarageId);
-		if(garage == null) {
-			throw new InvalidInputException("The garage is not found in the system!");
-		}
-		garage.setIsAvailable(newIsAvailable);
-		garage.setGarageId(garageId);
-		garageRepository.save(garage);
-
-		return garage;
-	}
+//	/**
+//	 * Update garage information by offering new information and garageId
+//	 * @param currentGarageId
+//	 * @param newIsAvailable
+//	 * @param garageId
+//	 * @return
+//	 */
+//	@Transactional
+//	public Garage updateGarage(String currentGarageId, boolean newIsAvailable) {
+//		if (currentGarageId == null || currentGarageId.replaceAll("\\s+", "").length() == 0){
+//			throw new InvalidInputException("CurrentGarageId cannot be empty!");
+//		}
+////		else if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
+////			throw new InvalidInputException("GarageId cannot be empty!");
+////		}
+//		else if (garageRepository.findByGarageId(currentGarageId) == null) {
+//			throw new InvalidInputException("CurrentGarageId does not exist!");
+//		}
+////		else if (garageRepository.findByGarageId(garageId) != null) {
+////			throw new InvalidInputException("GarageId not available!");
+////		}
+//		
+//		Garage garage = garageRepository.findByGarageId(currentGarageId);
+//		if(garage == null) {
+//			throw new InvalidInputException("The garage is not found in the system!");
+//		}
+//
+//		garageRepository.save(garage);
+//
+//		return garage;
+//	}
 	
 	/**
 	 * Delete a Garage
