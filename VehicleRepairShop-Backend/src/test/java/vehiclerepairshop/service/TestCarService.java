@@ -66,7 +66,7 @@ public class TestCarService {
 	    });
 	    
 	    lenient().when(carRepository.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-	    	 Car car = new Car();
+	    	Car car = new Car();
             car.setLicensePlate(LICENSEPLATE);
     		car.setModel(MODEL);
     		car.setYear(YEAR);
@@ -74,6 +74,22 @@ public class TestCarService {
 			List<Car> cars = new ArrayList<Car>();
 			cars.add(car);
             return cars;
+	    });
+	    
+	    lenient().when(carRepository.findByOwner(any(CustomerAccount.class))).thenAnswer( (InvocationOnMock invocation) -> {
+	    	Car car = new Car();
+            car.setLicensePlate(LICENSEPLATE);
+	   		car.setModel(MODEL);
+	   		car.setYear(YEAR);
+	   		car.setMotorType(MOTORTYPE);
+	   		Car car2 = invocation.getArgument(0);
+	   		if(car2.getLicensePlate().equals(car.getLicensePlate())) {
+				List<Car> cars = new ArrayList<Car>();
+				cars.add(car);
+	            return cars;
+	   		}else {
+	   			return null;
+	   		}
 	    });
 	    
 	    Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
@@ -86,7 +102,7 @@ public class TestCarService {
 		Car car = null;
 		try {
 			car = carService.createCar(LICENSEPLATE,MODEL,YEAR,MOTORTYPE);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 		Car car2 = carService.getCarByLicensePlate(LICENSEPLATE);
@@ -122,7 +138,7 @@ public class TestCarService {
 		Car car = null;
 		try {
 			car = carService.deleteCar(LICENSEPLATE);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
 		Car car2 = carService.getCarByLicensePlate(LICENSEPLATE);
