@@ -192,7 +192,7 @@ public class AdminAccountService {
 		if (user == null) {
 			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
 		}
-		else if (user.getPassword().equals(password)) {
+		else if (!user.getPassword().equals(password)) {
 			throw new InvalidInputException("Username or password incorrect. Please try again.");
 		}
 		else {
