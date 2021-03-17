@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop.controller;
 
-import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
+
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 import java.sql.Date;
@@ -35,7 +35,7 @@ public class TimeSlotController {
 	private TimeSlotRepository timeslotRepository;
 	
 	@GetMapping(value = { "/getAllTimeSlots", "/getAllTimeSlots/" })
-	public List<TimeSlotDto> getAllTimeSlots() throws IllegalArgumentException {
+	public List<TimeSlotDto> getAllTimeSlots() {
 		return timeSlotService.getAllTimeSlots().stream().map(timeslot->convertToDto(timeslot)).collect(Collectors.toList());
 	}
 	
@@ -46,35 +46,37 @@ public class TimeSlotController {
 	 * @return
 	 */
 	@GetMapping(value = {"/getTimeSlot/{id}", "/getTimeSlot/{id}/" })
-	public TimeSlotDto getTimeSlot(@PathVariable("id") int id) {
+	public TimeSlotDto getTimeSlot(@PathVariable("id") int id) throws InvalidInputException {
 		TimeSlot timeSlot = timeSlotService.getTimeSlot(id);
 		return convertToDto(timeSlot);
 	}
 	
 	@PostMapping(value = { "/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}","/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}/"})
-	public TimeSlotDto createTimeSlot(@PathVariable("startTime") Time startTime,
-			@PathVariable("endTime") Time endTime,
-			@PathVariable("startDate") Date startDate,
-			@PathVariable("endDate") Date endDate) throws IllegalArgumentException {
-		TimeSlot timeSlot = timeSlotService.createTimeSlot(startTime,endTime,startDate,endDate);
+	public TimeSlotDto createTimeSlot(@PathVariable("startTime") String startTime,
+			@PathVariable("endTime") String endTime,
+			@PathVariable("startDate") String startDate,
+			@PathVariable("endDate") String endDate) throws InvalidInputException {
+		TimeSlot timeSlot = timeSlotService.createTimeSlot(Time.valueOf(startTime),Time.valueOf(endTime),Date.valueOf(startDate),Date.valueOf(endDate));
 		return convertToDto(timeSlot);
 	}
 	
 	@DeleteMapping(value = {"/deleteTimeSlot/{timeslotId}","/deleteTimeSlot/{timeslotId}/"})
-	public boolean deleteTimeSlotDto(@PathVariable("timeslotId") int timeslotId) {
-		boolean isSuccess = false; 
-		TimeSlot timeSlot = timeslotRepository.findByTimeSlotId(timeslotId);
+	public TimeSlotDto deleteTimeSlotDto(@PathVariable("timeslotId") int timeslotId) throws InvalidInputException {
+		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeslotId);
 		timeslotRepository.delete(timeSlot);
-		isSuccess = true;
-		return isSuccess;
+		return convertToDto(timeSlot);
+
 	}
 	
 	@DeleteMapping(value = {"/deleteAllTimeSlot","/deleteAllTimeSlot/"})
-	public boolean deleteTimeSlotDto() {
-		boolean isSuccess = false;
-		timeslotRepository.deleteAll();
-		isSuccess = true;
-		return isSuccess;
+	public List<TimeSlotDto> deleteAllTimeSlotDto() {
+		List<TimeSlot >timeSlot = timeSlotService.deleteAllTimeSlot();
+		List<TimeSlotDto> timeSlotDtos = new ArrayList<TimeSlotDto>();
+		for (TimeSlot timeSlot2:timeSlot) {
+			timeSlotDtos.add(convertToDto(timeSlot2));
+		}
+		return timeSlotDtos;
+
 	}
 	
 	
@@ -82,7 +84,7 @@ public class TimeSlotController {
 	//helper method
 	private TimeSlotDto convertToDto(TimeSlot timeSlot) {
 		if (timeSlot == null) {
-			throw new IllegalArgumentException("There is no such timeslot!");
+			throw new InvalidInputException("There is no such timeslot!");
 		}
 		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
 		return timeSlotDto;
