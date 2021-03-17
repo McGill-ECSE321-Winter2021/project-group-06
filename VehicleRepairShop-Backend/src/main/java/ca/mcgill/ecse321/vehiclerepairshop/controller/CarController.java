@@ -1,0 +1,152 @@
+package ca.mcgill.ecse321.vehiclerepairshop.controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
+import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
+import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
+import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
+import ca.mcgill.ecse321.vehiclerepairshop.service.*;
+
+@CrossOrigin(origins = "*")
+@RestController
+public class CarController {
+	
+	@Autowired
+	private CarService carService;
+	
+	/**
+	 * Return a list of all Car Dtos 
+	 * @author James
+	 * @return list of Car Dtos
+	 */
+	@GetMapping(value = { "/getAllCars", "/getAllCars/" })
+	public List<CarDto> getAllCars() {
+		return carService.getAllCars().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	
+	/**
+	 * Returns a Car Dto by license plate 
+	 * @author James
+	 * @return CarDto
+	 */
+	@GetMapping(value = { "/getCarByLicensePlate/{licensePlate}", "/getCarByLicensePlate/{licensePlate}/" })
+	public CarDto getCarByLicensePlate(@PathVariable("licensePlate") String licensePlate) {
+		return convertToDto(carService.getCarByLicensePlate(licensePlate));
+	}
+	
+	/**
+	 * Return a list of all Car Dtos belonging to one owner
+	 * @author James
+	 * @return list of Car Dtos
+	 */
+	//doubt this works like this with passing owner in
+	@GetMapping(value = { "/getCarsByOwner/{owner}", "/getCarsByOwner/{owner}/" })
+	public List<CarDto> getCarsByOwner(@PathVariable("owner") CustomerAccount owner) {	
+		return carService.getCarsByOwner(owner).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	
+	/**
+	 * Create a Car Dto with provided parameters
+	 * @author James
+	 * @param licensePlate
+	 * @param model
+	 * @param year
+	 * @param motorType
+	 * @return Car Dto
+	 */
+	@PostMapping(value = { "/createCar/{licensePlate}/{model}/{year}/{motorType}", "/createAdminAccount/{licensePlate}/{model}/{year}/{motorType}/" })
+	public CarDto createCar(@PathVariable("licensePlate") String licensePlate, @PathVariable("model") String model, @PathVariable("year") int year, 
+			@PathVariable("motorType") MotorType motorType) throws InvalidInputException {
+		Car car = carService.createCar(licensePlate, model, year, motorType);
+		return convertToDto(car);
+	}
+	
+	
+	
+	//-------------------------- Helper Methods -----------------------------
+	
+		/**
+		 * Helper Method to convert a car to a Dto
+		 * Will return null if you pass null
+		 * @author Catherine
+		 * @param car
+		 * @return CarDto
+		 */
+		private CarDto convertToDto(Car car)  {
+			if (car == null) {
+				return null;
+			} else {
+				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
+						car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+				return carDto;
+			}
+		}
+		
+	
+//		/**
+//		 * Helper method to get the car for the carDto
+//		 * @author Catherine
+//		 * @param carDto
+//		 * @return Car
+//		 */
+//		private Car convertToDomainObject(CarDto carDto)  {
+//			if (carDto == null) {
+//				return null;
+//			}
+//			else {
+//				return carService.getCarsByLiscensePlate(carDto.getLicensePlate());
+//			}
+//		}
+
+
+		/**
+		 * Helper Method to convert an appointment to a Dto
+		 * Will return null if you pass null
+		 * @author Catherine
+		 * @param car
+		 * @return AppointmentDto
+		 */
+		private AppointmentDto convertToDto(Appointment apt)  {
+			if (apt == null) {
+				return null;
+			}
+			else {
+				// TODO add appointment attributes once AppointmentDto is finished
+
+				AppointmentDto aptDto = new AppointmentDto();
+
+				return aptDto;
+			}
+		}
+		
+//		/**
+//		 * Helper Method to convert a business info to a Dto
+//		 * Will return null if you pass null
+//		 * @author Catherine
+//		 * @param businessInformation
+//		 * @return
+//		 */
+//		private CustomerAccountDto convertToDto(BusinessInformation businessInformation)  {
+//			if (businessInformation == null) {
+//				return null;
+//			}
+//			else {
+//				BusinessInformationDto businessInfoDto = new BusinessInformationDto(businessInformation.getName(), businessInformation.getAddress(), businessInformation.getPhoneNumber(), businessInformation.getEmailAddress());
+//				return businessInfoDto;
+//			}
+//		}
+
+}
