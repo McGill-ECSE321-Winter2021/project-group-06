@@ -92,7 +92,7 @@ public class BusinessInformationService {
 
 	/**
 	 * Update business information by offering new information and name
-	 * @param currentName
+	 * @param name
 	 * @param name
 	 * @param newAddress
 	 * @param newPhoneNumber
@@ -101,13 +101,13 @@ public class BusinessInformationService {
 	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public BusinessInformation updateBusinessInformation(String currentName,String name, String newAddress, String newPhoneNumber, String newEmailAddress) throws InvalidInputException {
-		if (currentName == null || currentName.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("CurrentName cannot be empty!");
-		}
+	public BusinessInformation updateBusinessInformation(String name, String newAddress, String newPhoneNumber, String newEmailAddress) throws InvalidInputException {
 		if (name == null || name.replaceAll("\\s+", "").length() == 0){
 			throw new InvalidInputException("Name cannot be empty!");
 		}
+//		if (name == null || name.replaceAll("\\s+", "").length() == 0){
+//			throw new InvalidInputException("Name cannot be empty!");
+//		}
 		else if (newAddress == null || newAddress.replaceAll("\\s+", "").length() == 0){
 			throw new InvalidInputException("Address cannot be empty!");
 		}
@@ -117,19 +117,17 @@ public class BusinessInformationService {
 		else if (newEmailAddress == null || newEmailAddress.replaceAll("\\s+", "").length() == 0){
 			throw new InvalidInputException("EmailAddress cannot be empty!");
 		}
-		else if (businessInformationRepository.findBusinessInformationByName(currentName) == null) {
-			throw new InvalidInputException("CurrentName does not exist!");
+		else if (businessInformationRepository.findBusinessInformationByName(name) == null) {
+			throw new InvalidInputException("Name does not exist!");
 		}
-		else if (businessInformationRepository.findBusinessInformationByName(name) != null) {
-			throw new InvalidInputException("Name not available!");
-		}
+//		else if (businessInformationRepository.findBusinessInformationByName(name) != null) {
+//			throw new InvalidInputException("Name not available!");
+//		}
 
-		BusinessInformation businessInformation = businessInformationRepository.findBusinessInformationByName(currentName);
+		BusinessInformation businessInformation = businessInformationRepository.findBusinessInformationByName(name);
 		if(businessInformation == null) {
 			throw new InvalidInputException("The business information is not found in the system!");
 		}
-
-		businessInformation.setName(name);
 		businessInformation.setAddress(newAddress);
 		businessInformation.setPhoneNumber(newPhoneNumber);
 		businessInformation.setEmailAddress(newEmailAddress);
@@ -152,14 +150,14 @@ public class BusinessInformationService {
 		}
 
 		BusinessInformation businessInformation = businessInformationRepository.findBusinessInformationByName(name);
-		if(businessInformation == null) {
+		if (businessInformation == null) {
 			throw new InvalidInputException("The business information cannot be found.");
 		}
 
 		businessInformationRepository.delete(businessInformation);
 		return businessInformation;
 	}
-
+	
 	/**
 	 * Delete all the Business Information
 	 */

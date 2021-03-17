@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
@@ -78,20 +80,20 @@ public class BusinessInformationController {
 	 * @return
 	 * @throws InvalidInputException 
 	 */
-	@PostMapping(value = {"/updateBusinessInformation/{currentName}/{name}/{address}/{phoneNumber}/{emailAddress}", "/updateBusinessInformation/{currentName}/{name}/{address}/{phoneNumber}/{emailAddress}/"})
-	public BusinessInformationDto updateBusinessInformation(@PathVariable("currentName")String currentName,
-			@PathVariable("name")String name, 
+	@PutMapping(value = {"/updateBusinessInformation/{currentName}/{address}/{phoneNumber}/{emailAddress}", "/updateBusinessInformation/{currentName}/{address}/{phoneNumber}/{emailAddress}/"})
+	public BusinessInformationDto updateBusinessInformation(@PathVariable("currentName")String currentName, 
 			@PathVariable("address")String address, 
 			@PathVariable("phoneNumber")String phoneNumber, 
 			@PathVariable("emailAddress")String emailAddress) throws InvalidInputException {
 		BusinessInformationDto updatedBusinessInformation = new BusinessInformationDto();
 		BusinessInformation businessInformation;
-		try {
-			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
-		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
-			throw new InvalidInputException(e.getMessage());
-		}
+		businessInformation = businessInformationService.updateBusinessInformation(currentName, address, phoneNumber, emailAddress);
+//		try {
+//			businessInformation = businessInformationService.updateBusinessInformation(currentName, name, address, phoneNumber, emailAddress);
+//		} catch (InvalidInputException e) {
+//			// TODO Auto-generated catch block
+//			throw new InvalidInputException(e.getMessage());
+//		}
 		updatedBusinessInformation = convertToDto(businessInformation);
 		return updatedBusinessInformation; 
 	}
@@ -102,12 +104,10 @@ public class BusinessInformationController {
 	 * @return
 	 */
 	@DeleteMapping(value = {"/deleteBusinessInformation/{name}","/deleteBusinessInformation/{name}/"})
-	public boolean deleteBusinessInformation(@PathVariable("name") String name) {
-		boolean isSuccess = false; 
+	public BusinessInformationDto deleteBusinessInformation(@PathVariable("name") String name) {
 		BusinessInformation businessInformation = businessInformationRepository.findBusinessInformationByName(name);
 		businessInformationRepository.delete(businessInformation);
-		isSuccess = true;
-		return isSuccess;
+		return convertToDto(businessInformation);
 	}
 
 	/**
@@ -115,11 +115,13 @@ public class BusinessInformationController {
 	 * @return
 	 */
 	@DeleteMapping(value = {"/deleteAllBusinessInformation","/deleteAllBusinessInformation/"})
-	public boolean deleteBusinessInformation() {
-		boolean isSuccess = false;
-		businessInformationRepository.deleteAll();
-		isSuccess = true;
-		return isSuccess;
+	public List<BusinessInformationDto> deleteBusinessInformation() {
+		List<BusinessInformation> businessesInformation = businessInformationService.deleteAllBusinessInformation();
+		List<BusinessInformationDto> businessInformationDtos = new ArrayList<BusinessInformationDto>();
+		for (BusinessInformation businessInformation : businessesInformation) {
+			businessInformationDtos.add(convertToDto(businessInformation));
+		}
+		return businessInformationDtos;
 	}
 
 	//----------------------------- Helper Methods --------------------------------
