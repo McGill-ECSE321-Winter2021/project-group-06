@@ -43,7 +43,7 @@ public class BusinessInformationDto {
 		return emailAddress;
 	}
 
-	public List<AdminAccountDto> getAppointments() {
+	public List<AdminAccountDto> getAdminAccounts() {
 		return adminAccountsDTO;
 	}
 
