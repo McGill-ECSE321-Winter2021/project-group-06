@@ -181,6 +181,10 @@ public class CustomerAccountController {
 			throw new InvalidInputException("This user does not exist");
 		}
 		CustomerAccountDto customerAccountDto = new CustomerAccountDto(user.getUsername(), user.getPassword(), user.getName());
+
+		if (user.getCar() != null) {
+			customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		}
 		customerAccountDto.setToken(user.getToken());
 		if (user.getCar() != null) {
 			customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));

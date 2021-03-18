@@ -53,6 +53,9 @@ public class AppointmentService {
 		if (timeSlot == null) {
 			error = error + "timeslot cannot be empty! ";
 		}
+		if (worker == null) {
+			error = error + "worker cannot be empty! ";
+		}
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
@@ -373,7 +376,7 @@ public class AppointmentService {
 		appointmentRepository.save(appointment);
 		return appointment;
 	}
-	/** 
+	/**
 	 * @author chengchen
 	 * @return
 	 */

@@ -116,6 +116,47 @@
 			"response": []
 		},
 		{
+			"name": "create owner 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.username).to.include(\"1\");",
+							"  pm.expect(jsonData.password).to.include(\"1\");",
+							"  pm.expect(jsonData.name).to.include(\"owner\");",
+							"",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/1/1/owner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"1",
+						"1",
+						"owner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "create a car",
 			"event": [
 				{
@@ -135,7 +176,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createCar/1/Tesla/2021/Electric",
+					"raw": "http://localhost:8080/createCar/1/Tesla/2021/Electric/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -146,7 +187,8 @@
 						"1",
 						"Tesla",
 						"2021",
-						"Electric"
+						"Electric",
+						"1"
 					]
 				}
 			},
@@ -171,7 +213,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createTechnicianAccount/1/123/worker",
+					"raw": "http://localhost:8080/createTechnicianAccount/worker1/123/worker",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -179,7 +221,7 @@
 					"port": "8080",
 					"path": [
 						"createTechnicianAccount",
-						"1",
+						"worker1",
 						"123",
 						"worker"
 					]
@@ -219,7 +261,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createAppointment/this/-1061325312/1/1/1/1",
+					"raw": "http://localhost:8080/createAppointment/this/-1061325312/1/1/1/worker1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -232,7 +274,7 @@
 						"1",
 						"1",
 						"1",
-						"1"
+						"worker1"
 					]
 				}
 			},
@@ -620,7 +662,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createCar/2/Tesla/2021/Electric",
+					"raw": "http://localhost:8080/createCar/2/Tesla/2021/Electric/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -631,7 +673,8 @@
 						"2",
 						"Tesla",
 						"2021",
-						"Electric"
+						"Electric",
+						"1"
 					]
 				}
 			},
@@ -1094,7 +1137,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createAppointment/conmment2/1540793728/1/1/1/1",
+					"raw": "http://localhost:8080/createAppointment/conmment2/1540793728/1/1/1/worker1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1107,7 +1150,7 @@
 						"1",
 						"1",
 						"1",
-						"1"
+						"worker1"
 					]
 				}
 			},
