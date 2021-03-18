@@ -123,6 +123,16 @@ public class TestAdminAccountService {
 				return null;
 			}
 		});
+		lenient().when(businessInformationRepository.findBusinessInformationByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+			if(invocation.getArgument(0).equals(INFO_NAME)) {
+				BusinessInformation businessInformation = new BusinessInformation();
+				businessInformation.setName(INFO_NAME);
+				return businessInformation;
+			} 
+			else {
+				return null;
+			}
+		});
 		lenient().when(adminAccountRepository.findByBusinessInformation(any(BusinessInformation.class))).thenAnswer( (InvocationOnMock invocation) -> { 
 			BusinessInformation businessInfo = invocation.getArgument(0);
 			
@@ -148,6 +158,7 @@ public class TestAdminAccountService {
 			}
 			
          });
+		
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -309,18 +320,17 @@ public class TestAdminAccountService {
 			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
 			String newName = "New Name";
-			String newUsername = "Catherine";
 			String newPassword = "newPassword";
 			
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, newPassword, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newPassword, newName);
 			} catch (InvalidInputException e) {
 				// Check that no error occurred
 				fail();
 			}
 			assertNotNull(user);
-			assertEquals(newUsername, user.getUsername());
+			assertEquals(USERNAME1, user.getUsername());
 			assertEquals(newPassword, user.getPassword());
 			assertEquals(newName, user.getName());
 		}
@@ -332,12 +342,10 @@ public class TestAdminAccountService {
 		public void testUpdateAdminAccountWithInvalidToken() {
 			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String newUsername = "Catherine";
-
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(USERNAME2, newUsername, PASSWORD1, NAME1);
+				user = adminAccountService.updateAdminAccount(USERNAME2, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -346,83 +354,19 @@ public class TestAdminAccountService {
 			// check error
 			assertEquals("You do not have permission to modify this account.", error);
 		}
-		
-		/**
-		 * Update Admin Account with empty username	
-		 */
-		@Test
-		public void testUpdateAdminAccountWithEmptyUsername() {
-			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String newUsername = "";
-
-			String error = null;
-			AdminAccount user = null; 
-			try {
-				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Username cannot be empty.", error);
-		}
-		
-		/**
-		 * Update Admin Account with spaces in username	
-		 */
-		@Test
-		public void testUpdateAdminAccountWithSpacesInUsername() {
-			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
-
-			String newUsername = "this is a bad username";
-
-			String error = null;
-			AdminAccount user = null; 
-			try {
-				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Username cannot contain spaces.", error);
-		}
-		
-		/**
-		 * Update Admin Account with taken username	
-		 */
-		@Test
-		public void testUpdateAdminAccountWithTakenUsername() {
-			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
-
-			String error = null;
-			AdminAccount user = null; 
-			try {
-				user = adminAccountService.updateAdminAccount(USERNAME1, USERNAME2, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("This username is not available.", error);
-		}
-		
 		/**
 		 * Update Admin Account with empty password
 		 */
 		@Test
 		public void testUpdateAdminAccountWithEmptyPassword() {
-			String newUsername = "Catherine";
+			
 			String newPassword = "";
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, newPassword, NAME1);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newPassword, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -439,13 +383,12 @@ public class TestAdminAccountService {
 		public void testUpdateAdminAccountWithSpacesInPassword() {
 			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String newUsername = "Catherine";
 			String newPassword = "this is a bad password";
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, newPassword, NAME1);
+				user = adminAccountService.updateAdminAccount(USERNAME1, newPassword, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -462,13 +405,12 @@ public class TestAdminAccountService {
 		public void testUpdateAdminAccountWithEmptyName() {
 			assertEquals(2, adminAccountService.getAllAdminAccounts().size());
 
-			String newUsername = "Catherine";
 			String newName = "";
 
 			String error = null;
 			AdminAccount user = null; 
 			try {
-				user = adminAccountService.updateAdminAccount(USERNAME1, newUsername, PASSWORD1, newName);
+				user = adminAccountService.updateAdminAccount(USERNAME1,  PASSWORD1, newName);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -712,11 +654,19 @@ public class TestAdminAccountService {
 		public void testGetAllAdminAccountsWithBusinessInformation() {
 			BusinessInformation businessInformation = new BusinessInformation();
 			businessInformation.setName(INFO_NAME);
-			List<AdminAccount> users = adminAccountService.getAllAdminAccountsWithBusinessInformation(businessInformation);
+			List<AdminAccount> users = adminAccountService.getAllAdminAccountsWithBusinessInformation(INFO_NAME);
 			assertNotNull(users);
 			assertEquals(users.get(0).getUsername(), USERNAME1);
 			assertEquals(users.get(1).getUsername(), USERNAME2);
 		}
 		
+		@Test 
+		public void testSetBusinessinformation() {
+			BusinessInformation businessInformation = new BusinessInformation();
+			businessInformation.setName(INFO_NAME);
+			AdminAccount user = adminAccountService.setBusinessInformation(INFO_NAME, USERNAME1);
+			assertNotNull(user);
+			assertEquals(user.getUsername(), USERNAME1);
+		}
 
 }

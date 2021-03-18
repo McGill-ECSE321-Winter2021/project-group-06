@@ -88,9 +88,9 @@ public class AdminAccountController {
 	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PutMapping(value = {"/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}", "/adminAccount/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
-	public AdminAccountDto updateAdminAccount(@PathVariable("currentUsername") String currentUsername, @PathVariable("newUsername") String newUsername, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) {
-		AdminAccount user = adminAccountService.updateAdminAccount(currentUsername, newUsername, newPassword, newName);
+	@PutMapping(value = {"/updateAdminAccount/{username}/{newPassword}/{newName}", "/adminAccount/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
+	public AdminAccountDto updateAdminAccount(@PathVariable("username") String username, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) {
+		AdminAccount user = adminAccountService.updateAdminAccount(username, newPassword, newName);
 		return convertToDto(user);
 	}
 
@@ -149,16 +149,27 @@ public class AdminAccountController {
 	
 	/**
 	 * Get admin account associated to business information
-	 * Uses get business information by name from business information controller
 	 * @author Catherine
+	 * @param businessInformation name
+	 * @return
+	 */
+	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/{businessName}", "/getAdminAccountsByBusinessInformation/{businessName}/" })
+	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("businessName") String businessName) {
+		return adminAccountService.getAllAdminAccountsWithBusinessInformation(businessName).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	 
+	/**
+	 * Set business information for an admin account
+	 * @author Catherine
+	 * @param username
 	 * @param businessInformationDto
 	 * @return
 	 */
-	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}", "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}/" })
-	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("name") BusinessInformationDto businessInformationDto) {
-		return adminAccountService.getAllAdminAccountsWithBusinessInformation(convertToDomainObject(businessInformationDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	@PutMapping(value = {"/setBusinessInformation/{username}/{businessName}", "/setBusinessInformation/{username}/{businessName}/"})
+	public AdminAccountDto setBusinessInformation(@PathVariable("username") String username, @PathVariable("businessName") String businessName) {
+		AdminAccount user = adminAccountService.setBusinessInformation(businessName, username);
+		return convertToDto(user);
 	}
-	 
 	
 	//-------------------------- Helper Methods -----------------------------
 	
@@ -194,20 +205,7 @@ public class AdminAccountController {
 			return businessInfoDto;
 		}
 	}
-	/**
-	 * Helper method to get the businessInformation for the businessInformationDto
-	 * @author Catherine
-	 * @param businessInformationDto
-	 * @return BusinessInformation
-	 */
-	private BusinessInformation convertToDomainObject(BusinessInformationDto businessInformationDto)  {
-		if (businessInformationDto == null) {
-			return null;
-		}
-		else {
-			return businessInformationService.getBusinessInformationByName(businessInformationDto.getName());
-		}
-	}
+
 
 		
 }

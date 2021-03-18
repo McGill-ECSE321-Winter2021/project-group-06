@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.TechnicianAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.AdminAccountRepository;
-
+import ca.mcgill.ecse321.vehiclerepairshop.dao.BusinessInformationRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 
@@ -23,6 +23,8 @@ public class AdminAccountService {
 	private CustomerAccountRepository customerAccountRepository;
 	@Autowired
 	private TechnicianAccountRepository technicianAccountRepository;
+	@Autowired 
+	private BusinessInformationRepository businessInformationRepository;
 
 	/**
 	 * Create an Admin Account with given parameters
@@ -106,38 +108,28 @@ public class AdminAccountService {
 	 * @return List of all accounts
 	 */
 	@Transactional
-	public List<AdminAccount> getAllAdminAccountsWithBusinessInformation(BusinessInformation businessInfo) {
+	public List<AdminAccount> getAllAdminAccountsWithBusinessInformation(String businessName) {
+		BusinessInformation businessInfo = businessInformationRepository.findBusinessInformationByName(businessName);
 		List<AdminAccount> adminAccountsWithBusinessInfo = adminAccountRepository.findByBusinessInformation(businessInfo);
 		return adminAccountsWithBusinessInfo;
 	}
 	
 	/**
-	 * Update an Admin Account username, password, and name. 
+	 * Update an Admin Account password and name. 
 	 * If one parameter shouldn't change, pass old value as new value. 
 	 * @author Catherine
-	 * @param newUsername
 	 * @param newPassword
 	 * @param newName
 	 * @return the account updated
 	 */
 	@Transactional
-	public AdminAccount updateAdminAccount(String currentUsername, String newUsername, String newPassword, String newName)   {
-		AdminAccount user = adminAccountRepository.findByUsername(currentUsername);
+	public AdminAccount updateAdminAccount(String username, String newPassword, String newName)   {
+		AdminAccount user = adminAccountRepository.findByUsername(username);
 		if (user == null) {
 			throw new InvalidInputException("The user cannot be found.");
 		}
 		else if (user.getToken() == 0) {
 			throw new InvalidInputException("You do not have permission to modify this account.");
-		}
-		else if (newUsername == null || newUsername.replaceAll("\\s+", "").length() == 0) {
-			throw new InvalidInputException("Username cannot be empty.");
-		}
-		else if (newUsername.contains(" ")) {
-			throw new InvalidInputException("Username cannot contain spaces.");
-		}
-		else if (!currentUsername.equals(newUsername) && (adminAccountRepository.findByUsername(newUsername) != null 
-				|| customerAccountRepository.findByUsername(newUsername)!= null || technicianAccountRepository.findByUsername(newUsername) != null)) {
-			throw new InvalidInputException("This username is not available.");
 		}
 		else if (newPassword == null || newPassword.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Password cannot be empty.");
@@ -149,7 +141,6 @@ public class AdminAccountService {
 			throw new InvalidInputException("Name cannot be empty.");
 		}
 		else {
-			user.setUsername(newUsername);
 			user.setPassword(newPassword);
 			user.setName(newName);
 			adminAccountRepository.save(user);
@@ -247,6 +238,19 @@ public class AdminAccountService {
 			//General error message to capture if the session expired or the user does not have permission
 			throw new InvalidInputException("An error occured. Please try again."); 
 		}
+	}
+	/**
+	 * Set the business information for an account
+	 * @param businessInformation
+	 * @param username
+	 * @return user
+	 */
+	@Transactional 
+	public AdminAccount setBusinessInformation(String businessName, String username) {
+		BusinessInformation businessInformation = businessInformationRepository.findBusinessInformationByName(businessName);
+		AdminAccount user = adminAccountRepository.findByUsername(username);
+		user.setBusinessInformation(businessInformation);
+		return user;
 	}
 
 	
