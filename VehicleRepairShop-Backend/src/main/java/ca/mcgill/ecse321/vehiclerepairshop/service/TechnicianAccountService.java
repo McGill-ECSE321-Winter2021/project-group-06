@@ -237,19 +237,53 @@ public class TechnicianAccountService {
 			throw new InvalidInputException("An error occured. Please try again."); 
 		}
 	}
+
+	
 	/**
-	 * add a car for an account
-	 * @param licensePlate
+	 * add a timeslot for an account
+	 * @param timeSlotId
 	 * @param username
 	 * @return user
 	 */
 	@Transactional 
-	public TechnicianAccount addCar(String licensePlate, String username) {
+	public TechnicianAccount addTimeSlot(int timeSlotId, String username) {
 		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-		List<Car> cars = user.getCar();
-		cars.add(carRepository.findByLicensePlate(licensePlate));
-		user.setCar(cars);
-		return user;
+		if (user.getAvailability() == null) {
+			List<TimeSlot> timeslots = new ArrayList<TimeSlot>();
+			timeslots.add(timeSlotRepository.findByTimeSlotId(timeSlotId));
+			user.setAvailability(timeslots);
+			return user;
+		}
+		else {
+			List<TimeSlot> timeslots = user.getAvailability();	
+			timeslots.add(timeSlotRepository.findByTimeSlotId(timeSlotId));
+			user.setAvailability(timeslots);
+			return user;
+		}
+		
+	}
+	
+	/**
+	 * add an appointment to technician account
+	 * @param appointmentId
+	 * @param username
+	 * @return
+	 */
+	@Transactional 
+	public TechnicianAccount addAppointment(int appointmentId, String username) {
+		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+		if (user.getAppointment() == null) {
+			List<Appointment> appointments = new ArrayList<Appointment>();
+			appointments.add(appointmentRepository.findByAppointmentId(appointmentId));
+			user.setAppointment(appointments);
+			return user;
+		}
+		else {
+			List<Appointment> appointments = user.getAppointment();
+			appointments.add(appointmentRepository.findByAppointmentId(appointmentId));
+			user.setAppointment(appointments);
+			return user;
+		}
 	}
 	
 	/**
@@ -273,7 +307,7 @@ public class TechnicianAccountService {
 	 */
 	@Transactional
 	public List<TechnicianAccount> getTechnicianAccountsForAppointment(int appointmentId) {
-		Appointment appointment = appointmentRepository.
+		Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
 		List<TechnicianAccount> users = technicianAccountRepository.findTechnicianAccountByAppointment(appointment);
 		return users;
 	}

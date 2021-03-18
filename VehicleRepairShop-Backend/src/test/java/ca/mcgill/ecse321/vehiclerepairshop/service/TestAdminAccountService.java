@@ -660,6 +660,9 @@ public class TestAdminAccountService {
 			assertEquals(users.get(1).getUsername(), USERNAME2);
 		}
 		
+		/**
+		 * Set Business Information for Account
+		 */
 		@Test 
 		public void testSetBusinessinformation() {
 			BusinessInformation businessInformation = new BusinessInformation();

@@ -228,6 +228,7 @@ public class CustomerAccountService {
 			throw new InvalidInputException("An error occured. Please try again."); 
 		}
 	}
+	
 	/**
 	 * add a car for an account
 	 * @param licensePlate
@@ -237,10 +238,17 @@ public class CustomerAccountService {
 	@Transactional 
 	public CustomerAccount addCar(String licensePlate, String username) {
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
-		List<Car> cars = user.getCar();
-		cars.add(carRepository.findByLicensePlate(licensePlate));
-		user.setCar(cars);
-		return user;
+		if (user.getCar() == null) {
+			List<Car> cars = new ArrayList<Car>();
+			cars.add(carRepository.findByLicensePlate(licensePlate));
+			return user;
+		}
+		else {
+			List<Car> cars = user.getCar();
+			cars.add(carRepository.findByLicensePlate(licensePlate));
+			user.setCar(cars);
+			return user;
+		}
 	}
 	
 	/**

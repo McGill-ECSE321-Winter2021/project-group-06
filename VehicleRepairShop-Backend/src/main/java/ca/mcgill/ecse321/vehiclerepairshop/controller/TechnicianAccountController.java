@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
+import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
@@ -149,16 +151,54 @@ public class TechnicianAccountController {
 		TechnicianAccount user = technicianAccountService.authenticateTechnicianAccount(username);
 		return user;
 	}
+	
 	/**
 	 * Get all technicians associated with specified appointment
 	 * @param appointmentDto
 	 * @return List of technician account Dtos
 	 */
-	@GetMapping(value = { "/getTechniciansAccountByAppointment/getAppointmentByAppointmentId/{appointmentId}", "/getTechniciansAccountByAppointment/getAppointmentByAppointmentId/{appointmentId}/" })
-	public List<TechnicianAccountDto> getTechnicianAccountsByAppointment(@PathVariable("appointmentId") AppointmentDto appointmentDto) {
-		return technicianAccountService.getTechnicianAccountsForAppointment(convertToDomainObject(appointmentDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	@GetMapping(value = { "/getTechniciansAccountByAppointment/{appointmentId}", "/getTechniciansAccountByAppointment/{appointmentId}/" })
+	public List<TechnicianAccountDto> getTechnicianAccountsByAppointment(@PathVariable("appointmentId") int appointmentId) {
+		return technicianAccountService.getTechnicianAccountsForAppointment(appointmentId).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
+
+	
+	/**
+	 * add an appointment to the technician account
+	 * @param username
+	 * @param appointmentId
+	 * @return
+	 */
+	@PutMapping(value = {"/addCar/{username}/{appointmentId}", "/addCar/{username}/{appointmentId}/"})
+	public TechnicianAccountDto addCar(@PathVariable("username") String username, @PathVariable("appointmentId") int appointmentId) {
+		TechnicianAccount user = technicianAccountService.addAppointment(appointmentId, username);
+		return convertToDto(user);
+	}
+
+	/**
+	 * Get all technicians associated with specified appointment
+	 * @param appointmentDto
+	 * @return List of technician account Dtos
+	 */
+	@GetMapping(value = { "/getTechnicianAccountsByAvailability/{timeSlotId}", "/getTechnicianAccountsByAvailability/{timeSlotId}/" })
+	public List<TechnicianAccountDto> getTechnicianAccountsByAvailability(@PathVariable("timeSlotId") int timeSlotId) {
+		return technicianAccountService.getTechnicianAccountsByAvailability(timeSlotId).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	
+
+	
+	/**
+	 * Add a timeslot to a technician account
+	 * @param username
+	 * @param timeSlotId
+	 * @return
+	 */
+	@PutMapping(value = {"/addTimeSlot/{username}/{timeSlotId}", "/addTimeSlot/{username}/{timeSlotId}/"})
+	public TechnicianAccountDto addTimeSlot(@PathVariable("username") String username, @PathVariable("timeSlotId") int timeSlotId) {
+		TechnicianAccount user = technicianAccountService.addTimeSlot(timeSlotId, username);
+		return convertToDto(user);
+	}
 
 	//-------------------------- Helper Methods -----------------------------
 
@@ -174,6 +214,7 @@ public class TechnicianAccountController {
 		}
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
 		technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		technicianAccountDto.setTimeSlots(user.getAvailability().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 		technicianAccountDto.setToken(user.getToken());
 		return technicianAccountDto;
 	}
@@ -266,20 +307,7 @@ public class TechnicianAccountController {
 		}
 	}
 	
-	/**
-	 * Helper method to get the appointment for the appointmentDto
-	 * @author Catherine
-	 * @param appointmentDto
-	 * @return Appointment
-	 */
-	private Appointment convertToDomainObject(AppointmentDto appointmentDto)  {
-		if (appointmentDto == null) {
-			return null;
-		}
-		else {
-			return appointmentService.getAppointmentById(appointmentDto.getAppointmentId());
-		}
-	}
+
 
 
 
