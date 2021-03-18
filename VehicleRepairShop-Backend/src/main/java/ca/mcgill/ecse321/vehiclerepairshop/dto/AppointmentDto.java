@@ -20,19 +20,21 @@ public class AppointmentDto {
 		  
 	  }
 	  
-	  public AppointmentDto(TimeSlotDto timeSlotDto,CarDto carDto, String comment, GarageDto garageDto, List<TechnicianAccountDto> workerDto, OfferedServiceDto serviceDto) {
+	  public AppointmentDto(TimeSlotDto timeSlotDto,CarDto carDto, String comment, GarageDto garageDto, List<TechnicianAccountDto> workerDto, OfferedServiceDto serviceDto, int appointmentId) {
 		  this.carDto = carDto;
 		  this.garageDto = garageDto;
 		  this.comment = comment;
 		  this.serviceDto = serviceDto;
 		  this.timeSlotDto = timeSlotDto;
 		  this.workerDto = workerDto;
-		  this.appointmentId = timeSlotDto.getStartTime().hashCode()*serviceDto.getName().hashCode();
+		  this.appointmentId = appointmentId;
 	  }
 	  
 	  public GarageDto getGarage() {
 		  return this.garageDto;
 	  }
+	  
+	  
 	  
 	  public CarDto getCar() {
 		  return this.carDto;

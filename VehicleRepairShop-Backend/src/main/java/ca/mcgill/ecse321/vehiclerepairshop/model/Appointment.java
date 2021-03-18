@@ -39,7 +39,7 @@ public class Appointment
   @Id
   public int getAppointmentId()
   {
-    return appointmentId;
+    return this.appointmentId;
   }
 
   public String getComment()
