@@ -44,8 +44,7 @@ public class CarService {
 		}
 		if (year < 1886) {
 			error = error + "Theres not car have been invented until 1886!";
-		}
-		if (year > 2021) {
+		}else if (year > 2021) {
 			error = error + "you can't add a car which is invented in the future!";
 		}
 		if (motorType == null) {
@@ -114,6 +113,37 @@ public class CarService {
 		
 	}
 	
+	
+	/**
+	 * car add owner
+	 * @param owner
+	 * @param car
+	 * @return
+	 */
+	@Transactional
+	public Car carAddOwner(CustomerAccount owner, Car car) {
+		String error = "";
+		if (owner == null) {
+			error = error + "owner can not be null!";
+		}else if (customerAccountRepository.findByUsername(owner.getUsername()) == null) {
+			error = error + "This owner does not found in customerAccountRepository!";
+		}
+		
+		if (car == null) {
+			error = error + "car can not be null!";
+		}else if (carRepository.findByLicensePlate(car.getLicensePlate())==null) {
+			error = error + "car can not be found in the carRepository!";
+		}
+		
+		if (error.length() >0) {
+			throw new InvalidInputException(error);
+		}else {
+			car.setOwner(owner);
+			return car;
+		}
+		
+	}
+	
 	/*
 	 * gets all cars in the database
 	 * @return
@@ -137,7 +167,7 @@ public class CarService {
 		}
 		error = error.trim();
 	    if (error.length() > 0) {
-	        throw new IllegalArgumentException(error);
+	        throw new InvalidInputException(error);
 	    }
 		Car car = carRepository.findByLicensePlate(licensePlate);
 		carRepository.delete(car);
