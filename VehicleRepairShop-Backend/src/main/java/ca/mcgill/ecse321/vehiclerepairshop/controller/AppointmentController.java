@@ -39,30 +39,30 @@ import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 @CrossOrigin(origins = "*")
 @RestController
 public class AppointmentController {
-	
+
 	@Autowired
 	private AppointmentService appointmentService;
-	
+
 	@Autowired
 	private CarService carService;
-	
+
 	@Autowired
 	private GarageService garageService;
-	
+
 	@Autowired
 	private TechnicianAccountService technicianAccountService;
-	
+
 	@Autowired
 	private TimeSlotService timeSlotService;
-	
+
 	@Autowired
 	private OfferedServiceService offeredServiceService;
-	
+
 	@Autowired
 	private AppointmentRepository appointmentRepository;
-	
-	
-	
+
+
+
 	/**
 	 * get all appointment 
 	 * @return
@@ -72,7 +72,7 @@ public class AppointmentController {
 	public List<AppointmentDto> getAllAppointment() throws InvalidInputException {
 		return appointmentService.getAllAppointments().stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * get appointment by appointment id 
 	 * @param id
@@ -83,7 +83,7 @@ public class AppointmentController {
 	public AppointmentDto getAppointmentById(@PathVariable("id") int id) throws InvalidInputException {
 		return convertToDto(appointmentService.getAppointmentById(id));
 	}
-	
+
 	/**
 	 * get appointments by car
 	 * @param carDto
@@ -94,7 +94,7 @@ public class AppointmentController {
 	public List<AppointmentDto> getAppointmentByCar(@PathVariable("carId") CarDto carDto) throws InvalidInputException {
 		return appointmentService.getAppointmentByCar(converToCarDomainObject(carDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * get appointment by garage 
 	 * @param garageDto
@@ -105,7 +105,7 @@ public class AppointmentController {
 	public List<AppointmentDto> getAppointmentByGarage(@PathVariable("garageId") GarageDto garageDto)  throws InvalidInputException{
 		return appointmentService.getAppointmentByGarage(convertToGarageDomainObject(garageDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * get appointments by worker
 	 * @param technicianAccountDto
@@ -116,33 +116,40 @@ public class AppointmentController {
 	public List<AppointmentDto> getAppointmentByWorker(@PathVariable("username") TechnicianAccountDto technicianAccountDto)  throws InvalidInputException{
 		return appointmentService.getAppointmentByWorker(convertToTechnicianAccountDomainObject(technicianAccountDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
-	
-//	TimeSlotDto timeSlotDto,
-//	CarDto carDto, 
-//	String comment, 
-//	GarageDto garageDto, 
-//	List<TechnicianAccountDto> workerDto, 
-//	OfferedServiceDto serviceDto
+
+	//	TimeSlotDto timeSlotDto,
+	//	CarDto carDto, 
+	//	String comment, 
+	//	GarageDto garageDto, 
+	//	List<TechnicianAccountDto> workerDto, 
+	//	OfferedServiceDto serviceDto
 	/**
 	 * create an appointment 
 	 * @param appointment
 	 * @return
 	 */
-	@PostMapping(value = {"/createAppointment/{comment}/getTimeSlot/{timeslotId}/getCarByLicensePlate/{licensePlate}/getGarageByGarageId/{garageId}/getOfferedServiceById/{offeredServiceId}",
-			"/createAppointment/{comment}/getTimeSlot/{timeslotId}/getCarByLicensePlate/{licensePlate}/getGarageByGarageId/{garageId}/getOfferedServiceById/{offeredServiceId}/"})
+	@PostMapping(value = {"/createAppointment/{comment}/{timeslotId}/{licensePlate}/{garageId}/{offeredServiceId}",
+	"/createAppointment/{comment}/{timeslotId}/{licensePlate}/{garageId}/{offeredServiceId}/"})
 	public AppointmentDto createAppointment(@PathVariable("comment")String comment,
-												@PathVariable("timeslotId")TimeSlotDto timeSlotDto,
-												@PathVariable("licensePlate")CarDto carDto,
-												@PathVariable("garageId")GarageDto garageDto,
-												@PathVariable("offeredServiceId")OfferedServiceDto offeredServiceDto) {
-		Appointment appointment = appointmentService.createAppointment(convertToTimeSlotDomainObject(timeSlotDto), 
-																		convertToOfferedServiceDomainObject(offeredServiceDto), 
-																		converToCarDomainObject(carDto), 
-																		convertToGarageDomainObject(garageDto), comment);
+			@PathVariable("timeslotId")int timeslotId,
+			@PathVariable("licensePlate")String licensePlate,
+			@PathVariable("garageId")String garageId,
+			@PathVariable("offeredServiceId")String offeredServiceId) {
+		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeslotId);
+		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceId);
+		Car car = carService.getCarByLicensePlate(licensePlate);
+		Garage garage = garageService.getGarageByGarageId(garageId);
+		System.out.println(timeSlot);
+		System.out.println(offeredService);
+		System.out.println(car);
+		System.out.println(garage);
+		Appointment appointment = appointmentService.createAppointment(timeSlot, 
+				offeredService, 
+				car, 
+				garage, comment);
 		return convertToDto(appointment);
 	}
-	
-	
+
 	/**
 	 * update an appointment garage
 	 * @param appointment
@@ -150,14 +157,14 @@ public class AppointmentController {
 	 */
 	@PostMapping(value = {"/updateAppointmentGarage/{appointmentId}/getGarageByGarageId/{garageId}","/updateAppointmentGarage/{appointmentId}/getGarageByGarageId/{garageId}/"})
 	public AppointmentDto updateAppointmentGarage(@PathVariable("appointmentId") int appointmentId,
-												@PathVariable("garageId") GarageDto garageDto) {
+			@PathVariable("garageId") GarageDto garageDto) {
 		Appointment appointment = appointmentService.updateAppointmentGarage(appointmentId, convertToGarageDomainObject(garageDto));
 		return convertToDto(appointment); 
 	}
-	
 
-	
-	
+
+
+
 	/**
 	 * update an appointment car
 	 * @param appointment
@@ -165,12 +172,12 @@ public class AppointmentController {
 	 */
 	@PostMapping(value = {"/updateAppointmentCar/{appointmentId}/getCarByLicensePlate/{licensePlate}","/updateAppointmentCar/{appointmentId}/getCarByLicensePlate/{licensePlate}/"})
 	public AppointmentDto updateAppointmentCar(@PathVariable("appointmentId") int appointmentId,
-												@PathVariable("licensePlate") CarDto carDto) {
+			@PathVariable("licensePlate") CarDto carDto) {
 		Appointment appointment = appointmentService.updateAppointmentCar(appointmentId, convertToCarDomainObject(carDto));
 		return convertToDto(appointment); 
 	}
-	
-	
+
+
 	/**
 	 * update an appointment TimeSlot 
 	 * @param appointment
@@ -178,25 +185,25 @@ public class AppointmentController {
 	 */
 	@PostMapping(value = {"/updateAppointmentOfferedService/{appointmentId}/getOfferedServiceById/{offeredServiceId}","/updateAppointmentOfferedService/{appointmentId}/getOfferedServiceById/{offeredServiceId}/"})
 	public AppointmentDto updateAppointmentOfferedService(@PathVariable("appointmentId") int appointmentId,
-															@PathVariable("offeredServiceId") OfferedServiceDto offeredServiceDto) {
+			@PathVariable("offeredServiceId") OfferedServiceDto offeredServiceDto) {
 		Appointment appointment = appointmentService.updateAppointmentOfferedService(appointmentId, convertToOfferedServiceDomainObject(offeredServiceDto));
 		return convertToDto(appointment); 
 	}
-	
-	
+
+
 	/**
 	 * update an appointment offeredService  
 	 * @param appointment
 	 * @return
 	 */
-	
+
 	@PostMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/getTimeSlot/{id}","/updateAppointmentTimeSlot/{appointmentId}/getTimeSlot/{id}/"})
 	public AppointmentDto updateAppointmentTimeSlot(@PathVariable("appointmentId") int appointmentId,
-												@PathVariable("id") TimeSlotDto timeSlotDto) {
+			@PathVariable("id") TimeSlotDto timeSlotDto) {
 		Appointment appointment = appointmentService.updateAppointmentTimeSlot(appointmentId, convertToTimeSlotDomainObject(timeSlotDto));
 		return convertToDto(appointment); 
 	}
-	
+
 	/**
 	 * update an appointment Comment
 	 * @param appointment
@@ -204,24 +211,24 @@ public class AppointmentController {
 	 */
 	@PostMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/{comment}","/updateAppointmentTimeSlot/{appointmentId}/{comment}/"})
 	public AppointmentDto updateAppointmentTimeSlot(@PathVariable("appointmentId") int appointmentId,
-												@PathVariable("comment") String comment) {
+			@PathVariable("comment") String comment) {
 		Appointment appointment = appointmentService.updateAppointmentComment(appointmentId, comment);
 		return convertToDto(appointment);
 	}
-	
-	
+
+
 	/**
 	 * delete an appointment by id 
 	 * @param appointment
 	 * @return
 	 */
-	
+
 	@DeleteMapping(value = {"/deleteAppointmentById/{appointmentId}"})
 	public AppointmentDto deleteAppointmentByid(@PathVariable("appointmentId") int appointmentId) {
 		Appointment appointment = appointmentService.deleteAppointment(appointmentId);
 		return convertToDto(appointment);
 	}
-	
+
 	/**
 	 * delete all appointment 
 	 * @param appointment
@@ -232,10 +239,10 @@ public class AppointmentController {
 		List<Appointment> appointments = appointmentService.deleteAllAppointment();
 		return convertToDtoApplointmentList(appointments);
 	}
-	
-	
 
-	
+
+
+
 	//helper method
 	/**
 	 * Covert appointment to AppointmentDto
@@ -247,16 +254,16 @@ public class AppointmentController {
 			throw new InvalidInputException("There is no such appointment!");
 		}
 		AppointmentDto appointmentDto = new AppointmentDto(convertToTimeSlotDto(appointment.getTimeSlot()),
-															convertToCarDto(appointment.getCar()),
-															appointment.getComment(), 
-															convertToGarageDto(appointment.getGarage()),
-															convertToTechnicianAccountListDtos(appointment.getWorker()), 
-															convertToOfferedServiceDto(appointment.getOfferedService()));
+				convertToCarDto(appointment.getCar()),
+				appointment.getComment(), 
+				convertToGarageDto(appointment.getGarage()),
+				convertToTechnicianAccountListDtos(appointment.getWorker()), 
+				convertToOfferedServiceDto(appointment.getOfferedService()));
 		return appointmentDto;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Convert OfferedService to offeredServiceDto
 	 * @param s
@@ -266,14 +273,14 @@ public class AppointmentController {
 		if (s == null) {
 			throw new InvalidInputException("There is no such OfferedService!");
 		}
-		
+
 		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
 				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
 		return offerServiceDto;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Convert a list of TechinicianAccounts to a list of TechnicianAccountDtos
 	 * @param users
@@ -282,20 +289,17 @@ public class AppointmentController {
 	 */
 	private List<TechnicianAccountDto> convertToTechnicianAccountListDtos(List<TechnicianAccount> users) throws InvalidInputException{
 		List<TechnicianAccountDto> technicianAccountDtos = new ArrayList<TechnicianAccountDto>();
-		if (users == null) {
-			throw new InvalidInputException("This user does not exist");
+		if (users != null) {
+			for (TechnicianAccount user:users) {
+				TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
+				technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+				technicianAccountDtos.add(technicianAccountDto);
+			}
 		}
-		for (TechnicianAccount user:users) {
-			TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-			technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
-			technicianAccountDtos.add(technicianAccountDto);
-		}
-		
-		
 		return technicianAccountDtos;
 	}
-	
-	
+
+
 	/**
 	 * Helper method which can turn a carDto to car 
 	 * @param carDto
@@ -306,12 +310,12 @@ public class AppointmentController {
 		if (carDto == null) {
 			throw new InvalidInputException("There is no such carDto!");
 		}
-		
+
 		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
 		return car;
-		
+
 	}
-	
+
 	/**
 	 * Helper method which can turn a garageDto to garage
 	 * @param garageDto
@@ -325,7 +329,7 @@ public class AppointmentController {
 		Garage garage = garageService.getGarageByGarageId(garageDto.getGarageId());
 		return garage;
 	}
-	
+
 	/**
 	 * Helper method which can turn a technicianAccountDto to technicianAccount
 	 * @param technicianAccountDto
@@ -339,8 +343,8 @@ public class AppointmentController {
 		TechnicianAccount technicianAccount = technicianAccountService.getTechnicianAccountByUsername(technicianAccountDto.getUsername());
 		return technicianAccount;
 	}
-	
-	
+
+
 	/**
 	 * Helper method which can turn a CarDto to Car
 	 * @param carDto
@@ -353,7 +357,7 @@ public class AppointmentController {
 		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
 		return car;
 	}
-	
+
 	/**
 	 * Helper method which can turn a timeSlotDto to timeSlot
 	 * @param timeSlotDto
@@ -379,8 +383,8 @@ public class AppointmentController {
 		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
 		return offeredService;
 	}
-	
-	
+
+
 	/**
 	 * convert TimeSlot to timeslotDto
 	 * @param timeSlot
@@ -393,7 +397,7 @@ public class AppointmentController {
 		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
 		return timeSlotDto;
 	}
-	
+
 	/**
 	 * Convert Car to carDto
 	 * @param car
@@ -408,8 +412,8 @@ public class AppointmentController {
 			return carDto;
 		}
 	}
-	
-	
+
+
 	/**
 	 * convert garage to garageDto
 	 * @param garage
@@ -437,15 +441,15 @@ public class AppointmentController {
 		}
 		for (Appointment apt: appointments) {
 			AppointmentDto aptDto = new AppointmentDto( convertToTimeSlotDto(apt.getTimeSlot()),
-														convertToCarDto(apt.getCar()), 
-														apt.getComment(), 
-														convertToGarageDto(apt.getGarage()),
-														convertToTechnicianAccountListDtos(apt.getWorker()), 
-														convertToOfferedServiceDto(apt.getOfferedService()));
+					convertToCarDto(apt.getCar()), 
+					apt.getComment(), 
+					convertToGarageDto(apt.getGarage()),
+					convertToTechnicianAccountListDtos(apt.getWorker()), 
+					convertToOfferedServiceDto(apt.getOfferedService()));
 			aptDtos.add(aptDto);
 		}
 		return aptDtos; 
-		
+
 	}
 
 }
