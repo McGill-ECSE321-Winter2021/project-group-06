@@ -209,6 +209,9 @@ public class TechnicianAccountController {
 		if (user.getAppointment() != null) {
 			technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 		}
+		if (user.getAvailability() != null) {
+			technicianAccountDto.setTimeSlots(user.getAvailability().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		}
 		
 		return technicianAccountDto;
 	}

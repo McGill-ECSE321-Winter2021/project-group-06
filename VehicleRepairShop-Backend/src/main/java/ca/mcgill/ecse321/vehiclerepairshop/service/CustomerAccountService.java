@@ -161,6 +161,7 @@ public class CustomerAccountService {
 				}
 			}
 			customerAccountRepository.delete(user);
+			user.setCar(null);
 			return user;
 		}
 	}
