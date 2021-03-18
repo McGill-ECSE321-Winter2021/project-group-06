@@ -102,17 +102,15 @@ public class AppointmentService {
 	@Transactional
 	public Appointment getAppointmentById(int id) {
 		String error = "";
-		if (appointmentRepository.findById(id)!=null) {
-			return appointmentRepository.findById(id).get();
-
+		if (appointmentRepository.findByAppointmentId(id)==null) {
+			error = error + "appointment not found";
 		}
-
-		error = error + "appointment not found";
+		
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
-		return null;
+		return appointmentRepository.findByAppointmentId(id);
 	}
 
 	/**
@@ -188,20 +186,21 @@ public class AppointmentService {
 	 * @author chengchen
 	 */
 	@Transactional
-	public Appointment deleteAppointment(int appointmentId) {
+	public Appointment deleteAppointment(int appointmentId) throws InvalidInputException{
 		String error = "";
-		if (appointmentRepository.findById(appointmentId) != null) {
-			Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
-			appointmentRepository.delete(appointment.get());
-			return appointment.get();
-			
-		}
-		error = error + "appointment not found";
-		error = error.trim();
-		if (error.length() > 0) {
+		if (appointmentRepository.findByAppointmentId(appointmentId)==null) {
+			error = error + "appointment not found";
+			error = error.trim();
 			throw new InvalidInputException(error);
+				
+		}else {
+			
+			Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
+			appointmentRepository.delete(appointment);
+			return appointment;
 		}
-		return null;
+		
+	
 		
 	}
 
@@ -223,38 +222,38 @@ public class AppointmentService {
 	@Transactional
 	public Appointment updateAppointmentCar(int appointmentId, Car car) {
 		String error = "";
-		if (appointmentRepository.findById(appointmentId)==null) {
+		if (appointmentRepository.findByAppointmentId(appointmentId)==null) {
 			error = error + "appointment not found";
 		}
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
-		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
-		appointment.get().setCar(car);
-		appointmentRepository.save(appointment.get());
-		return appointment.get();
+		Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
+		appointment.setCar(car);
+		appointmentRepository.save(appointment);
+		return appointment;
 	}
 
 	/**
 	 * @author chengchen
-	 * @param appointmentId
+	 * @param appointmentId 
 	 * @param garage
 	 */
 	@Transactional
 	public Appointment updateAppointmentGarage(int appointmentId, Garage garage) {
 		String error = "";
-		if (appointmentRepository.findById(appointmentId)==null) {
+		if (appointmentRepository.findByAppointmentId(appointmentId)==null) {
 			error = error + "appointment not found";
 		}
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
-		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
-		appointment.get().setGarage(garage);
-		appointmentRepository.save(appointment.get());
-		return appointment.get();
+		Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
+		appointment.setGarage(garage);
+		appointmentRepository.save(appointment);
+		return appointment;
 	}
 
 
@@ -266,11 +265,11 @@ public class AppointmentService {
 	@Transactional
 	public Appointment updateAppointmentTimeSlot(int appointmentId, TimeSlot updatedTimeSlot) {
 		String error = "";
-		if (appointmentRepository.findById(appointmentId)==null) {
+		if (appointmentRepository.findByAppointmentId(appointmentId)==null) {
 			error = error + "appointment not found";
 		}
 
-		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
 		if (appointment != null) {
 			//			TimeSlot existingTimeSlot = appointment.get().getTimeSlot();
 			//			updatedTimeSlot.setTimeSlotId(existingTimeSlot.getTimeSlotId());
@@ -280,7 +279,7 @@ public class AppointmentService {
 			}
 
 			for (TimeSlot timeSlot:timeSlots) {
-				if (appointment.get().getTimeSlot().getTimeSlotId() != timeSlot.getTimeSlotId()) {
+				if (appointment.getTimeSlot().getTimeSlotId() != timeSlot.getTimeSlotId()) {
 					if (isTimeslotOverlapped(updatedTimeSlot, timeSlot)) {
 						error = error + "this new timeslot conflicts with another existing timeslot";
 					}
@@ -294,11 +293,11 @@ public class AppointmentService {
 			throw new InvalidInputException(error);
 		}
 
-		appointment.get().setTimeSlot(updatedTimeSlot);
+		appointment.setTimeSlot(updatedTimeSlot);
 
 
-		appointmentRepository.save(appointment.get());
-		return appointment.get();
+		appointmentRepository.save(appointment);
+		return appointment;
 
 	}
 
@@ -306,16 +305,16 @@ public class AppointmentService {
 	public Appointment updateAppointmentOfferedService(int appointmentId, OfferedService offeredService) {
 		String error = "";
 		TimeSlot newTimeSlot = null;
-		if (appointmentRepository.findById(appointmentId)==null || offeredService == null) {
+		if (appointmentRepository.findByAppointmentId(appointmentId)==null || offeredService == null) {
 			error = error + "appointment not found";
 		}
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
-		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
 		if (appointment != null) {
-			TimeSlot existingTimeSlot = appointment.get().getTimeSlot();
+			TimeSlot existingTimeSlot = appointment.getTimeSlot();
 			LocalTime endLocalTime = existingTimeSlot.getStartTime().toLocalTime();
 			newTimeSlot = new TimeSlot();
 			Time endTime = Time.valueOf(endLocalTime.plusMinutes(offeredService.getDuration()));
@@ -331,7 +330,7 @@ public class AppointmentService {
 			}
 
 			for (TimeSlot timeSlot:timeSlots) {
-				if (appointment.get().getTimeSlot().getTimeSlotId() != timeSlot.getTimeSlotId()) {
+				if (appointment.getTimeSlot().getTimeSlotId() != timeSlot.getTimeSlotId()) {
 					if (isTimeslotOverlapped(newTimeSlot, timeSlot)) {
 						error = error + "this new timeslot conflicts with another existing timeslot";
 					}
@@ -345,10 +344,10 @@ public class AppointmentService {
 			throw new InvalidInputException(error);
 		}
 
-		appointment.get().setTimeSlot(newTimeSlot);
-		appointment.get().setOfferedService(offeredService);
-		appointmentRepository.save(appointment.get());
-		return appointment.get();	
+		appointment.setTimeSlot(newTimeSlot);
+		appointment.setOfferedService(offeredService);
+		appointmentRepository.save(appointment);
+		return appointment;	
 
 	}
 
@@ -362,19 +361,19 @@ public class AppointmentService {
 	@Transactional
 	public Appointment updateAppointmentComment(int appointmentId, String comment) {
 		String error = "";
-		if (appointmentRepository.findById(appointmentId)==null) {
+		if (appointmentRepository.findByAppointmentId(appointmentId)==null) {
 			error = error + "appointment not found";
 		}
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
-		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
-		appointment.get().setComment(comment);
-		appointmentRepository.save(appointment.get());
-		return appointment.get();
+		Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
+		appointment.setComment(comment);
+		appointmentRepository.save(appointment);
+		return appointment;
 	}
-	/**
+	/** 
 	 * @author chengchen
 	 * @return
 	 */

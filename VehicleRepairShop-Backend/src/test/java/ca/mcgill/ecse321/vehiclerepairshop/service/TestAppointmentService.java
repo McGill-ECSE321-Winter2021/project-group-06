@@ -49,7 +49,7 @@ public class TestAppointmentService {
 	@BeforeEach
 	public void setMockOutput() {
 		MockitoAnnotations.initMocks(this);
-		lenient().when(appointmentRepository.findById(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+		lenient().when(appointmentRepository.findByAppointmentId(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
 			if(invocation.getArgument(0).equals(APPOINTMENTID)) {
 				//offered service 
 				OfferedService offeredService = new OfferedService();
@@ -101,7 +101,7 @@ public class TestAppointmentService {
 
 
 
-				return Optional.of(appointment);
+				return appointment;
 			} else {
 				return null;
 			}
