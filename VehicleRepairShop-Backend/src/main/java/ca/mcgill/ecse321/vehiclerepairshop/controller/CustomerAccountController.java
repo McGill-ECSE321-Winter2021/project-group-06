@@ -155,18 +155,7 @@ public class CustomerAccountController {
 		return convertToDto(customerAccountService.getCustomerAccountWithCar(licensePlate));
 	}
 	
-	/**
-	 * add a car to customer account
-	 * @author Catherine
-	 * @param username
-	 * @param licensePlate
-	 * @return
-	 */
-	@PutMapping(value = {"/addCar/{username}/{licensePlate}", "/addCar/{username}/{licensePlate}/"})
-	public CustomerAccountDto addCar(@PathVariable("username") String username, @PathVariable("licensePlate") String licensePlate) {
-		CustomerAccount user = customerAccountService.addCar(licensePlate, username);
-		return convertToDto(user);
-	}
+
 
 	//-------------------------- Helper Methods -----------------------------
 
@@ -186,9 +175,7 @@ public class CustomerAccountController {
 			customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 		}
 		customerAccountDto.setToken(user.getToken());
-		if (user.getCar() != null) {
-			customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
-		}
+		
 		return customerAccountDto;
 	}
 
