@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,8 +50,9 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 @ExtendWith(MockitoExtension.class)
 public class TestOfferedServiceService {
 
-	private Appointment apt = new Appointment();
+
 	private static final String OFFERED_SERVICE_KEY = "Test1";
+	private static final String OFFERED_SERVICE_KEY_2 = "Test2";
 	private static final String EMPTY_SERVICE_KEY = "";
 	private static int DURATION = 10;
 	private static double PRICE = 10.0;
@@ -60,6 +63,8 @@ public class TestOfferedServiceService {
 	private static final int APPOINTMENT_KEY = 1; 
 	private static final String NONEXISTING_KEY = "NotATestID";
 	List<OfferedService> offeredServicesFindAll = new ArrayList<OfferedService>();
+	private Appointment apt = new Appointment();
+
 //	InvalidInputException
 //	InvalidInputException
 	
@@ -116,6 +121,15 @@ public class TestOfferedServiceService {
 			
 		});
 		
+		
+		lenient().when(appointmentRepository.findByAppointmentId(anyInt())).thenAnswer((InvocationOnMock invocation) ->{
+			if (invocation.getArgument(0).equals(APPOINTMENT_KEY)) {
+				apt.setAppointmentId(APPOINTMENT_KEY);
+				return apt;
+			}else {
+				return null;
+			}
+		});
 		
 		lenient().when(offeredServiceRepository.findAll()).thenAnswer((InvocationOnMock invocation)->{
 			apt.setAppointmentId(APPOINTMENT_KEY);
@@ -1404,6 +1418,202 @@ public class TestOfferedServiceService {
 		assertEquals(extractedOfferedServices, offeredServicesFindAll);
 		
 		
+	}
+	
+	
+	/**
+	 * testing adding appointment with valid inputs
+	 */
+	@Test
+	public void testAddAppointmentWithValidOfferedServiceAndValidAppoitment() {
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = "";
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = 20;
+		double newTestOfferedServicePrice = 20.0;
+		String newTestOfferedServiceName = "inspection";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 10;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		OfferedService AddedAppointmentOfferedService = null;
+		apt.setAppointmentId(APPOINTMENT_KEY);
+		modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		assertNotNull(modifiedService);
+		assertNotNull(apt);
+		try {
+			AddedAppointmentOfferedService = offeredServiceService.addAppointments(modifiedService, apt);
+			assertNotNull(AddedAppointmentOfferedService);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("",error);
+		assertNotNull(AddedAppointmentOfferedService);
+		assertNotNull(AddedAppointmentOfferedService.getAppointment());
+	}
+	
+	/**
+	 * testing adding appointment with null OfferedService valid Appointment
+	 */
+	@Test
+	public void testAddAppointmentWithInNullOfferedServiceAndValidAppoitment() {
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = "";
+		OfferedService modifiedService = null;
+		OfferedService AddedAppointmentOfferedService = null;
+		apt.setAppointmentId(APPOINTMENT_KEY);
+		assertNotNull(apt);
+		assertNotNull(apt.getAppointmentId());
+
+		try {
+			AddedAppointmentOfferedService = offeredServiceService.addAppointments(modifiedService, apt);
+			assertNull(AddedAppointmentOfferedService);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("inputted OfferedService can not be null!",error);
+		assertNull(AddedAppointmentOfferedService);
+	}
+	
+	
+	
+	/**
+	 * testing adding appointment with valid OfferedService null Appointment
+	 */
+	@Test
+	public void testAddAppointmentWithValidOfferedServiceAndNullAppoitment() {
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = "";
+		
+		int newTestOfferedServiceDuration = 20;
+		double newTestOfferedServicePrice = 20.0;
+		String newTestOfferedServiceName = "inspection";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 10;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		OfferedService AddedAppointmentOfferedService = null;
+		Appointment apt = null;
+
+		modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		assertNotNull(modifiedService);
+		assertNull(apt);
+		try {
+			AddedAppointmentOfferedService = offeredServiceService.addAppointments(modifiedService, apt);
+			assertNull(AddedAppointmentOfferedService);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("inputted Appoitnment can not be null!",error);
+		assertNull(AddedAppointmentOfferedService);
+	}
+	
+	
+	/**
+	 * testing adding appointment with valid OfferedService null Appointment
+	 */
+	@Test
+	public void testAddAppointmentWithNulldOfferedServiceAndNullAppoitment() {
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = "";
+		OfferedService AddedAppointmentOfferedService = null;
+		OfferedService modifiedService = null;
+		Appointment apt = null;
+		assertNull(apt);
+		try {
+			AddedAppointmentOfferedService = offeredServiceService.addAppointments(modifiedService, apt);
+			assertNull(AddedAppointmentOfferedService);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("inputted OfferedService can not be null!inputted Appoitnment can not be null!",error);
+		assertNull(AddedAppointmentOfferedService);
+	}
+	
+	
+	/**
+	 * testing adding appointment with valid OfferedService  and Appointment which is not in the persistence
+	 */
+	@Test
+	public void testAddAppointmentWithValidOfferedServiceAndAppoitmentNotFoundInPersistence() {
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = "";
+		String testOfferedServiceDescription = "this is a testing Wash service";
+		
+		int newTestOfferedServiceDuration = 20;
+		double newTestOfferedServicePrice = 20.0;
+		String newTestOfferedServiceName = "inspection";
+		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
+		int newTestOfferedServiceReminderDate = 10;
+		String newTestOfferedServiceDescription = "this is a testing inspection service";
+		
+		OfferedService offeredService = null;
+		OfferedService modifiedService = null;
+		OfferedService AddedAppointmentOfferedService = null;
+		Appointment apt = new Appointment();
+		apt.setAppointmentId(2);
+		modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
+					newTestOfferedServicePrice,  newTestOfferedServiceName,
+					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+		assertNotNull(modifiedService);
+		assertNotNull(apt);
+		try {
+			AddedAppointmentOfferedService = offeredServiceService.addAppointments(modifiedService, apt);
+			assertNull(AddedAppointmentOfferedService);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("inputted Appointment can not be found in the persistence!",error);
+		assertNull(AddedAppointmentOfferedService);
+	}
+	
+	
+	
+	/**
+	 * testing adding appointment with OfferedService which is not in the persistence and valid Appointment
+	 */
+	@Test
+	public void testAddAppointmentWithOfferedServiceNotFoundInPersistenceAndNullAppoitment() {
+		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
+		
+		String error = "";
+		String notFoundId = "NotfoundAnymore";
+		OfferedService offeredService = new OfferedService();
+		OfferedService AddedAppointmentOfferedService = null;
+		apt.setAppointmentId(APPOINTMENT_KEY);
+
+		offeredService.setOfferedServiceId(notFoundId);
+		assertNotNull(offeredService);
+		assertNotNull(apt);
+		try {
+			AddedAppointmentOfferedService = offeredServiceService.addAppointments(offeredService, apt);
+			assertNull(AddedAppointmentOfferedService);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("inputted OfferedService can not be found in the persistence!",error);
+		assertNull(AddedAppointmentOfferedService);
 	}
 	
 //	

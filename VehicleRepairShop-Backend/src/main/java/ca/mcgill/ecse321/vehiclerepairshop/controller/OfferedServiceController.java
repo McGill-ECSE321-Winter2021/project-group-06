@@ -98,13 +98,13 @@ public class OfferedServiceController {
 												@PathVariable("price")double price, 
 												@PathVariable("name")String name, 
 												@PathVariable("duration")int duration, 
-												@PathVariable("reminderTime")Time reminderTime, 
+												@PathVariable("reminderTime")String reminderTime, 
 												@PathVariable("reminderDate")int reminderDate,
 												@PathVariable("description")String description) throws InvalidInputException {
 		OfferedServiceDto updatedServiceDtos = new OfferedServiceDto();
 		OfferedService updatedService;
 		try {
-			updatedService = offeredServiceService.updateService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
+			updatedService = offeredServiceService.updateService(offeredServiceId,price, name, duration, Time.valueOf(reminderTime), reminderDate, description);
 		} catch (InvalidInputException e) {
 			// TODO Auto-generated catch block
 			throw new InvalidInputException(e.getMessage());
@@ -131,10 +131,10 @@ public class OfferedServiceController {
 													@PathVariable("price")double price, 
 													@PathVariable("name")String name, 
 													@PathVariable("duration")int duration, 
-													@PathVariable("reminderTime")@DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")Time reminderTime, 
+													@PathVariable("reminderTime")String reminderTime, 
 													@PathVariable("reminderDate")int reminderDate,
 													@PathVariable("description")String description) throws InvalidInputException{
-		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
+		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, Time.valueOf(reminderTime), reminderDate, description);
 		//OfferedServiceDto createdOfferedServiceDto = new OfferedServiceDto(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
 		OfferedServiceDto createdOfferedServiceDto = convertToDto(createdOfferedService);
 		return createdOfferedServiceDto;
@@ -142,6 +142,20 @@ public class OfferedServiceController {
 	
 
 
+	/**
+	 * add an appointment to an existing service 
+	 * @param appointmentDto
+	 * @param offeredServiceDto
+	 * @return
+	 */
+	@PostMapping(value = {"/OfferedServiceAddAppointment/getAppointmentById/{id}/getOfferedServiceById/{offeredServiceId}", "/OfferedServiceAddAppointment/getAppointmentById/{id}//getOfferedServiceById/{offeredServiceId}/"})
+	public OfferedServiceDto OfferedServiceAddAppointment(@PathVariable("id") AppointmentDto appointmentDto,
+												@PathVariable("offeredServiceId") OfferedServiceDto offeredServiceDto) {
+		OfferedService addedAppointmentOfferedService = offeredServiceService.addAppointments(convertToOfferedServiceDomainObject(offeredServiceDto),convertToDomainObject(appointmentDto));
+		return convertToDto(addedAppointmentOfferedService);
+		
+	}
+	
 	
 	
 	
@@ -152,19 +166,18 @@ public class OfferedServiceController {
 	 * @throws InvalidInputException
 	 */
 	@DeleteMapping(value = {"/deleteOfferedServiceById/{offeredServiceId}", "/deleteOfferedServiceById/{offeredServiceId}/"})
-	public Boolean deleteOfferedServiceById(@PathVariable("offeredServiceId") String offeredServiceId) throws InvalidInputException{
-		Boolean isDeleted = false;  
+	public OfferedServiceDto deleteOfferedServiceById(@PathVariable("offeredServiceId") String offeredServiceId) throws InvalidInputException{
+		OfferedService offeredService = new OfferedService();
 		 try {
-			 offeredServiceService.deleteOfferedService(offeredServiceId);
+			 offeredService = offeredServiceService.deleteOfferedService(offeredServiceId);
 		 }catch (RuntimeException e) {
 			 throw new InvalidInputException(e.getMessage());
 		 }
-		 isDeleted = true;
-		return isDeleted;
+		 
+		return convertToDto(offeredService);
 	}
 	
-	
-	
+
 	
 	
 	
@@ -200,4 +213,17 @@ public class OfferedServiceController {
 		return appointment;
 	}
 	
+	
+	/**
+	 * Helper method which can turn a OfferedServiceDto to OfferedService
+	 * @param offeredServiceDto
+	 * @return
+	 */
+	private OfferedService convertToOfferedServiceDomainObject(OfferedServiceDto offeredServiceDto) {
+		if (offeredServiceDto == null) {
+			throw new InvalidInputException("There is no such offeredServiceDto!");
+		}
+		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
+		return offeredService;
+	}
 }
