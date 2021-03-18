@@ -105,7 +105,7 @@ public class TestCarService {
 		
 		Car car = null;
 		try {
-			car = carService.createCar(LICENSEPLATE,MODEL,YEAR,MOTORTYPE);
+			car = carService.createCar(LICENSEPLATE,MODEL,YEAR,MOTORTYPE,null);
 		} catch (InvalidInputException e) {
 			fail();
 		}
@@ -124,7 +124,7 @@ public class TestCarService {
   		Car car = null;
   		String error = "";
 		try {
-			car = carService.createCar(null,null,0,null);
+			car = carService.createCar(null,null,0,null,null);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -142,7 +142,7 @@ public class TestCarService {
   		String error = "";
   		String nullLicense = null;
   		try {
-  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE,null);
   		}catch(InvalidInputException e) {
   			error = e.getMessage();
   		}
@@ -159,7 +159,7 @@ public class TestCarService {
   		String error = "";
   		String nullLicense = "";
   		try {
-  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE,null);
   		}catch(InvalidInputException e) {
   			error = e.getMessage();
   		}
@@ -176,7 +176,7 @@ public class TestCarService {
   		String error = "";
   		String nullLicense = " ";
   		try {
-  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE,null);
   		}catch(InvalidInputException e) {
   			error = e.getMessage();
   		}
@@ -194,7 +194,7 @@ public class TestCarService {
   		String error = "";
   		String nullModel = " ";
   		try {
-  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE,null);
   		}catch(InvalidInputException e) {
   			error = e.getMessage();
   		}
@@ -213,7 +213,7 @@ public class TestCarService {
   		String error = "";
   		String nullModel = "";
   		try {
-  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE,null);
   		}catch(InvalidInputException e) {
   			error = e.getMessage();
   		}
@@ -231,7 +231,7 @@ public class TestCarService {
   		String error = "";
   		String nullModel = null;
   		try {
-  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE,null);
   		}catch(InvalidInputException e) {
   			error = e.getMessage();
   		}

@@ -1,0 +1,625 @@
+{
+	"info": {
+		"_postman_id": "1d35fe8b-79a3-464a-8dc9-3e7bc6d4aae5",
+		"name": "Admin Account Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Admin Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user42/123/Catherine Caron",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user42",
+						"123",
+						"Catherine Caron"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Admin Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllAdminAccounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllAdminAccounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Account by Username",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAdminAccountByUsername/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAdminAccountByUsername",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/12345/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						"12345",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Accounts by Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAdminAccountsByName/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAdminAccountsByName",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Admin Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Admin Account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Admin Account Non Existing User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutAdminAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutAdminAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Admin Account Invalid Token",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Admin Account Invalid Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Admin Account Non Existing User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateAdminAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateAdminAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Empty Username",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/  /123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"  ",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Spaces in Username",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user name 1/123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user name 1",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Taken Username",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user42/123/Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user42",
+						"123",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Empty Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user2/ /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user2",
+						" ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Spaces in Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user2/1 2 3 /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user2",
+						"1 2 3 ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Empty Name",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user2/123/ /",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user2",
+						"123",
+						" ",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account Invalid Token",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/1234/Cathy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						"1234",
+						"Cathy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin Account Invalid Credentials",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginAdminAccount/user42/321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginAdminAccount",
+						"user42",
+						"321"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin Account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginAdminAccount/user42/12345",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginAdminAccount",
+						"user42",
+						"12345"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account Empty Password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/ /Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						" ",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account Spaces in Password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/1 2 3/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						"1 2 3",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account Empty Name",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/123/ ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						"123",
+						" "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Business Information",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createBusinessInformation/business/123/5145551234/bus@iness.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createBusinessInformation",
+						"business",
+						"123",
+						"5145551234",
+						"bus@iness.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Business Information",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/setBusinessInformation/user42/business",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"setBusinessInformation",
+						"user42",
+						"business"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Account by Business Information",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAdminAccountsByBusinessInformation/business",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAdminAccountsByBusinessInformation",
+						"business"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Admin Account Non Existing User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAdminAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAdminAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Admin Account",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin Account Non Existing User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginAdminAccount/user42/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginAdminAccount",
+						"user42",
+						"123"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

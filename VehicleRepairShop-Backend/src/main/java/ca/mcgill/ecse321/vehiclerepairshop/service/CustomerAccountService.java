@@ -155,7 +155,13 @@ public class CustomerAccountService {
 			throw new InvalidInputException("You do not have permission to delete this account.");
 		}
 		else {
+			if (user.getCar() != null) {
+				for (Car car : user.getCar()) {
+					carRepository.delete(car);
+				}
+			}
 			customerAccountRepository.delete(user);
+			user.setCar(null);
 			return user;
 		}
 	}
@@ -229,28 +235,7 @@ public class CustomerAccountService {
 		}
 	}
 	
-	/**
-	 * add a car for an account
-	 * @param licensePlate
-	 * @param username
-	 * @return user
-	 */
-	@Transactional 
-	public CustomerAccount addCar(String licensePlate, String username) {
-		CustomerAccount user = customerAccountRepository.findByUsername(username);
-		if (user.getCar() == null) {
-			List<Car> cars = new ArrayList<Car>();
-			cars.add(carRepository.findByLicensePlate(licensePlate));
-			return user;
-		}
-		else {
-			List<Car> cars = user.getCar();
-			cars.add(carRepository.findByLicensePlate(licensePlate));
-			user.setCar(cars);
-			return user;
-		}
-	}
-	
+
 	/**
 	 * Find Customer Account by car
 	 * @author Catherine

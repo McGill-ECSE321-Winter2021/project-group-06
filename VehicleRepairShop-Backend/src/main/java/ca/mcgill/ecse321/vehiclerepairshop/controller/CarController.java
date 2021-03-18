@@ -3,16 +3,16 @@ package ca.mcgill.ecse321.vehiclerepairshop.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jboss.jandex.TypeTarget.Usage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
-import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -26,6 +26,10 @@ public class CarController {
 	
 	@Autowired
 	private CarService carService;
+	
+	@Autowired
+	private CustomerAccountService customerAccountService;
+	
 	
 	/**
 	 * Return a list of all Car Dtos 
@@ -53,8 +57,9 @@ public class CarController {
 	 * @return list of Car Dtos
 	 */
 	//doubt this works like this with passing owner in
-	@GetMapping(value = { "/getCarsByOwner/{owner}", "/getCarsByOwner/{owner}/" })
-	public List<CarDto> getCarsByOwner(@PathVariable("owner") CustomerAccount owner) {	
+	@GetMapping(value = { "/getCarsByOwner/{username}", "/getCarsByOwner/{username}/" })
+	public List<CarDto> getCarsByOwner(@PathVariable("username") String username) {	
+		CustomerAccount owner = customerAccountService.getCustomerAccountByUsername(username);
 		return carService.getCarsByOwner(owner).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
@@ -67,13 +72,20 @@ public class CarController {
 	 * @param motorType
 	 * @return Car Dto
 	 */
-	@PostMapping(value = { "/createCar/{licensePlate}/{model}/{year}/{motorType}", "/createAdminAccount/{licensePlate}/{model}/{year}/{motorType}/" })
+	@PostMapping(value = { "/createCar/{licensePlate}/{model}/{year}/{motorType}/{username}", "/createAdminAccount/{licensePlate}/{model}/{year}/{motorType}/{username}/" })
 	public CarDto createCar(@PathVariable("licensePlate") String licensePlate, @PathVariable("model") String model, @PathVariable("year") int year, 
-			@PathVariable("motorType") MotorType motorType) throws InvalidInputException {
-		Car car = carService.createCar(licensePlate, model, year, motorType);
+			@PathVariable("motorType") MotorType motorType,@PathVariable("username") String username) throws InvalidInputException {
+		CustomerAccount owner = customerAccountService.getCustomerAccountByUsername(username);
+		Car car = carService.createCar(licensePlate, model, year, motorType,owner);
 		return convertToDto(car);
 	}
 	
+	
+	@DeleteMapping(value = {"/deleteCar/{licensePlate}"})
+	public CarDto deleteCar(@PathVariable("licensePlate") String licensePlate) {
+		Car car = carService.deleteCar(licensePlate);
+		return convertToDto(car);
+	}
 	
 	
 	//-------------------------- Helper Methods -----------------------------
@@ -90,6 +102,7 @@ public class CarController {
 				return null;
 			} else {
 				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
+				carDto.setOwner(car.getOwner());
 				return carDto;
 			}
 		}
