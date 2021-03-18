@@ -25,7 +25,10 @@ public class AdminAccountController {
 
 	@Autowired
 	private AdminAccountService adminAccountService;
+	@Autowired
+	private BusinessInformationService businessInformationService;
 
+	
 	/**
 	 * Return a list of all Admin Account Dtos 
 	 * @author Catherine

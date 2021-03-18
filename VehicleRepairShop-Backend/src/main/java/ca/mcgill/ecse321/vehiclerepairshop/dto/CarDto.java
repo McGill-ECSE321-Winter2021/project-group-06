@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop.dto;
 
+import java.util.Collections;
 import java.util.List;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;

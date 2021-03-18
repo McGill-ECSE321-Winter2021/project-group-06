@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.vehiclerepairshop.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 
 import java.sql.Time;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -383,6 +383,7 @@ public class TestGarageService {
 		}
 		garage = garageService.getGarageByGarageId(garageId);
 		checkResultGarage(deletedGarage, garage.getGarageId());
+		//checkResultGarage(deletedGarage, garage.getIsAvailable(), garage.getGarageId());
 	}
 
 	/**

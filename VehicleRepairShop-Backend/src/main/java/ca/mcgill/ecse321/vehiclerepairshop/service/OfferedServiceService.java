@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.vehiclerepairshop.service;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.OfferedServiceRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 /**
  * 
