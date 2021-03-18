@@ -32,13 +32,35 @@ public class CarService {
 	 */
 	@Transactional
 	public Car createCar(String licensePlate, String model, int year, MotorType motorType) {
-		Car car = new Car();
-		car.setLicensePlate(licensePlate);
-		car.setModel(model);
-		car.setYear(year);
-		car.setMotorType(motorType);
-		carRepository.save(car);
-		return car;
+		String error = "";
+		if (licensePlate == null || licensePlate.trim().length() == 0) {
+			error = error + "licensePlate can not be null or empty! ";
+		}
+		if (model == null || model.trim().length() == 0) {
+			error = error + "model can not be null or empty!";
+		}
+		if (year < 1886) {
+			error = error + "Theres not car have been invented until 1886!";
+		}
+		if (year > 2021) {
+			error = error + "you can't add a car which is invented in the future!";
+		}
+		if (motorType == null) {
+			error = error + "motorType can't be null!";
+		}
+		if (error.length() >0 ) {
+			throw new InvalidInputException(error);
+		}
+		else {
+			Car car = new Car();
+			car.setLicensePlate(licensePlate);
+			car.setModel(model);
+			car.setYear(year);
+			car.setMotorType(motorType);
+			carRepository.save(car);
+			return car;
+		}
+		
 	}
 	
 	/*
