@@ -170,7 +170,7 @@ public class TestTechnicianAccountService {
 				timeslot.setTimeSlotId(TIMESLOT_ID);
 				return timeslot;
 			} 
-			else {
+			else { 
 				return null;
 			}
 		});

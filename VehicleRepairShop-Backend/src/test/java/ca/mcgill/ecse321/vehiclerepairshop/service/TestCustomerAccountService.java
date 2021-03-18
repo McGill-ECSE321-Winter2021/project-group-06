@@ -649,18 +649,6 @@ public class TestCustomerAccountService {
 			assertEquals(user.getUsername(), USERNAME1);
 		}
 
-		
-		/**
-		 * Add Car to Account
-		 */
-		@Test 
-		public void testAddCar() {
-			Car car = new Car();
-			car.setLicensePlate(LICENSE);
-			CustomerAccount user = customerAccountService.addCar(LICENSE, USERNAME1);
-			assertNotNull(user);
-			assertEquals(user.getUsername(), USERNAME1);
-		}
 
 
 }

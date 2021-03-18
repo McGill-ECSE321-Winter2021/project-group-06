@@ -88,7 +88,7 @@ public class AdminAccountController {
 	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PutMapping(value = {"/updateAdminAccount/{username}/{newPassword}/{newName}", "/adminAccount/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
+	@PutMapping(value = {"/updateAdminAccount/{username}/{newPassword}/{newName}", "/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
 	public AdminAccountDto updateAdminAccount(@PathVariable("username") String username, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) {
 		AdminAccount user = adminAccountService.updateAdminAccount(username, newPassword, newName);
 		return convertToDto(user);
@@ -101,7 +101,7 @@ public class AdminAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@DeleteMapping(value = { "/deleteAdminAccount/{username}", "/adminAccount/deleteAdminAccount/{username}/" })
+	@DeleteMapping(value = { "/deleteAdminAccount/{username}", "/deleteAdminAccount/{username}/" })
 	public AdminAccountDto deleteAdminAccount(@PathVariable("username") String username) {
 		AdminAccount user = adminAccountService.deleteAdminAccount(username);
 		return convertToDto(user);
@@ -185,7 +185,9 @@ public class AdminAccountController {
 		}
 		AdminAccountDto adminAccountDto = new AdminAccountDto(user.getUsername(), user.getPassword(), user.getName());
 		adminAccountDto.setToken(user.getToken());
-		adminAccountDto.setBusinessInformation(convertToDto(user.getBusinessInformation()));
+		if (user.getBusinessInformation() != null) {
+			adminAccountDto.setBusinessInformation(convertToDto(user.getBusinessInformation()));
+		}
 		return adminAccountDto;
 	}
 	

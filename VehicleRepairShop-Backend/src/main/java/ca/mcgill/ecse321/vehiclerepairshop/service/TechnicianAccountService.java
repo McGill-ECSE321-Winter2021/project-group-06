@@ -164,7 +164,13 @@ public class TechnicianAccountService {
 			throw new InvalidInputException("You do not have permission to delete this account.");
 		}
 		else {
+			if(user.getAvailability() != null) {
+				for (TimeSlot timeslot : user.getAvailability()) {
+					timeSlotRepository.delete(timeslot); //cannot exist without technician
+				}
+			}
 			technicianAccountRepository.delete(user);
+			user.setAvailability(null);
 			return user;
 		}
 	}
