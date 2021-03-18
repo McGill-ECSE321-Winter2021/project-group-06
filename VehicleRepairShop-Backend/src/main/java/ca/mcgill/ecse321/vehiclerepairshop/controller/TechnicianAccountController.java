@@ -170,20 +170,10 @@ public class TechnicianAccountController {
 	 * @param appointmentId
 	 * @return
 	 */
-	@PutMapping(value = {"/addCar/{username}/{appointmentId}", "/addCar/{username}/{appointmentId}/"})
-	public TechnicianAccountDto addCar(@PathVariable("username") String username, @PathVariable("appointmentId") int appointmentId) {
+	@PutMapping(value = {"/addAppointment/{username}/{appointmentId}", "/addAppointment/{username}/{appointmentId}/"})
+	public TechnicianAccountDto addAppointment(@PathVariable("username") String username, @PathVariable("appointmentId") int appointmentId) {
 		TechnicianAccount user = technicianAccountService.addAppointment(appointmentId, username);
 		return convertToDto(user);
-	}
-
-	/**
-	 * Get all technicians associated with specified appointment
-	 * @param appointmentDto
-	 * @return List of technician account Dtos
-	 */
-	@GetMapping(value = { "/getTechnicianAccountsByAvailability/{timeSlotId}", "/getTechnicianAccountsByAvailability/{timeSlotId}/" })
-	public List<TechnicianAccountDto> getTechnicianAccountsByAvailability(@PathVariable("timeSlotId") int timeSlotId) {
-		return technicianAccountService.getTechnicianAccountsByAvailability(timeSlotId).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
 

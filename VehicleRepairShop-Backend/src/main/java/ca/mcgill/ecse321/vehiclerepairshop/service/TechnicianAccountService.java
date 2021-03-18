@@ -286,17 +286,6 @@ public class TechnicianAccountService {
 		}
 	}
 	
-	/**
-	 * Find all technician accounts by timeslot
-	 * @param timeSlotId
-	 * @return
-	 */
-	@Transactional
-	public List<TechnicianAccount> getTechnicianAccountsByAvailability(int timeSlotId) {
-		TimeSlot timeSlot = timeSlotRepository.findByTimeSlotId(timeSlotId);
-		List<TechnicianAccount> users = technicianAccountRepository.findTechnicianAccountByTimeSlot(timeSlot);
-		return users;
-	}
 	
 
 	/**

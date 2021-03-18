@@ -188,39 +188,5 @@ public class TestTechnicianAccountPersistence {
 
 	}
 	
-	/**
-	 * Tests a finding technician account by timeslot
-	 */
-	@Test
-	public void testPersistAndLoadTechnicianAccountByAvailability() {
-		// create a timeslot
-		int timeslotId = 1;
-
-		TimeSlot timeslot = new TimeSlot();
-		timeslot.setTimeSlotId(timeslotId);
-		timeSlotRepository.save(timeslot);
-
-		List<TimeSlot> timeslots = new ArrayList<TimeSlot>();
-		timeslots.add(timeslot);
-		user1.setAvailability(timeslots);
-		technicianAccountRepository.save(user1);
-
-		user1 = null;
-		List<TechnicianAccount> users = new ArrayList<TechnicianAccount>();
-
-		users = technicianAccountRepository.findTechnicianAccountByTimeSlot(timeslot);
-		System.out.println(users);
-		if (users.get(0).getUsername().equals(username1)) {
-			user1 = users.get(0);
-		}
-		else {
-			assertEquals(0,1); //always fails
-		}
-
-		assertNotNull(user1);
-		assertEquals(user1.getName(), name1);
-		assertEquals(user1.getPassword(), password1);
-		assertEquals(user1.getUsername(), username1);
-
-	}
+	
 }

@@ -154,31 +154,6 @@ public class TestTechnicianAccountService {
 			}
 			
          });
-		lenient().when(technicianAccountRepository.findTechnicianAccountByTimeSlot(any(TimeSlot.class))).thenAnswer( (InvocationOnMock invocation) -> { 
-			TimeSlot timeslot = invocation.getArgument(0);
-			
-			if (timeslot.getTimeSlotId() == TIMESLOT_ID) {
-				TechnicianAccount user = new TechnicianAccount();
-				user.setUsername(USERNAME1);
-				user.setPassword(PASSWORD1);
-				user.setName(NAME1);
-				user.setToken(TOKEN1);
-				TechnicianAccount user2 = new TechnicianAccount();
-				user2.setUsername(USERNAME2);
-				user2.setPassword(PASSWORD2);
-				user2.setName(NAME2);
-				user2.setToken(TOKEN2);
-				List<TechnicianAccount> technicianAccounts = new ArrayList<TechnicianAccount>();
-				technicianAccounts.add(user);
-				technicianAccounts.add(user2);
-	            return technicianAccounts;
-				
-			}
-			else {
-				return null;
-			}
-			
-         });
 		lenient().when(appointmentRepository.findByAppointmentId(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
 			if(invocation.getArgument(0).equals(APT_ID)) {
 				Appointment apt = new Appointment();
@@ -715,21 +690,6 @@ public class TestTechnicianAccountService {
 			assertNotNull(user);
 			assertEquals(user.getUsername(), USERNAME1);
 		}
-
-		
-		/**
-		 * Get Technician Accounts by timeslot
-		 */
-		@Test
-		public void testGetAllTechnicianAccountsByAvailability() {
-			TimeSlot timeslot = new TimeSlot();
-			timeslot.setTimeSlotId(TIMESLOT_ID);
-			List<TechnicianAccount> users = technicianAccountService.getTechnicianAccountsByAvailability(TIMESLOT_ID);
-			assertNotNull(users);
-			assertEquals(users.get(0).getUsername(), USERNAME1);
-			assertEquals(users.get(1).getUsername(), USERNAME2);
-		}
-
 
 		
 		/**
