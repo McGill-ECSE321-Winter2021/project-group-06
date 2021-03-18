@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
+import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
@@ -90,7 +92,7 @@ public class TechnicianAccountController {
 	 * @return Technician Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PutMapping(value = {"/updateTechnicianAccount/{username}/{newPassword}/{newName}", "/technicianAccount/updateTechnicianAccount/{username}/{newPassword}/{newName}/" })
+	@PutMapping(value = {"/updateTechnicianAccount/{username}/{newPassword}/{newName}", "/updateTechnicianAccount/{username}/{newPassword}/{newName}/" })
 	public TechnicianAccountDto updateTechnicianAccount(@PathVariable("username") String username,  @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName)  {
 		TechnicianAccount user = technicianAccountService.updateTechnicianAccount(username, newPassword, newName);
 		return convertToDto(user);
@@ -103,11 +105,12 @@ public class TechnicianAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@DeleteMapping(value = { "/deleteTechnicianAccount/{username}", "/technicianAccount/deleteTechnicianAccount/{username}/" })
-	public TechnicianAccount deleteTechnicianAccount(@PathVariable("username") String username)  {
+	@DeleteMapping(value = { "/deleteTechnicianAccount/{username}", "/deleteTechnicianAccount/{username}/" })
+	public TechnicianAccountDto deleteTechnicianAccount(@PathVariable("username") String username) {
 		TechnicianAccount user = technicianAccountService.deleteTechnicianAccount(username);
-		return user;
+		return convertToDto(user);
 	}
+
 	
 	/**
 	 * Login and generate token
@@ -118,9 +121,9 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PutMapping(value = {"/loginTechnicianAccount/{username}/{password}", "/loginTechnicianAccount/{username}/{password}/" })
-	public TechnicianAccount loginTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password)  {
+	public TechnicianAccountDto loginTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password)  {
 		TechnicianAccount user = technicianAccountService.loginTechnicianAccount(username, password);
-		return user;
+		return convertToDto(user);
 	}
 	
 	/**
@@ -131,9 +134,9 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PutMapping(value = {"/logoutTechnicianAccount/{username}", "/logoutTechnicianAccount/{username}/" })
-	public TechnicianAccount logoutTechnicianAccount(@PathVariable("username") String username)  {
+	public TechnicianAccountDto logoutTechnicianAccount(@PathVariable("username") String username)  {
 		TechnicianAccount user = technicianAccountService.logoutTechnicianAccount(username);
-		return user;
+		return convertToDto(user);
 	}
 	
 	/**
@@ -144,9 +147,9 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/authenticateTechnicianAccount/{username}", "/authenticateTechnicianAccount/{username}/" })
-	public TechnicianAccount authenticateTechnicianAccount(@PathVariable("username") String username) {
+	public TechnicianAccountDto authenticateTechnicianAccount(@PathVariable("username") String username) {
 		TechnicianAccount user = technicianAccountService.authenticateTechnicianAccount(username);
-		return user;
+		return convertToDto(user);
 	}
 	
 	/**
@@ -196,19 +199,20 @@ public class TechnicianAccountController {
 	 * @return
 	 */
 	private TechnicianAccountDto convertToDto(TechnicianAccount user)  {
+		
 		if (user == null) {
-			throw new IllegalArgumentException("This user does not exist");
+			throw new InvalidInputException("This user does not exist");
 		}
+		
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
+		technicianAccountDto.setToken(user.getToken());
 		if (user.getAppointment() != null) {
 			technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 		}
-		if (user.getAvailability() != null) {
-			technicianAccountDto.setTimeSlots(user.getAvailability().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
-		}
-		technicianAccountDto.setToken(user.getToken());
+		
 		return technicianAccountDto;
 	}
+
 	
 	/**
 	 * Helper Method to convert an appointment to a Dto

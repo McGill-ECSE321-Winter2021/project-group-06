@@ -99,10 +99,10 @@ public class CustomerAccountController {
 	 * @return boolean if successful
 	 * @ 
 	 */
-	@DeleteMapping(value = { "/deleteCustomerAccount/{username}", "/customerAccount/deleteCustomerAccount/{username}/" })
-	public CustomerAccount deleteCustomerAccount(@PathVariable("username") String username)   {
+	@DeleteMapping(value = { "/deleteCustomerAccount/{username}", "/deleteCustomerAccount/{username}/" })
+	public CustomerAccountDto deleteCustomerAccount(@PathVariable("username") String username)   {
 		CustomerAccount user = customerAccountService.deleteCustomerAccount(username);
-		return user;
+		return convertToDto(user);
 	}
 
 	/**
@@ -114,9 +114,9 @@ public class CustomerAccountController {
 	 * @ 
 	 */
 	@PutMapping(value = {"/loginCustomerAccount/{username}/{password}", "/loginCustomerAccount/{username}/{password}/" })
-	public CustomerAccount loginCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password)   {
+	public CustomerAccountDto loginCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password)   {
 		CustomerAccount user = customerAccountService.loginCustomerAccount(username, password);
-		return user;
+		return convertToDto(user);
 	}
 
 	/**
@@ -127,9 +127,9 @@ public class CustomerAccountController {
 	 * @ 
 	 */
 	@PutMapping(value = {"/logoutCustomerAccount/{username}", "/logoutCustomerAccount/{username}/" })
-	public CustomerAccount logoutCustomerAccount(@PathVariable("username") String username)   {
+	public CustomerAccountDto logoutCustomerAccount(@PathVariable("username") String username)   {
 		CustomerAccount user = customerAccountService.logoutCustomerAccount(username);
-		return user;
+		return convertToDto(user);
 	}
 
 	/**
@@ -139,9 +139,9 @@ public class CustomerAccountController {
 	 * @return boolean authenticity
 	 */
 	@PostMapping(value = {"/authenticateCustomerAccount/{username}", "/authenticateCustomerAccount/{username}/" })
-	public CustomerAccount authenticateCustomerAccount(@PathVariable("username") String username)  {
+	public CustomerAccountDto authenticateCustomerAccount(@PathVariable("username") String username)  {
 		CustomerAccount user = customerAccountService.authenticateCustomerAccount(username);
-		return user;
+		return convertToDto(user);
 	}
 
 	/**

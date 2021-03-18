@@ -68,7 +68,7 @@ public class Appointment
   {
 
     return this.timeSlot;
-  } 
+  }
 
   @ManyToMany(fetch = FetchType.EAGER)
   public List<TechnicianAccount> getWorker()
