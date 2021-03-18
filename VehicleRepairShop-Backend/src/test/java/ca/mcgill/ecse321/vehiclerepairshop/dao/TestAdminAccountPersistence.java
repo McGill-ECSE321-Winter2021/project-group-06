@@ -161,7 +161,6 @@ public class TestAdminAccountPersistence {
 		user1 = null;
 		user2 = null;
 		List<AdminAccount> users = new ArrayList<AdminAccount>();
-		Boolean isExist;
 
 		users = adminAccountRepository.findByBusinessInformation(business);
 
