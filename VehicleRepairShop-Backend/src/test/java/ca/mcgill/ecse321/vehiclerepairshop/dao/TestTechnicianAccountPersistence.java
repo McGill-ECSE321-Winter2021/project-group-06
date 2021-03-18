@@ -16,7 +16,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 
 @ExtendWith(SpringExtension.class)
@@ -40,8 +39,8 @@ public class TestTechnicianAccountPersistence {
 	private AppointmentRepository appointmentRepository;
 	@Autowired
 	private TechnicianAccountRepository technicianAccountRepository;
-	@Autowired
-	private TimeSlotRepository timeSlotRepository;
+//	@Autowired
+//	private TimeSlotRepository timeSlotRepository;
 	
 	@BeforeEach
 	public void buildDatabase() {

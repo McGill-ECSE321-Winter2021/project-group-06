@@ -25,8 +25,8 @@ public class AdminAccountController {
 
 	@Autowired
 	private AdminAccountService adminAccountService;
-	@Autowired
-	private BusinessInformationService businessInformationService;
+//	@Autowired
+//	private BusinessInformationService businessInformationService;
 
 	
 	/**
