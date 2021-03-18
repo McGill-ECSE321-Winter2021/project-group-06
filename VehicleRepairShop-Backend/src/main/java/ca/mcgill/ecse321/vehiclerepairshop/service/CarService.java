@@ -11,7 +11,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
+
 
 @Service
 public class CarService {
@@ -34,7 +34,7 @@ public class CarService {
 	 * @return
 	 */
 	@Transactional
-	public Car createCar(String licensePlate, String model, int year, MotorType motorType) {
+	public Car createCar(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner) {
 		String error = "";
 		if (licensePlate == null || licensePlate.trim().length() == 0) {
 			error = error + "licensePlate can not be null or empty!";
@@ -59,6 +59,7 @@ public class CarService {
 			car.setModel(model);
 			car.setYear(year);
 			car.setMotorType(motorType);
+			car.setOwner(owner);
 			carRepository.save(car);
 			return car;
 		}

@@ -121,12 +121,6 @@ public class AppointmentController {
 		return appointmentService.getAppointmentByWorker(convertToTechnicianAccountDomainObject(technicianAccountDto)).stream().map(app->convertToDto(app)).collect(Collectors.toList());
 	}
 
-	//	TimeSlotDto timeSlotDto,
-	//	CarDto carDto, 
-	//	String comment, 
-	//	GarageDto garageDto, 
-	//	List<TechnicianAccountDto> workerDto, 
-	//	OfferedServiceDto serviceDto
 	/**
 	 * create an appointment 
 	 * @param appointment
@@ -145,10 +139,6 @@ public class AppointmentController {
 		Car car = carService.getCarByLicensePlate(licensePlate);
 		Garage garage = garageService.getGarageByGarageId(garageId);
 		TechnicianAccount worker = technicianAccountService.getTechnicianAccountByUsername(username);
-		System.out.println(timeSlot);
-		System.out.println(offeredService);
-		System.out.println(car);
-		System.out.println(garage);
 		Appointment appointment = appointmentService.createAppointment(timeSlot, 
 				offeredService, 
 				car, 
@@ -188,7 +178,7 @@ public class AppointmentController {
 
 
 	/**
-	 * update an appointment offeredService
+	 * update an appointment offeredservice 
 	 * @param appointment
 	 * @return
 	 */
@@ -202,7 +192,7 @@ public class AppointmentController {
 
 
 	/**
-	 * update an appointment TimeSlot
+	 * update an appointment timeslot  
 	 * @param appointment
 	 * @return
 	 */
@@ -220,8 +210,8 @@ public class AppointmentController {
 	 * @param appointment
 	 * @return
 	 */
-	@PutMapping(value = {"/updateAppointmentComment/{appointmentId}/{comment}","/updateAppointmentTimeSlot/{appointmentId}/{comment}/"})
-	public AppointmentDto updateAppointmentComment(@PathVariable("appointmentId") int appointmentId,
+	@PutMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/{comment}","/updateAppointmentTimeSlot/{appointmentId}/{comment}/"})
+	public AppointmentDto updateAppointmentTimeSlot(@PathVariable("appointmentId") int appointmentId,
 			@PathVariable("comment") String comment) {
 		Appointment appointment = appointmentService.updateAppointmentComment(appointmentId, comment);
 		return convertToDto(appointment);

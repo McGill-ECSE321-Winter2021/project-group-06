@@ -19,7 +19,7 @@ public class CarDto {
 	  public CarDto(){
 		  
 	  }
-	  
+
 	  public CarDto(String licensePlate, String model, int year, MotorType motorType){
 		  this.licensePlate = licensePlate;
 		  this.model = model;

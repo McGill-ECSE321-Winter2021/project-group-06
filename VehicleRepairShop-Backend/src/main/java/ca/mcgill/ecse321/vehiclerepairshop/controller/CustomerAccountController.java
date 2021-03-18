@@ -186,7 +186,9 @@ public class CustomerAccountController {
 			throw new IllegalArgumentException("This user does not exist");
 		}
 		CustomerAccountDto customerAccountDto = new CustomerAccountDto(user.getUsername(), user.getPassword(), user.getName());
-		customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		if (user.getCar() != null) {
+			customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		}
 		customerAccountDto.setToken(user.getToken());
 		return customerAccountDto;
 	}

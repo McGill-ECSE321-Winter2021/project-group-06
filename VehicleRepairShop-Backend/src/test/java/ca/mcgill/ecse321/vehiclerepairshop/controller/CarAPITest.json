@@ -1,0 +1,356 @@
+{
+	"info": {
+		"_postman_id": "d505b714-9a86-40c2-be95-a26def0de030",
+		"name": "Car tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create owner 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.username).to.include(\"1\");",
+							"  pm.expect(jsonData.password).to.include(\"1\");",
+							"  pm.expect(jsonData.name).to.include(\"owner\");",
+							"",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/1/1/owner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"1",
+						"1",
+						"owner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create car 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.year).to.equal(2020);",
+							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/1/Tesla/2020/Electric/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCar",
+						"1",
+						"Tesla",
+						"2020",
+						"Electric",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create car 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.licensePlate).to.include(\"2\");",
+							"  pm.expect(jsonData.model).to.include(\"TeslaX\");",
+							"  pm.expect(jsonData.year).to.equal(2018);",
+							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/2/TeslaX/2018/Electric/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCar",
+						"2",
+						"TeslaX",
+						"2018",
+						"Electric",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get car by license plate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get car by licensePlate\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.year).to.equal(2020);",
+							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCarByLicensePlate/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCarByLicensePlate",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get car by imvalid license plate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get car non existent license\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCarByLicensePlate/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCarByLicensePlate",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get car by owner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get car by licensePlate\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json()[0];",
+							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.year).to.equal(2020);",
+							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCarsByOwner/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCarsByOwner",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get car by invalid owner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get car by licensePlate\", function () {",
+							"  pm.response.to.have.status(409);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCarsByOwner/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCarsByOwner",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get car by licensePlate\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData0 = pm.response.json()[0];",
+							"  pm.expect(jsonData0.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData0.model).to.include(\"Tesla\");",
+							" const jsonData1 = pm.response.json()[1];",
+							"  pm.expect(jsonData1.licensePlate).to.include(\"2\");",
+							"  pm.expect(jsonData1.model).to.include(\"TeslaX\");",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllCars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllCars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"delete car by licensePlate\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData0 = pm.response.json();",
+							"  pm.expect(jsonData0.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData0.model).to.include(\"Tesla\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteCar/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteCar",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
