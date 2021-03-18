@@ -11,7 +11,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createCustomerAccount/user42/123/Catherine Caron",
+					"raw": "http://localhost:8080/createCustomerAccount/user42/123/Catherine",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -21,7 +21,7 @@
 						"createCustomerAccount",
 						"user42",
 						"123",
-						"Catherine Caron"
+						"Catherine"
 					]
 				}
 			},
@@ -502,18 +502,18 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createBusinessInformation/business/123/5145551234/bus@iness.com",
+					"raw": "http://localhost:8080/createCar/111/nice/2021/Electric",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"createBusinessInformation",
-						"business",
-						"123",
-						"5145551234",
-						"bus@iness.com"
+						"createCar",
+						"111",
+						"nice",
+						"2021",
+						"Electric"
 					]
 				}
 			},
