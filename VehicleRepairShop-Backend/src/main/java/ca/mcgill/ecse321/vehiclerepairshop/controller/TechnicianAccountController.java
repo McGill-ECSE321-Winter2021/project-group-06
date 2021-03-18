@@ -74,7 +74,7 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = { "/createTechnicianAccount/{username}/{password}/{name}", "/createTechnicianAccount/{username}/{password}/{name}/" })
-	public TechnicianAccountDto createTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name) throws InvalidInputException {
+	public TechnicianAccountDto createTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name)  {
 		TechnicianAccount user = technicianAccountService.createTechnicianAccount(username, password, name);
 		return convertToDto(user);
 	}
@@ -91,9 +91,9 @@ public class TechnicianAccountController {
 	 * @return Technician Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = {"/updateTechnicianAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}", "/technicianAccount/updateTechnicianAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
-	public TechnicianAccountDto updateTechnicianAccount(@PathVariable("currentUsername") String currentUsername, @PathVariable("newUsername") String newUsername, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) throws InvalidInputException {
-		TechnicianAccount user = technicianAccountService.updateTechnicianAccount(currentUsername, newUsername, newPassword, newName);
+	@PostMapping(value = {"/updateTechnicianAccount/{username}/{newPassword}/{newName}", "/technicianAccount/updateTechnicianAccount/{username}/{newPassword}/{newName}/" })
+	public TechnicianAccountDto updateTechnicianAccount(@PathVariable("username") String username,  @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName)  {
+		TechnicianAccount user = technicianAccountService.updateTechnicianAccount(username, newPassword, newName);
 		return convertToDto(user);
 	}
 
@@ -105,7 +105,7 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@DeleteMapping(value = { "/deleteTechnicianAccount/{username}", "/technicianAccount/deleteTechnicianAccount/{username}/" })
-	public TechnicianAccount deleteTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException {
+	public TechnicianAccount deleteTechnicianAccount(@PathVariable("username") String username)  {
 		TechnicianAccount user = technicianAccountService.deleteTechnicianAccount(username);
 		return user;
 	}
@@ -119,7 +119,7 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/loginTechnicianAccount/{username}/{password}", "/loginTechnicianAccount/{username}/{password}/" })
-	public TechnicianAccount loginTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
+	public TechnicianAccount loginTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password)  {
 		TechnicianAccount user = technicianAccountService.loginTechnicianAccount(username, password);
 		return user;
 	}
@@ -132,7 +132,7 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/logoutTechnicianAccount/{username}", "/logoutTechnicianAccount/{username}/" })
-	public TechnicianAccount logoutTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException {
+	public TechnicianAccount logoutTechnicianAccount(@PathVariable("username") String username)  {
 		TechnicianAccount user = technicianAccountService.logoutTechnicianAccount(username);
 		return user;
 	}
@@ -145,7 +145,7 @@ public class TechnicianAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/authenticateTechnicianAccount/{username}", "/authenticateTechnicianAccount/{username}/" })
-	public TechnicianAccount authenticateTechnicianAccount(@PathVariable("username") String username) throws InvalidInputException{
+	public TechnicianAccount authenticateTechnicianAccount(@PathVariable("username") String username) {
 		TechnicianAccount user = technicianAccountService.authenticateTechnicianAccount(username);
 		return user;
 	}
@@ -154,7 +154,6 @@ public class TechnicianAccountController {
 	 * @param appointmentDto
 	 * @return List of technician account Dtos
 	 */
-	// TODO fix url once AppointmentDto and Controller is done
 	@GetMapping(value = { "/getTechniciansAccountByAppointment/getAppointmentByAppointmentId/{appointmentId}", "/getTechniciansAccountByAppointment/getAppointmentByAppointmentId/{appointmentId}/" })
 	public List<TechnicianAccountDto> getTechnicianAccountsByAppointment(@PathVariable("appointmentId") AppointmentDto appointmentDto) {
 		return technicianAccountService.getTechnicianAccountsForAppointment(convertToDomainObject(appointmentDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
@@ -169,12 +168,13 @@ public class TechnicianAccountController {
 	 * @param user
 	 * @return
 	 */
-	private TechnicianAccountDto convertToDto(TechnicianAccount user) throws IllegalArgumentException{
+	private TechnicianAccountDto convertToDto(TechnicianAccount user)  {
 		if (user == null) {
 			throw new IllegalArgumentException("This user does not exist");
 		}
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
 		technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		technicianAccountDto.setToken(user.getToken());
 		return technicianAccountDto;
 	}
 	

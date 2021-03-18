@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -69,10 +71,10 @@ public class CustomerAccountController {
 	 * @param password
 	 * @param name
 	 * @return Customer Account Dto
-	 * @throws InvalidInputException
+	 * @ 
 	 */
 	@PostMapping(value = { "/createCustomerAccount/{username}/{password}/{name}", "/createCustomerAccount/{username}/{password}/{name}/" })
-	public CustomerAccountDto createCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name) throws InvalidInputException {
+	public CustomerAccountDto createCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name)   {
 		CustomerAccount user = customerAccountService.createCustomerAccount(username, password, name);
 		return convertToDto(user);
 	}
@@ -87,11 +89,11 @@ public class CustomerAccountController {
 	 * @param newPassword
 	 * @param newName
 	 * @return Customer Account Dto
-	 * @throws InvalidInputException
+	 * @ 
 	 */
-	@PostMapping(value = {"/updateCustomerAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}", "/customerAccount/updateCustomerAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
-	public CustomerAccountDto updateCustomerAccount(@PathVariable("currentUsername") String currentUsername, @PathVariable("newUsername") String newUsername, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) throws InvalidInputException {
-		CustomerAccount user = customerAccountService.updateCustomerAccount(currentUsername, newUsername, newPassword, newName);
+	@PostMapping(value = {"/updateCustomerAccount/{username}/{newPassword}/{newName}", "/updateCustomerAccount/{username}/{newPassword}/{newName}/" })
+	public CustomerAccountDto updateCustomerAccount(@PathVariable("username") String username, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName)   {
+		CustomerAccount user = customerAccountService.updateCustomerAccount(username, newPassword, newName);
 		return convertToDto(user);
 	}
 
@@ -100,10 +102,10 @@ public class CustomerAccountController {
 	 * @author Catherine
 	 * @param username
 	 * @return boolean if successful
-	 * @throws InvalidInputException
+	 * @ 
 	 */
 	@DeleteMapping(value = { "/deleteCustomerAccount/{username}", "/customerAccount/deleteCustomerAccount/{username}/" })
-	public CustomerAccount deleteCustomerAccount(@PathVariable("username") String username) throws InvalidInputException {
+	public CustomerAccount deleteCustomerAccount(@PathVariable("username") String username)   {
 		CustomerAccount user = customerAccountService.deleteCustomerAccount(username);
 		return user;
 	}
@@ -114,10 +116,10 @@ public class CustomerAccountController {
 	 * @param username
 	 * @param password
 	 * @return boolean if successful
-	 * @throws InvalidInputException
+	 * @ 
 	 */
 	@PostMapping(value = {"/loginCustomerAccount/{username}/{password}", "/loginCustomerAccount/{username}/{password}/" })
-	public CustomerAccount loginCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
+	public CustomerAccount loginCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password)   {
 		CustomerAccount user = customerAccountService.loginCustomerAccount(username, password);
 		return user;
 	}
@@ -127,10 +129,10 @@ public class CustomerAccountController {
 	 * @author Catherine
 	 * @param username
 	 * @return boolean if successful
-	 * @throws InvalidInputException
+	 * @ 
 	 */
 	@PostMapping(value = {"/logoutCustomerAccount/{username}", "/logoutCustomerAccount/{username}/" })
-	public CustomerAccount logoutCustomerAccount(@PathVariable("username") String username) throws InvalidInputException {
+	public CustomerAccount logoutCustomerAccount(@PathVariable("username") String username)   {
 		CustomerAccount user = customerAccountService.logoutCustomerAccount(username);
 		return user;
 	}
@@ -140,10 +142,9 @@ public class CustomerAccountController {
 	 * @author Catherine
 	 * @param username
 	 * @return boolean authenticity
-	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/authenticateCustomerAccount/{username}", "/authenticateCustomerAccount/{username}/" })
-	public CustomerAccount authenticateCustomerAccount(@PathVariable("username") String username) throws InvalidInputException{
+	public CustomerAccount authenticateCustomerAccount(@PathVariable("username") String username)  {
 		CustomerAccount user = customerAccountService.authenticateCustomerAccount(username);
 		return user;
 	}
@@ -151,13 +152,25 @@ public class CustomerAccountController {
 	/**
 	 * Get the customer account associated to specified car
 	 * @author Catherine
-	 * @param carDto
+	 * @param license plate for car
 	 * @return
 	 */
-	// TODO fix URL once CarDto and Controller is complete
-	@GetMapping(value = { "/getCustomerAccountByCar/getCarByLicensePlate/{licensePlate}", "/getCustomerAccountByCar/getCarByLicensePlate/{licensePlate}/" })
-	public CustomerAccountDto getCustomerAccountByCar(@PathVariable("licensePlate") CarDto carDto) {
-		return convertToDto(customerAccountService.getCustomerAccountWithCar(convertToDomainObject(carDto)));
+	@GetMapping(value = { "/getCustomerAccountByCar/{licensePlate}", "/getCustomerAccountByCar/{licensePlate}/" })
+	public CustomerAccountDto getCustomerAccountByCar(@PathVariable("licensePlate") String licensePlate) {
+		return convertToDto(customerAccountService.getCustomerAccountWithCar(licensePlate));
+	}
+	
+	/**
+	 * add a car to customer account
+	 * @author Catherine
+	 * @param username
+	 * @param licensePlate
+	 * @return
+	 */
+	@PutMapping(value = {"/addCar/{username}/{licensePlate}", "/addCar/{username}/{licensePlate}/"})
+	public CustomerAccountDto addCar(@PathVariable("username") String username, @PathVariable("licensePlate") String licensePlate) {
+		CustomerAccount user = customerAccountService.addCar(licensePlate, username);
+		return convertToDto(user);
 	}
 
 	//-------------------------- Helper Methods -----------------------------
@@ -174,6 +187,7 @@ public class CustomerAccountController {
 		}
 		CustomerAccountDto customerAccountDto = new CustomerAccountDto(user.getUsername(), user.getPassword(), user.getName());
 		customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		customerAccountDto.setToken(user.getToken());
 		return customerAccountDto;
 	}
 
