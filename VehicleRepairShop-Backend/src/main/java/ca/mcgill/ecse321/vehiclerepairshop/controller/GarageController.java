@@ -10,16 +10,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
-import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
-import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 
@@ -45,7 +40,7 @@ public class GarageController {
 	 * @return
 	 */
 	@GetMapping(value = {"/getAllGarages", "/getAllGarages/"})
-	public List<GarageDto> getAllGarages() throws IllegalArgumentException {
+	public List<GarageDto> getAllGarages() {
 		return garageService.getAllGarages().stream().map(garage->convertToDto(garage)).collect(Collectors.toList());
 	}
 
@@ -73,31 +68,29 @@ public class GarageController {
 	/**
 	 * Create a garage with its specific parameters
 	 * @param garageId
-	 * @param isAvailable
 	 * @return
-	 * @throws IllegalArgumentException
 	 */
 	@PostMapping(value = { "/createGarage/{garageId}","/createGarage/{garageId}"})
-	public GarageDto createGarage(@PathVariable("garageId") String garageId) throws IllegalArgumentException {
+	public GarageDto createGarage(@PathVariable("garageId") String garageId){
 		Garage garage = garageService.createGarage(garageId);
 		return convertToDto(garage);
 	}
 
-//	/**
-//	 * Update garage 
-//	 * @param garageId
-//	 * @param isAvailable
-//	 * @return
-//	 * @throws InvalidInputException
-//	 */
-//	@PutMapping(value = {"/updateGarage/{isAvailable}/{garageId}", "/updateGarage/{isAvailable}/{garageId}/"})
-//	public GarageDto updateGarage(@PathVariable("isAvailable")Boolean isAvailable, @PathVariable("garageId")String garageId) throws InvalidInputException{
-//		GarageDto updatedGarage = new GarageDto();
-//		Garage garage;
-//		garage = garageService.updateGarage(garageId, isAvailable);
-//		updatedGarage = convertToDto(garage);
-//		return updatedGarage; 
-//	}
+	//	/**
+	//	 * Update garage 
+	//	 * @param garageId
+	//	 * @param isAvailable
+	//	 * @return
+	//	 * @throws InvalidInputException
+	//	 */
+	//	@PutMapping(value = {"/updateGarage/{isAvailable}/{garageId}", "/updateGarage/{isAvailable}/{garageId}/"})
+	//	public GarageDto updateGarage(@PathVariable("isAvailable")Boolean isAvailable, @PathVariable("garageId")String garageId) throws InvalidInputException{
+	//		GarageDto updatedGarage = new GarageDto();
+	//		Garage garage;
+	//		garage = garageService.updateGarage(garageId, isAvailable);
+	//		updatedGarage = convertToDto(garage);
+	//		return updatedGarage; 
+	//	}
 
 	/**
 	 * Delete a garage
@@ -107,10 +100,10 @@ public class GarageController {
 	@DeleteMapping(value = {"/deleteGarage/{garageId}","/deleteGarage/{garageId}/"})
 	public GarageDto deleteGarage(@PathVariable("garageId") String garageId) {
 		Garage garage = garageRepository.findByGarageId(garageId);
-		garageRepository.delete(garage);
+		garageService.deleteGarage(garageId);
 		return convertToDto(garage);
 	}
-	
+
 	/**
 	 * Delete all the garages
 	 * @return
@@ -134,7 +127,7 @@ public class GarageController {
 	 */
 	private GarageDto convertToDto(Garage garage) {
 		if (garage == null) {
-			throw new IllegalArgumentException("There is no such Garage");
+			throw new InvalidInputException("There is no such Garage");
 		}
 
 		GarageDto garageDto = new GarageDto(garage.getGarageId());
@@ -142,19 +135,19 @@ public class GarageController {
 	}
 
 
-	/**
-	 *  Convert dto to domain objects 
-	 * @param appointmentDto
-	 * @return
-	 */
-	private Appointment convertToDomainObject(AppointmentDto appointmentDto) {
-		if (appointmentDto == null) {
-			throw new IllegalArgumentException("There is no such appointmentDto!");
-		}
-
-		Appointment appointment = appointmentService.getAppointmentById(appointmentDto.getAppointmentId());
-		return appointment;
-	}
+	//	/**
+	//	 *  Convert dto to domain objects 
+	//	 * @param appointmentDto
+	//	 * @return
+	//	 */
+	//	private Appointment convertToDomainObject(AppointmentDto appointmentDto) {
+	//		if (appointmentDto == null) {
+	//			throw new InvalidInputException("There is no such appointmentDto!");
+	//		}
+	//
+	//		Appointment appointment = appointmentService.getAppointmentById(appointmentDto.getAppointmentId());
+	//		return appointment;
+	//	}
 }
 
 

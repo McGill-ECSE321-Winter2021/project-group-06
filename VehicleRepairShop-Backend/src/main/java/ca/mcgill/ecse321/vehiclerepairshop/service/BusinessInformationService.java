@@ -93,21 +93,16 @@ public class BusinessInformationService {
 	/**
 	 * Update business information by offering new information and name
 	 * @param name
-	 * @param name
 	 * @param newAddress
 	 * @param newPhoneNumber
 	 * @param newEmailAddress
 	 * @return
-	 * @throws InvalidInputException
 	 */
 	@Transactional
-	public BusinessInformation updateBusinessInformation(String name, String newAddress, String newPhoneNumber, String newEmailAddress) throws InvalidInputException {
+	public BusinessInformation updateBusinessInformation(String name, String newAddress, String newPhoneNumber, String newEmailAddress) {
 		if (name == null || name.replaceAll("\\s+", "").length() == 0){
 			throw new InvalidInputException("Name cannot be empty!");
 		}
-//		if (name == null || name.replaceAll("\\s+", "").length() == 0){
-//			throw new InvalidInputException("Name cannot be empty!");
-//		}
 		else if (newAddress == null || newAddress.replaceAll("\\s+", "").length() == 0){
 			throw new InvalidInputException("Address cannot be empty!");
 		}
@@ -120,9 +115,6 @@ public class BusinessInformationService {
 		else if (businessInformationRepository.findBusinessInformationByName(name) == null) {
 			throw new InvalidInputException("Name does not exist!");
 		}
-//		else if (businessInformationRepository.findBusinessInformationByName(name) != null) {
-//			throw new InvalidInputException("Name not available!");
-//		}
 
 		BusinessInformation businessInformation = businessInformationRepository.findBusinessInformationByName(name);
 		if(businessInformation == null) {
@@ -139,6 +131,7 @@ public class BusinessInformationService {
 	/**
 	 * Delete a Business Information
 	 * @param name
+	 * @return
 	 */
 	@Transactional
 	public BusinessInformation deleteBusinessInformation(String name) {
@@ -157,9 +150,10 @@ public class BusinessInformationService {
 		businessInformationRepository.delete(businessInformation);
 		return businessInformation;
 	}
-	
+
 	/**
 	 * Delete all the Business Information
+	 * @return
 	 */
 	@Transactional
 	public List<BusinessInformation> deleteAllBusinessInformation() {
@@ -170,7 +164,7 @@ public class BusinessInformationService {
 
 
 	//----------------------------- Helper Methods --------------------------------
-	/**
+	/** 
 	 * helper method that converts iterable to list
 	 * @param <T>
 	 * @param iterable
