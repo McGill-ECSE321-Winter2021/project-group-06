@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.vehiclerepairshop.service;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.*;
 import ca.mcgill.ecse321.vehiclerepairshop.model.*;
@@ -42,13 +45,16 @@ public class TestTechnicianAccountService {
 	private static final int TOKEN2 = 0; //invalid
 
 	private static final int APT_ID = 12;
+	private static final int TIMESLOT_ID = 242;
 
 	
 
 	@Mock
 	private TechnicianAccountRepository technicianAccountRepository;
 	@Mock
-	private AppointmentRepository AppointmentRepository;
+	private AppointmentRepository appointmentRepository;
+	@Mock
+	private TimeSlotRepository timeSlotRepository;
 	@Mock
 	private AdminAccountRepository adminAccountRepository;
 	@Mock
@@ -148,13 +154,34 @@ public class TestTechnicianAccountService {
 			}
 			
          });
+		lenient().when(appointmentRepository.findByAppointmentId(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+			if(invocation.getArgument(0).equals(APT_ID)) {
+				Appointment apt = new Appointment();
+				apt.setAppointmentId(APT_ID);
+				return apt;
+			} 
+			else {
+				return null;
+			}
+		});
+		lenient().when(timeSlotRepository.findByTimeSlotId(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+			if(invocation.getArgument(0).equals(TIMESLOT_ID)) {
+				TimeSlot timeslot = new TimeSlot();
+				timeslot.setTimeSlotId(TIMESLOT_ID);
+				return timeslot;
+			} 
+			else {
+				return null;
+			}
+		});
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
 		lenient().when(technicianAccountRepository.save(any(TechnicianAccount.class))).thenAnswer(returnParameterAsAnswer);
 		// Used for Delete, Authenticate, and Login/out Tests
-		lenient().when(AppointmentRepository.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(appointmentRepository.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(timeSlotRepository.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(adminAccountRepository.save(any(AdminAccount.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(customerAccountRepository.save(any(CustomerAccount.class))).thenAnswer(returnParameterAsAnswer);
 
@@ -309,18 +336,17 @@ public class TestTechnicianAccountService {
 			assertEquals(2, technicianAccountService.getAllTechnicianAccounts().size());
 
 			String newName = "New Name";
-			String newUsername = "Catherine";
 			String newPassword = "newPassword";
 			
 			TechnicianAccount user = null; 
 			try {
-				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newUsername, newPassword, newName);
+				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newPassword, newName);
 			} catch (InvalidInputException e) {
 				// Check that no error occurred
 				fail();
 			}
 			assertNotNull(user);
-			assertEquals(newUsername, user.getUsername());
+			assertEquals(USERNAME1, user.getUsername());
 			assertEquals(newPassword, user.getPassword());
 			assertEquals(newName, user.getName());
 		}
@@ -332,12 +358,11 @@ public class TestTechnicianAccountService {
 		public void testUpdateTechnicianAccountWithInvalidToken() {
 			assertEquals(2, technicianAccountService.getAllTechnicianAccounts().size());
 
-			String newUsername = "Catherine";
 
 			String error = null;
 			TechnicianAccount user = null; 
 			try {
-				user = technicianAccountService.updateTechnicianAccount(USERNAME2, newUsername, PASSWORD1, NAME1);
+				user = technicianAccountService.updateTechnicianAccount(USERNAME2, PASSWORD1, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -347,82 +372,18 @@ public class TestTechnicianAccountService {
 			assertEquals("You do not have permission to modify this account.", error);
 		}
 		
-		/**
-		 * Update Technician Account with empty username	
-		 */
-		@Test
-		public void testUpdateTechnicianAccountWithEmptyUsername() {
-			assertEquals(2, technicianAccountService.getAllTechnicianAccounts().size());
-
-			String newUsername = "";
-
-			String error = null;
-			TechnicianAccount user = null; 
-			try {
-				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newUsername, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Username cannot be empty.", error);
-		}
-		
-		/**
-		 * Update Technician Account with spaces in username	
-		 */
-		@Test
-		public void testUpdateTechnicianAccountWithSpacesInUsername() {
-			assertEquals(2, technicianAccountService.getAllTechnicianAccounts().size());
-
-			String newUsername = "this is a bad username";
-
-			String error = null;
-			TechnicianAccount user = null; 
-			try {
-				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newUsername, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Username cannot contain spaces.", error);
-		}
-		
-		/**
-		 * Update Technician Account with taken username	
-		 */
-		@Test
-		public void testUpdateTechnicianAccountWithTakenUsername() {
-			assertEquals(2, technicianAccountService.getAllTechnicianAccounts().size());
-
-			String error = null;
-			TechnicianAccount user = null; 
-			try {
-				user = technicianAccountService.updateTechnicianAccount(USERNAME1, USERNAME2, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("This username is not available.", error);
-		}
 		
 		/**
 		 * Update Technician Account with empty password
 		 */
 		@Test
 		public void testUpdateTechnicianAccountWithEmptyPassword() {
-			String newUsername = "Catherine";
 			String newPassword = "";
 
 			String error = null;
 			TechnicianAccount user = null; 
 			try {
-				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newUsername, newPassword, NAME1);
+				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newPassword, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -439,13 +400,12 @@ public class TestTechnicianAccountService {
 		public void testUpdateTechnicianAccountWithSpacesInPassword() {
 			assertEquals(2, technicianAccountService.getAllTechnicianAccounts().size());
 
-			String newUsername = "Catherine";
 			String newPassword = "this is a bad password";
 
 			String error = null;
 			TechnicianAccount user = null; 
 			try {
-				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newUsername, newPassword, NAME1);
+				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newPassword, NAME1);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -462,13 +422,12 @@ public class TestTechnicianAccountService {
 		public void testUpdateTechnicianAccountWithEmptyName() {
 			assertEquals(2, technicianAccountService.getAllTechnicianAccounts().size());
 
-			String newUsername = "Catherine";
 			String newName = "";
 
 			String error = null;
 			TechnicianAccount user = null; 
 			try {
-				user = technicianAccountService.updateTechnicianAccount(USERNAME1, newUsername, PASSWORD1, newName);
+				user = technicianAccountService.updateTechnicianAccount(USERNAME1, PASSWORD1, newName);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -711,12 +670,38 @@ public class TestTechnicianAccountService {
 		@Test
 		public void testGetAllTechnicianAccountsForAppointment() {
 			Appointment appointment = new Appointment();
-			appointment.setAppointmentId(APT_ID);;
-			List<TechnicianAccount> users = technicianAccountService.getTechnicianAccountsForAppointment(appointment);
+			appointment.setAppointmentId(APT_ID);
+			List<TechnicianAccount> users = technicianAccountService.getTechnicianAccountsForAppointment(APT_ID);
 			assertNotNull(users);
 			assertEquals(users.get(0).getUsername(), USERNAME1);
 			assertEquals(users.get(1).getUsername(), USERNAME2);
 		}
+
 		
+		
+		/**
+		 * Add appointment to account
+		 */
+		@Test 
+		public void testAddAppointment() {
+			Appointment appointment = new Appointment();
+			appointment.setAppointmentId(APT_ID);
+			TechnicianAccount user = technicianAccountService.addAppointment(APT_ID, USERNAME1);
+			assertNotNull(user);
+			assertEquals(user.getUsername(), USERNAME1);
+		}
+
+		
+		/**
+		 * Add timeslot to account
+		 */
+		@Test 
+		public void testAddTimeSlot() {
+			TimeSlot timeslot = new TimeSlot();
+			timeslot.setTimeSlotId(TIMESLOT_ID);
+			TechnicianAccount user = technicianAccountService.addTimeSlot(TIMESLOT_ID, USERNAME1);
+			assertNotNull(user);
+			assertEquals(user.getUsername(), USERNAME1);
+		}
 
 }

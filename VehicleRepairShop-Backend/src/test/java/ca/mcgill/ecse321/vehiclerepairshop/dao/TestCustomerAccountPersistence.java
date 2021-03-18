@@ -29,10 +29,12 @@ public class TestCustomerAccountPersistence {
 	String name1;
 	String username1;
 	String password1;
+	int token1;
 
 	String name2;
 	String username2;
 	String password2;
+	int token2;
 	
 	@Autowired
 	private CarRepository carRepository;
@@ -44,10 +46,12 @@ public class TestCustomerAccountPersistence {
 		this.name1 = "First";
 		this.username1 = "username1";
 		this.password1 = "password123";
+		this.token1 = 123;
 	
 		this.name2 = "Second";
 		this.username2 = "username2";
 		this.password2 = "security123";
+		this.token2 = 456;
 		
 		this.user1 = new CustomerAccount();
 		this.user2 = new CustomerAccount();
@@ -55,10 +59,12 @@ public class TestCustomerAccountPersistence {
 		this.user1.setName(name1);
 		this.user1.setUsername(username1);
 		this.user1.setPassword(password1);
+		this.user1.setToken(token1);
 		
 		this.user2.setName(this.name2);
 		this.user2.setUsername(this.username2);
 		this.user2.setPassword(this.password2);
+		this.user2.setToken(token2);
 		
 		customerAccountRepository.save(this.user1);
 		customerAccountRepository.save(this.user2);
@@ -84,6 +90,23 @@ public class TestCustomerAccountPersistence {
 		assertEquals(user1.getPassword(), password1);
 		assertEquals(user1.getUsername(), username1);
 	
+	}
+	
+	/**
+	 * Tests finding a customer account by the unique token
+	 */
+	@Test
+	public void testPersistAndLoadCustomerAccountByToken() {
+
+		user1 = null;
+
+		user1 = customerAccountRepository.findByToken(token1);
+		assertNotNull(user1);
+		assertEquals(user1.getName(), name1);
+		assertEquals(user1.getPassword(), password1);
+		assertEquals(user1.getUsername(), username1);
+		assertEquals(user1.getToken(), token1);
+
 	}
 	
 	/**

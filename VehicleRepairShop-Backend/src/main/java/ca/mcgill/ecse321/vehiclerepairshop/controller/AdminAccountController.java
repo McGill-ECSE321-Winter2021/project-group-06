@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
@@ -70,7 +71,7 @@ public class AdminAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = { "/createAdminAccount/{username}/{password}/{name}", "/createAdminAccount/{username}/{password}/{name}/" })
-	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name) throws InvalidInputException {
+	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name)  {
 		AdminAccount user = adminAccountService.createAdminAccount(username, password, name);
 		return convertToDto(user);
 	}
@@ -87,9 +88,9 @@ public class AdminAccountController {
 	 * @return Admin Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = {"/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}", "/adminAccount/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
-	public AdminAccountDto updateAdminAccount(@PathVariable("currentUsername") String currentUsername, @PathVariable("newUsername") String newUsername, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) throws InvalidInputException {
-		AdminAccount user = adminAccountService.updateAdminAccount(currentUsername, newUsername, newPassword, newName);
+	@PutMapping(value = {"/updateAdminAccount/{username}/{newPassword}/{newName}", "/adminAccount/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
+	public AdminAccountDto updateAdminAccount(@PathVariable("username") String username, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) {
+		AdminAccount user = adminAccountService.updateAdminAccount(username, newPassword, newName);
 		return convertToDto(user);
 	}
 
@@ -101,9 +102,9 @@ public class AdminAccountController {
 	 * @throws InvalidInputException
 	 */
 	@DeleteMapping(value = { "/deleteAdminAccount/{username}", "/adminAccount/deleteAdminAccount/{username}/" })
-	public AdminAccount deleteAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
+	public AdminAccountDto deleteAdminAccount(@PathVariable("username") String username) {
 		AdminAccount user = adminAccountService.deleteAdminAccount(username);
-		return user;
+		return convertToDto(user);
 	}
 	
 	/**
@@ -114,10 +115,10 @@ public class AdminAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}/" })
-	public AdminAccount loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) throws InvalidInputException {
+	@PutMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}" })
+	public AdminAccountDto loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) {
 		AdminAccount user = adminAccountService.loginAdminAccount(username, password);
-		return user;
+		return convertToDto(user);
 	}
 	
 	/**
@@ -127,10 +128,10 @@ public class AdminAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = {"/logoutAdminAccount/{username}", "/logoutAdminAccount/{username}/" })
-	public AdminAccount logoutAdminAccount(@PathVariable("username") String username) throws InvalidInputException {
+	@PutMapping(value = {"/logoutAdminAccount/{username}", "/logoutAdminAccount/{username}/" })
+	public AdminAccountDto logoutAdminAccount(@PathVariable("username") String username) {
 		AdminAccount user = adminAccountService.logoutAdminAccount(username);
-		return user;
+		return convertToDto(user);
 	}
 	
 	/**
@@ -141,23 +142,34 @@ public class AdminAccountController {
 	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/authenticateAdminAccount/{username}", "/authenticateAdminAccount/{username}/" })
-	public AdminAccount authenticateAdminAccount(@PathVariable("username") String username) throws InvalidInputException{
+	public AdminAccountDto authenticateAdminAccount(@PathVariable("username") String username) {
 		AdminAccount user = adminAccountService.authenticateAdminAccount(username);
-		return user;
+		return convertToDto(user);
 	}
 	
 	/**
 	 * Get admin account associated to business information
-	 * Uses get business information by name from business information controller
 	 * @author Catherine
+	 * @param businessInformation name
+	 * @return
+	 */
+	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/{businessName}", "/getAdminAccountsByBusinessInformation/{businessName}/" })
+	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("businessName") String businessName) {
+		return adminAccountService.getAllAdminAccountsWithBusinessInformation(businessName).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	 
+	/**
+	 * Set business information for an admin account
+	 * @author Catherine
+	 * @param username
 	 * @param businessInformationDto
 	 * @return
 	 */
-	@GetMapping(value = { "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}", "/getAdminAccountsByBusinessInformation/getBusinessInformationByName/{name}/" })
-	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("name") BusinessInformationDto businessInformationDto) {
-		return adminAccountService.getAllAdminAccountsWithBusinessInformation(convertToDomainObject(businessInformationDto)).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	@PutMapping(value = {"/setBusinessInformation/{username}/{businessName}", "/setBusinessInformation/{username}/{businessName}/"})
+	public AdminAccountDto setBusinessInformation(@PathVariable("username") String username, @PathVariable("businessName") String businessName) {
+		AdminAccount user = adminAccountService.setBusinessInformation(businessName, username);
+		return convertToDto(user);
 	}
-	 
 	
 	//-------------------------- Helper Methods -----------------------------
 	
@@ -167,11 +179,12 @@ public class AdminAccountController {
 	 * @param user
 	 * @return
 	 */
-	private AdminAccountDto convertToDto(AdminAccount user) throws IllegalArgumentException{
+	private AdminAccountDto convertToDto(AdminAccount user){
 		if (user == null) {
-			throw new IllegalArgumentException("This user does not exist");
+			throw new InvalidInputException("This user does not exist");
 		}
 		AdminAccountDto adminAccountDto = new AdminAccountDto(user.getUsername(), user.getPassword(), user.getName());
+		adminAccountDto.setToken(user.getToken());
 		adminAccountDto.setBusinessInformation(convertToDto(user.getBusinessInformation()));
 		return adminAccountDto;
 	}
@@ -192,20 +205,7 @@ public class AdminAccountController {
 			return businessInfoDto;
 		}
 	}
-	/**
-	 * Helper method to get the businessInformation for the businessInformationDto
-	 * @author Catherine
-	 * @param businessInformationDto
-	 * @return BusinessInformation
-	 */
-	private BusinessInformation convertToDomainObject(BusinessInformationDto businessInformationDto)  {
-		if (businessInformationDto == null) {
-			return null;
-		}
-		else {
-			return businessInformationService.getBusinessInformationByName(businessInformationDto.getName());
-		}
-	}
+
 
 		
 }
