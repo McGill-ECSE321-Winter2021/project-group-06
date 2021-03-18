@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.vehiclerepairshop.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -21,6 +22,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CarRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -35,15 +37,18 @@ public class TestCarService {
 	
 	@Mock
 	private CarRepository carRepository;
+	@Mock
+	private CustomerAccountRepository customerAccountRepository;
 
 	@InjectMocks
 	private CarService carService;
 	
-
-  private static final String LICENSEPLATE = "ENL 432";
-  private static final String MODEL = "Honda Civic";
-  private static final int YEAR = 2006;
-  private static final MotorType MOTORTYPE = MotorType.Gas;
+	private static final String OWNER_USERNAME = "owner1";
+	private static final String LICENSEPLATE = "ENL 432";
+	private static final String MODEL = "Honda Civic";
+	private static final int YEAR = 2006;
+	private static final MotorType MOTORTYPE = MotorType.Gas;
+	CustomerAccount owner = new CustomerAccount();
 
   //private static final CustomerAccount owner;
   //private static final List<Appointment> appointment;
@@ -65,8 +70,20 @@ public class TestCarService {
 	        }
 	    });
 	    
+	    lenient().when(customerAccountRepository.findByUsername(anyString())).thenAnswer((InvocationOnMock invocation) ->{
+	    	
+	    	if(invocation.getArgument(0).equals(OWNER_USERNAME)) {
+	    		owner.setUsername(OWNER_USERNAME);
+	    		return owner;
+	    	}else {
+	    		return null;
+	    	}
+	    	
+	    	
+	    });
+	    
 	    lenient().when(carRepository.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-	    	 Car car = new Car();
+	    	Car car = new Car();
             car.setLicensePlate(LICENSEPLATE);
     		car.setModel(MODEL);
     		car.setYear(YEAR);
@@ -78,6 +95,7 @@ public class TestCarService {
 	    
 	    Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
 		lenient().when(carRepository.save(any(Car.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(customerAccountRepository.save(any(CustomerAccount.class))).thenAnswer(returnParameterAsAnswer);
 	}
   	
   	@Test
@@ -87,7 +105,7 @@ public class TestCarService {
 		try {
 			car = carService.createCar(LICENSEPLATE,MODEL,YEAR,MOTORTYPE);
 		} catch (IllegalArgumentException e) {
-			fail(e.getMessage());
+			fail();
 		}
 		Car car2 = carService.getCarByLicensePlate(LICENSEPLATE);
 		assertNotNull(car);
@@ -97,6 +115,173 @@ public class TestCarService {
 		assertEquals(car2.getMotorType(), car.getMotorType());
 	}
   	
+  	/**
+  	 * testing create a car with null liscense Plate 
+  	 */
+  	@Test
+  	public void testCreateCarwithNullLicensePlate() {
+  		Car car = null; 
+  		String error = "";
+  		String nullLicense = null;
+  		try {
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("licensePlate can not be null or empty!", error);
+  	}
+  	
+  	/**
+  	 * testing create a car with empty liscense Plate 
+  	 */
+	@Test
+  	public void testCreateCarwithEmptyLicensePlate() {
+  		Car car = null; 
+  		String error = "";
+  		String nullLicense = "";
+  		try {
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("licensePlate can not be null or empty!", error);
+  	}
+	
+	/**
+  	 * testing create a car with Space liscense Plate 
+  	 */
+	@Test
+  	public void testCreateCarwithSpaceLicensePlate() {
+  		Car car = null; 
+  		String error = "";
+  		String nullLicense = " ";
+  		try {
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("licensePlate can not be null or empty!", error);
+  	}
+  	
+	
+	/**
+	 * testing create a car with Space model 
+	 */
+	@Test
+  	public void testCreateCarwithSpaceModel() {
+  		Car car = null; 
+  		String error = "";
+  		String nullModel = " ";
+  		try {
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("model can not be null or empty!", error);
+  		
+  	}
+	
+	
+	/**
+	 * testing create a car with empty model 
+	 */
+	@Test
+  	public void testCreateCarwithEmptyModel() {
+  		Car car = null; 
+  		String error = "";
+  		String nullModel = "";
+  		try {
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("model can not be null or empty!", error);
+  		
+  	}
+	
+	/**
+	 * testing create a car with null model 
+	 */
+	@Test
+  	public void testCreateCarwithNullModel() {
+  		Car car = null; 
+  		String error = "";
+  		String nullModel = null;
+  		try {
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("model can not be null or empty!", error);
+  		
+  	}
+	
+	/**
+	 * testing get a car by valid licence plate
+	 */
+	@Test 
+	public void testGetCarByValidLicensePlate() {
+		Car car = null;
+		String error = "";
+		try {
+			car = carService.getCarByLicensePlate(LICENSEPLATE);
+		}catch (InvalidInputException e) {
+			error = fail();
+		}
+		assertNotNull(car);
+		assertEquals(LICENSEPLATE,car.getLicensePlate());
+	}
+	
+	@Test 
+	public void testGetCarByNullLicensePlate() {
+		Car car = null;
+		String nullLicensePlate = null;
+		String error = "";
+		try {
+			car = carService.getCarByLicensePlate(nullLicensePlate);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(car);
+		assertEquals("licensePlate can not be null or empty!can not find this car in the car repository!",error);
+	}
+	
+	@Test 
+	public void testGetCarByEmptyLicensePlate() {
+		Car car = null;
+		String nullLicensePlate = "";
+		String error = "";
+		try {
+			car = carService.getCarByLicensePlate(nullLicensePlate);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(car);
+		assertEquals("licensePlate can not be null or empty!can not find this car in the car repository!",error);
+	}
+	
+	
+	@Test 
+	public void testGetCarBySpaceLicensePlate() {
+		Car car = null;
+		String nullLicensePlate = " ";
+		String error = "";
+		try {
+			car = carService.getCarByLicensePlate(nullLicensePlate);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(car);
+		assertEquals("licensePlate can not be null or empty!can not find this car in the car repository!",error);
+	}
+	
+	
   	@Test
 	public void testGetAllCars() {
 		List<Car> cars = new ArrayList<Car>();
@@ -109,13 +294,102 @@ public class TestCarService {
 		assertEquals(MOTORTYPE, car.getMotorType());
 	}
   	
-//  	@Test
-//  	public void testGetCarsByOwner() {
-//  		List<Car> cars = new ArrayList<Car>();
-//  		cars = carService.getCarsByOwner();
-//  		
-//  	}
+  	@Test
+  	public void testGetCarsByOwner() {
+  		List<Car> cars = new ArrayList<Car>();
+  		owner.setUsername(OWNER_USERNAME);
+  		String error = "";
+  		try {
+  			cars = carService.getCarsByOwner(owner);
+  		}catch(InvalidInputException e) {
+  			error = fail();
+  		}
+  		assertNotNull(cars);
+  		for(Car c : cars) {
+  			testCarAttrribute(c);
+  		}
+  	}
+  	
+  	@Test
+  	public void testGetCarsByOwnerWithNullOwner() {
+  		List<Car> cars = new ArrayList<Car>();
+  		CustomerAccount owner = null;
+  		String error = "";
+  		try {
+  			cars = carService.getCarsByOwner(owner);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertEquals(cars.size(), 0);
+  		assertEquals("Car owner cannot be null!",error);
+  		
+  	}
+  	
+  	@Test
+  	public void testGetCarsByOwnerWithEmptyOwnerUsername() {
+  		List<Car> cars = new ArrayList<Car>();
+  		CustomerAccount owner = new CustomerAccount();
+  		owner.setUsername("");
+  		String error = "";
+  		try {
+  			cars = carService.getCarsByOwner(owner);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertEquals(cars.size(), 0);
+  		assertEquals("This owner's username cannot be empty or null!",error);
+  		
+  	}
 	
+  	
+  	@Test
+  	public void testGetCarsByOwnerWithNullOwnerUsername() {
+  		List<Car> cars = new ArrayList<Car>();
+  		CustomerAccount owner = new CustomerAccount();
+  		owner.setUsername(null);
+  		String error = "";
+  		try {
+  			cars = carService.getCarsByOwner(owner);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertEquals(cars.size(), 0);
+  		assertEquals("This owner's username cannot be empty or null!",error);
+  		
+  	}
+  	
+  	@Test
+  	public void testGetCarsByOwnerWithSpaceOwnerUsername() {
+  		List<Car> cars = new ArrayList<Car>();
+  		CustomerAccount owner = new CustomerAccount();
+  		owner.setUsername(" ");
+  		String error = "";
+  		try {
+  			cars = carService.getCarsByOwner(owner);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertEquals(cars.size(), 0);
+  		assertEquals("This owner's username cannot be empty or null!",error);
+  		
+  	}
+  	
+  	@Test
+  	public void testGetCarsByOwnerWithOwnerNotFoundInCustomerRepo() {
+  		List<Car> cars = new ArrayList<Car>();
+  		CustomerAccount owner = new CustomerAccount();
+  		owner.setUsername("owner2");
+  		String error = "";
+  		try {
+  			cars = carService.getCarsByOwner(owner);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertEquals(cars.size(), 0);
+  		assertEquals("cannot find this car owner in customerAccountRepository!",error);
+  		
+  	}
+  	
 	@Test
 	public void testDeleteCar() {	
 		
@@ -131,6 +405,18 @@ public class TestCarService {
 		assertEquals(car2.getModel(), car.getModel());
 		assertEquals(car2.getYear(), car.getYear());
 		assertEquals(car2.getMotorType(), car.getMotorType());
+	}
+	
+	/**
+	 * helper method
+	 * @param car
+	 */
+	private void testCarAttrribute(Car car) {
+		assertNotNull(car);
+		assertEquals(LICENSEPLATE, car.getLicensePlate());
+		assertEquals(MODEL, car.getModel());
+		assertEquals(YEAR, car.getYear());
+		assertEquals(MOTORTYPE, car.getMotorType());
 	}
 
 }

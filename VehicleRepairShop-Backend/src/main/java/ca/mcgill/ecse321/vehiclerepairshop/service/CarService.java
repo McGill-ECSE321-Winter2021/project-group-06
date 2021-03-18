@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CarRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -16,6 +17,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 public class CarService {
 	@Autowired
 	private CarRepository carRepository;
+	@Autowired 
+	private CustomerAccountRepository customerAccountRepository;
 	
 	/**
 	 * @author James Darby
@@ -34,7 +37,7 @@ public class CarService {
 	public Car createCar(String licensePlate, String model, int year, MotorType motorType) {
 		String error = "";
 		if (licensePlate == null || licensePlate.trim().length() == 0) {
-			error = error + "licensePlate can not be null or empty! ";
+			error = error + "licensePlate can not be null or empty!";
 		}
 		if (model == null || model.trim().length() == 0) {
 			error = error + "model can not be null or empty!";
@@ -70,8 +73,22 @@ public class CarService {
 	 */
 	@Transactional
 	public List<Car> getCarsByOwner(CustomerAccount owner) {
-		List<Car> cars = carRepository.findByOwner(owner);
-		return cars;	
+		String error = "";
+		if (owner == null) {
+			error = error + "Car owner cannot be null!";
+		}else if (owner.getUsername() == null || owner.getUsername().trim().length() == 0) {
+			error = error + "This owner's username cannot be empty or null!";
+		}else if (customerAccountRepository.findByUsername(owner.getUsername())==null) {
+			error = error + "cannot find this car owner in customerAccountRepository!";
+		}
+		if (error.length() >0 ) {
+			throw new InvalidInputException(error);
+		}
+		else {
+			List<Car> cars = carRepository.findByOwner(owner);
+			return cars;
+		}
+			
 	}
 	
 	/*
@@ -81,8 +98,20 @@ public class CarService {
 	 */
 	@Transactional
 	public Car getCarByLicensePlate(String licensePlate) {
-		Car car = carRepository.findByLicensePlate(licensePlate);
-		return car;	
+		String error = "";
+		if (licensePlate == null || licensePlate.trim().length() == 0) {
+			error = error + "licensePlate can not be null or empty!";
+		}
+		if (carRepository.findByLicensePlate(licensePlate) == null) {
+			error = error + "can not find this car in the car repository!";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error);
+		}else {
+			Car car = carRepository.findByLicensePlate(licensePlate);
+			return car;	
+		}
+		
 	}
 	
 	/*
