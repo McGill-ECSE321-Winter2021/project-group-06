@@ -291,7 +291,7 @@ public class CustomerAccountController {
 			return null;
 		}
 		
-		GarageDto garageDto = new GarageDto(garage.getIsAvailable(), garage.getGarageId(), 
+		GarageDto garageDto = new GarageDto(garage.getGarageId(), 
 				garage.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
 		return garageDto;
 	}

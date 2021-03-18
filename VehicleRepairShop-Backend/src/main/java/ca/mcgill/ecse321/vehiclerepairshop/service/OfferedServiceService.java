@@ -28,6 +28,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 public class OfferedServiceService {
 	@Autowired
 	private OfferedServiceRepository offeredServiceRepository;
+	@Autowired
+	private AppointmentRepository appointmentRepository;
 	
 	// --------------------------- Mike starts here --------------------------------
 	
@@ -99,6 +101,47 @@ public class OfferedServiceService {
 		
 	}
 	
+	
+	/**
+	 * this method add an appointment to the existing offeredService
+	 * @param offeredService
+	 * @param appointment
+	 * @return
+	 * @throws InvalidInputException 
+	 */
+	@Transactional 
+	public OfferedService addAppointments(OfferedService offeredService, Appointment appointment) throws InvalidInputException{
+		String error = "";
+		if (offeredService == null) {
+			error = error + "inputted OfferedService can not be null!";	
+		}else if (offeredServiceRepository.findByOfferedServiceId(offeredService.getOfferedServiceId())==null) {
+			error = error + "inputted OfferedService can not be found in the persistence!";
+		} 
+		if (appointment == null) {
+			error = error + "inputted Appoitnment can not be null!";
+		}else if (appointmentRepository.findByAppointmentId(appointment.getAppointmentId()) == null) {
+			error = error + "inputted Appointment can not be found in the persistence!";
+		}
+		if (error.length()>0) {
+			
+			//return offeredService;
+			throw new InvalidInputException(error);
+		}
+		else { 
+			List<Appointment> appointments = new ArrayList<Appointment>();
+			List<Appointment> ExistingAppointments = new ArrayList<Appointment>();
+			ExistingAppointments = offeredService.getAppointment();
+			if (ExistingAppointments != null) {
+				for (Appointment apt: ExistingAppointments) {
+					appointments.add(apt);
+				}
+			}
+			appointments.add(appointment);
+			offeredService.setAppointment(appointments);
+			return offeredService;
+		}
+		
+	}
 	
 	
 	/**
