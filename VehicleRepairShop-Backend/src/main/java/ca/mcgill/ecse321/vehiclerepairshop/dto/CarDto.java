@@ -20,9 +20,11 @@ public class CarDto {
 		  
 	  }
 	  
-	  @SuppressWarnings("unchecked")
-	  public CarDto(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner){
-		  this(licensePlate, model, year, motorType, owner, Collections.EMPTY_LIST);  
+	  public CarDto(String licensePlate, String model, int year, MotorType motorType){
+		  this.licensePlate = licensePlate;
+		  this.model = model;
+		  this.year = year;
+		  this.motorType = motorType;
 	  }
 	  
 	  public CarDto(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner, List<AppointmentDto> appointments){

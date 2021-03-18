@@ -79,7 +79,7 @@ public class AppointmentService {
 	@Transactional
 	public Appointment getAppointmentById(int id) {
 		String error = "";
-		if (appointmentRepository.findById(id)==null) {
+		if (!appointmentRepository.findById(id).isPresent()) {
 			error = error + "appointment not found";
 		}
 		error = error.trim();

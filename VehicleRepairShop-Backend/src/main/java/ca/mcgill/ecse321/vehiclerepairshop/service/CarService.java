@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CarRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -16,6 +17,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 public class CarService {
 	@Autowired
 	private CarRepository carRepository;
+	@Autowired 
+	private CustomerAccountRepository customerAccountRepository;
 	
 	/**
 	 * @author James Darby
@@ -34,15 +37,14 @@ public class CarService {
 	public Car createCar(String licensePlate, String model, int year, MotorType motorType) {
 		String error = "";
 		if (licensePlate == null || licensePlate.trim().length() == 0) {
-			error = error + "licensePlate can not be null or empty! ";
+			error = error + "licensePlate can not be null or empty!";
 		}
 		if (model == null || model.trim().length() == 0) {
 			error = error + "model can not be null or empty!";
 		}
 		if (year < 1886) {
 			error = error + "Theres not car have been invented until 1886!";
-		}
-		if (year > 2021) {
+		}else if (year > 2021) {
 			error = error + "you can't add a car which is invented in the future!";
 		}
 		if (motorType == null) {
@@ -70,8 +72,22 @@ public class CarService {
 	 */
 	@Transactional
 	public List<Car> getCarsByOwner(CustomerAccount owner) {
-		List<Car> cars = carRepository.findByOwner(owner);
-		return cars;	
+		String error = "";
+		if (owner == null) {
+			error = error + "Car owner cannot be null!";
+		}else if (owner.getUsername() == null || owner.getUsername().trim().length() == 0) {
+			error = error + "This owner's username cannot be empty or null!";
+		}else if (customerAccountRepository.findByUsername(owner.getUsername())==null) {
+			error = error + "cannot find this car owner in customerAccountRepository!";
+		}
+		if (error.length() >0 ) {
+			throw new InvalidInputException(error);
+		}
+		else {
+			List<Car> cars = carRepository.findByOwner(owner);
+			return cars;
+		}
+			
 	}
 	
 	/*
@@ -81,8 +97,51 @@ public class CarService {
 	 */
 	@Transactional
 	public Car getCarByLicensePlate(String licensePlate) {
-		Car car = carRepository.findByLicensePlate(licensePlate);
-		return car;	
+		String error = "";
+		if (licensePlate == null || licensePlate.trim().length() == 0) {
+			error = error + "licensePlate can not be null or empty!";
+		}
+		if (carRepository.findByLicensePlate(licensePlate) == null) {
+			error = error + "can not find this car in the car repository!";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error);
+		}else {
+			Car car = carRepository.findByLicensePlate(licensePlate);
+			return car;	
+		}
+		
+	}
+	
+	
+	/**
+	 * car add owner
+	 * @param owner
+	 * @param car
+	 * @return
+	 */
+	@Transactional
+	public Car carAddOwner(CustomerAccount owner, Car car) {
+		String error = "";
+		if (owner == null) {
+			error = error + "owner can not be null!";
+		}else if (customerAccountRepository.findByUsername(owner.getUsername()) == null) {
+			error = error + "This owner does not found in customerAccountRepository!";
+		}
+		
+		if (car == null) {
+			error = error + "car can not be null!";
+		}else if (carRepository.findByLicensePlate(car.getLicensePlate())==null) {
+			error = error + "car can not be found in the carRepository!";
+		}
+		
+		if (error.length() >0) {
+			throw new InvalidInputException(error);
+		}else {
+			car.setOwner(owner);
+			return car;
+		}
+		
 	}
 	
 	/*
@@ -108,7 +167,7 @@ public class CarService {
 		}
 		error = error.trim();
 	    if (error.length() > 0) {
-	        throw new IllegalArgumentException(error);
+	        throw new InvalidInputException(error);
 	    }
 		Car car = carRepository.findByLicensePlate(licensePlate);
 		carRepository.delete(car);
