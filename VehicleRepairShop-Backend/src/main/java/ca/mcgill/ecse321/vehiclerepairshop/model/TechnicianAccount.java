@@ -47,7 +47,7 @@ public class TechnicianAccount
 	private List<TimeSlot> availability;
 	private List<Appointment> appointment;
 
-	@ManyToMany(cascade= {CascadeType.ALL})
+	@ManyToMany
 	public List<TimeSlot> getAvailability()
 	{
 		return this.availability;
@@ -57,7 +57,7 @@ public class TechnicianAccount
 		this.availability = availability;	  
 	}
 
-	@ManyToMany(cascade= {CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.EAGER)
 	public List<Appointment> getAppointment()
 	{
 		return appointment;
