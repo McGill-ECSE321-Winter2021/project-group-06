@@ -10,6 +10,8 @@ import static org.mockito.Mockito.lenient;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
+
+import org.aspectj.weaver.World;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -433,8 +435,8 @@ public class TestAppointmentService {
 		workers.add(worker);
 
 		//timeslot
-		String startTime = "10:00:00";
-		String endTime = "11:00:00";
+		String startTime = "14:00:00";
+		String endTime = "15:00:00";
 		String startDate = "2021-03-01";
 		String endDate = "2021-03-01";
 		TimeSlot timeSlot = new TimeSlot();
@@ -450,12 +452,13 @@ public class TestAppointmentService {
 		Appointment appointment2 = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, garage, comment);
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, garage, comment,worker);
 			appointment.setAppointmentId(APPOINTMENTID);
 
 		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
+		System.out.println(appointment.getAppointmentId());
 		appointment2 = appointmentService.getAppointmentById(APPOINTMENTID);
 		assertNotNull(appointment);
 		assertEquals(appointment2.getComment(), appointment.getComment());
@@ -465,6 +468,57 @@ public class TestAppointmentService {
 		assertEquals(appointment2.getTimeSlot().getTimeSlotId(), appointment.getTimeSlot().getTimeSlotId());
 		assertEquals(appointment2.getOfferedService().getOfferedServiceId(), appointment.getOfferedService().getOfferedServiceId());
 	}
+	
+	
+	@Test
+	public void testCreateAppointmentConflict() {
+		//offered service 
+		OfferedService offeredService = new OfferedService();
+		offeredService.setOfferedServiceId("1");
+		offeredService.setDuration(60);
+		String error = "";
+		//Car
+		Car car = new Car();
+		car.setLicensePlate("1");
+
+		//garage
+		Garage garage = new Garage();
+		garage.setGarageId("1");
+
+		//technician
+		TechnicianAccount worker = new TechnicianAccount();
+		List<TechnicianAccount> workers = new ArrayList<TechnicianAccount>();
+		worker.setUsername("1");
+		workers.add(worker);
+
+		//timeslot
+		String startTime = "11:00:00";
+		String endTime = "12:00:00";
+		String startDate = "2021-03-01";
+		String endDate = "2021-03-01";
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setTimeSlotId(1);
+		timeSlot.setEndDate(Date.valueOf(endDate));
+		timeSlot.setEndTime(Time.valueOf(endTime));
+		timeSlot.setStartDate(Date.valueOf(startDate));
+		timeSlot.setStartTime(Time.valueOf(startTime));
+
+		String comment = "comment";
+
+		Appointment appointment = new Appointment();
+		
+
+		try {
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, garage, comment,worker);
+			appointment.setAppointmentId(APPOINTMENTID);
+
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals( error, "this new timeslot conflicts with another existing timeslot");
+
+	}
+
 
 	@Test
 	public void testMissingCarCreateAppointment(){
@@ -501,7 +555,7 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(timeSlot, offeredService, null, garage, comment);
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, null, garage, comment, worker);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -544,7 +598,7 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, null, comment);
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, null, comment, worker);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -582,7 +636,7 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(null, offeredService, car, garage, comment);
+			appointment = appointmentService.createAppointment(null, offeredService, car, garage, comment, worker);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 
@@ -631,7 +685,7 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, garage, null);
+			appointment = appointmentService.createAppointment(timeSlot, offeredService, car, garage, null,worker);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 
@@ -678,7 +732,7 @@ public class TestAppointmentService {
 		Appointment appointment = new Appointment();
 
 		try {
-			appointment = appointmentService.createAppointment(timeSlot, null, car, garage, comment);
+			appointment = appointmentService.createAppointment(timeSlot, null, car, garage, comment,worker);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 
@@ -927,10 +981,9 @@ public class TestAppointmentService {
 			appointment = appointmentService.deleteAppointment(APPOINTMENTID);
 		} catch (InvalidInputException e) {
 			fail(e.getMessage());
-		}
-		Appointment appointment2 = appointmentService.getAppointmentById(APPOINTMENTID);
+		};
 		assertNotNull(appointment);
-		assertEquals(appointment2.getAppointmentId(), appointment.getAppointmentId());
+		assertEquals(APPOINTMENTID, appointment.getAppointmentId());
 
 	}
 	

@@ -203,8 +203,13 @@ public class TechnicianAccountController {
 			throw new IllegalArgumentException("This user does not exist");
 		}
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-		technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
-		technicianAccountDto.setTimeSlots(user.getAvailability().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		if (user.getAppointment()!=null) {
+			technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		}
+		if (user.getAvailability() != null) {
+			technicianAccountDto.setTimeSlots(user.getAvailability().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		}
+		
 		technicianAccountDto.setToken(user.getToken());
 		return technicianAccountDto;
 	}
