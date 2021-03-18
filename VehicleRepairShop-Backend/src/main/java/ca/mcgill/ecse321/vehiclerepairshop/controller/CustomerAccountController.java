@@ -182,7 +182,9 @@ public class CustomerAccountController {
 		}
 		CustomerAccountDto customerAccountDto = new CustomerAccountDto(user.getUsername(), user.getPassword(), user.getName());
 		customerAccountDto.setToken(user.getToken());
-		customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		if (user.getCar() != null) {
+			customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
+		}
 		return customerAccountDto;
 	}
 
@@ -255,7 +257,9 @@ public class CustomerAccountController {
 			return null;
 		}
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-		technicianAccountDto.setAppointments(user.getAppointment().stream().map(t -> convertToDto(t)).collect(Collectors.toList()));
+		if (user.getAppointment() != null) {
+			technicianAccountDto.setAppointments(user.getAppointment().stream().map(t -> convertToDto(t)).collect(Collectors.toList()));
+		}
 		return technicianAccountDto;
 	}
 	

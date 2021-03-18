@@ -185,7 +185,9 @@ public class AdminAccountController {
 		}
 		AdminAccountDto adminAccountDto = new AdminAccountDto(user.getUsername(), user.getPassword(), user.getName());
 		adminAccountDto.setToken(user.getToken());
-		adminAccountDto.setBusinessInformation(convertToDto(user.getBusinessInformation()));
+		if (user.getBusinessInformation() != null) {
+			adminAccountDto.setBusinessInformation(convertToDto(user.getBusinessInformation()));
+		}
 		return adminAccountDto;
 	}
 	

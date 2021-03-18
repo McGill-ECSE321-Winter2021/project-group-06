@@ -67,7 +67,7 @@ public class Appointment
   {
 
     return this.timeSlot;
-  }
+  } 
 
   @ManyToMany(cascade= {CascadeType.ALL})
   public List<TechnicianAccount> getWorker()

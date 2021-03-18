@@ -224,7 +224,7 @@ public class TechnicianAccountController {
 		else {
 			AppointmentDto aptDto = new AppointmentDto(convertToDto(apt.getTimeSlot()), convertToDto(apt.getCar()), 
 					apt.getComment(), convertToDto(apt.getGarage()), 
-					apt.getWorker().stream().map(a -> convertToDto(a)).collect(Collectors.toList()), convertToDto(apt.getOfferedService()));
+					apt.getWorker().stream().map(a -> convertToDto(a)).collect(Collectors.toList()), convertToDto(apt.getOfferedService()), apt.getAppointmentId());
 			return aptDto;
 		}
 	}
@@ -243,6 +243,7 @@ public class TechnicianAccountController {
 		else {
 		OfferedServiceDto offeredServiceDto = new OfferedServiceDto(offeredService.getOfferedServiceId(), offeredService.getPrice(), 
 				offeredService.getName(), offeredService.getDuration(), offeredService.getReminderTime(), offeredService.getReminderDate(), offeredService.getDescription());
+		offeredServiceDto.setAppointments(offeredService.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
 		return offeredServiceDto;
 		}
 	}
@@ -277,6 +278,7 @@ public class TechnicianAccountController {
 			return null;
 		}
 		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(), timeSlot.getEndTime(), timeSlot.getStartDate(), timeSlot.getEndDate());
+		
 		return timeSlotDto;
 	}
 	
@@ -294,6 +296,7 @@ public class TechnicianAccountController {
 		else {
 			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
 					car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+		
 			return carDto;
 		}
 	}
