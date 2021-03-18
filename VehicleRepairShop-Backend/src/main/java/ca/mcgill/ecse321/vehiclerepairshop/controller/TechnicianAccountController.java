@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
-import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
@@ -31,8 +30,6 @@ public class TechnicianAccountController {
 
 	@Autowired
 	private TechnicianAccountService technicianAccountService;
-	@Autowired
-	private AppointmentService appointmentService;
 
 	/**
 	 * Return a list of all Technician Account Dtos 
@@ -93,7 +90,7 @@ public class TechnicianAccountController {
 	 * @return Technician Account Dto
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = {"/updateTechnicianAccount/{username}/{newPassword}/{newName}", "/technicianAccount/updateTechnicianAccount/{username}/{newPassword}/{newName}/" })
+	@PutMapping(value = {"/updateTechnicianAccount/{username}/{newPassword}/{newName}", "/technicianAccount/updateTechnicianAccount/{username}/{newPassword}/{newName}/" })
 	public TechnicianAccountDto updateTechnicianAccount(@PathVariable("username") String username,  @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName)  {
 		TechnicianAccount user = technicianAccountService.updateTechnicianAccount(username, newPassword, newName);
 		return convertToDto(user);
@@ -120,7 +117,7 @@ public class TechnicianAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = {"/loginTechnicianAccount/{username}/{password}", "/loginTechnicianAccount/{username}/{password}/" })
+	@PutMapping(value = {"/loginTechnicianAccount/{username}/{password}", "/loginTechnicianAccount/{username}/{password}/" })
 	public TechnicianAccount loginTechnicianAccount(@PathVariable("username") String username, @PathVariable("password") String password)  {
 		TechnicianAccount user = technicianAccountService.loginTechnicianAccount(username, password);
 		return user;
@@ -133,7 +130,7 @@ public class TechnicianAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@PostMapping(value = {"/logoutTechnicianAccount/{username}", "/logoutTechnicianAccount/{username}/" })
+	@PutMapping(value = {"/logoutTechnicianAccount/{username}", "/logoutTechnicianAccount/{username}/" })
 	public TechnicianAccount logoutTechnicianAccount(@PathVariable("username") String username)  {
 		TechnicianAccount user = technicianAccountService.logoutTechnicianAccount(username);
 		return user;
