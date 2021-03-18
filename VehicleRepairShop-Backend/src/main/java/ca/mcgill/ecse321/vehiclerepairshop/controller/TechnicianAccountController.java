@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
-import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
@@ -31,8 +30,6 @@ public class TechnicianAccountController {
 
 	@Autowired
 	private TechnicianAccountService technicianAccountService;
-	@Autowired
-	private AppointmentService appointmentService;
 
 	/**
 	 * Return a list of all Technician Account Dtos 

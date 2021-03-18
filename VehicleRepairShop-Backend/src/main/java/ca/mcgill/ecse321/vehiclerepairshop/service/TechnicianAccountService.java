@@ -13,12 +13,9 @@ import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.TechnicianAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
-import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
-import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 
 @Service
 public class TechnicianAccountService {

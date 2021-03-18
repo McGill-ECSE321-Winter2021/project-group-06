@@ -126,10 +126,9 @@ public class TestTimeSlotService {
 	}
 	@Test
 	public void testMissingStartTimeTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
-			timeSlot = timeSlotService.createTimeSlot(null, Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
+			timeSlotService.createTimeSlot(null, Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -138,10 +137,9 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testMissingStartDateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
-			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), null, Date.valueOf(ENDDATE));
+			timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), null, Date.valueOf(ENDDATE));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -150,10 +148,9 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testMissingEndDateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
-			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), null);
+			timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), null);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -163,10 +160,9 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testMissingEndTimeTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
-			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), null, Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
+			timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), null, Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -176,12 +172,11 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testStartAfterEndTimeTimeSlot() {
-		TimeSlot timeSlot = null;
 		String newStartTime = "10:10:00";
 		String newEndTime = "10:00:00";
 		String error = "";
 		try {
-			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(newStartTime), Time.valueOf(newEndTime), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
+			timeSlotService.createTimeSlot(Time.valueOf(newStartTime), Time.valueOf(newEndTime), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -190,12 +185,11 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testStartAfterEndDateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String newStartDate = "2021-03-02";
 		String newEndDate = "2021-03-01";
 		String error = "";
 		try {
-			timeSlot = timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
+			timeSlotService.createTimeSlot(Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -206,7 +200,6 @@ public class TestTimeSlotService {
 
 	@Test 
 	public void testInvalidDeleteTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
 			timeSlotService.deleteTimeSlot(1);
@@ -219,7 +212,6 @@ public class TestTimeSlotService {
 	
 	@Test 
 	public void testInvalidGetTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
 			timeSlotService.getTimeSlot(1);
@@ -263,10 +255,9 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testMissingStartTimeUpdateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
-			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, null,Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
+			timeSlotService.updateTimeSlot(TIMESLOTID, null,Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -275,10 +266,9 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testMissingStartDateUpdateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
-			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), null, Date.valueOf(ENDDATE));
+			timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), null, Date.valueOf(ENDDATE));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -287,10 +277,9 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testMissingEndDateUpdateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String error = "";
 		try {
-			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID,Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), null);
+			timeSlotService.updateTimeSlot(TIMESLOTID,Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(STARTDATE), null);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -300,10 +289,9 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testMissingEndTimeUpdateTimeSlot() {
-		TimeSlot timeSlot = new TimeSlot();
 		String error = "";
 		try {
-			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), null, Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
+			timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), null, Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -313,12 +301,11 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testStartAfterEndTimeUpdateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String newStartTime = "10:10:00";
 		String newEndTime = "10:00:00";
 		String error = "";
 		try {
-			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(newStartTime), Time.valueOf(newEndTime), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
+			timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(newStartTime), Time.valueOf(newEndTime), Date.valueOf(STARTDATE), Date.valueOf(ENDDATE));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -327,12 +314,11 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testStartAfterEndDateUpdateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String newStartDate = "2021-03-02";
 		String newEndDate = "2021-03-01";
 		String error = "";
 		try {
-			timeSlot = timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
+			timeSlotService.updateTimeSlot(TIMESLOTID, Time.valueOf(STARTTIME), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -341,13 +327,12 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testInvalidIdUpdateTimeSlot() {
-		TimeSlot timeSlot = null;
 		String newStartTime = "10:10:00";
 		String newStartDate = "2021-03-02";
 		String newEndDate = "2021-03-02";
 		String error = "";
 		try {
-			timeSlot = timeSlotService.updateTimeSlot(1, Time.valueOf(newStartTime), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
+			timeSlotService.updateTimeSlot(1, Time.valueOf(newStartTime), Time.valueOf(ENDTIME), Date.valueOf(newStartDate), Date.valueOf(newEndDate));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}

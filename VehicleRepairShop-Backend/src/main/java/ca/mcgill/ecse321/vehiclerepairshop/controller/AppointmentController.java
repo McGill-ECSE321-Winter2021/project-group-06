@@ -1,13 +1,10 @@
 package ca.mcgill.ecse321.vehiclerepairshop.controller;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,15 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
-import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
@@ -362,39 +356,39 @@ public class AppointmentController {
 	 * @param carDto
 	 * @return
 	 */
-	private Car convertToCarDomainObject(CarDto carDto) {
-		if (carDto == null) {
-			throw new InvalidInputException("There is no such carDto!");
-		}
-		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
-		return car;
-	}
+//	private Car convertToCarDomainObject(CarDto carDto) {
+//		if (carDto == null) {
+//			throw new InvalidInputException("There is no such carDto!");
+//		}
+//		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
+//		return car;
+//	}
 
 	/**
 	 * Helper method which can turn a timeSlotDto to timeSlot
 	 * @param timeSlotDto
 	 * @return
 	 */
-	private TimeSlot convertToTimeSlotDomainObject(TimeSlotDto timeSlotDto) {
-		if (timeSlotDto == null) {
-			throw new InvalidInputException("There is no such timeSlotDto!");
-		}
-		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getTimeslotId());
-		return timeSlot;
-	}
+//	private TimeSlot convertToTimeSlotDomainObject(TimeSlotDto timeSlotDto) {
+//		if (timeSlotDto == null) {
+//			throw new InvalidInputException("There is no such timeSlotDto!");
+//		}
+//		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getTimeslotId());
+//		return timeSlot;
+//	}
 
-	/**
-	 * Helper method which can turn a OfferedServiceDto to OfferedService
-	 * @param offeredServiceDto
-	 * @return
-	 */
-	private OfferedService convertToOfferedServiceDomainObject(OfferedServiceDto offeredServiceDto) {
-		if (offeredServiceDto == null) {
-			throw new InvalidInputException("There is no such offeredServiceDto!");
-		}
-		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
-		return offeredService;
-	}
+//	/**
+//	 * Helper method which can turn a OfferedServiceDto to OfferedService
+//	 * @param offeredServiceDto
+//	 * @return
+//	 */
+//	private OfferedService convertToOfferedServiceDomainObject(OfferedServiceDto offeredServiceDto) {
+//		if (offeredServiceDto == null) {
+//			throw new InvalidInputException("There is no such offeredServiceDto!");
+//		}
+//		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
+//		return offeredService;
+//	}
 
 
 	/**

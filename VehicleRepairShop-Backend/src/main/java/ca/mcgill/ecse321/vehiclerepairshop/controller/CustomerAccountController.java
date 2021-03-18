@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -20,7 +19,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
-import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
+
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 @CrossOrigin(origins = "*")
@@ -29,8 +28,7 @@ public class CustomerAccountController {
 
 	@Autowired
 	private CustomerAccountService customerAccountService;
-	@Autowired
-	private CarService carService;
+
 
 	/**
 	 * Return a list of all Customer Account Dtos 
@@ -159,7 +157,7 @@ public class CustomerAccountController {
 	public CustomerAccountDto getCustomerAccountByCar(@PathVariable("licensePlate") String licensePlate) {
 		return convertToDto(customerAccountService.getCustomerAccountWithCar(licensePlate));
 	}
-	
+
 	/**
 	 * add a car to customer account
 	 * @author Catherine
@@ -217,14 +215,14 @@ public class CustomerAccountController {
 	 * @param carDto
 	 * @return Car
 	 */
-	private Car convertToDomainObject(CarDto carDto)  {
-		if (carDto == null) {
-			return null;
-		}
-		else {
-			return carService.getCarByLicensePlate(carDto.getLicensePlate());
-		}
-	}
+	//	private Car convertToDomainObject(CarDto carDto)  {
+	//		if (carDto == null) {
+	//			return null;
+	//		}
+	//		else {
+	//			return carService.getCarByLicensePlate(carDto.getLicensePlate());
+	//		}
+	//	}
 
 
 	/**
@@ -258,12 +256,12 @@ public class CustomerAccountController {
 			return null;
 		}
 		else {
-		OfferedServiceDto offeredServiceDto = new OfferedServiceDto(offeredService.getOfferedServiceId(), offeredService.getPrice(), 
-				offeredService.getName(), offeredService.getDuration(), offeredService.getReminderTime(), offeredService.getReminderDate(), offeredService.getDescription());
-		return offeredServiceDto;
+			OfferedServiceDto offeredServiceDto = new OfferedServiceDto(offeredService.getOfferedServiceId(), offeredService.getPrice(), 
+					offeredService.getName(), offeredService.getDuration(), offeredService.getReminderTime(), offeredService.getReminderDate(), offeredService.getDescription());
+			return offeredServiceDto;
 		}
 	}
-	
+
 
 	/**
 	 * Helper Method to convert an technician account to a Dto
@@ -280,7 +278,7 @@ public class CustomerAccountController {
 		technicianAccountDto.setAppointments(user.getAppointment().stream().map(t -> convertToDto(t)).collect(Collectors.toList()));
 		return technicianAccountDto;
 	}
-	
+
 	/**
 	 * Helper Method to convert a garage to a Dto
 	 * Will return null if you pass null
@@ -292,7 +290,7 @@ public class CustomerAccountController {
 		if (garage == null) {
 			return null;
 		}
-		
+
 		GarageDto garageDto = new GarageDto(garage.getGarageId(), 
 				garage.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
 		return garageDto;

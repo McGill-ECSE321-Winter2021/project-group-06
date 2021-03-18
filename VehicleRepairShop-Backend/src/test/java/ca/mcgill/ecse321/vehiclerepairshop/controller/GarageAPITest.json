@@ -1,107 +1,405 @@
 {
-	"info": {
-		"_postman_id": "790c10a2-ffae-419f-9ede-a8f705c07c18",
-		"name": "New Collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "GetAllGarages",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"get all garages\", function() {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.garageId).to.include(\"123\");",
-							"    //pm.expect(jsonData.availability).to.include(false);",
-							"    //pm.expect(jsonData.appointments).to.include([]);",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/getAllGarages",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"getAllGarages"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "http://localhost:8080/createGarage/123/true",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"",
-							"const jsonData = JSON.parse(responseBody)",
-							"pm.test(\"Test data type of the response\", () => {",
-							"  pm.expect(jsonData).to.be.an(\"object\");",
-							"  pm.expect(jsonData.garageId).to.eql(\"123\");",
-							"  pm.expect(jsonData.appointments).to.be.a([]);",
-							"  pm.expect(jsonData.availability).to.be.a(false);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/createGarage/123/true",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"createGarage",
-						"123",
-						"true"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "deleteAllGarages",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/deleteAllGarages",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"deleteAllGarages"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+    "info": {
+        "_postman_id": "172f8b37-4d9a-44e8-adfa-4a5db2e6e9df",
+        "name": "Garage",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create Garage 1",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/createGarage/garage 1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "createGarage",
+                        "garage 1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Garage 2",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/createGarage/garage 2",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "createGarage",
+                        "garage 2"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Garage 3",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/createGarage/garage 3",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "createGarage",
+                        "garage 3"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get All Garages",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/getAllGarages",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "getAllGarages"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Garage 1",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/getGarageByGarageId/garage 1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "getGarageByGarageId",
+                        "garage 1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Garage 1",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/deleteGarage/garage 1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "deleteGarage",
+                        "garage 1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get All Garages",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/getAllGarages",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "getAllGarages"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete All Garages",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/deleteAllGarages",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "deleteAllGarages"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get All Garages",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/getAllGarages",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "getAllGarages"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Garage 1",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/createGarage/garage 1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "createGarage",
+                        "garage 1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Garage 1 - Taken GarageId",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/createGarage/garage 1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "createGarage",
+                        "garage 1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete All Garages",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/deleteAllGarages",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "deleteAllGarages"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Garage 1 - Null/Empty Garage/GarageId",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/createGarage/",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "createGarage",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Garage 1 - Spaced Garage/GarageId",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/createGarage/",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "createGarage",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Garage - Non-Existing GarageId",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/getGarageByGarageId/garage 1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "getGarageByGarageId",
+                        "garage 1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Garage - Null/Empty GarageId",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/getGarageByGarageId/",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "getGarageByGarageId",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Garage - Spaced GarageId Copy",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/getGarageByGarageId/   ",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "getGarageByGarageId",
+                        "   "
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Garage - Non-Existing GarageId",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/deleteGarage/garage 1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "deleteGarage",
+                        "garage 1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Garage - Null/Empty GarageId",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/deleteGarage/",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "deleteGarage",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Garage - Spaced GarageId",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/deleteGarage/   ",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "deleteGarage",
+                        "   "
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
 }
+

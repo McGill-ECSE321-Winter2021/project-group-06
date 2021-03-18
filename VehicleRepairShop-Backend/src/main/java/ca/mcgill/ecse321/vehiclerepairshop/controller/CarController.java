@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.vehiclerepairshop.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.jboss.jandex.TypeTarget.Usage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -106,59 +104,4 @@ public class CarController {
 				return carDto;
 			}
 		}
-		
-	
-//		/**
-//		 * Helper method to get the car for the carDto
-//		 * @author Catherine
-//		 * @param carDto
-//		 * @return Car
-//		 */
-//		private Car convertToDomainObject(CarDto carDto)  {
-//			if (carDto == null) {
-//				return null;
-//			}
-//			else {
-//				return carService.getCarsByLiscensePlate(carDto.getLicensePlate());
-//			}
-//		}
-
-
-		/**
-		 * Helper Method to convert an appointment to a Dto
-		 * Will return null if you pass null
-		 * @author Catherine
-		 * @param car
-		 * @return AppointmentDto
-		 */
-		private AppointmentDto convertToDto(Appointment apt)  {
-			if (apt == null) {
-				return null;
-			}
-			else {
-				// TODO add appointment attributes once AppointmentDto is finished
-
-				AppointmentDto aptDto = new AppointmentDto();
-
-				return aptDto;
-			}
-		}
-		
-//		/**
-//		 * Helper Method to convert a business info to a Dto
-//		 * Will return null if you pass null
-//		 * @author Catherine
-//		 * @param businessInformation
-//		 * @return
-//		 */
-//		private CustomerAccountDto convertToDto(BusinessInformation businessInformation)  {
-//			if (businessInformation == null) {
-//				return null;
-//			}
-//			else {
-//				BusinessInformationDto businessInfoDto = new BusinessInformationDto(businessInformation.getName(), businessInformation.getAddress(), businessInformation.getPhoneNumber(), businessInformation.getEmailAddress());
-//				return businessInfoDto;
-//			}
-//		}
-
 }

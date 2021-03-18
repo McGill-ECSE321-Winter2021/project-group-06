@@ -12,33 +12,23 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.OfferedServiceRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 
 
@@ -52,8 +42,6 @@ public class TestOfferedServiceService {
 
 
 	private static final String OFFERED_SERVICE_KEY = "Test1";
-	private static final String OFFERED_SERVICE_KEY_2 = "Test2";
-	private static final String EMPTY_SERVICE_KEY = "";
 	private static int DURATION = 10;
 	private static double PRICE = 10.0;
 	private static String NAME = "wash";
@@ -65,18 +53,18 @@ public class TestOfferedServiceService {
 	List<OfferedService> offeredServicesFindAll = new ArrayList<OfferedService>();
 	private Appointment apt = new Appointment();
 
-//	InvalidInputException
-//	InvalidInputException
-	
+	//	InvalidInputException
+	//	InvalidInputException
+
 	@Mock
 	private AppointmentRepository appointmentRepository;
 	@Mock
 	private OfferedServiceRepository offeredServiceRepository;
-	
+
 	@InjectMocks
 	private OfferedServiceService offeredServiceService;
 
-	
+
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(offeredServiceRepository.findByOfferedServiceId(anyString())).thenAnswer((InvocationOnMock invocation)->{
@@ -95,7 +83,7 @@ public class TestOfferedServiceService {
 				return null;
 			}
 		});
-		
+
 		/**
 		 * @TODO: finish this if understand how to implement
 		 */
@@ -118,10 +106,10 @@ public class TestOfferedServiceService {
 			else {
 				return null;
 			}
-			
+
 		});
-		
-		
+
+
 		lenient().when(appointmentRepository.findByAppointmentId(anyInt())).thenAnswer((InvocationOnMock invocation) ->{
 			if (invocation.getArgument(0).equals(APPOINTMENT_KEY)) {
 				apt.setAppointmentId(APPOINTMENT_KEY);
@@ -130,7 +118,7 @@ public class TestOfferedServiceService {
 				return null;
 			}
 		});
-		
+
 		lenient().when(offeredServiceRepository.findAll()).thenAnswer((InvocationOnMock invocation)->{
 			apt.setAppointmentId(APPOINTMENT_KEY);
 			List<Appointment> apts = new ArrayList<Appointment>(); 
@@ -144,13 +132,13 @@ public class TestOfferedServiceService {
 			offeredServiceFindAll.setDescription(DESCRIPTION);
 			offeredServiceFindAll.setDuration(DURATION);
 			offeredServiceFindAll.setAppointment(apts);
-			
+
 			offeredServicesFindAll.add(offeredServiceFindAll);
 			return offeredServicesFindAll;
 		});
-		
-		
-		
+
+
+
 		//Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -158,28 +146,28 @@ public class TestOfferedServiceService {
 		lenient().when(offeredServiceRepository.save(any(OfferedService.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(appointmentRepository.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
 	}
-	
+
 	@AfterEach
 	public void clearDatabase() {
-			//order matters
-			offeredServiceRepository.deleteAll();
-	
-		}
-	
-	
-	
-	
-	
-	
+		//order matters
+		offeredServiceRepository.deleteAll();
+
+	}
+
+
+
+
+
+
 	/**
 	 * testing if we can create an offeredService and stored in the persistence 
 	 */
 	@Test
 	public void testCreateOfferedServiceSuccessfully() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = "";
-		
+
 		String testOfferedServiceId = "Test2";
 		int testOfferedServiceDuration = 10;
 		double testOfferedServicePrice = 10.0;
@@ -187,7 +175,7 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		
+
 		OfferedService offeredService = null;
 		try {
 			offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
@@ -196,23 +184,23 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e){
 			error = e.getMessage();
 		}
-		
-		
+
+
 		assertEquals("",error);
 		checkResultOfferedService(offeredService, testOfferedServiceId,
 				testOfferedServicePrice,  testOfferedServiceName,
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
 	}
-	
-	
+
+
 	/**
 	 * testing if we can create an offeredService with an exisiting Id 
 	 */
 	@Test
 	public void testCreateAnotherOfferedServiceWithTheSameId() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-	
+
 		String error = "";
 		int testOfferedServiceDuration = 10;
 		double testOfferedServicePrice = 10.0;
@@ -220,32 +208,31 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		
-		
-		OfferedService offeredService = null;
+
+
 		try {
-			offeredService = offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
+			offeredServiceService.createOfferedService(OFFERED_SERVICE_KEY,
 					testOfferedServicePrice,  testOfferedServiceName,
 					testOfferedServiceDuration,testOfferedServiceReminderTime, 
 					testOfferedServiceReminderDate, testOfferedServiceDescription);
 		}catch (InvalidInputException e){
 			error = error + e.getMessage();
 		}
-		
+
 		assertEquals("can not create OfferedService with same Id!", error);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * testing when we are creating an null OfferedService
 	 */
-	
+
 	@Test
 	public void testCreateNullOfferedService() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		
+
 		String testOfferedServiceId =  null;
 		int testOfferedServiceDuration = 0;
 		double testOfferedServicePrice = 0.0;
@@ -265,7 +252,7 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("OfferedServiceId cannot be empty!name cannot be empty!duration cannot be zero!reminderTime cannot be empty!reminderDate cannot be zero!Offered service description cannot be empty!", error);
 	}
-	
+
 	/**
 	 * testing create an offeredService object with empty Id
 	 */
@@ -292,8 +279,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("OfferedServiceId cannot be empty!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing create an offeredService object with space Id
 	 */
@@ -320,7 +307,7 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("OfferedServiceId cannot be empty!", error);
 	}
-	
+
 	/**
 	 * testing create an offeredService object with empty duration
 	 */
@@ -347,7 +334,7 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("duration cannot be zero!", error);
 	}
-	
+
 	/**
 	 * testing create an offeredService object with negative duration
 	 */
@@ -374,7 +361,7 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("duration cannot be negative!", error);
 	}
-	
+
 	/**
 	 * testing create an offeredService object with negative reminder date
 	 */
@@ -401,8 +388,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("reminderDate cannot be negative!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing create an offeredService object with zero reminder date
 	 */
@@ -429,8 +416,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("reminderDate cannot be zero!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing create an offeredService object with negative price
 	 */
@@ -457,7 +444,7 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("price cannot be negative!", error);
 	}
-	
+
 	/**
 	 * testing create an offeredService object with empty service name 
 	 */
@@ -484,8 +471,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("name cannot be empty!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing create an offeredService object with space service name 
 	 */
@@ -512,8 +499,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("name cannot be empty!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing create an offeredService object with empty reminder time
 	 */
@@ -540,8 +527,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("reminderTime cannot be empty!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing create an offeredService object with empty description
 	 */
@@ -568,8 +555,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("Offered service description cannot be empty!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing create an offeredService object with space description
 	 */
@@ -596,8 +583,8 @@ public class TestOfferedServiceService {
 		assertNull(offeredService);
 		assertEquals("Offered service description cannot be empty!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing getOfferedService with empty offeredServiceId
 	 */
@@ -612,9 +599,8 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = null;
 		OfferedService extractedOfferedService = null;
-		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+		offeredServiceService.createOfferedService(testOfferedServiceId,
 				testOfferedServicePrice,  testOfferedServiceName,
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
@@ -626,10 +612,10 @@ public class TestOfferedServiceService {
 		assertNull(extractedOfferedService);
 		assertEquals("offeredServiceId cannot be null!", error);
 	}
-	
-	
 
-	
+
+
+
 	/**
 	 * testing getOfferedService with space offeredServiceId
 	 */
@@ -644,9 +630,8 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = null;
 		OfferedService extractedOfferedService = null;
-		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
+		offeredServiceService.createOfferedService(testOfferedServiceId,
 				testOfferedServicePrice,  testOfferedServiceName,
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
@@ -658,8 +643,8 @@ public class TestOfferedServiceService {
 		assertNull(extractedOfferedService);
 		assertEquals("offeredServiceId cannot be null!", error);
 	}
-	
-	
+
+
 
 	/**
 	 * testing getOfferedService with valid offeredServiceId
@@ -675,24 +660,23 @@ public class TestOfferedServiceService {
 		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		int testOfferedServiceReminderDate = 30;
 		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = null;
 		OfferedService extractedOfferedService = null;
 		try {
 			extractedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("",error);
 		assertNotNull(extractedOfferedService);
 		checkResultOfferedService(extractedOfferedService, OFFERED_SERVICE_KEY,testOfferedServicePrice,
 				testOfferedServiceName,testOfferedServiceDuration,testOfferedServiceReminderTime,
 				testOfferedServiceReminderDate, testOfferedServiceDescription);
-		
-	}
-	
 
-	
+	}
+
+
+
 	/**
 	 * testing getOfferedService  with valid appointment input 
 	 */
@@ -723,8 +707,8 @@ public class TestOfferedServiceService {
 				testOfferedServiceDuration,testOfferedServiceReminderTime, 
 				testOfferedServiceReminderDate, testOfferedServiceDescription,appointments);
 	}
-	
-	
+
+
 	/**
 	 * testing getOfferedService  with null appointment input 
 	 */
@@ -758,8 +742,8 @@ public class TestOfferedServiceService {
 		assertNull(extractedOfferedService);
 		assertEquals("appointment cannot be null!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing delete offered service with a valid offeredServiceId
 	 * @throws InvalidInputException
@@ -770,7 +754,7 @@ public class TestOfferedServiceService {
 		String error = "";
 		OfferedService deletingOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		OfferedService deletedOfferedService = new OfferedService();
-		
+
 		try {
 			deletedOfferedService = offeredServiceService.deleteOfferedService(OFFERED_SERVICE_KEY);
 		}catch (InvalidInputException e) {
@@ -780,8 +764,8 @@ public class TestOfferedServiceService {
 		assertEquals("",error);
 		assertEquals(deletedOfferedService.getOfferedServiceId(),deletingOfferedService.getOfferedServiceId());
 	}
-	
-	
+
+
 	/**
 	 * testing delete offered service with a empty offeredServiceId
 	 *
@@ -799,7 +783,7 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(deletedOfferedService);
 		assertNotEquals(deletingOfferedService,deletedOfferedService);
 		assertEquals("the serviceId can not be empty!the offered service can not found in the system!", error);
@@ -813,7 +797,7 @@ public class TestOfferedServiceService {
 	public void testDeleteOfferedServiceWithSpaceOfferedServiceId() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		
+
 		OfferedService deletingOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		String deletedOfferedServiceId = " ";
 		OfferedService deletedOfferedService = null;
@@ -824,16 +808,16 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		getDeletedOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		assertNull(deletedOfferedService);
 		assertNotNull(getDeletedOfferedService);
 		assertEquals(getDeletedOfferedService.getOfferedServiceId(),deletingOfferedService.getOfferedServiceId());
 		assertEquals("the serviceId can not be empty!the offered service can not found in the system!", error);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * testing delete offered service with a null offeredService
 	 * @throws InvalidInputException
@@ -843,7 +827,7 @@ public class TestOfferedServiceService {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String testOfferedServiceId = "TEST2";
 		String error = "";
-		
+
 		OfferedService deletingOfferedService = offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY);
 		OfferedService deletedOfferedService = null;
 		OfferedService getDeletedOfferedService = null;
@@ -858,9 +842,9 @@ public class TestOfferedServiceService {
 		assertEquals(getDeletedOfferedService.getOfferedServiceId(),deletingOfferedService.getOfferedServiceId());
 		assertEquals("the offered service can not found in the system!", error);
 	}
-	
 
-	
+
+
 	/**
 	 * test updateOfferedService with valid input 
 	 * @throws InvalidInputException
@@ -868,9 +852,7 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithValidInput() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
-		String error = null;
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
@@ -886,17 +868,17 @@ public class TestOfferedServiceService {
 					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
 		}catch (InvalidInputException e) {
-			error = e.getMessage();
+			e.getMessage();
 		}
-		
+
 		assertNotNull(modifiedService);
 		checkResultOfferedService(modifiedService, OFFERED_SERVICE_KEY,
 				newTestOfferedServicePrice,  newTestOfferedServiceName,
 				newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
 				newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
 	}
-	
-	
+
+
 	/**
 	 * test updateOfferedService with all null or zero input 
 	 * @throws InvalidInputException
@@ -904,10 +886,10 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithAllNullOrZeroInput() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
 
-		
+
 		int newTestOfferedServiceDuration = 0;
 		double newTestOfferedServicePrice = 0.0;
 		String newTestOfferedServiceName = null;
@@ -924,12 +906,12 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("name cannot be empty!duration cannot be zero!reminderTime cannot be empty!reminderDate cannot be zero!Offered service description cannot be empty!", error);
 	}
-	
-	
+
+
 	/**
 	 * testing updateOfferedService with new duration as 0
 	 * @throws InvalidInputException
@@ -939,7 +921,7 @@ public class TestOfferedServiceService {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
 
-		
+
 		int newTestOfferedServiceDuration = 0;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
@@ -956,14 +938,14 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("duration cannot be zero!", error);
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * testing updateOfferedService with new duration as negative number
 	 * @throws InvalidInputException
@@ -972,15 +954,14 @@ public class TestOfferedServiceService {
 	public void testUpdateOfferedServiceWithNegativeNewDuration() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		
+
 		int newTestOfferedServiceDuration = -1;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 40;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -990,11 +971,11 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("duration cannot be negative!", error);
 	}
-	
+
 	/**
 	 * testing updateOfferedService with new price as negative number
 	 * @throws InvalidInputException
@@ -1003,15 +984,14 @@ public class TestOfferedServiceService {
 	public void testUpdateOfferedServiceWithNegativeNewPrice() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = -20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 40;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -1021,14 +1001,14 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("price cannot be negative!", error);
 	}
-	
 
-	
-	
+
+
+
 	/**
 	 * test update OfferedService with an new name as empty string 
 	 * @throws InvalidInputException
@@ -1037,14 +1017,14 @@ public class TestOfferedServiceService {
 	public void testUpdateOfferedServiceWithEmptyNewName() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 40;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -1054,14 +1034,14 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("name cannot be empty!", error);
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * test update OfferedService with an new name as a space
 	 * 
@@ -1077,7 +1057,7 @@ public class TestOfferedServiceService {
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 40;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -1087,31 +1067,31 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("name cannot be empty!", error);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * test update OfferedService with an reminderTime as null
 	 * @throws InvalidInputException
 	 */
-	
+
 	@Test
 	public void testUpdateOfferedServiceWithNullNewReminderTime() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = null;
 		int newTestOfferedServiceReminderDate = 40;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -1121,13 +1101,13 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("reminderTime cannot be empty!", error);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * test update OfferedService with an reminderDate as a 0
 	 * 
@@ -1135,16 +1115,16 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithZeroNewReminderDate(){
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 0;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -1154,12 +1134,12 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("reminderDate cannot be zero!", error);
 	}
-	
-	
+
+
 	/**
 	 * test update OfferedService with an reminderDate as a negative number
 	 * @throws InvalidInputException
@@ -1167,18 +1147,16 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithNegativeReminderDate() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = -1;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -1188,13 +1166,13 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("reminderDate cannot be negative!", error);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * test update OfferedService with an description as a empty
 	 *
@@ -1202,24 +1180,16 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithEmptyDescription() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
 
-		int testOfferedServiceDuration = 10;
-		double testOfferedServicePrice = 10.0;
-		String testOfferedServiceName = "wash";
-		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int testOfferedServiceReminderDate = 30;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 10;
 		String newTestOfferedServiceDescription = "";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -1229,13 +1199,13 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("Offered service description cannot be empty!", error);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * test update OfferedService with an description as a space
 	 * 
@@ -1243,24 +1213,16 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithSpaceDescription() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
 
-		int testOfferedServiceDuration = 10;
-		double testOfferedServicePrice = 10.0;
-		String testOfferedServiceName = "wash";
-		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int testOfferedServiceReminderDate = 30;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 10;
 		String newTestOfferedServiceDescription = " ";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
@@ -1270,14 +1232,14 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("Offered service description cannot be empty!", error);
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * test update OfferedService with an OfferedServiceid as a empty 
 	 * 
@@ -1285,26 +1247,19 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithEmptyOfferServiceId() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
 
 
 		String modifyingServiceId = "";
-		int testOfferedServiceDuration = 10;
-		double testOfferedServicePrice = 10.0;
-		String testOfferedServiceName = "wash";
-		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int testOfferedServiceReminderDate = 30;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 10;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(modifyingServiceId,
@@ -1314,14 +1269,14 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("the serviceId can not be empty!the offered service can not found in the system!", error);
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * test update OfferedService with an OfferedServiceid as a space 
 	 * @throws InvalidInputException
@@ -1329,25 +1284,18 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithSpaceOfferServiceId() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
 
 		String modifyingServiceId = " ";
-		int testOfferedServiceDuration = 10;
-		double testOfferedServicePrice = 10.0;
-		String testOfferedServiceName = "wash";
-		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int testOfferedServiceReminderDate = 30;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 10;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(modifyingServiceId,
@@ -1357,12 +1305,12 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("the serviceId can not be empty!the offered service can not found in the system!", error);
 	}
-	
-	
+
+
 	/**
 	 * test updating offeredService with non found OfferedServiceId 
 	 * @throws InvalidInputException
@@ -1370,24 +1318,17 @@ public class TestOfferedServiceService {
 	@Test
 	public void testUpdateOfferedServiceWithNonFoundOfferServiceId() throws InvalidInputException {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = null;
 		String modifyingServiceId = "TEST2";
-		int testOfferedServiceDuration = 10;
-		double testOfferedServicePrice = 10.0;
-		String testOfferedServiceName = "wash";
-		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int testOfferedServiceReminderDate = 30;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 10;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		try {
 			modifiedService = offeredServiceService.updateService(modifyingServiceId,
@@ -1397,55 +1338,53 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertNull(modifiedService);
 		assertEquals("the offered service can not found in the system!", error);
 	}
-//	
-//	
-//	
+	//	
+	//	
+	//	
 	/**
 	 * test get all offered service
 	 */
 	@Test
 	public void testGetAllOfferedService() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		List<OfferedService> extractedOfferedServices = new ArrayList<OfferedService>();
 		extractedOfferedServices = offeredServiceService.getAllOfferedServices();
-		
+
 		assertEquals(2, extractedOfferedServices.size());
 		assertEquals(extractedOfferedServices, offeredServicesFindAll);
-		
-		
+
+
 	}
-	
-	
+
+
 	/**
 	 * testing adding appointment with valid inputs
 	 */
 	@Test
 	public void testAddAppointmentWithValidOfferedServiceAndValidAppoitment() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = "";
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 10;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		OfferedService AddedAppointmentOfferedService = null;
 		apt.setAppointmentId(APPOINTMENT_KEY);
 		modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
-					newTestOfferedServicePrice,  newTestOfferedServiceName,
-					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
-					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+				newTestOfferedServicePrice,  newTestOfferedServiceName,
+				newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+				newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
 		assertNotNull(modifiedService);
 		assertNotNull(apt);
 		try {
@@ -1454,19 +1393,19 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("",error);
 		assertNotNull(AddedAppointmentOfferedService);
 		assertNotNull(AddedAppointmentOfferedService.getAppointment());
 	}
-	
+
 	/**
 	 * testing adding appointment with null OfferedService valid Appointment
 	 */
 	@Test
 	public void testAddAppointmentWithInNullOfferedServiceAndValidAppoitment() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = "";
 		OfferedService modifiedService = null;
 		OfferedService AddedAppointmentOfferedService = null;
@@ -1483,34 +1422,33 @@ public class TestOfferedServiceService {
 		assertEquals("inputted OfferedService can not be null!",error);
 		assertNull(AddedAppointmentOfferedService);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * testing adding appointment with valid OfferedService null Appointment
 	 */
 	@Test
 	public void testAddAppointmentWithValidOfferedServiceAndNullAppoitment() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = "";
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 10;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		OfferedService AddedAppointmentOfferedService = null;
 		Appointment apt = null;
 
 		modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
-					newTestOfferedServicePrice,  newTestOfferedServiceName,
-					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
-					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+				newTestOfferedServicePrice,  newTestOfferedServiceName,
+				newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+				newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
 		assertNotNull(modifiedService);
 		assertNull(apt);
 		try {
@@ -1519,19 +1457,19 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("inputted Appoitnment can not be null!",error);
 		assertNull(AddedAppointmentOfferedService);
 	}
-	
-	
+
+
 	/**
 	 * testing adding appointment with valid OfferedService null Appointment
 	 */
 	@Test
 	public void testAddAppointmentWithNulldOfferedServiceAndNullAppoitment() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = "";
 		OfferedService AddedAppointmentOfferedService = null;
 		OfferedService modifiedService = null;
@@ -1546,34 +1484,32 @@ public class TestOfferedServiceService {
 		assertEquals("inputted OfferedService can not be null!inputted Appoitnment can not be null!",error);
 		assertNull(AddedAppointmentOfferedService);
 	}
-	
-	
+
+
 	/**
 	 * testing adding appointment with valid OfferedService  and Appointment which is not in the persistence
 	 */
 	@Test
 	public void testAddAppointmentWithValidOfferedServiceAndAppoitmentNotFoundInPersistence() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = "";
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		
+
 		int newTestOfferedServiceDuration = 20;
 		double newTestOfferedServicePrice = 20.0;
 		String newTestOfferedServiceName = "inspection";
 		Time newTestOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(9, 00));
 		int newTestOfferedServiceReminderDate = 10;
 		String newTestOfferedServiceDescription = "this is a testing inspection service";
-		
-		OfferedService offeredService = null;
+
 		OfferedService modifiedService = null;
 		OfferedService AddedAppointmentOfferedService = null;
 		Appointment apt = new Appointment();
 		apt.setAppointmentId(2);
 		modifiedService = offeredServiceService.updateService(OFFERED_SERVICE_KEY,
-					newTestOfferedServicePrice,  newTestOfferedServiceName,
-					newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
-					newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
+				newTestOfferedServicePrice,  newTestOfferedServiceName,
+				newTestOfferedServiceDuration, newTestOfferedServiceReminderTime, 
+				newTestOfferedServiceReminderDate, newTestOfferedServiceDescription);
 		assertNotNull(modifiedService);
 		assertNotNull(apt);
 		try {
@@ -1582,20 +1518,20 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("inputted Appointment can not be found in the persistence!",error);
 		assertNull(AddedAppointmentOfferedService);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * testing adding appointment with OfferedService which is not in the persistence and valid Appointment
 	 */
 	@Test
 	public void testAddAppointmentWithOfferedServiceNotFoundInPersistenceAndNullAppoitment() {
 		assertEquals(1, offeredServiceService.getAllOfferedServices().size());
-		
+
 		String error = "";
 		String notFoundId = "NotfoundAnymore";
 		OfferedService offeredService = new OfferedService();
@@ -1611,12 +1547,12 @@ public class TestOfferedServiceService {
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("inputted OfferedService can not be found in the persistence!",error);
 		assertNull(AddedAppointmentOfferedService);
 	}
-	
-//	
+
+	//	
 	/**
 	 * testing to extract an existing offered service 
 	 */
@@ -1624,21 +1560,21 @@ public class TestOfferedServiceService {
 	public void testGetExistingOfferedService() {
 		assertEquals(OFFERED_SERVICE_KEY, offeredServiceService.getOfferedServiceByOfferedServiceId(OFFERED_SERVICE_KEY).getOfferedServiceId());
 	}
-	
-	
+
+
 	/**
 	 * testing to extract an non-existing offered service
 	 */
-	
+
 	@Test
 	public void testGetNonExistingOfferedService() {
 		assertNull(offeredServiceService.getOfferedServiceByOfferedServiceId(NONEXISTING_KEY));
 	}
-	
-//	
-//	
+
+	//	
+	//	
 	//----------------------------------- helper method --------------------------------------------------
-	
+
 	/**
 	 * This is a helper method which can help us determine if all the attribute statisfies the input value
 	 * @param offeredService
@@ -1660,7 +1596,7 @@ public class TestOfferedServiceService {
 		assertEquals(reminderDate, offeredService.getReminderDate());
 		assertEquals(description, offeredService.getDescription());
 	}
-	
+
 	private void checkResultOfferedServicePlusAppointment(OfferedService offeredService, String offeredServiceId, double price, String name, 
 			int duration, Time reminderTime, int reminderDate, String description, List<Appointment> apts) {
 		assertNotNull(offeredService);
@@ -1672,7 +1608,7 @@ public class TestOfferedServiceService {
 		assertEquals(description, offeredService.getDescription());
 		assertEquals(apts, offeredService.getAppointment());
 	}
-	
+
 
 }
-	
+
