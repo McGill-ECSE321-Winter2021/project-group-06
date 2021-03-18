@@ -80,6 +80,8 @@ public class TestCarService {
 		lenient().when(carRepository.save(any(Car.class))).thenAnswer(returnParameterAsAnswer);
 	}
   	
+  	
+  	
   	@Test
 	public void testCreateCar() {
 		
@@ -96,6 +98,10 @@ public class TestCarService {
 		assertEquals(car2.getYear(), car.getYear());
 		assertEquals(car2.getMotorType(), car.getMotorType());
 	}
+  	
+  	
+  	
+  	
   	
   	@Test
 	public void testGetAllCars() {
