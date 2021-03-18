@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.vehiclerepairshop.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
-import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 
@@ -40,12 +40,8 @@ public class GarageController {
 	 * @return
 	 */
 	@GetMapping(value = {"/getAllGarages", "/getAllGarages/"})
-	public List<GarageDto> getAllOfferedServices(){
-		List<GarageDto> garageDto = new ArrayList<>();
-		for (Garage garage: garageService.getAllGarages()) {
-			garageDto.add(convertToDto(garage));
-		}
-		return garageDto;
+	public List<GarageDto> getAllGarages() {
+		return garageService.getAllGarages().stream().map(garage->convertToDto(garage)).collect(Collectors.toList());
 	}
 
 	/**
@@ -55,10 +51,7 @@ public class GarageController {
 	 */
 	@GetMapping(value = {"/getGarageByGarageId/{garageId}", "/getGarageByGarageId/{garageId}/"})
 	public GarageDto getGarageByGarageId(@PathVariable("garageId") String garageId){
-		GarageDto foundedGarage = new GarageDto();
-		Garage garage = garageService.getGarageByGarageId(garageId);
-		foundedGarage = convertToDto(garage);
-		return foundedGarage;
+		return convertToDto(garageService.getGarageByGarageId(garageId));
 	}
 
 	/**
@@ -66,48 +59,38 @@ public class GarageController {
 	 * @param appointmentId
 	 * @return
 	 */
-	@GetMapping(value = {"/getGarageByAppointment/getAppointmentByAppointmentId/{appointmentId}", "/getGarageByAppointment/getGarageByAppointment/{appointmentId}/"})
-	public GarageDto getGarageByAppointment(@PathVariable("appointmentId") AppointmentDto appointmentId){
-		GarageDto foundGarage = new GarageDto();
-		Garage garage = garageService.getGarageByAppointment(convertToDomainObject(appointmentId));
-		foundGarage = convertToDto(garage);
-		return foundGarage;
+	@GetMapping(value = {"/getGarageByAppointment/getAppointmentByAppointment/{appointmentId}", "/getGarageByAppointment/getAppointmentByAppointment/{appointmentId}/"})
+	public GarageDto getGarageByAppointment(@PathVariable("appointmentId") int appointmentId){
+		Appointment appointment = appointmentService.getAppointmentById(appointmentId);
+		return convertToDto(garageService.getGarageByAppointment(appointment));
 	}
 
 	/**
 	 * Create a garage with its specific parameters
 	 * @param garageId
-	 * @param isAvailable
 	 * @return
-	 * @throws IllegalArgumentException
 	 */
-	@PostMapping(value = { "/createGarage/{garageId}/{isAvailable}","/createGarage/{garageId}/{isAvailable}/"})
-	public GarageDto createGarage(@PathVariable("garageId") String garageId,
-			@PathVariable("isAvailable") Boolean isAvailable) throws IllegalArgumentException {
-		Garage garage = garageService.createGarage(isAvailable, garageId);
+	@PostMapping(value = { "/createGarage/{garageId}","/createGarage/{garageId}"})
+	public GarageDto createGarage(@PathVariable("garageId") String garageId){
+		Garage garage = garageService.createGarage(garageId);
 		return convertToDto(garage);
 	}
 
-	/**
-	 * Update garage 
-	 * @param garageId
-	 * @param isAvailable
-	 * @return
-	 * @throws InvalidInputException
-	 */
-	@PostMapping(value = {"/updateGarage/{currentGarageId}/{isAvailable}/{garageId}", "/updateGarage/{currentGarageId}/{isAvailable}/{garageId}/"})
-	public GarageDto updateGarage(@PathVariable("currentGarageId")String currentGarageId, @PathVariable("isAvailable")Boolean isAvailable, @PathVariable("garageId")String garageId) throws InvalidInputException{
-		GarageDto updatedGarage = new GarageDto();
-		Garage garage;
-		try {
-			garage = garageService.updateGarage(currentGarageId, isAvailable, garageId);
-		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
-			throw new InvalidInputException(e.getMessage());
-		}
-		updatedGarage = convertToDto(garage);
-		return updatedGarage; 
-	}
+	//	/**
+	//	 * Update garage 
+	//	 * @param garageId
+	//	 * @param isAvailable
+	//	 * @return
+	//	 * @throws InvalidInputException
+	//	 */
+	//	@PutMapping(value = {"/updateGarage/{isAvailable}/{garageId}", "/updateGarage/{isAvailable}/{garageId}/"})
+	//	public GarageDto updateGarage(@PathVariable("isAvailable")Boolean isAvailable, @PathVariable("garageId")String garageId) throws InvalidInputException{
+	//		GarageDto updatedGarage = new GarageDto();
+	//		Garage garage;
+	//		garage = garageService.updateGarage(garageId, isAvailable);
+	//		updatedGarage = convertToDto(garage);
+	//		return updatedGarage; 
+	//	}
 
 	/**
 	 * Delete a garage
@@ -115,12 +98,10 @@ public class GarageController {
 	 * @return
 	 */
 	@DeleteMapping(value = {"/deleteGarage/{garageId}","/deleteGarage/{garageId}/"})
-	public boolean deleteGarage(@PathVariable("garageId") String garageId) {
-		boolean isSuccess = false; 
+	public GarageDto deleteGarage(@PathVariable("garageId") String garageId) {
 		Garage garage = garageRepository.findByGarageId(garageId);
-		garageRepository.delete(garage);
-		isSuccess = true;
-		return isSuccess;
+		garageService.deleteGarage(garageId);
+		return convertToDto(garage);
 	}
 
 	/**
@@ -128,11 +109,13 @@ public class GarageController {
 	 * @return
 	 */
 	@DeleteMapping(value = {"/deleteAllGarages","/deleteAllGarages/"})
-	public boolean deleteAllGarages() {
-		boolean isSuccess = false;
-		garageRepository.deleteAll();
-		isSuccess = true;
-		return isSuccess;
+	public List<GarageDto> deleteAllGarages() {
+		List<Garage> garages = garageService.deleteAllGarages();
+		List<GarageDto> garageDtos = new ArrayList<GarageDto>();
+		for (Garage garage : garages) {
+			garageDtos.add(convertToDto(garage));
+		}
+		return garageDtos;
 	}
 
 
@@ -144,7 +127,7 @@ public class GarageController {
 	 */
 	private GarageDto convertToDto(Garage garage) {
 		if (garage == null) {
-			throw new IllegalArgumentException("There is no such Garage");
+			throw new InvalidInputException("There is no such Garage");
 		}
 
 		GarageDto garageDto = new GarageDto(garage.getGarageId());
@@ -152,19 +135,19 @@ public class GarageController {
 	}
 
 
-	/**
-	 *  Convert dto to domain objects 
-	 * @param appointmentDto
-	 * @return
-	 */
-	private Appointment convertToDomainObject(AppointmentDto appointmentDto) {
-		if (appointmentDto == null) {
-			throw new IllegalArgumentException("There is no such appointmentDto!");
-		}
-
-		Appointment appointment = appointmentService.getAppointmentById(appointmentDto.getAppointmentId());
-		return appointment;
-	}
+	//	/**
+	//	 *  Convert dto to domain objects 
+	//	 * @param appointmentDto
+	//	 * @return
+	//	 */
+	//	private Appointment convertToDomainObject(AppointmentDto appointmentDto) {
+	//		if (appointmentDto == null) {
+	//			throw new InvalidInputException("There is no such appointmentDto!");
+	//		}
+	//
+	//		Appointment appointment = appointmentService.getAppointmentById(appointmentDto.getAppointmentId());
+	//		return appointment;
+	//	}
 }
 
 

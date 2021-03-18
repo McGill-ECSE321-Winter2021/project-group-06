@@ -161,7 +161,6 @@ public class TestAppointmentPersistence {
 
 
 		Garage garage = new Garage();
-		garage.setIsAvailable(available);
 		garage.setGarageId(gID);
 
 
@@ -291,7 +290,6 @@ public class TestAppointmentPersistence {
 		car.setYear(year);
 		car.setMotorType(engine);
 		Garage garage = new Garage();
-		garage.setIsAvailable(available);
 		garage.setGarageId(gID);
 		TechnicianAccount technician = new TechnicianAccount();
 		technician.setName(techName);
@@ -441,7 +439,6 @@ public class TestAppointmentPersistence {
 
 
 		Garage garage = new Garage();
-		garage.setIsAvailable(available);
 		garage.setGarageId(gID);
 
 

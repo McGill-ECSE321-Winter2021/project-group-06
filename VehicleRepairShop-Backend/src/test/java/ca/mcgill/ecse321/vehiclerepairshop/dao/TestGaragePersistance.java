@@ -52,7 +52,6 @@ public class TestGaragePersistance {
 		garage = new Garage();
 		
 		garage.setGarageId(garageId);
-		garage.setIsAvailable(isAvailable);
 		
 		garageRepository.save(garage);
 	}
@@ -79,7 +78,6 @@ public class TestGaragePersistance {
 		
 		assertNotNull(garage);
 		assertEquals(garage.getGarageId(), garageId);
-		assertEquals(garage.getIsAvailable(), isAvailable);
 	}
 
 	//tests finding garage via appointment
@@ -104,7 +102,6 @@ public class TestGaragePersistance {
 		
 		assertNotNull(garage);
 		assertEquals(garage.getGarageId(), garageId);
-		assertEquals(garage.getIsAvailable(), isAvailable);
 	}
 
 

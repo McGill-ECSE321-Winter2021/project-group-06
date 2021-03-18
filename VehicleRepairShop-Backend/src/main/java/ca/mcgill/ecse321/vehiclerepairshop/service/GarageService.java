@@ -24,12 +24,11 @@ public class GarageService {
 
 	/**
 	 * Create a Garage with given parameters
-	 * @param isAvailable
 	 * @param garageId
 	 * @return
 	 */
 	@Transactional
-	public Garage createGarage(boolean isAvailable, String garageId){
+	public Garage createGarage(String garageId){
 		if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
 			throw new InvalidInputException("GarageId cannot be empty!");
 		}
@@ -38,10 +37,9 @@ public class GarageService {
 		}
 
 		Garage garage = new Garage();
-		garage.setIsAvailable(isAvailable);
 		garage.setGarageId(garageId);
 		garageRepository.save(garage);
-		
+
 		return garage;
 	}
 
@@ -58,14 +56,14 @@ public class GarageService {
 		else if (garageRepository.findByGarageId(garageId) == null) {
 			throw new InvalidInputException("GarageId does not exist!");
 		}
-		
+
 		Garage garage = garageRepository.findByGarageId(garageId);
 		if(garage == null) {
 			throw new InvalidInputException("The garage is not found in the system!");
 		}
 		return garage;
 	}
-	
+
 	/**
 	 * Find garage through an appointment
 	 * @param appointment
@@ -76,7 +74,7 @@ public class GarageService {
 		if (appointment == null) {
 			throw new InvalidInputException("Appointment cannot be empty!");
 		}
-		
+
 		Garage garage = garageRepository.findByAppointment(appointment);
 		if (garage == null) {
 			throw new InvalidInputException("The garage is not found in the system!");
@@ -89,47 +87,15 @@ public class GarageService {
 	 * @return
 	 */
 	@Transactional
-	public List<Garage>getAllGarages(){
+	public List<Garage> getAllGarages(){
 		Iterable<Garage> garages = garageRepository.findAll();
 		return toList(garages);
 	}
 
 	/**
-	 * Update garage information by offering new information and garageId
-	 * @param currentGarageId
-	 * @param newIsAvailable
-	 * @param garageId
-	 * @return
-	 */
-	@Transactional
-	public Garage updateGarage(String currentGarageId, boolean newIsAvailable, String garageId) {
-		if (currentGarageId == null || currentGarageId.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("CurrentGarageId cannot be empty!");
-		}
-		else if (garageId == null || garageId.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("GarageId cannot be empty!");
-		}
-		else if (garageRepository.findByGarageId(currentGarageId) == null) {
-			throw new InvalidInputException("CurrentGarageId does not exist!");
-		}
-		else if (garageRepository.findByGarageId(garageId) != null) {
-			throw new InvalidInputException("GarageId not available!");
-		}
-		
-		Garage garage = garageRepository.findByGarageId(currentGarageId);
-		if(garage == null) {
-			throw new InvalidInputException("The garage is not found in the system!");
-		}
-		garage.setIsAvailable(newIsAvailable);
-		garage.setGarageId(garageId);
-		garageRepository.save(garage);
-
-		return garage;
-	}
-	
-	/**
 	 * Delete a Garage
 	 * @param garageId
+	 * @return
 	 */
 	@Transactional
 	public Garage deleteGarage(String garageId) {
@@ -139,18 +105,19 @@ public class GarageService {
 		else if (garageRepository.findByGarageId(garageId) == null) {
 			throw new InvalidInputException("GarageId does not exist!");
 		}
-		
+
 		Garage garage = garageRepository.findByGarageId(garageId);
 		if(garage == null) {
 			throw new InvalidInputException("The garage cannot be found.");
 		}
-		
+
 		garageRepository.delete(garage);
 		return garage;
 	}
 
 	/**
 	 * Delete all the Garages
+	 * @return
 	 */
 	@Transactional
 	public List<Garage> deleteAllGarages() {
@@ -161,7 +128,11 @@ public class GarageService {
 
 
 	// ---------------------------- Helper method ---------------------------
-	// Converts iterable to list
+	/* Converts iterable to list
+	 * @param <T>
+	 * @param iterable
+	 * @return
+	 */
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
