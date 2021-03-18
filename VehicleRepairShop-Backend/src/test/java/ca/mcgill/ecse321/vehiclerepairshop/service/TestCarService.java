@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.vehiclerepairshop.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -87,7 +88,7 @@ public class TestCarService {
 		try {
 			car = carService.createCar(LICENSEPLATE,MODEL,YEAR,MOTORTYPE);
 		} catch (IllegalArgumentException e) {
-			fail(e.getMessage());
+			fail();
 		}
 		Car car2 = carService.getCarByLicensePlate(LICENSEPLATE);
 		assertNotNull(car);
@@ -97,6 +98,173 @@ public class TestCarService {
 		assertEquals(car2.getMotorType(), car.getMotorType());
 	}
   	
+  	/**
+  	 * testing create a car with null liscense Plate 
+  	 */
+  	@Test
+  	public void testCreateCarwithNullLicensePlate() {
+  		Car car = null; 
+  		String error = "";
+  		String nullLicense = null;
+  		try {
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("licensePlate can not be null or empty!", error);
+  	}
+  	
+  	/**
+  	 * testing create a car with empty liscense Plate 
+  	 */
+	@Test
+  	public void testCreateCarwithEmptyLicensePlate() {
+  		Car car = null; 
+  		String error = "";
+  		String nullLicense = "";
+  		try {
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("licensePlate can not be null or empty!", error);
+  	}
+	
+	/**
+  	 * testing create a car with Space liscense Plate 
+  	 */
+	@Test
+  	public void testCreateCarwithSpaceLicensePlate() {
+  		Car car = null; 
+  		String error = "";
+  		String nullLicense = " ";
+  		try {
+  			car = carService.createCar(nullLicense,MODEL,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("licensePlate can not be null or empty!", error);
+  	}
+  	
+	
+	/**
+	 * testing create a car with Space model 
+	 */
+	@Test
+  	public void testCreateCarwithSpaceModel() {
+  		Car car = null; 
+  		String error = "";
+  		String nullModel = " ";
+  		try {
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("model can not be null or empty!", error);
+  		
+  	}
+	
+	
+	/**
+	 * testing create a car with empty model 
+	 */
+	@Test
+  	public void testCreateCarwithEmptyModel() {
+  		Car car = null; 
+  		String error = "";
+  		String nullModel = "";
+  		try {
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("model can not be null or empty!", error);
+  		
+  	}
+	
+	/**
+	 * testing create a car with null model 
+	 */
+	@Test
+  	public void testCreateCarwithNullModel() {
+  		Car car = null; 
+  		String error = "";
+  		String nullModel = null;
+  		try {
+  			car = carService.createCar(LICENSEPLATE,nullModel,YEAR,MOTORTYPE);
+  		}catch(InvalidInputException e) {
+  			error = e.getMessage();
+  		}
+  		assertNull(car);
+  		assertEquals("model can not be null or empty!", error);
+  		
+  	}
+	
+	/**
+	 * testing get a car by valid licence plate
+	 */
+	@Test 
+	public void testGetCarByValidLicensePlate() {
+		Car car = null;
+		String error = "";
+		try {
+			car = carService.getCarByLicensePlate(LICENSEPLATE);
+		}catch (InvalidInputException e) {
+			error = fail();
+		}
+		assertNotNull(car);
+		assertEquals(LICENSEPLATE,car.getLicensePlate());
+	}
+	
+	@Test 
+	public void testGetCarByNullLicensePlate() {
+		Car car = null;
+		String nullLicensePlate = null;
+		String error = "";
+		try {
+			car = carService.getCarByLicensePlate(nullLicensePlate);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(car);
+		assertEquals("licensePlate can not be null or empty!can not find this car in the car repository!",error);
+	}
+	
+	@Test 
+	public void testGetCarByEmptyLicensePlate() {
+		Car car = null;
+		String nullLicensePlate = "";
+		String error = "";
+		try {
+			car = carService.getCarByLicensePlate(nullLicensePlate);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(car);
+		assertEquals("licensePlate can not be null or empty!can not find this car in the car repository!",error);
+	}
+	
+	
+	@Test 
+	public void testGetCarBySpaceLicensePlate() {
+		Car car = null;
+		String nullLicensePlate = " ";
+		String error = "";
+		try {
+			car = carService.getCarByLicensePlate(nullLicensePlate);
+		}catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(car);
+		assertEquals("licensePlate can not be null or empty!can not find this car in the car repository!",error);
+	}
+	
+	
   	@Test
 	public void testGetAllCars() {
 		List<Car> cars = new ArrayList<Car>();

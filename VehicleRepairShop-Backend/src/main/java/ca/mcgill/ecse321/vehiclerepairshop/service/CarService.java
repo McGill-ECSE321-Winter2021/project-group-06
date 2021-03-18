@@ -34,7 +34,7 @@ public class CarService {
 	public Car createCar(String licensePlate, String model, int year, MotorType motorType) {
 		String error = "";
 		if (licensePlate == null || licensePlate.trim().length() == 0) {
-			error = error + "licensePlate can not be null or empty! ";
+			error = error + "licensePlate can not be null or empty!";
 		}
 		if (model == null || model.trim().length() == 0) {
 			error = error + "model can not be null or empty!";
@@ -81,8 +81,20 @@ public class CarService {
 	 */
 	@Transactional
 	public Car getCarByLicensePlate(String licensePlate) {
-		Car car = carRepository.findByLicensePlate(licensePlate);
-		return car;	
+		String error = "";
+		if (licensePlate == null || licensePlate.trim().length() == 0) {
+			error = error + "licensePlate can not be null or empty!";
+		}
+		if (carRepository.findByLicensePlate(licensePlate) == null) {
+			error = error + "can not find this car in the car repository!";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error);
+		}else {
+			Car car = carRepository.findByLicensePlate(licensePlate);
+			return car;	
+		}
+		
 	}
 	
 	/*
