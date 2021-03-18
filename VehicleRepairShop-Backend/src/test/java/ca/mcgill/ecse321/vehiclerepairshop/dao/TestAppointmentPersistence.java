@@ -27,7 +27,6 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 
 
 @ExtendWith(SpringExtension.class)
@@ -108,7 +107,6 @@ public class TestAppointmentPersistence {
 		int reminderDate = 30;
 		String description = "this is a test service";
 
-		boolean available = true;
 		String gID = "1";
 
 		String techName = "techName1";
@@ -258,7 +256,6 @@ public class TestAppointmentPersistence {
 		int reminderDate = 30;
 		String description = "this is a test service";
 
-		boolean available = true;
 		String gID = "1";
 
 		String techName = "techName1";
@@ -319,7 +316,6 @@ public class TestAppointmentPersistence {
 
 
 		appointment1 = null;
-		Boolean isExist;
 
 		appointment1 = appointmentRepository.findByCarAndTimeSlot(car, timeSlot);
 
@@ -377,7 +373,6 @@ public class TestAppointmentPersistence {
 		int reminderDate = 30;
 		String description = "this is a test service";
 
-		boolean available = true;
 		String gID = "1";
 
 		String techName = "techName1";
