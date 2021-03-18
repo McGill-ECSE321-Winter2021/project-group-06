@@ -107,11 +107,10 @@ public class CarService {
 		}
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
-		}else {
+		}
 			Car car = carRepository.findByLicensePlate(licensePlate);
 			return car;	
-		}
-		
+			
 	}
 	
 	/*

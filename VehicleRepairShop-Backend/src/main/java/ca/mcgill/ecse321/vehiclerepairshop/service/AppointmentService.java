@@ -64,7 +64,7 @@ public class AppointmentService {
 		appointment.setGarage(garage);
 		appointment.setOfferedService(service);
 		appointment.setTimeSlot(timeSlot);
-		appointment.setAppointmentId(timeSlot.getStartTime().hashCode()*service.getOfferedServiceId().hashCode());
+		appointment.setAppointmentId(comment.hashCode()*timeSlot.getStartTime().hashCode());
 		appointmentRepository.save(appointment);
 
 		return appointment;
@@ -79,15 +79,15 @@ public class AppointmentService {
 	@Transactional
 	public Appointment getAppointmentById(int id) {
 		String error = "";
-		if (!appointmentRepository.findById(id).isPresent()) {
+		if (appointmentRepository.findByAppointmentId(id) == null) {
 			error = error + "appointment not found";
 		}
+
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
-		Optional<Appointment> appointment = appointmentRepository.findById(id);
-		return appointment.get();
+		return appointmentRepository.findByAppointmentId(id);
 
 	}
 

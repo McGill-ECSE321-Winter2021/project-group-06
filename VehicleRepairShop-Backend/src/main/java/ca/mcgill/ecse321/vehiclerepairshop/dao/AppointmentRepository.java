@@ -18,6 +18,6 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
 	List<Appointment> findByGarage(Garage garageID);
 	List<Appointment> findByWorker(TechnicianAccount worker);
 	Appointment findByCarAndTimeSlot(Car car, TimeSlot timeSlot);
-	Appointment findByAppointmentId(int id);
+	Appointment findByAppointmentId(int appointmentId);
 	
 }

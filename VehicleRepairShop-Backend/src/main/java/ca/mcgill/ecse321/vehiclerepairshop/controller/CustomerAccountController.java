@@ -239,7 +239,7 @@ public class CustomerAccountController {
 		else {
 			AppointmentDto aptDto = new AppointmentDto(convertToDto(apt.getTimeSlot()), convertToDto(apt.getCar()), 
 					apt.getComment(), convertToDto(apt.getGarage()), 
-					apt.getWorker().stream().map(a -> convertToDto(a)).collect(Collectors.toList()), convertToDto(apt.getOfferedService()));
+					apt.getWorker().stream().map(a -> convertToDto(a)).collect(Collectors.toList()), convertToDto(apt.getOfferedService()),apt.getAppointmentId());
 			return aptDto;
 		}
 	}

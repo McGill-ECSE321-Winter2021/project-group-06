@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
@@ -58,9 +59,6 @@ public class AppointmentController {
 	@Autowired
 	private OfferedServiceService offeredServiceService;
 
-	@Autowired
-	private AppointmentRepository appointmentRepository;
-
 
 
 	/**
@@ -79,8 +77,8 @@ public class AppointmentController {
 	 * @return
 	 * @throws InvalidInputException
 	 */
-	@GetMapping(value = {"/getAppointmentById/{id}","/getAppointmentById/{id}/"})
-	public AppointmentDto getAppointmentById(@PathVariable("id") int id) throws InvalidInputException {
+	@GetMapping(value = {"/getAppointmentById/{appointmentId}","/getAppointmentById/{appointmentId}/"})
+	public AppointmentDto getAppointmentById(@PathVariable("appointmentId") int id) throws InvalidInputException {
 		return convertToDto(appointmentService.getAppointmentById(id));
 	}
 
@@ -146,7 +144,8 @@ public class AppointmentController {
 		Appointment appointment = appointmentService.createAppointment(timeSlot, 
 				offeredService, 
 				car, 
-				garage, comment);
+				garage, comment)  ;
+		
 		return convertToDto(appointment);
 	}
 
@@ -155,7 +154,7 @@ public class AppointmentController {
 	 * @param appointment
 	 * @return
 	 */
-	@PostMapping(value = {"/updateAppointmentGarage/{appointmentId}/getGarageByGarageId/{garageId}","/updateAppointmentGarage/{appointmentId}/getGarageByGarageId/{garageId}/"})
+	@PutMapping(value = {"/updateAppointmentGarage/{appointmentId}/getGarageByGarageId/{garageId}","/updateAppointmentGarage/{appointmentId}/getGarageByGarageId/{garageId}/"})
 	public AppointmentDto updateAppointmentGarage(@PathVariable("appointmentId") int appointmentId,
 			@PathVariable("garageId") GarageDto garageDto) {
 		Appointment appointment = appointmentService.updateAppointmentGarage(appointmentId, convertToGarageDomainObject(garageDto));
@@ -170,7 +169,7 @@ public class AppointmentController {
 	 * @param appointment
 	 * @return
 	 */
-	@PostMapping(value = {"/updateAppointmentCar/{appointmentId}/getCarByLicensePlate/{licensePlate}","/updateAppointmentCar/{appointmentId}/getCarByLicensePlate/{licensePlate}/"})
+	@PutMapping(value = {"/updateAppointmentCar/{appointmentId}/getCarByLicensePlate/{licensePlate}","/updateAppointmentCar/{appointmentId}/getCarByLicensePlate/{licensePlate}/"})
 	public AppointmentDto updateAppointmentCar(@PathVariable("appointmentId") int appointmentId,
 			@PathVariable("licensePlate") CarDto carDto) {
 		Appointment appointment = appointmentService.updateAppointmentCar(appointmentId, convertToCarDomainObject(carDto));
@@ -183,7 +182,7 @@ public class AppointmentController {
 	 * @param appointment
 	 * @return
 	 */
-	@PostMapping(value = {"/updateAppointmentOfferedService/{appointmentId}/getOfferedServiceById/{offeredServiceId}","/updateAppointmentOfferedService/{appointmentId}/getOfferedServiceById/{offeredServiceId}/"})
+	@PutMapping(value = {"/updateAppointmentOfferedService/{appointmentId}/getOfferedServiceById/{offeredServiceId}","/updateAppointmentOfferedService/{appointmentId}/getOfferedServiceById/{offeredServiceId}/"})
 	public AppointmentDto updateAppointmentOfferedService(@PathVariable("appointmentId") int appointmentId,
 			@PathVariable("offeredServiceId") OfferedServiceDto offeredServiceDto) {
 		Appointment appointment = appointmentService.updateAppointmentOfferedService(appointmentId, convertToOfferedServiceDomainObject(offeredServiceDto));
@@ -197,7 +196,7 @@ public class AppointmentController {
 	 * @return
 	 */
 
-	@PostMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/getTimeSlot/{id}","/updateAppointmentTimeSlot/{appointmentId}/getTimeSlot/{id}/"})
+	@PutMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/getTimeSlot/{id}","/updateAppointmentTimeSlot/{appointmentId}/getTimeSlot/{id}/"})
 	public AppointmentDto updateAppointmentTimeSlot(@PathVariable("appointmentId") int appointmentId,
 			@PathVariable("id") TimeSlotDto timeSlotDto) {
 		Appointment appointment = appointmentService.updateAppointmentTimeSlot(appointmentId, convertToTimeSlotDomainObject(timeSlotDto));
@@ -209,7 +208,7 @@ public class AppointmentController {
 	 * @param appointment
 	 * @return
 	 */
-	@PostMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/{comment}","/updateAppointmentTimeSlot/{appointmentId}/{comment}/"})
+	@PutMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/{comment}","/updateAppointmentTimeSlot/{appointmentId}/{comment}/"})
 	public AppointmentDto updateAppointmentTimeSlot(@PathVariable("appointmentId") int appointmentId,
 			@PathVariable("comment") String comment) {
 		Appointment appointment = appointmentService.updateAppointmentComment(appointmentId, comment);
@@ -258,7 +257,9 @@ public class AppointmentController {
 				appointment.getComment(), 
 				convertToGarageDto(appointment.getGarage()),
 				convertToTechnicianAccountListDtos(appointment.getWorker()), 
-				convertToOfferedServiceDto(appointment.getOfferedService()));
+				convertToOfferedServiceDto(appointment.getOfferedService()),
+				appointment.getAppointmentId());
+		
 		return appointmentDto;
 	}
 
@@ -445,7 +446,8 @@ public class AppointmentController {
 					apt.getComment(), 
 					convertToGarageDto(apt.getGarage()),
 					convertToTechnicianAccountListDtos(apt.getWorker()), 
-					convertToOfferedServiceDto(apt.getOfferedService()));
+					convertToOfferedServiceDto(apt.getOfferedService()),
+					apt.getAppointmentId());
 			aptDtos.add(aptDto);
 		}
 		return aptDtos; 
