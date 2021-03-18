@@ -217,34 +217,6 @@ public class OfferedServiceController {
 	}
 	
 	
-//	/**
-//	 *  convert dto to domain objects 
-//	 * @param a
-//	 * @return
-//	 */
-//	private Appointment convertToDomainObject(AppointmentDto a) {
-//		if (a == null) {
-//			throw new InvalidInputException("There is no such appointmentDto!");
-//		}
-//		
-//		Appointment appointment = appointmentService.getAppointmentById(a.getAppointmentId());
-//		return appointment;
-//	}
-//	
-//	
-//	/**
-//	 * Helper method which can turn a OfferedServiceDto to OfferedService
-//	 * @param offeredServiceDto
-//	 * @return
-//	 */
-//	private OfferedService convertToOfferedServiceDomainObject(OfferedServiceDto offeredServiceDto) {
-//		if (offeredServiceDto == null) {
-//			throw new InvalidInputException("There is no such offeredServiceDto!");
-//		}
-//		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
-//		return offeredService;
-//	}
-	
 	
 	
 	//helper method
