@@ -89,8 +89,7 @@ public class CarController {
 			if (car == null) {
 				return null;
 			} else {
-				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
-						car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
 				return carDto;
 			}
 		}
