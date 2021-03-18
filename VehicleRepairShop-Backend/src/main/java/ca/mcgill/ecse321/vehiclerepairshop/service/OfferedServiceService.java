@@ -131,13 +131,15 @@ public class OfferedServiceService {
 			List<Appointment> appointments = new ArrayList<Appointment>();
 			List<Appointment> ExistingAppointments = new ArrayList<Appointment>();
 			ExistingAppointments = offeredService.getAppointment();
-			if (ExistingAppointments != null) {
+			if (ExistingAppointments.size() > 0) {
 				for (Appointment apt: ExistingAppointments) {
 					appointments.add(apt);
 				}
 			}
 			appointments.add(appointment);
+			System.out.println(appointment);
 			offeredService.setAppointment(appointments);
+			System.out.println(offeredService);
 			return offeredService;
 		}
 		
