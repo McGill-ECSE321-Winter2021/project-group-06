@@ -1,0 +1,625 @@
+{
+	"info": {
+		"_postman_id": "b0029678-5dd3-41b8-a149-29203d0050cc",
+		"name": "Customer Account Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Customer Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user42/123/Catherine Caron",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user42",
+						"123",
+						"Catherine Caron"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Customer Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllCustomerAccounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllCustomerAccounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer Account by Username",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCustomerAccountByUsername/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCustomerAccountByUsername",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/12345/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						"12345",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer Accounts by Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCustomerAccountsByName/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCustomerAccountsByName",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Customer Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Customer Account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Customer Account Non Existing User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutCustomerAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutCustomerAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer Account Invalid Token",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Customer Account Invalid Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Customer Account Non Existing User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateCustomerAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateCustomerAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Empty Username",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/  /123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"  ",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Spaces in Username",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user name 1/123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user name 1",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Taken Username",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user42/123/Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user42",
+						"123",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Empty Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user2/ /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user2",
+						" ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Spaces in Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user2/1 2 3 /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user2",
+						"1 2 3 ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Empty Name",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user2/123/ /",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user2",
+						"123",
+						" ",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account Invalid Token",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/1234/Cathy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						"1234",
+						"Cathy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Customer Account Invalid Credentials",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginCustomerAccount/user42/321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginCustomerAccount",
+						"user42",
+						"321"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Customer Account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginCustomerAccount/user42/12345",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginCustomerAccount",
+						"user42",
+						"12345"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account Empty Password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/ /Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						" ",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account Spaces in Password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/1 2 3/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						"1 2 3",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account Empty Name",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/123/ ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						"123",
+						" "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Car",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createBusinessInformation/business/123/5145551234/bus@iness.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createBusinessInformation",
+						"business",
+						"123",
+						"5145551234",
+						"bus@iness.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Car",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/addCar/user42/111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"addCar",
+						"user42",
+						"111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer Account by Car",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCustomerAccountByCar/111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCustomerAccountByCar",
+						"111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer Account Non Existing User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteCustomerAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteCustomerAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer Account",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Customer Account Non Existing User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginCustomerAccount/user42/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginCustomerAccount",
+						"user42",
+						"123"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
