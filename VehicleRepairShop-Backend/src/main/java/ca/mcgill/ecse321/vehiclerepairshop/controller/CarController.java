@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 
@@ -72,7 +71,7 @@ public class CarController {
 	 */
 	@PostMapping(value = { "/createCar/{licensePlate}/{model}/{year}/{motorType}/{username}", "/createAdminAccount/{licensePlate}/{model}/{year}/{motorType}/{username}/" })
 	public CarDto createCar(@PathVariable("licensePlate") String licensePlate, @PathVariable("model") String model, @PathVariable("year") int year, 
-			@PathVariable("motorType") MotorType motorType,@PathVariable("username") String username) throws InvalidInputException {
+			@PathVariable("motorType") MotorType motorType,@PathVariable("username") String username) {
 		CustomerAccount owner = customerAccountService.getCustomerAccountByUsername(username);
 		Car car = carService.createCar(licensePlate, model, year, motorType,owner);
 		return convertToDto(car);

@@ -45,9 +45,9 @@ public class TimeSlotController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping(value = {"/getTimeSlot/{id}", "/getTimeSlot/{id}/" })
-	public TimeSlotDto getTimeSlot(@PathVariable("id") int id) throws InvalidInputException {
-		TimeSlot timeSlot = timeSlotService.getTimeSlot(id);
+	@GetMapping(value = {"/getTimeSlot/{timeSlotId}", "/getTimeSlot/{timeSlotId}/" })
+	public TimeSlotDto getTimeSlot(@PathVariable("timeSlotId") int timeSlotId) {
+		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
 		return convertToDto(timeSlot);
 	}
 	
@@ -55,13 +55,13 @@ public class TimeSlotController {
 	public TimeSlotDto createTimeSlot(@PathVariable("startTime") String startTime,
 			@PathVariable("endTime") String endTime,
 			@PathVariable("startDate") String startDate,
-			@PathVariable("endDate") String endDate) throws InvalidInputException {
+			@PathVariable("endDate") String endDate) {
 		TimeSlot timeSlot = timeSlotService.createTimeSlot(Time.valueOf(startTime),Time.valueOf(endTime),Date.valueOf(startDate),Date.valueOf(endDate));
 		return convertToDto(timeSlot);
 	}
 	
 	@DeleteMapping(value = {"/deleteTimeSlot/{timeslotId}","/deleteTimeSlot/{timeslotId}/"})
-	public TimeSlotDto deleteTimeSlotDto(@PathVariable("timeslotId") int timeslotId) throws InvalidInputException {
+	public TimeSlotDto deleteTimeSlotDto(@PathVariable("timeslotId") int timeslotId) {
 		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeslotId);
 		timeslotRepository.delete(timeSlot);
 		return convertToDto(timeSlot);

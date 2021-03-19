@@ -68,7 +68,6 @@ public class AdminAccountController {
 	 * @param password
 	 * @param name
 	 * @return Admin Account Dto
-	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = { "/createAdminAccount/{username}/{password}/{name}", "/createAdminAccount/{username}/{password}/{name}/" })
 	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name)  {
@@ -86,7 +85,6 @@ public class AdminAccountController {
 	 * @param newPassword
 	 * @param newName
 	 * @return Admin Account Dto
-	 * @throws InvalidInputException
 	 */
 	@PutMapping(value = {"/updateAdminAccount/{username}/{newPassword}/{newName}", "/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
 	public AdminAccountDto updateAdminAccount(@PathVariable("username") String username, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) {
@@ -99,7 +97,6 @@ public class AdminAccountController {
 	 * @author Catherine
 	 * @param username
 	 * @return boolean if successful
-	 * @throws InvalidInputException
 	 */
 	@DeleteMapping(value = { "/deleteAdminAccount/{username}", "/deleteAdminAccount/{username}/" })
 	public AdminAccountDto deleteAdminAccount(@PathVariable("username") String username) {
@@ -113,7 +110,6 @@ public class AdminAccountController {
 	 * @param username
 	 * @param password
 	 * @return boolean if successful
-	 * @throws InvalidInputException
 	 */
 	@PutMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}" })
 	public AdminAccountDto loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) {
@@ -126,7 +122,6 @@ public class AdminAccountController {
 	 * @author Catherine
 	 * @param username
 	 * @return boolean if successful
-	 * @throws InvalidInputException
 	 */
 	@PutMapping(value = {"/logoutAdminAccount/{username}", "/logoutAdminAccount/{username}/" })
 	public AdminAccountDto logoutAdminAccount(@PathVariable("username") String username) {
@@ -139,7 +134,6 @@ public class AdminAccountController {
 	 * @author Catherine
 	 * @param username
 	 * @return boolean authenticity
-	 * @throws InvalidInputException
 	 */
 	@PostMapping(value = {"/authenticateAdminAccount/{username}", "/authenticateAdminAccount/{username}/" })
 	public AdminAccountDto authenticateAdminAccount(@PathVariable("username") String username) {
