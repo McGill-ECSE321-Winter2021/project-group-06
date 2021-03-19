@@ -25,7 +25,7 @@ This table shows an overview of the team members and their roles for Sprint 2. T
 
 ### Key Design Decisions
 For more details on any design decisions, please explore the wiki pages. 
-* ** Key Domain Model Change:** adding a token to all accounts to easily check if a user is logged in or not
+* **Key Domain Model Change:** adding a token to all accounts to easily check if a user is logged in or not
 * **Key Domain Model Change:** removed useless isAvailable boolean from garage class
 * **Key Domain Model Change:** changed service to offered service to avoid confusion with service package and classes
 * **Key Domain Model Change:** removed userAccount superclass for simplicity with databases and tests
