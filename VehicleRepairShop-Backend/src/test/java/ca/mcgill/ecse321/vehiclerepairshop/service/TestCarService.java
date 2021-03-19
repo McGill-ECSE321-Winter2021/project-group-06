@@ -329,7 +329,7 @@ public class TestCarService {
   	
   	
   	/**
-  	 * testing fet cars by valid owner info 
+  	 * testing get cars by valid owner info 
   	 */
   	@Test
   	public void testGetCarsByOwner() {
@@ -553,7 +553,7 @@ public class TestCarService {
   	}
   	
   	/**
-  	 * testing deleteing car 
+  	 * testing deleting car 
   	 */
   	
 	@Test

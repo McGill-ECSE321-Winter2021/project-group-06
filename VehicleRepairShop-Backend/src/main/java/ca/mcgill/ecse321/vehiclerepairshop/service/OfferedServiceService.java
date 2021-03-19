@@ -112,30 +112,36 @@ public class OfferedServiceService {
 	@Transactional 
 	public OfferedService addAppointments(OfferedService offeredService, Appointment appointment) throws InvalidInputException{
 		String error = "";
+		System.out.println("1");
 		if (offeredService == null) {
 			error = error + "inputted OfferedService can not be null!";	
 		}else if (offeredServiceRepository.findByOfferedServiceId(offeredService.getOfferedServiceId())==null) {
 			error = error + "inputted OfferedService can not be found in the persistence!";
 		} 
+		System.out.println("2");
 		if (appointment == null) {
 			error = error + "inputted Appoitnment can not be null!";
 		}else if (appointmentRepository.findByAppointmentId(appointment.getAppointmentId()) == null) {
 			error = error + "inputted Appointment can not be found in the persistence!";
 		}
+		System.out.println("3");
 		if (error.length()>0) {
 			
 			//return offeredService;
 			throw new InvalidInputException(error);
 		}
 		else { 
+			System.out.println("4");
 			List<Appointment> appointments = new ArrayList<Appointment>();
 			List<Appointment> ExistingAppointments = new ArrayList<Appointment>();
-			ExistingAppointments = offeredService.getAppointment();
-			if (ExistingAppointments.size() > 0) {
+			if (offeredService.getAppointment() != null) {
+				ExistingAppointments = offeredService.getAppointment();
+				System.out.println("5");
 				for (Appointment apt: ExistingAppointments) {
 					appointments.add(apt);
 				}
 			}
+			System.out.println("6");
 			appointments.add(appointment);
 			System.out.println(appointment);
 			offeredService.setAppointment(appointments);
