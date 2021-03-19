@@ -10,10 +10,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
@@ -52,10 +57,11 @@ public class OfferedServiceController {
 	 * @param appointmentId
 	 * @return
 	 */
-	@GetMapping(value = {"/getOfferedServiceByAppointment/getAppointmentByAppointmentId/{appointmentId}", "/getOfferedServiceByAppointment/{appointmentId}/"})
-	public OfferedServiceDto getOfferedServiceByAppointment(@PathVariable("appointmentId") AppointmentDto appointmentDto) throws InvalidInputException{
+	@GetMapping(value = {"/getOfferedServiceByAppointment/{appointmentId}", "/getOfferedServiceByAppointment/{appointmentId}/"})
+	public OfferedServiceDto getOfferedServiceByAppointment(@PathVariable("appointmentId") int appointmentId) throws InvalidInputException{
 		OfferedServiceDto foundedServiceDtos = new OfferedServiceDto();
-		OfferedService foundedService = offeredServiceService.getOfferedServiceByAppointment(convertToDomainObject(appointmentDto));
+		Appointment apt = appointmentService.getAppointmentById(appointmentId);
+		OfferedService foundedService = offeredServiceService.getOfferedServiceByAppointment(apt);
 		foundedServiceDtos = convertToDto(foundedService);
 		return foundedServiceDtos;
 	}
@@ -85,7 +91,7 @@ public class OfferedServiceController {
 	 * @return
 	 * @throws InvalidInputException 
 	 */
-	@PostMapping(value = {"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
+	@PutMapping(value = {"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
 			"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
 												@PathVariable("price")double price, 
@@ -140,10 +146,13 @@ public class OfferedServiceController {
 	 * @param offeredServiceDto
 	 * @return
 	 */
-	@PostMapping(value = {"/OfferedServiceAddAppointment/getAppointmentById/{id}/getOfferedServiceById/{offeredServiceId}", "/OfferedServiceAddAppointment/getAppointmentById/{id}//getOfferedServiceById/{offeredServiceId}/"})
-	public OfferedServiceDto OfferedServiceAddAppointment(@PathVariable("id") AppointmentDto appointmentDto,
-												@PathVariable("offeredServiceId") OfferedServiceDto offeredServiceDto) {
-		OfferedService addedAppointmentOfferedService = offeredServiceService.addAppointments(convertToOfferedServiceDomainObject(offeredServiceDto),convertToDomainObject(appointmentDto));
+	@PutMapping(value = {"/OfferedServiceAddAppointment/{offeredServiceId}/{AppointmentId}", "/OfferedServiceAddAppointment/{offeredServiceId}/{AppointmentId}/"})
+	public OfferedServiceDto OfferedServiceAddAppointment(@PathVariable("AppointmentId") int appointmentId,
+												@PathVariable("offeredServiceId") String offeredServiceId) {
+		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceId);
+		Appointment appointment = appointmentService.getAppointmentById(appointmentId);
+		
+		OfferedService addedAppointmentOfferedService = offeredServiceService.addAppointments(offeredService,appointment);
 		return convertToDto(addedAppointmentOfferedService);
 		
 	}
@@ -184,38 +193,148 @@ public class OfferedServiceController {
 		if (s == null) {
 			throw new InvalidInputException("There is no such OfferedService!");
 		}
-		
 		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
 				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
+
+		if (s.getAppointment()!=null) {
+			List<Appointment> apts = s.getAppointment();
+			List<AppointmentDto> aptsDto = new ArrayList<AppointmentDto>();
+			for (Appointment apt: apts) {
+				AppointmentDto aptDto = convertToAppointmentDto(apt);
+				aptsDto.add(aptDto);
+			}
+			System.out.println(aptsDto);
+			offerServiceDto.setAppointments(aptsDto);
+		}
 		return offerServiceDto;
 	}
 	
 	
+	
+	
+	//helper method
 	/**
-	 *  convert dto to domain objects 
-	 * @param a
+	 * Covert appointment to AppointmentDto
+	 * @param appointment
 	 * @return
 	 */
-	private Appointment convertToDomainObject(AppointmentDto a) {
-		if (a == null) {
-			throw new InvalidInputException("There is no such appointmentDto!");
+	private AppointmentDto convertToAppointmentDto(Appointment appointment) {
+		if (appointment == null) {
+			throw new InvalidInputException("There is no such appointment!");
 		}
+		AppointmentDto appointmentDto = new AppointmentDto(convertToTimeSlotDto(appointment.getTimeSlot()),
+				convertToCarDto(appointment.getCar()),
+				appointment.getComment(), 
+				convertToGarageDto(appointment.getGarage()),
+				convertToTechnicianAccountListDtos(appointment.getWorker()), 
+				convertToOfferedServiceDto(appointment.getOfferedService()),
+				appointment.getAppointmentId());
 		
-		Appointment appointment = appointmentService.getAppointmentById(a.getAppointmentId());
-		return appointment;
+		return appointmentDto;
 	}
+	
 	
 	
 	/**
-	 * Helper method which can turn a OfferedServiceDto to OfferedService
-	 * @param offeredServiceDto
+	 * convert TimeSlot to timeslotDto
+	 * @param timeSlot
 	 * @return
 	 */
-	private OfferedService convertToOfferedServiceDomainObject(OfferedServiceDto offeredServiceDto) {
-		if (offeredServiceDto == null) {
-			throw new InvalidInputException("There is no such offeredServiceDto!");
+	private TimeSlotDto convertToTimeSlotDto(TimeSlot timeSlot) {
+		if (timeSlot == null) {
+			throw new InvalidInputException("There is no such timeslot!");
 		}
-		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
-		return offeredService;
+		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
+		return timeSlotDto;
 	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Convert Car to carDto
+	 * @param car
+	 * @return
+	 */
+	private CarDto convertToCarDto(Car car)  {
+		if (car == null) {
+			return null;
+		} else {
+			List<Appointment> apts = car.getAppointment();
+			List<AppointmentDto> aptsDto = new ArrayList<AppointmentDto>();
+			if (apts.size()>0) {
+				
+				for (Appointment apt: apts) {
+					AppointmentDto aptDto = convertToAppointmentDto(apt);
+					aptsDto.add(aptDto);
+				}
+			}
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), aptsDto );
+			return carDto;
+		}
+	}
+
+	
+	
+	/**
+	 * convert garage to garageDto
+	 * @param garage
+	 * @return
+	 */
+	private GarageDto convertToGarageDto(Garage garage) {
+		if (garage == null) {
+			throw new InvalidInputException("There is no such Garage");
+		}
+
+		GarageDto garageDto = new GarageDto(garage.getGarageId());
+		return garageDto;
+	}
+
+	
+	/**
+	 * Convert a list of TechinicianAccounts to a list of TechnicianAccountDtos
+	 * @param users
+	 * @return
+	 * @throws InvalidInputException
+	 */
+	private List<TechnicianAccountDto> convertToTechnicianAccountListDtos(List<TechnicianAccount> users) throws InvalidInputException{
+		List<TechnicianAccountDto> technicianAccountDtos = new ArrayList<TechnicianAccountDto>();
+		if (users != null) {
+			for (TechnicianAccount user:users) {
+				TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
+				List<Appointment> apts = user.getAppointment();
+				List<AppointmentDto> aptsDto = new ArrayList<AppointmentDto>();
+				if (apts.size()>0) {
+					for (Appointment apt: apts) {
+						AppointmentDto aptDto = convertToAppointmentDto(apt);
+						aptsDto.add(aptDto);
+					}
+				}
+				technicianAccountDto.setAppointments(aptsDto);
+				technicianAccountDtos.add(technicianAccountDto);
+			}
+		}
+		return technicianAccountDtos;
+	}
+	
+	
+	
+	/**
+	 * Convert OfferedService to offeredServiceDto
+	 * @param s
+	 * @return
+	 */
+	private OfferedServiceDto convertToOfferedServiceDto(OfferedService s) {
+		if (s == null) {
+			throw new InvalidInputException("There is no such OfferedService!");
+		}
+
+		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
+				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
+		return offerServiceDto;
+	}
+
 }

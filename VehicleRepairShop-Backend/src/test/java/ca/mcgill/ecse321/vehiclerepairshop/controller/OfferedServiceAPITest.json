@@ -15,13 +15,13 @@
 							"pm.test(\"create Offered Service test 1\", function() {",
 							"    pm.response.to.have.status(200);",
 							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.offeredServiceId).to.equal(\"test1\");",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
 							"    pm.expect(jsonData.price).to.equal(10.5);",
-							"    pm.expect(jsonData.name).to.equal(\"carWashing\");",
+							"    pm.expect(jsonData.name).to.include(\"carWashing\");",
 							"    pm.expect(jsonData.duration).to.equal(10);",
-							"    pm.expect(jsonData.reminderTime).to.equal(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData.reminderDate).to.equal(10);",
-							"    pm.expect(jsonData.description).to.equal(\"thisIsATest\");",
+							"    pm.expect(jsonData.description).to.include(\"thisIsATest\");",
 							"})"
 						],
 						"type": "text/javascript"
@@ -32,7 +32,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createOfferedService/test1/10.5/carWashing/10/\"09:00:00\"/10/thisIsATest ",
+					"raw": "http://localhost:8080/createOfferedService/test1/10.5/carWashing/10/09:00:00/10/thisIsATest ",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -44,7 +44,7 @@
 						"10.5",
 						"carWashing",
 						"10",
-						"\"09:00:00\"",
+						"09:00:00",
 						"10",
 						"thisIsATest "
 					]
@@ -62,13 +62,13 @@
 							"pm.test(\"create Offered Service test 2\", function() {",
 							"    pm.response.to.have.status(200);",
 							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.offeredServiceId).to.equal(\"test2\");",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test2\");",
 							"    pm.expect(jsonData.price).to.equal(10.5);",
-							"    pm.expect(jsonData.name).to.equal(\"carWashing\");",
+							"    pm.expect(jsonData.name).to.include(\"carWashing\");",
 							"    pm.expect(jsonData.duration).to.equal(10);",
-							"    pm.expect(jsonData.reminderTime).to.equal(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData.reminderDate).to.equal(10);",
-							"    pm.expect(jsonData.description).to.equal(\"thisIsATest\");",
+							"    pm.expect(jsonData.description).to.include(\"thisIsATest\");",
 							"})"
 						],
 						"type": "text/javascript"
@@ -79,7 +79,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createOfferedService/test2/10.5/carWashing/10/\"09:00:00\"/10/thisIsATest ",
+					"raw": "http://localhost:8080/createOfferedService/test2/10.5/carWashing/10/09:00:00/10/thisIsATest ",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -91,7 +91,7 @@
 						"10.5",
 						"carWashing",
 						"10",
-						"\"09:00:00\"",
+						"09:00:00",
 						"10",
 						"thisIsATest "
 					]
@@ -100,7 +100,215 @@
 			"response": []
 		},
 		{
-			"name": "getAllOfferedServices",
+			"name": "createTimeSlot/9:00:00/9:50:00/2021-03-01/2021-03-01",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Offered Service test mike 1\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.startTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.endTime).to.include(\"09:50:00\");",
+							"    pm.expect(jsonData.startDate).to.include(\"2021-03-01\");",
+							"    pm.expect(jsonData.endDate).to.include(\"2021-03-01\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTimeSlot/09:00:00/09:50:00/2021-03-01/2021-03-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTimeSlot",
+						"09:00:00",
+						"09:50:00",
+						"2021-03-01",
+						"2021-03-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createCar/mikewang1/jeep/1999/Gas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Offered Service test 2\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.licensePlate).to.include(\"mikewang1\");",
+							"    pm.expect(jsonData.model).to.include(\"jeep\");",
+							"    pm.expect(jsonData.year).to.equal(1999);",
+							"    pm.expect(jsonData.motorType).to.include(\"Gas\");",
+							"    pm.expect(jsonData.owner).to.be.null;",
+							"    pm.expect(jsonData.appointments).to.be.null;",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/mikewang1/jeep/1999/Gas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCar",
+						"mikewang1",
+						"jeep",
+						"1999",
+						"Gas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createGarage/garageMike1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Offered Service test 2\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.garageId).to.include(\"garageMike1\");",
+							"    pm.expect(jsonData.appointments).to.be.empty;",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createGarage/garageMike1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createGarage",
+						"garageMike1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create worker",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create worker\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/workerMike1/123/worker1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"workerMike1",
+						"123",
+						"worker1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateAppointment1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create appointment\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.timeSlot.startTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.timeSlot.endTime).to.include(\"09:50:00\");",
+							"    pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"    pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"    pm.expect(jsonData.car.licensePlate).to.include(\"mikewang1\");",
+							"    pm.expect(jsonData.car.model).to.include(\"jeep\");",
+							"    pm.expect(jsonData.car.year).to.equal(1999);",
+							"    pm.expect(jsonData.car.motorType).to.include(\"Gas\");",
+							"    pm.expect(jsonData.garage.garageId).to.include(\"garageMike1\");",
+							"    pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"test1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAppointment/This_is_an_appointment_in_test_by_mike_wang_1/-1339073152/mikewang1/garageMike1/test1/workerMike1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAppointment",
+						"This_is_an_appointment_in_test_by_mike_wang_1",
+						"-1339073152",
+						"mikewang1",
+						"garageMike1",
+						"test1",
+						"workerMike1"
+					]
+				},
+				"description": "/This is an appointment in test by mike wang/928/licensePlateMike1/garageIdMike1/test1"
+			},
+			"response": []
+		},
+		{
+			"name": "getAllOfferedServices/beforeAddingAppointmentAndUpdating",
 			"event": [
 				{
 					"listen": "test",
@@ -108,25 +316,25 @@
 						"exec": [
 							"pm.test(\"get all Offered Service\", function() {",
 							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json()[0];",
-							"    pm.expect(jsonData.offeredServiceId).to.equal(\"test1\");",
-							"    pm.expect(jsonData.price).to.equal(10.5);",
-							"    pm.expect(jsonData.name).to.equal(\"carWashing\");",
-							"    pm.expect(jsonData.duration).to.equal(10);",
-							"    pm.expect(jsonData.reminderTime).to.equal(\"09:00:00\");",
-							"    pm.expect(jsonData.reminderDate).to.equal(10);",
-							"    pm.expect(jsonData.description).to.equal(\"thisIsATest\");",
+							"    const jsonData1 = pm.response.json()[0];",
+							"    pm.expect(jsonData1.offeredServiceId).to.include(\"test1\");",
+							"    pm.expect(jsonData1.price).to.equal(10.5);",
+							"    pm.expect(jsonData1.name).to.include(\"carWashing\");",
+							"    pm.expect(jsonData1.duration).to.equal(10);",
+							"    pm.expect(jsonData1.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData1.reminderDate).to.equal(10);",
+							"    pm.expect(jsonData1.description).to.include(\"thisIsATest\");",
 							"",
 							"",
 							"",
 							"    const jsonData = pm.response.json()[1];",
-							"    pm.expect(jsonData.offeredServiceId).to.equal(\"test2\");",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test2\");",
 							"    pm.expect(jsonData.price).to.equal(10.5);",
-							"    pm.expect(jsonData.name).to.equal(\"carWashing\");",
+							"    pm.expect(jsonData.name).to.include(\"carWashing\");",
 							"    pm.expect(jsonData.duration).to.equal(10);",
-							"    pm.expect(jsonData.reminderTime).to.equal(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData.reminderDate).to.equal(10);",
-							"    pm.expect(jsonData.description).to.equal(\"thisIsATest\");",
+							"    pm.expect(jsonData.description).to.include(\"thisIsATest\");",
 							"",
 							"",
 							"",
@@ -154,7 +362,356 @@
 			"response": []
 		},
 		{
-			"name": "getOfferedServiceById/test1",
+			"name": "updateOfferedService/test1/100.0/carBaking/30/09:00:00/100/ThisIsAModifyedService Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update Offered Service\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
+							"    pm.expect(jsonData.price).to.equal(100.0);",
+							"    pm.expect(jsonData.name).to.include(\"carBaking\");",
+							"    pm.expect(jsonData.duration).to.equal(30);",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderDate).to.equal(100);",
+							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateOfferedService/test1/100.0/carBaking/30/09:00:00/100/ThisIsAModifyedService",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateOfferedService",
+						"test1",
+						"100.0",
+						"carBaking",
+						"30",
+						"09:00:00",
+						"100",
+						"ThisIsAModifyedService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateOfferedService/nonExistingTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update Offered Service\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateOfferedService/nonExistingTest/100.0/carBaking/30/09:00:00/100/ThisIsAModifyedService",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateOfferedService",
+						"nonExistingTest",
+						"100.0",
+						"carBaking",
+						"30",
+						"09:00:00",
+						"100",
+						"ThisIsAModifyedService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllOfferedServices/beforeAddingAppointmentAndAfterUpdating",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get all Offered Service\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData1 = pm.response.json()[1];",
+							"    pm.expect(jsonData1.offeredServiceId).to.include(\"test1\");",
+							"    pm.expect(jsonData1.price).to.equal(100.0);",
+							"    pm.expect(jsonData1.name).to.include(\"carBaking\");",
+							"    pm.expect(jsonData1.duration).to.equal(30);",
+							"    pm.expect(jsonData1.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData1.reminderDate).to.equal(100);",
+							"    pm.expect(jsonData1.description).to.include(\"ThisIsAModifyedService\");",
+							"",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test2\");",
+							"    pm.expect(jsonData.price).to.equal(10.5);",
+							"    pm.expect(jsonData.name).to.include(\"carWashing\");",
+							"    pm.expect(jsonData.duration).to.equal(10);",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderDate).to.equal(10);",
+							"    pm.expect(jsonData.description).to.include(\"thisIsATest\");",
+							"",
+							"",
+							"",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllOfferedServices",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllOfferedServices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OfferedServiceAddAppointment/test1/nonExisitngAppointmentId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Offered Service add appointment\", function() {",
+							"    pm.response.to.have.status(409);",
+							"    ",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/OfferedServiceAddAppointment/test1/-1425",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"OfferedServiceAddAppointment",
+						"test1",
+						"-1425"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OfferedServiceAddAppointment/nonExisitngOfferedServiceId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Offered Service add appointment\", function() {",
+							"    pm.response.to.have.status(409);",
+							"    ",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/OfferedServiceAddAppointment/nonExistingId/-142578265",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"OfferedServiceAddAppointment",
+						"nonExistingId",
+						"-142578265"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OfferedServiceAddAppointment/nonExistingOfferServiceId/nonExistingAppointmentId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Offered Service add appointment\", function() {",
+							"    pm.response.to.have.status(409);",
+							"    ",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/OfferedServiceAddAppointment/NonExisitngTest1/-1425",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"OfferedServiceAddAppointment",
+						"NonExisitngTest1",
+						"-1425"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OfferedServiceAddAppointment/getAppointmentById/1/getOfferedServiceById/test1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Offered Service add appointment\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
+							"    pm.expect(jsonData.price).to.equal(100.0);",
+							"    pm.expect(jsonData.name).to.include(\"carBaking\");",
+							"    pm.expect(jsonData.duration).to.equal(30);",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderDate).to.equal(100);",
+							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
+							"    pm.expect(jsonData.appointments).to.be.not.null;",
+							"    pm.expect(jsonData.appointments).to.be.an(\"array\");",
+							"    pm.expect(jsonData.appointments[0].appointmentId).to.equal(-142578265);",
+							"    pm.expect(jsonData.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
+							"    pm.expect(jsonData.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
+							"    ",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/OfferedServiceAddAppointment/test1/-142578265",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"OfferedServiceAddAppointment",
+						"test1",
+						"-142578265"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllOfferedServices/afterTest1AddingAppointmentAndUpdate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get all Offered Service\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData1 = pm.response.json()[1];",
+							"    pm.expect(jsonData1.offeredServiceId).to.include(\"test1\");",
+							"    pm.expect(jsonData1.price).to.equal(100.0);",
+							"    pm.expect(jsonData1.name).to.include(\"carBaking\");",
+							"    pm.expect(jsonData1.duration).to.equal(30);",
+							"    pm.expect(jsonData1.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData1.reminderDate).to.equal(100);",
+							"    pm.expect(jsonData1.description).to.include(\"ThisIsAModifyedService\");",
+							"    pm.expect(jsonData1.appointments).to.be.not.null;",
+							"    pm.expect(jsonData1.appointments).to.be.an(\"array\");",
+							"    pm.expect(jsonData1.appointments[0].appointmentId).to.equal(-142578265);",
+							"    pm.expect(jsonData1.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
+							"    pm.expect(jsonData1.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
+							"",
+							"",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test2\");",
+							"    pm.expect(jsonData.price).to.equal(10.5);",
+							"    pm.expect(jsonData.name).to.include(\"carWashing\");",
+							"    pm.expect(jsonData.duration).to.equal(10);",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderDate).to.equal(10);",
+							"    pm.expect(jsonData.description).to.include(\"thisIsATest\");",
+							"",
+							"",
+							"",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllOfferedServices",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllOfferedServices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOfferedServiceById/test1/afterTest1AddingAppointment",
 			"event": [
 				{
 					"listen": "test",
@@ -163,13 +720,18 @@
 							"pm.test(\"create Offered Service\", function() {",
 							"    pm.response.to.have.status(200);",
 							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.offeredServiceId).to.equal(\"test1\");",
-							"    pm.expect(jsonData.price).to.equal(10.5);",
-							"    pm.expect(jsonData.name).to.equal(\"carWashing\");",
-							"    pm.expect(jsonData.duration).to.equal(10);",
-							"    pm.expect(jsonData.reminderTime).to.equal(\"09:00:00\");",
-							"    pm.expect(jsonData.reminderDate).to.equal(10);",
-							"    pm.expect(jsonData.description).to.equal(\"thisIsATest\");",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
+							"    pm.expect(jsonData.price).to.equal(100.0);",
+							"    pm.expect(jsonData.name).to.include(\"carBaking\");",
+							"    pm.expect(jsonData.duration).to.equal(30);",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderDate).to.equal(100);",
+							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
+							"    pm.expect(jsonData.appointments).to.be.not.null;",
+							"    pm.expect(jsonData.appointments).to.be.an(\"array\");",
+							"    pm.expect(jsonData.appointments[0].appointmentId).to.equal(-142578265);",
+							"    pm.expect(jsonData.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
+							"    pm.expect(jsonData.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
 							"})"
 						],
 						"type": "text/javascript"
@@ -195,7 +757,40 @@
 			"response": []
 		},
 		{
-			"name": "updateOfferedService/test1/100.0/carBaking/30/09:00:00/100/ThisIsAModifyedService",
+			"name": "getOfferedServiceById/nonExistingOfferedServiceId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Offered Service\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getOfferedServiceById/nonExisitingOfferServiceTest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getOfferedServiceById",
+						"nonExisitingOfferServiceTest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOfferedServiceByAppointment/{appointmentId}",
 			"event": [
 				{
 					"listen": "test",
@@ -211,6 +806,11 @@
 							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData.reminderDate).to.equal(100);",
 							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
+							"    pm.expect(jsonData.appointments).to.be.not.null;",
+							"    pm.expect(jsonData.appointments).to.be.an(\"array\");",
+							"    pm.expect(jsonData.appointments[0].appointmentId).to.equal(-142578265);",
+							"    pm.expect(jsonData.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
+							"    pm.expect(jsonData.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
 							"})"
 						],
 						"type": "text/javascript"
@@ -218,49 +818,32 @@
 				}
 			],
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/updateOfferedService/test1/100.0/carBaking/30/09:00:00/100/ThisIsAModifyedService",
+					"raw": "http://localhost:8080/getOfferedServiceByAppointment/-142578265",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"updateOfferedService",
-						"test1",
-						"100.0",
-						"carBaking",
-						"30",
-						"09:00:00",
-						"100",
-						"ThisIsAModifyedService"
+						"getOfferedServiceByAppointment",
+						"-142578265"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "OfferedServiceAddAppointment/getAppointmentById/1/getOfferedServiceById/test1",
+			"name": "getOfferedServiceByAppointment/nonExistingAppointmentId",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Offered Service add appointment\", function() {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
-							"    pm.expect(jsonData.price).to.equal(100.0);",
-							"    pm.expect(jsonData.name).to.include(\"carBaking\");",
-							"    pm.expect(jsonData.duration).to.equal(30);",
-							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
-							"    pm.expect(jsonData.reminderDate).to.equal(100);",
-							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
-							"/**",
-							" * @TODO: add the test on if the appoinment have been added or not",
-							" */",
+							"pm.test(\"update Offered Service\", function() {",
+							"    pm.response.to.have.status(409);",
 							"})"
 						],
 						"type": "text/javascript"
@@ -268,21 +851,51 @@
 				}
 			],
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/OfferedServiceAddAppointment/getAppointmentById/1/getOfferedServiceById/test1",
+					"raw": "http://localhost:8080/getOfferedServiceByAppointment/-1425",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"OfferedServiceAddAppointment",
-						"getAppointmentById",
-						"1",
-						"getOfferedServiceById",
-						"test1"
+						"getOfferedServiceByAppointment",
+						"-1425"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteOfferedServiceById/test1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Offered Service add appointment\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteOfferedServiceById/nonExistingTest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteOfferedServiceById",
+						"nonExistingTest"
 					]
 				}
 			},
@@ -305,9 +918,11 @@
 							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData.reminderDate).to.equal(100);",
 							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
-							"/**",
-							" * @TODO: add the test on if the appoinment have been added or not",
-							" */",
+							"    pm.expect(jsonData.appointments).to.be.not.null;",
+							"    pm.expect(jsonData.appointments).to.be.an(\"array\");",
+							"    pm.expect(jsonData.appointments[0].appointmentId).to.equal(-142578265);",
+							"    pm.expect(jsonData.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
+							"    pm.expect(jsonData.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
 							"})"
 						],
 						"type": "text/javascript"
@@ -327,51 +942,6 @@
 					"path": [
 						"deleteOfferedServiceById",
 						"test1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getOfferedServiceByAppointment/getAppointmentByAppointmentId/1",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Offered Service add appointment\", function() {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
-							"    pm.expect(jsonData.price).to.equal(100.0);",
-							"    pm.expect(jsonData.name).to.include(\"carBaking\");",
-							"    pm.expect(jsonData.duration).to.equal(30);",
-							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
-							"    pm.expect(jsonData.reminderDate).to.equal(100);",
-							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
-							"/**",
-							" * @TODO: add the test on if the appoinment have been added or not",
-							" */",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/getOfferedServiceByAppointment/getAppointmentByAppointmentId/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"getOfferedServiceByAppointment",
-						"getAppointmentByAppointmentId",
-						"1"
 					]
 				}
 			},
