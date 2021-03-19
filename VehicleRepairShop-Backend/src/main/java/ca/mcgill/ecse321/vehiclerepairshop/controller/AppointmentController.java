@@ -193,8 +193,8 @@ public class AppointmentController {
 	 * @param appointment
 	 * @return
 	 */
-	@PutMapping(value = {"/updateAppointmentTimeSlot/{appointmentId}/{comment}","/updateAppointmentTimeSlot/{appointmentId}/{comment}/"})
-	public AppointmentDto updateAppointmentTimeSlot(@PathVariable("appointmentId") int appointmentId,
+	@PutMapping(value = {"/updateAppointmentComment/{appointmentId}/{comment}","/updateAppointmentTimeSlot/{appointmentId}/{comment}/"})
+	public AppointmentDto updateAppointmentComment(@PathVariable("appointmentId") int appointmentId,
 			@PathVariable("comment") String comment) {
 		Appointment appointment = appointmentService.updateAppointmentComment(appointmentId, comment);
 		return convertToDto(appointment);
