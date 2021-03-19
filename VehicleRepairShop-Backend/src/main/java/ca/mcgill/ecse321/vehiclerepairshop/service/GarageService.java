@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
@@ -19,6 +20,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 public class GarageService {
 	@Autowired
 	private GarageRepository garageRepository;
+	@Autowired
+	private AppointmentRepository appointmentRepository;
 	@Autowired
 	GarageService garageService;
 
@@ -74,7 +77,7 @@ public class GarageService {
 		if (appointment == null) {
 			throw new InvalidInputException("Appointment cannot be empty!");
 		}
-
+		System.out.println(appointment.getAppointmentId());
 		Garage garage = garageRepository.findByAppointment(appointment);
 		if (garage == null) {
 			throw new InvalidInputException("The garage is not found in the system!");

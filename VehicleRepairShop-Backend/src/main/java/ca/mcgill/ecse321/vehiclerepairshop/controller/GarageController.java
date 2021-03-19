@@ -59,7 +59,7 @@ public class GarageController {
 	 * @param appointmentId
 	 * @return
 	 */
-	@GetMapping(value = {"/getGarageByAppointment/getAppointmentByAppointment/{appointmentId}", "/getGarageByAppointment/getAppointmentByAppointment/{appointmentId}/"})
+	@GetMapping(value = {"/getGarageByAppointment/{appointmentId}", "/getGarageByAppointment/{appointmentId}/"})
 	public GarageDto getGarageByAppointment(@PathVariable("appointmentId") int appointmentId){
 		Appointment appointment = appointmentService.getAppointmentById(appointmentId);
 		return convertToDto(garageService.getGarageByAppointment(appointment));
@@ -70,8 +70,9 @@ public class GarageController {
 	 * @param garageId
 	 * @return
 	 */
-	@PostMapping(value = { "/createGarage/{garageId}","/createGarage/{garageId}"})
+	@PostMapping(value = { "/createGarage/{garageId}","/createGarage/{garageId}/"})
 	public GarageDto createGarage(@PathVariable("garageId") String garageId){
+		
 		Garage garage = garageService.createGarage(garageId);
 		return convertToDto(garage);
 	}
