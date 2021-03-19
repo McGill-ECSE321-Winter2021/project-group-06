@@ -528,7 +528,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/getAppointmentByWorker/1",
+					"raw": "http://localhost:8080/getAppointmentByWorker/worker1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -536,7 +536,7 @@
 					"port": "8080",
 					"path": [
 						"getAppointmentByWorker",
-						"1"
+						"worker1"
 					]
 				}
 			},

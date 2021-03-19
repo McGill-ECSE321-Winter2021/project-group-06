@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.vehiclerepairshop.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.jboss.jandex.TypeTarget.Usage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,11 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 
@@ -74,7 +71,7 @@ public class CarController {
 	 */
 	@PostMapping(value = { "/createCar/{licensePlate}/{model}/{year}/{motorType}/{username}", "/createAdminAccount/{licensePlate}/{model}/{year}/{motorType}/{username}/" })
 	public CarDto createCar(@PathVariable("licensePlate") String licensePlate, @PathVariable("model") String model, @PathVariable("year") int year, 
-			@PathVariable("motorType") MotorType motorType,@PathVariable("username") String username) throws InvalidInputException {
+			@PathVariable("motorType") MotorType motorType,@PathVariable("username") String username) {
 		CustomerAccount owner = customerAccountService.getCustomerAccountByUsername(username);
 		Car car = carService.createCar(licensePlate, model, year, motorType,owner);
 		return convertToDto(car);
@@ -124,25 +121,25 @@ public class CarController {
 //		}
 
 
-		/**
-		 * Helper Method to convert an appointment to a Dto
-		 * Will return null if you pass null
-		 * @author Catherine
-		 * @param car
-		 * @return AppointmentDto
-		 */
-		private AppointmentDto convertToDto(Appointment apt)  {
-			if (apt == null) {
-				return null;
-			}
-			else {
-				// TODO add appointment attributes once AppointmentDto is finished
-
-				AppointmentDto aptDto = new AppointmentDto();
-
-				return aptDto;
-			}
-		}
+//		/**
+//		 * Helper Method to convert an appointment to a Dto
+//		 * Will return null if you pass null
+//		 * @author Catherine
+//		 * @param car
+//		 * @return AppointmentDto
+//		 */
+//		private AppointmentDto convertToDto(Appointment apt)  {
+//			if (apt == null) {
+//				return null;
+//			}
+//			else {
+//				// TODO add appointment attributes once AppointmentDto is finished
+//
+//				AppointmentDto aptDto = new AppointmentDto();
+//
+//				return aptDto;
+//			}
+//		}
 		
 //		/**
 //		 * Helper Method to convert a business info to a Dto

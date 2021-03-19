@@ -1,11 +1,9 @@
 package ca.mcgill.ecse321.vehiclerepairshop.dto;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.util.Collections;
 import java.util.List;
 
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 /**
  * 
  * @author mikewang

@@ -76,22 +76,6 @@ public class GarageController {
 		return convertToDto(garage);
 	}
 
-	//	/**
-	//	 * Update garage 
-	//	 * @param garageId
-	//	 * @param isAvailable
-	//	 * @return
-	//	 * @throws InvalidInputException
-	//	 */
-	//	@PutMapping(value = {"/updateGarage/{isAvailable}/{garageId}", "/updateGarage/{isAvailable}/{garageId}/"})
-	//	public GarageDto updateGarage(@PathVariable("isAvailable")Boolean isAvailable, @PathVariable("garageId")String garageId) throws InvalidInputException{
-	//		GarageDto updatedGarage = new GarageDto();
-	//		Garage garage;
-	//		garage = garageService.updateGarage(garageId, isAvailable);
-	//		updatedGarage = convertToDto(garage);
-	//		return updatedGarage; 
-	//	}
-
 	/**
 	 * Delete a garage
 	 * @param garageId
@@ -133,21 +117,6 @@ public class GarageController {
 		GarageDto garageDto = new GarageDto(garage.getGarageId());
 		return garageDto;
 	}
-
-
-	//	/**
-	//	 *  Convert dto to domain objects 
-	//	 * @param appointmentDto
-	//	 * @return
-	//	 */
-	//	private Appointment convertToDomainObject(AppointmentDto appointmentDto) {
-	//		if (appointmentDto == null) {
-	//			throw new InvalidInputException("There is no such appointmentDto!");
-	//		}
-	//
-	//		Appointment appointment = appointmentService.getAppointmentById(appointmentDto.getAppointmentId());
-	//		return appointment;
-	//	}
 }
 
 

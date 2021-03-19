@@ -1,16 +1,10 @@
 package ca.mcgill.ecse321.vehiclerepairshop.controller;
 
-
-import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -111,7 +105,6 @@ public class OfferedServiceController {
 		try {
 			updatedService = offeredServiceService.updateService(offeredServiceId,price, name, duration, Time.valueOf(reminderTime), reminderDate, description);
 		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
 			throw new InvalidInputException(e.getMessage());
 		}
 		updatedServiceDtos = convertToDto(updatedService);
