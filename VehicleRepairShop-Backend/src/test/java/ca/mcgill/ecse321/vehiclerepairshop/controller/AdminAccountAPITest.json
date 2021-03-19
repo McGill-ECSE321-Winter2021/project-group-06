@@ -7,6 +7,23 @@
 	"item": [
 		{
 			"name": "Create Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -29,6 +46,23 @@
 		},
 		{
 			"name": "Get All Admin Accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get all admin accounts\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -48,6 +82,23 @@
 		},
 		{
 			"name": "Get Admin Account by Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get Admin Account by Username\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -68,11 +119,28 @@
 		},
 		{
 			"name": "Update Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/updateAdminAccount/user42/12345/Cat",
+					"raw": "http://localhost:8080/updateAdminAccount/user42/1234/Cat",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -81,7 +149,7 @@
 					"path": [
 						"updateAdminAccount",
 						"user42",
-						"12345",
+						"1234",
 						"Cat"
 					]
 				}
@@ -90,6 +158,23 @@
 		},
 		{
 			"name": "Get Admin Accounts by Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Admin Accounts by Name\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -110,6 +195,23 @@
 		},
 		{
 			"name": "Authenticate Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -130,6 +232,23 @@
 		},
 		{
 			"name": "Logout Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -150,6 +269,20 @@
 		},
 		{
 			"name": "Logout Admin Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -170,6 +303,19 @@
 		},
 		{
 			"name": "Delete Admin Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -190,6 +336,19 @@
 		},
 		{
 			"name": "Authenticate Admin Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Admin Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -210,6 +369,19 @@
 		},
 		{
 			"name": "Authenticate Admin Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -230,6 +402,19 @@
 		},
 		{
 			"name": "Create Admin Account Empty Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -253,6 +438,19 @@
 		},
 		{
 			"name": "Create Admin Account Spaces in Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Spaces in Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -276,6 +474,20 @@
 		},
 		{
 			"name": "Create Admin Account Taken Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Taken Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -299,6 +511,19 @@
 		},
 		{
 			"name": "Create Admin Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -322,6 +547,19 @@
 		},
 		{
 			"name": "Create Admin Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -345,6 +583,19 @@
 		},
 		{
 			"name": "Create Admin Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -368,6 +619,19 @@
 		},
 		{
 			"name": "Update Admin Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -390,6 +654,19 @@
 		},
 		{
 			"name": "Login Admin Account Invalid Credentials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Admin Account Invalid Credentials\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -411,6 +688,23 @@
 		},
 		{
 			"name": "Login Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cathy\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -432,6 +726,19 @@
 		},
 		{
 			"name": "Update Admin Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -454,6 +761,19 @@
 		},
 		{
 			"name": "Update Admin Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -476,6 +796,19 @@
 		},
 		{
 			"name": "Update Admin Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -498,6 +831,24 @@
 		},
 		{
 			"name": "Create Business Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Business Information\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.include(\"business\");",
+							"    pm.expect(jsonData.address).to.include(\"123\");",
+							"    pm.expect(jsonData.phoneNumber).to.include(\"5145551234\");",
+							"    pm.expect(jsonData.emailAddress).to.include(\"bus@iness.com\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -521,6 +872,28 @@
 		},
 		{
 			"name": "Set Business Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Set Business Information\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"    pm.expect(jsonData.businessInformation.name).to.include(\"business\");",
+							"    pm.expect(jsonData.businessInformation.address).to.include(\"123\");",
+							"    pm.expect(jsonData.businessInformation.phoneNumber).to.include(\"5145551234\");",
+							"    pm.expect(jsonData.businessInformation.emailAddress).to.include(\"bus@iness.com\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -542,6 +915,27 @@
 		},
 		{
 			"name": "Get Admin Account by Business Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get By Business Information\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"    pm.expect(jsonData.businessInformation.name).to.include(\"business\");",
+							"    pm.expect(jsonData.businessInformation.address).to.include(\"123\");",
+							"    pm.expect(jsonData.businessInformation.phoneNumber).to.include(\"5145551234\");",
+							"    pm.expect(jsonData.businessInformation.emailAddress).to.include(\"bus@iness.com\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -562,6 +956,19 @@
 		},
 		{
 			"name": "Delete Admin Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -582,6 +989,28 @@
 		},
 		{
 			"name": "Delete Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Admin Account\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"    pm.expect(jsonData.businessInformation.name).to.include(\"business\");",
+							"    pm.expect(jsonData.businessInformation.address).to.include(\"123\");",
+							"    pm.expect(jsonData.businessInformation.phoneNumber).to.include(\"5145551234\");",
+							"    pm.expect(jsonData.businessInformation.emailAddress).to.include(\"bus@iness.com\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -602,6 +1031,19 @@
 		},
 		{
 			"name": "Login Admin Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
