@@ -1,0 +1,1099 @@
+{
+	"info": {
+		"_postman_id": "1d35fe8b-79a3-464a-8dc9-3e7bc6d4aae5",
+		"name": "Admin Account Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user42/123/Catherine Caron",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user42",
+						"123",
+						"Catherine Caron"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Admin Accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get all admin accounts\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllAdminAccounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllAdminAccounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Account by Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get Admin Account by Username\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAdminAccountByUsername/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAdminAccountByUsername",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/1234/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						"1234",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Accounts by Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Admin Accounts by Name\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAdminAccountsByName/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAdminAccountsByName",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Admin Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutAdminAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutAdminAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Admin Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Admin Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Admin Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Admin Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateAdminAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateAdminAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Empty Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/  /123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"  ",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Spaces in Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Spaces in Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user name 1/123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user name 1",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Taken Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Taken Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user42/123/Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user42",
+						"123",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user2/ /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user2",
+						" ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user2/1 2 3 /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user2",
+						"1 2 3 ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAdminAccount/user2/123/ /",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAdminAccount",
+						"user2",
+						"123",
+						" ",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/1234/Cathy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						"1234",
+						"Cathy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin Account Invalid Credentials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Admin Account Invalid Credentials\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginAdminAccount/user42/321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginAdminAccount",
+						"user42",
+						"321"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginAdminAccount/user42/1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginAdminAccount",
+						"user42",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/ /Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						" ",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/1 2 3/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						"1 2 3",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Admin Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAdminAccount/user42/123/ ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAdminAccount",
+						"user42",
+						"123",
+						" "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Business Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Business Information\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.include(\"business\");",
+							"    pm.expect(jsonData.address).to.include(\"123\");",
+							"    pm.expect(jsonData.phoneNumber).to.include(\"5145551234\");",
+							"    pm.expect(jsonData.emailAddress).to.include(\"bus@iness.com\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createBusinessInformation/business/1234/5145551234/bus@iness.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createBusinessInformation",
+						"business",
+						"1234",
+						"5145551234",
+						"bus@iness.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Business Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Set Business Information\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"    pm.expect(jsonData.businessInformation.name).to.include(\"business\");",
+							"    pm.expect(jsonData.businessInformation.address).to.include(\"123\");",
+							"    pm.expect(jsonData.businessInformation.phoneNumber).to.include(\"5145551234\");",
+							"    pm.expect(jsonData.businessInformation.emailAddress).to.include(\"bus@iness.com\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/setBusinessInformation/user42/business",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"setBusinessInformation",
+						"user42",
+						"business"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Account by Business Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get By Business Information\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"    pm.expect(jsonData.businessInformation.name).to.include(\"business\");",
+							"    pm.expect(jsonData.businessInformation.address).to.include(\"123\");",
+							"    pm.expect(jsonData.businessInformation.phoneNumber).to.include(\"5145551234\");",
+							"    pm.expect(jsonData.businessInformation.emailAddress).to.include(\"bus@iness.com\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAdminAccountsByBusinessInformation/business",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAdminAccountsByBusinessInformation",
+						"business"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Admin Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAdminAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAdminAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Admin Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Admin Account\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"    pm.expect(jsonData.businessInformation.name).to.include(\"business\");",
+							"    pm.expect(jsonData.businessInformation.address).to.include(\"123\");",
+							"    pm.expect(jsonData.businessInformation.phoneNumber).to.include(\"5145551234\");",
+							"    pm.expect(jsonData.businessInformation.emailAddress).to.include(\"bus@iness.com\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAdminAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAdminAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginAdminAccount/user42/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginAdminAccount",
+						"user42",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Business Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete All Business Information\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAllBusinessInformation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAllBusinessInformation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
