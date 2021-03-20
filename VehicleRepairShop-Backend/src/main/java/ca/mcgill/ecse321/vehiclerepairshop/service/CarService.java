@@ -60,6 +60,12 @@ public class CarService {
 			car.setYear(year);
 			car.setMotorType(motorType);
 			car.setOwner(owner);
+//			CustomerAccount user = new CustomerAccount();
+//			user = customerAccountRepository.findByUsername(owner.getUsername());
+//			List<Car> cars = new ArrayList<Car>();
+//			cars.add(car);
+//			user.setCar(cars);
+//			//customerAccountRepository.save(owner);
 			carRepository.save(car);
 			return car;
 		}
@@ -88,7 +94,7 @@ public class CarService {
 			List<Car> cars = carRepository.findByOwner(owner);
 			return cars;
 		}
-			
+			 
 	}
 	
 	/*

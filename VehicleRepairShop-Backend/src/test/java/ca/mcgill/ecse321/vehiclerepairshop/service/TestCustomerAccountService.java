@@ -42,6 +42,9 @@ public class TestCustomerAccountService {
 	private static final int TOKEN2 = 0; //invalid
 
 	private static final String LICENSE = "123ABC";
+	private static final String LICENSE2 = "123ABCD";
+	Car addCar = new Car();
+	CustomerAccount ownerWithCar = new CustomerAccount();
 
 	
 
@@ -129,6 +132,10 @@ public class TestCustomerAccountService {
 				car.setLicensePlate(LICENSE);
 				return car;
 			} 
+			else if(invocation.getArgument(0).equals(LICENSE2)) {
+				addCar.setLicensePlate(LICENSE2);
+				return addCar;
+			} 
 			else {
 				return null;
 			}
@@ -143,6 +150,17 @@ public class TestCustomerAccountService {
 				user.setName(NAME1);
 				user.setToken(TOKEN1);
 	            return user;
+			}
+			else if (car.getLicensePlate().equals(LICENSE2)) {
+				List<Car> cars = new ArrayList<Car>();
+				addCar.setLicensePlate(LICENSE2);
+				cars.add(addCar);
+				ownerWithCar.setUsername(USERNAME1);
+				ownerWithCar.setPassword(PASSWORD1);
+				ownerWithCar.setName(NAME1);
+				ownerWithCar.setToken(TOKEN1);
+				ownerWithCar.setCar(cars);
+	            return ownerWithCar;
 			}
 			else {
 				return null;
@@ -649,6 +667,169 @@ public class TestCustomerAccountService {
 			assertEquals(user.getUsername(), USERNAME1);
 		}
 
+		/**
+		 * add car into a customer account
+		 */
+		@Test
+		public void testCustomerAddCarWithValidInformation() {
+			String error = "";
+//			Car c = new Car();
+//			c.setLicensePlate(LICENSE2);
+			CustomerAccount ownerCarAdded = null;
+			try {
+				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, LICENSE2);
+			}catch(InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("",error);
+			assertNotNull(ownerCarAdded);
+			assertEquals(USERNAME1,ownerCarAdded.getUsername());
+			List<Car> cars = ownerCarAdded.getCar();
+			for (Car addedCar: cars) {
+				assertEquals(LICENSE2, addedCar.getLicensePlate());
+			}
+			
+		}
+		
+		
+		/**
+		 * add car into a customer account
+		 */
+		@Test
+		public void testCustomerAddCarWithEmptyCustomer() {
+			String error = "";
+			Car c = new Car();
+			c.setLicensePlate(LICENSE2);
+			CustomerAccount ownerCarAdded = null;
+			String InvalidCustomerAccountUsername = "";
+			try {
+				ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
+			}catch(InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("customerAccountUsername can not be empty or null!",error);
+			assertNull(ownerCarAdded);
+			
+		}
+		
+		
+		
+		/**
+		 * add car into a customer account
+		 */
+		@Test
+		public void testCustomerAddCarWithNullCustomer() {
+			String error = "";
+			Car c = new Car();
+			c.setLicensePlate(LICENSE2);
+			CustomerAccount ownerCarAdded = null;
+			String InvalidCustomerAccountUsername = null;
+			try {
+				ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
+			}catch(InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("customerAccountUsername can not be empty or null!",error);
+			assertNull(ownerCarAdded);
+			
+		}
+		
+		/**
+		 * add car into a customer account
+		 */
+		@Test
+		public void testCustomerAddCarWithNonExistingCustomer() {
+			String error = "";
+			Car c = new Car();
+			c.setLicensePlate(LICENSE2);
+			CustomerAccount ownerCarAdded = null;
+			String InvalidCustomerAccountUsername = "test";
+			try {
+				ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
+			}catch(InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("can not find this customer in customer Account repository!",error);
+			assertNull(ownerCarAdded);
+			
+		}
+		
+		/**
+		 * add car into a customer account
+		 */
+		@Test
+		public void testCustomerAddCarWithNonExistingLicensePlate() {
+			String error = "";
+			String inValidLicensePlate = "1234567890"; 
+			CustomerAccount ownerCarAdded = null;
+			try {
+				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
+			}catch(InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("can not find this car in car repository!",error);
+			assertNull(ownerCarAdded);
+			
+		}
+		
+		
+		/**
+		 * add car into a customer account
+		 */
+		@Test
+		public void testCustomerAddCarWithNullLicensePlate() {
+			String error = "";
+			String inValidLicensePlate = null; 
+			CustomerAccount ownerCarAdded = null;
+			try {
+				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
+			}catch(InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("licensePlate can not be empty or null!",error);
+			assertNull(ownerCarAdded);
+			
+		}
+		
+		
+		/**
+		 * add car into a customer account
+		 */
+		@Test
+		public void testCustomerAddCarWithEmptyLicensePlate() {
+			String error = "";
+			String inValidLicensePlate = ""; 
+			CustomerAccount ownerCarAdded = null;
+			try {
+				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
+			}catch(InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("licensePlate can not be empty or null!",error);
+			assertNull(ownerCarAdded);
+			
+		}
+		
+		/**
+		 * add car into a customer account
+		 */
+		@Test
+		public void testCustomerAddCarWithSpaceLicensePlate() {
+			String error = "";
+			String inValidLicensePlate = " "; 
+			CustomerAccount ownerCarAdded = null;
+			try {
+				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
+			}catch(InvalidInputException e) {
+				error = e.getMessage();
+			}
+			assertEquals("licensePlate can not be empty or null!",error);
+			assertNull(ownerCarAdded);
+			
+		}
+		
+		
+		
 
 
 }

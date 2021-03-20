@@ -178,5 +178,10 @@ public class TestCustomerAccountPersistence {
 
 	}
 	
+//	@Test
+//	public void testPersistAndLoadCustomerAccountByCar2() {
+//		
+//	}
+//	
 
 }
