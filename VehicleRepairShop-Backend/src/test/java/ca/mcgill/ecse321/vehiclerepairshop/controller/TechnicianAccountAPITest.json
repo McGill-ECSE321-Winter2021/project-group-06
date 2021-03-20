@@ -1,12 +1,29 @@
 {
 	"info": {
-		"_postman_id": "8ce34339-8fb5-4df6-b0d7-13506e051d99",
+		"_postman_id": "0bbe0956-edfd-45dc-91f0-aaef3997082d",
 		"name": "Technician Account Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Create Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -30,6 +47,23 @@
 		},
 		{
 			"name": "Get All Technician Accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get all admin accounts\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -49,6 +83,23 @@
 		},
 		{
 			"name": "Get Technician Account by Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get Admin Account by Username\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -69,6 +120,24 @@
 		},
 		{
 			"name": "Update Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Update Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -91,6 +160,23 @@
 		},
 		{
 			"name": "Get Technician Accounts by Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Admin Accounts by Name\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -111,6 +197,23 @@
 		},
 		{
 			"name": "Authenticate Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -131,6 +234,23 @@
 		},
 		{
 			"name": "Logout Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -151,6 +271,20 @@
 		},
 		{
 			"name": "Logout Technician Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -171,6 +305,19 @@
 		},
 		{
 			"name": "Delete Technician Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -191,6 +338,19 @@
 		},
 		{
 			"name": "Authenticate Technician Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Admin Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -211,6 +371,19 @@
 		},
 		{
 			"name": "Authenticate Technician Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -231,6 +404,19 @@
 		},
 		{
 			"name": "Create Technician Account Empty Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -254,6 +440,19 @@
 		},
 		{
 			"name": "Create Technician Account Spaces in Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Spaces in Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -277,6 +476,20 @@
 		},
 		{
 			"name": "Create Technician Account Taken Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Taken Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -300,6 +513,19 @@
 		},
 		{
 			"name": "Create Technician Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -323,6 +549,19 @@
 		},
 		{
 			"name": "Create Technician Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -346,6 +585,19 @@
 		},
 		{
 			"name": "Create Technician Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -369,6 +621,19 @@
 		},
 		{
 			"name": "Update Technician Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -391,6 +656,19 @@
 		},
 		{
 			"name": "Login Technician Account Invalid Credentials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Admin Account Invalid Credentials\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -412,6 +690,23 @@
 		},
 		{
 			"name": "Login Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -433,6 +728,19 @@
 		},
 		{
 			"name": "Update Technician Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -455,6 +763,19 @@
 		},
 		{
 			"name": "Update Technician Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -477,6 +798,19 @@
 		},
 		{
 			"name": "Update Technician Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -503,18 +837,18 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createBusinessInformation/business/123/5145551234/bus@iness.com",
+					"raw": "http://localhost:8080/createTimeSlot/10:00:00/11:00:00/2021-03-01/2021-03-01",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"createBusinessInformation",
-						"business",
-						"123",
-						"5145551234",
-						"bus@iness.com"
+						"createTimeSlot",
+						"10:00:00",
+						"11:00:00",
+						"2021-03-01",
+						"2021-03-01"
 					]
 				}
 			},
@@ -526,7 +860,7 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/addTimeSlot/user42/-1490090368",
+					"raw": "http://localhost:8080/addTimeSlot/user42/1616820992",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -535,60 +869,7 @@
 					"path": [
 						"addTimeSlot",
 						"user42",
-						"-1490090368"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Appointment",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/createBusinessInformation/business/123/5145551234/bus@iness.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"createBusinessInformation",
-						"business",
-						"123",
-						"5145551234",
-						"bus@iness.com"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add Appointment",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Technician Account by Appointment",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						""
+						"1616820992"
 					]
 				}
 			},
@@ -596,6 +877,19 @@
 		},
 		{
 			"name": "Delete Technician Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -616,6 +910,23 @@
 		},
 		{
 			"name": "Delete Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Admin Account\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"12345\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -636,6 +947,19 @@
 		},
 		{
 			"name": "Login Technician Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
