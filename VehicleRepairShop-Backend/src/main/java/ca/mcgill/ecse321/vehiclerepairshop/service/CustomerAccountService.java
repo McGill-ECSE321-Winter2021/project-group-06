@@ -157,12 +157,10 @@ public class CustomerAccountService {
 		else {
 			if (user.getCar() != null) {
 				for (Car car : user.getCar()) {
-					System.out.println("car deleted!");
 					carRepository.delete(car);
 				}
 			}
 			customerAccountRepository.delete(user);
-			System.out.println("customer deleted!");
 			user.setCar(null);
 			return user;
 		}
@@ -247,9 +245,7 @@ public class CustomerAccountService {
 	@Transactional
 	public CustomerAccount getCustomerAccountWithCar(String licensePlate) {
 		Car car = carRepository.findByLicensePlate(licensePlate);
-		System.out.println(car);
 		CustomerAccount user = customerAccountRepository.findByCar(car);
-		System.out.println(user);
 		return user;
 	}
 	

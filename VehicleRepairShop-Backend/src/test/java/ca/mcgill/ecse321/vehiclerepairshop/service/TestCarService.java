@@ -327,11 +327,11 @@ public class TestCarService {
   	public void testGetCarsByOwner() {
   		List<Car> cars = new ArrayList<Car>();
   		owner.setUsername(OWNER_USERNAME);
-  		String error = "";
+  		
   		try {
   			cars = carService.getCarsByOwner(owner);
   		}catch(InvalidInputException e) {
-  			error = fail();
+  			fail();
   		}
   		assertNotNull(cars);
   		for(Car c : cars) {

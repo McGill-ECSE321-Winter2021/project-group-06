@@ -203,7 +203,6 @@ public class OfferedServiceController {
 				AppointmentDto aptDto = convertToAppointmentDto(apt);
 				aptsDto.add(aptDto);
 			}
-			System.out.println(aptsDto);
 			offerServiceDto.setAppointments(aptsDto);
 		}
 		return offerServiceDto;

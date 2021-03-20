@@ -124,7 +124,6 @@ public class TestCustomerAccountPersistence {
 		List<CustomerAccount> users = new ArrayList<CustomerAccount>();
 		
 		users = customerAccountRepository.findCustomerAccountByName(name1);
-		System.out.println(users);
 		if (users.get(0).getUsername().equals(username1)) {
 			user1 = users.get(0); 
 			user2 = users.get(1);
