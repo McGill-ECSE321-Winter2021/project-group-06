@@ -31,7 +31,7 @@ public class BusinessInformationDto {
 		return name;
 	}
 
-	public String getAdress() {
+	public String getAddress() {
 		return address;
 	}
 
