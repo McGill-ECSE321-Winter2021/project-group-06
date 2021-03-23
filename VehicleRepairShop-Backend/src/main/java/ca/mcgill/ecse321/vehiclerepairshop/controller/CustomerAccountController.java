@@ -191,8 +191,7 @@ public class CustomerAccountController {
 			return null;
 		}
 		else {
-			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
-					car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
 			return carDto;
 		}
 	}
@@ -248,9 +247,6 @@ public class CustomerAccountController {
 			return null;
 		}
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-		if (user.getAppointment() != null) {
-			technicianAccountDto.setAppointments(user.getAppointment().stream().map(t -> convertToDto(t)).collect(Collectors.toList()));
-		}
 		return technicianAccountDto;
 	}
 	
@@ -266,8 +262,7 @@ public class CustomerAccountController {
 			return null;
 		}
 		
-		GarageDto garageDto = new GarageDto(garage.getGarageId(), 
-				garage.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+		GarageDto garageDto = new GarageDto(garage.getGarageId());
 		return garageDto;
 	}
 

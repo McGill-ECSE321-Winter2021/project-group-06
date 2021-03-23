@@ -20,7 +20,7 @@ public class OfferedService
   private Time reminderTime;
   private int reminderDate;
   private String description;
-  private List<Appointment> appointment;
+
 
 
 
@@ -99,18 +99,6 @@ public class OfferedService
   public String getDescription()
   {
     return this.description;
-  }
-
- 
-  @OneToMany(cascade = {CascadeType.ALL})
-  public List<Appointment> getAppointment()
-  {
-	  return this.appointment;
-  }
-
-  
-  public void setAppointment(List<Appointment> appointment) {
-	  this.appointment = appointment;
   }
 
 

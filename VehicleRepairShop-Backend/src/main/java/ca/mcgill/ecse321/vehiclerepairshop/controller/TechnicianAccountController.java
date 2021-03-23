@@ -159,21 +159,7 @@ public class TechnicianAccountController {
 	public List<TechnicianAccountDto> getTechnicianAccountsByAppointment(@PathVariable("appointmentId") int appointmentId) {
 		return technicianAccountService.getTechnicianAccountsForAppointment(appointmentId).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
-	
 
-	
-	/**
-	 * add an appointment to the technician account
-	 * @param username
-	 * @param appointmentId
-	 * @return
-	 */
-	@PutMapping(value = {"/addAppointment/{username}/{appointmentId}", "/addAppointment/{username}/{appointmentId}/"})
-	public TechnicianAccountDto addAppointment(@PathVariable("username") String username, @PathVariable("appointmentId") int appointmentId) {
-		TechnicianAccount user = technicianAccountService.addAppointment(appointmentId, username);
-		return convertToDto(user);
-	}
-	
 
 	
 	/**
@@ -204,9 +190,6 @@ public class TechnicianAccountController {
 		
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
 		technicianAccountDto.setToken(user.getToken());
-		if (user.getAppointment() != null) {
-			technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
-		}
 		if (user.getAvailability() != null) {
 			technicianAccountDto.setTimeSlots(user.getAvailability().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 		}
@@ -248,7 +231,6 @@ public class TechnicianAccountController {
 		else {
 		OfferedServiceDto offeredServiceDto = new OfferedServiceDto(offeredService.getOfferedServiceId(), offeredService.getPrice(), 
 				offeredService.getName(), offeredService.getDuration(), offeredService.getReminderTime(), offeredService.getReminderDate(), offeredService.getDescription());
-		offeredServiceDto.setAppointments(offeredService.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
 		return offeredServiceDto;
 		}
 	}
@@ -266,8 +248,7 @@ public class TechnicianAccountController {
 			return null;
 		}
 		
-		GarageDto garageDto = new GarageDto(garage.getGarageId(), 
-				garage.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+		GarageDto garageDto = new GarageDto(garage.getGarageId());
 		return garageDto;
 	}
 
@@ -299,8 +280,7 @@ public class TechnicianAccountController {
 			return null;
 		}
 		else {
-			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
-					car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
 		
 			return carDto;
 		}

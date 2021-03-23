@@ -69,29 +69,29 @@ public class TestGaragePersistance {
 		assertEquals(garage.getGarageId(), garageId);
 	}
 
-	//tests finding garage via appointment
-	@Test
-	public void testPersistAndLoadGarageViaAppointment() {
-		
-		// create an appointment
-		int appointmentID = 1;
-
-		Appointment apt = new Appointment();
-		apt.setAppointmentId(appointmentID);
-		appointmentRepository.save(apt);
-
-		List<Appointment> appointments = new ArrayList<Appointment>();
-		appointments.add(apt);
-		garage.setAppointment(appointments);
-		garageRepository.save(garage);
-			
-
-		garage = null;
-		garage = garageRepository.findByAppointment(apt);
-		
-		assertNotNull(garage);
-		assertEquals(garage.getGarageId(), garageId);
-	}
+//	//tests finding garage via appointment
+//	@Test
+//	public void testPersistAndLoadGarageViaAppointment() {
+//		
+//		// create an appointment
+//		int appointmentID = 1;
+//
+//		Appointment apt = new Appointment();
+//		apt.setAppointmentId(appointmentID);
+//		appointmentRepository.save(apt);
+//
+//		List<Appointment> appointments = new ArrayList<Appointment>();
+//		appointments.add(apt);
+//		garage.setAppointment(appointments);
+//		garageRepository.save(garage);
+//			
+//
+//		garage = null;
+//		garage = garageRepository.findByAppointment(apt);
+//		
+//		assertNotNull(garage);
+//		assertEquals(garage.getGarageId(), garageId);
+//	}
 
 
 }

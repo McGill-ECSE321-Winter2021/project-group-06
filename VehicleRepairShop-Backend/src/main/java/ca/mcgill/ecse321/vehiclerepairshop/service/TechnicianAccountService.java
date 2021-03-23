@@ -265,30 +265,7 @@ public class TechnicianAccountService {
 		}
 		
 	}
-	
-	/**
-	 * add an appointment to technician account
-	 * @param appointmentId
-	 * @param username
-	 * @return
-	 */
-	@Transactional 
-	public TechnicianAccount addAppointment(int appointmentId, String username) {
-		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-		if (user.getAppointment() == null) {
-			List<Appointment> appointments = new ArrayList<Appointment>();
-			appointments.add(appointmentRepository.findByAppointmentId(appointmentId));
-			user.setAppointment(appointments);
-			return user;
-		}
-		else {
-			List<Appointment> appointments = user.getAppointment();
-			appointments.add(appointmentRepository.findByAppointmentId(appointmentId));
-			user.setAppointment(appointments);
-			return user;
-		}
-	}
-	
+
 	
 
 	/**

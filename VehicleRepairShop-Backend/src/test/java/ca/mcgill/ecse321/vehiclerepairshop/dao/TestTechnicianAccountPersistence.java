@@ -165,7 +165,6 @@ public class TestTechnicianAccountPersistence {
 
 		List<Appointment> appointments = new ArrayList<Appointment>();
 		appointments.add(apt);
-		user1.setAppointment(appointments);
 		technicianAccountRepository.save(user1);
 
 		user1 = null;

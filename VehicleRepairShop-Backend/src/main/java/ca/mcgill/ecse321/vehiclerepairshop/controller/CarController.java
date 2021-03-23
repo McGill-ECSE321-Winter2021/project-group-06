@@ -99,7 +99,6 @@ public class CarController {
 				return null;
 			} else {
 				CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
-				carDto.setOwner(car.getOwner());
 				return carDto;
 			}
 		}

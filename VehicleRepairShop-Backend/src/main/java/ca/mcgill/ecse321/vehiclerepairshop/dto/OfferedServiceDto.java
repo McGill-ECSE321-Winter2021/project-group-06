@@ -18,18 +18,12 @@ public class OfferedServiceDto {
 	private Time reminderTime;
 	private int reminderDate;
 	private String description;
-	private List<AppointmentDto> appointments;
+
 	
 	public OfferedServiceDto() {
 	}
 	
-	@SuppressWarnings("unchecked")
 	public OfferedServiceDto(String offeredServiceId, Double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
-		this(offeredServiceId, price, name, duration, reminderTime, reminderDate, description, Collections.EMPTY_LIST);
-	}
-	
-	
-	public OfferedServiceDto(String offeredServiceId, Double price, String name, int duration, Time reminderTime, int reminderDate, String description, List<AppointmentDto> arrayList) {
 		this.offeredServiceId = offeredServiceId;
 		this.price = price;
 		this.name = name;
@@ -37,7 +31,6 @@ public class OfferedServiceDto {
 		this.reminderTime = reminderTime;
 		this.reminderDate = reminderDate;
 		this.description = description;
-		this.appointments = arrayList;
 	}
 	
 	public String getOfferedServiceId() {
@@ -95,14 +88,6 @@ public class OfferedServiceDto {
 	
 	public void setDescription(String aDescription) {
 		this.description = aDescription;
-	}
-	
-	public List<AppointmentDto> getAppointments(){
-		return appointments;
-	}
-	
-	public void setAppointments(List<AppointmentDto> appointments) {
-		this.appointments = appointments;
 	}
 	
 	

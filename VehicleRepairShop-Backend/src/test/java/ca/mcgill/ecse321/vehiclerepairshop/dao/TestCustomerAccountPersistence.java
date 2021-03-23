@@ -160,7 +160,6 @@ public class TestCustomerAccountPersistence {
 	
 		Car car = new Car();
 		car.setLicensePlate(licensePlate);
-		car.setOwner(user1);
 		
 		carRepository.save(car);
 		List<Car> cars = new ArrayList<Car>();

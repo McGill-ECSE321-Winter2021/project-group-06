@@ -86,7 +86,7 @@ public class TestGarageService {
 
 				Garage garage = new Garage();
 				garage.setGarageId(GARAGE_ID1);
-				garage.setAppointment(appointments);
+
 				return garage;
 			}
 			else {
@@ -307,26 +307,6 @@ public class TestGarageService {
 	}
 
 	//----------------------------------- getGarageByAppointment ----------------------------------------
-	/**
-	 * Testing getGarage
-	 */
-	@Test
-	public void testGetGarageByAppointment() {
-		assertEquals(2, garageService.getAllGarages().size());
-
-		List<Appointment> appointments = new ArrayList<Appointment>();
-		appointments.add(appointment1);
-
-		Garage garage = null;
-		try {
-			garage = garageService.getGarageByAppointment(appointment1);
-		}catch (InvalidInputException e) {
-			fail(e.getMessage());
-		}
-		assertNotNull(garage);
-		checkResultGarage(garage, GARAGE_ID1);
-		assertEquals(appointments, garage.getAppointment());
-	}
 
 	/**
 	 * Testing getGarage with a null appointment

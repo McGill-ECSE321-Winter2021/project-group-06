@@ -9,7 +9,6 @@ public class TechnicianAccountDto {
 	private String password;
 	private String name;
 	private int token;
-	private List<AppointmentDto> appointmentsDTO;
 	private List<TimeSlotDto> timeSlotsDTO;
 
 	public TechnicianAccountDto() {
@@ -17,14 +16,13 @@ public class TechnicianAccountDto {
 	
 	@SuppressWarnings("unchecked")
 	public TechnicianAccountDto(String username, String password, String name) {
-		this(username, password, name, Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+		this(username, password, name,Collections.EMPTY_LIST);
 	}
 		
-	public TechnicianAccountDto(String username, String password, String name, List<AppointmentDto> appointments, List<TimeSlotDto> timeSlots) {
+	public TechnicianAccountDto(String username, String password, String name,List<TimeSlotDto> timeSlots) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
-		this.appointmentsDTO = appointments;
 		this.timeSlotsDTO = timeSlots;
 	}
 		
@@ -38,10 +36,6 @@ public class TechnicianAccountDto {
 	
 	public String getName() {
 		return name;
-	}
-	
-	public List<AppointmentDto> getAppointments() {
-		return appointmentsDTO;
 	}
 	
 	public List<TimeSlotDto> getTimeSlots() {
@@ -66,10 +60,6 @@ public class TechnicianAccountDto {
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public void setAppointments(List<AppointmentDto> arrayList) {
-		this.appointmentsDTO = arrayList;
 	}
 	
 	public void setTimeSlots(List<TimeSlotDto> arrayList) {

@@ -22,9 +22,6 @@ public class Car
   private int year;
   private MotorType motorType;
 
-  private CustomerAccount owner;
-  private List<Appointment> appointment;
-
   public void setLicensePlate(String aLicensePlate)
   {
     this.licensePlate = aLicensePlate;
@@ -65,31 +62,6 @@ public class Car
   {
     return motorType;
   }
-
-
-  @ManyToOne
-  public CustomerAccount getOwner()
-  {
-    return owner;
-  }
-
-  @OneToMany(cascade = {CascadeType.ALL})
-  public List<Appointment> getAppointment()
-  {
-    return this.appointment;
-  }
-
-  
-  public void setAppointment(List<Appointment> appointment) {
-	  this.appointment = appointment;
-  }
-  
-  public void setOwner(CustomerAccount aOwner)
-
-  {
-   this.owner = aOwner;
-  }
-  
   
 
 }

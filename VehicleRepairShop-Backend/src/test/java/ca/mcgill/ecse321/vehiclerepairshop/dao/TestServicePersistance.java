@@ -92,34 +92,6 @@ public class TestServicePersistance {
 
 	}
 
-	
-	@Test
-	public void testPersistAndLoadServiceViaAppointment() {
-		
-		// create an appointment
-		int appointmentID = 1;
 
-		Appointment apt = new Appointment();
-		apt.setAppointmentId(appointmentID);
-		appointmentRepository.save(apt);
-
-		List<Appointment> appointments = new ArrayList<Appointment>();
-		appointments.add(apt);
-		service.setAppointment(appointments);
-		offeredServiceRepository.save(service);
-
-		service = null;
-
-		service = offeredServiceRepository.findByAppointment(apt);
-
-		assertNotNull(service);
-		assertEquals(service.getName(), serviceName);
-		assertEquals(service.getPrice(), price);
-		assertEquals(service.getDuration(), duration);
-		assertEquals(service.getReminderDate(), reminderDate);
-		assertEquals(service.getReminderTime(), reminderTime);
-		assertEquals(service.getDescription(), description);
-
-	}
 
 }

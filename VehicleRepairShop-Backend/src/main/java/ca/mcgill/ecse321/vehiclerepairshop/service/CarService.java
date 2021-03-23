@@ -59,7 +59,6 @@ public class CarService {
 			car.setModel(model);
 			car.setYear(year);
 			car.setMotorType(motorType);
-			car.setOwner(owner);
 			carRepository.save(car);
 			return car;
 		}
@@ -114,35 +113,35 @@ public class CarService {
 	}
 	
 	
-	/**
-	 * car add owner
-	 * @param owner
-	 * @param car
-	 * @return
-	 */
-	@Transactional
-	public Car carAddOwner(CustomerAccount owner, Car car) {
-		String error = "";
-		if (owner == null) {
-			error = error + "owner can not be null!";
-		}else if (customerAccountRepository.findByUsername(owner.getUsername()) == null) {
-			error = error + "This owner does not found in customerAccountRepository!";
-		}
-		
-		if (car == null) {
-			error = error + "car can not be null!";
-		}else if (carRepository.findByLicensePlate(car.getLicensePlate())==null) {
-			error = error + "car can not be found in the carRepository!";
-		}
-		
-		if (error.length() >0) {
-			throw new InvalidInputException(error);
-		}else {
-			car.setOwner(owner);
-			return car;
-		}
-		
-	}
+//	/**
+//	 * car add owner
+//	 * @param owner
+//	 * @param car
+//	 * @return
+//	 */
+//	@Transactional
+//	public Car carAddOwner(CustomerAccount owner, Car car) {
+//		String error = "";
+//		if (owner == null) {
+//			error = error + "owner can not be null!";
+//		}else if (customerAccountRepository.findByUsername(owner.getUsername()) == null) {
+//			error = error + "This owner does not found in customerAccountRepository!";
+//		}
+//		
+//		if (car == null) {
+//			error = error + "car can not be null!";
+//		}else if (carRepository.findByLicensePlate(car.getLicensePlate())==null) {
+//			error = error + "car can not be found in the carRepository!";
+//		}
+//		
+//		if (error.length() >0) {
+//			throw new InvalidInputException(error);
+//		}else {
+//			car.setOwner(owner);
+//			return car;
+//		}
+//		
+//	}
 	
 	/*
 	 * gets all cars in the database

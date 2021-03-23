@@ -278,7 +278,6 @@ public class AppointmentController {
 		if (users != null) {
 			for (TechnicianAccount user:users) {
 				TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-				technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 				technicianAccountDtos.add(technicianAccountDto);
 			}
 		}
@@ -290,7 +289,6 @@ public class AppointmentController {
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto();
 		if (user != null) {
 				technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-				technicianAccountDto.setAppointments(user.getAppointment().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 			}
 		return technicianAccountDto;
 	}
@@ -402,8 +400,7 @@ public class AppointmentController {
 		if (car == null) {
 			return null;
 		} else {
-			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
-					car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
 			return carDto;
 		}
 	}

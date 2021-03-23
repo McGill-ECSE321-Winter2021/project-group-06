@@ -1,10 +1,9 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 
-import java.util.*;
+
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 
 
@@ -12,7 +11,6 @@ import javax.persistence.Entity;
 public class Garage
 {
   private String garageId;
-  private List<Appointment> appointment;
 
   public void setGarageId(String aGarageId)
   {
@@ -24,18 +22,7 @@ public class Garage
   {
     return this.garageId;
   }
-
-  @OneToMany(cascade = {CascadeType.ALL})
-  public List<Appointment> getAppointment()
-  {
-
-    return this.appointment;
-
-  }
   
-  public void setAppointment(List<Appointment> appointment) {
-	  this.appointment = appointment;
-  }
 
 
 }

@@ -36,9 +36,9 @@ public class OfferedServiceController {
 	private OfferedServiceService offeredServiceService;
 	@Autowired
 	private AppointmentService appointmentService;
-	
+
 	// naming must be the same as the method name
-	
+
 	/**
 	 * get all offered services from the persistence as DTO
 	 * @return
@@ -51,7 +51,7 @@ public class OfferedServiceController {
 		}
 		return offeredServiceDtos;
 	}
-	
+
 	/**
 	 * get offered service by appointment as Dto
 	 * @param appointmentId
@@ -65,7 +65,7 @@ public class OfferedServiceController {
 		foundedServiceDtos = convertToDto(foundedService);
 		return foundedServiceDtos;
 	}
-	
+
 	/**
 	 * get offered service by offeredServiceId 
 	 * @param offeredServiceId
@@ -78,7 +78,7 @@ public class OfferedServiceController {
 		foundedServiceDtos = convertToDto(foundedService);
 		return foundedServiceDtos;
 	}
-	
+
 	/**
 	 * update offered service 
 	 * @param offeredServiceId
@@ -92,14 +92,14 @@ public class OfferedServiceController {
 	 * @throws InvalidInputException 
 	 */
 	@PutMapping(value = {"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
-			"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
+	"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
-												@PathVariable("price")double price, 
-												@PathVariable("name")String name, 
-												@PathVariable("duration")int duration, 
-												@PathVariable("reminderTime")String reminderTime, 
-												@PathVariable("reminderDate")int reminderDate,
-												@PathVariable("description")String description) throws InvalidInputException {
+			@PathVariable("price")double price, 
+			@PathVariable("name")String name, 
+			@PathVariable("duration")int duration, 
+			@PathVariable("reminderTime")String reminderTime, 
+			@PathVariable("reminderDate")int reminderDate,
+			@PathVariable("description")String description) throws InvalidInputException {
 		OfferedServiceDto updatedServiceDtos = new OfferedServiceDto();
 		OfferedService updatedService;
 		try {
@@ -110,8 +110,8 @@ public class OfferedServiceController {
 		updatedServiceDtos = convertToDto(updatedService);
 		return updatedServiceDtos; 
 	}
-	
-	
+
+
 	/**
 	 * create an OfferedServiceDto
 	 * @param offeredServiceId
@@ -124,42 +124,24 @@ public class OfferedServiceController {
 	 * @return
 	 */
 	@PostMapping(value = {"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
-			"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
+	"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
 	public OfferedServiceDto createOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
-													@PathVariable("price")double price, 
-													@PathVariable("name")String name, 
-													@PathVariable("duration")int duration, 
-													@PathVariable("reminderTime")String reminderTime, 
-													@PathVariable("reminderDate")int reminderDate,
-													@PathVariable("description")String description) throws InvalidInputException{
+			@PathVariable("price")double price, 
+			@PathVariable("name")String name, 
+			@PathVariable("duration")int duration, 
+			@PathVariable("reminderTime")String reminderTime, 
+			@PathVariable("reminderDate")int reminderDate,
+			@PathVariable("description")String description) throws InvalidInputException{
 		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, Time.valueOf(reminderTime), reminderDate, description);
 		//OfferedServiceDto createdOfferedServiceDto = new OfferedServiceDto(offeredServiceId,price, name, duration, reminderTime, reminderDate, description);
 		OfferedServiceDto createdOfferedServiceDto = convertToDto(createdOfferedService);
 		return createdOfferedServiceDto;
 	}
-	
 
 
-	/**
-	 * add an appointment to an existing service 
-	 * @param appointmentDto
-	 * @param offeredServiceDto
-	 * @return
-	 */
-	@PutMapping(value = {"/OfferedServiceAddAppointment/{offeredServiceId}/{AppointmentId}", "/OfferedServiceAddAppointment/{offeredServiceId}/{AppointmentId}/"})
-	public OfferedServiceDto OfferedServiceAddAppointment(@PathVariable("AppointmentId") int appointmentId,
-												@PathVariable("offeredServiceId") String offeredServiceId) {
-		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceId);
-		Appointment appointment = appointmentService.getAppointmentById(appointmentId);
-		
-		OfferedService addedAppointmentOfferedService = offeredServiceService.addAppointments(offeredService,appointment);
-		return convertToDto(addedAppointmentOfferedService);
-		
-	}
-	
-	
-	
-	
+
+
+
 	/**
 	 * delete a offered service 
 	 * @param offeredServiceId
@@ -169,20 +151,20 @@ public class OfferedServiceController {
 	@DeleteMapping(value = {"/deleteOfferedServiceById/{offeredServiceId}", "/deleteOfferedServiceById/{offeredServiceId}/"})
 	public OfferedServiceDto deleteOfferedServiceById(@PathVariable("offeredServiceId") String offeredServiceId) throws InvalidInputException{
 		OfferedService offeredService = new OfferedService();
-		 try {
-			 offeredService = offeredServiceService.deleteOfferedService(offeredServiceId);
-		 }catch (RuntimeException e) {
-			 throw new InvalidInputException(e.getMessage());
-		 }
-		 
+		try {
+			offeredService = offeredServiceService.deleteOfferedService(offeredServiceId);
+		}catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+
 		return convertToDto(offeredService);
 	}
-	
 
-	
-	
-	
-	
+
+
+
+
+
 	// ---------------------------- Helper method ---------------------------
 	/**
 	 * converting OfferedService to type OfferedServiceDto
@@ -195,23 +177,15 @@ public class OfferedServiceController {
 		}
 		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
 				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
-
-		if (s.getAppointment()!=null) {
-			List<Appointment> apts = s.getAppointment();
-			List<AppointmentDto> aptsDto = new ArrayList<AppointmentDto>();
-			for (Appointment apt: apts) {
-				AppointmentDto aptDto = convertToAppointmentDto(apt);
-				aptsDto.add(aptDto);
-			}
-			System.out.println(aptsDto);
-			offerServiceDto.setAppointments(aptsDto);
-		}
 		return offerServiceDto;
+
 	}
-	
-	
-	
-	
+
+
+
+
+
+
 	//helper method
 	/**
 	 * Covert appointment to AppointmentDto
@@ -229,12 +203,12 @@ public class OfferedServiceController {
 				convertToTechnicianAccountListDtos(appointment.getWorker()), 
 				convertToOfferedServiceDto(appointment.getOfferedService()),
 				appointment.getAppointmentId());
-		
+
 		return appointmentDto;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * convert TimeSlot to timeslotDto
 	 * @param timeSlot
@@ -247,13 +221,13 @@ public class OfferedServiceController {
 		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
 		return timeSlotDto;
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	/**
 	 * Convert Car to carDto
 	 * @param car
@@ -263,22 +237,13 @@ public class OfferedServiceController {
 		if (car == null) {
 			return null;
 		} else {
-			List<Appointment> apts = car.getAppointment();
-			List<AppointmentDto> aptsDto = new ArrayList<AppointmentDto>();
-			if (apts.size()>0) {
-				
-				for (Appointment apt: apts) {
-					AppointmentDto aptDto = convertToAppointmentDto(apt);
-					aptsDto.add(aptDto);
-				}
-			}
-			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), aptsDto );
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
 			return carDto;
 		}
 	}
 
-	
-	
+
+
 	/**
 	 * convert garage to garageDto
 	 * @param garage
@@ -293,7 +258,7 @@ public class OfferedServiceController {
 		return garageDto;
 	}
 
-	
+
 	/**
 	 * Convert a list of TechinicianAccounts to a list of TechnicianAccountDtos
 	 * @param users
@@ -305,23 +270,15 @@ public class OfferedServiceController {
 		if (users != null) {
 			for (TechnicianAccount user:users) {
 				TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-				List<Appointment> apts = user.getAppointment();
-				List<AppointmentDto> aptsDto = new ArrayList<AppointmentDto>();
-				if (apts.size()>0) {
-					for (Appointment apt: apts) {
-						AppointmentDto aptDto = convertToAppointmentDto(apt);
-						aptsDto.add(aptDto);
-					}
-				}
-				technicianAccountDto.setAppointments(aptsDto);
 				technicianAccountDtos.add(technicianAccountDto);
-			}
+			}	
 		}
 		return technicianAccountDtos;
 	}
-	
-	
-	
+
+
+
+
 	/**
 	 * Convert OfferedService to offeredServiceDto
 	 * @param s

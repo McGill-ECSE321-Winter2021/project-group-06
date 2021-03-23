@@ -1,9 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop.dto;
 
-import java.util.List;
-
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
-import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 
 public class CarDto {
 	
@@ -11,9 +8,6 @@ public class CarDto {
 	  private String model;
 	  private int year;
 	  private MotorType motorType;
-
-	  private CustomerAccount owner;
-	  private List<AppointmentDto> appointmentsDTO;
 	  
 	  public CarDto(){
 		  
@@ -24,15 +18,6 @@ public class CarDto {
 		  this.model = model;
 		  this.year = year;
 		  this.motorType = motorType;
-	  }
-	  
-	  public CarDto(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner, List<AppointmentDto> appointments){
-		  this.licensePlate = licensePlate;
-		  this.model = model;
-		  this.year = year;
-		  this.motorType = motorType;
-		  this.owner = owner;
-		  this.appointmentsDTO = appointments;		  
 	  }
 	  
 	  public String getLicensePlate(){
@@ -51,13 +36,6 @@ public class CarDto {
 		  return motorType;
 	  }
 	  
-	  public CustomerAccount getOwner() {
-		  return owner;
-	  }
-	  
-	  public List<AppointmentDto> getAppointments(){
-		  return appointmentsDTO;
-	  }
 	  
 	  public void setLicensePlate(String licensePlate) {
 		  this.licensePlate = licensePlate;
@@ -70,17 +48,6 @@ public class CarDto {
 	  public void setYear(int year) {
 		  this.year = year;
 	  }
-	  
-	  public void setOwner(CustomerAccount owner) {
-		  this.owner = owner;
-	  }
-	  
-	  public void setAppointments(List<AppointmentDto> appointments) {
-		  appointmentsDTO = appointments;
-	  }
-	  
-	  public void addAppointments(List<AppointmentDto> appointments) {
-		  appointmentsDTO.addAll(appointments);
-	  }
+	 
 
 }

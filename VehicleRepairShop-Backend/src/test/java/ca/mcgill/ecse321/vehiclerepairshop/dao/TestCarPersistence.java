@@ -124,14 +124,12 @@ public class TestCarPersistence {
 		car.setModel(model);
 		car.setYear(year);
 		car.setMotorType(engine);
-		car.setOwner(customer);
 
 		Car car2 = new Car();
 		car2.setLicensePlate(licensePlate2);
 		car2.setModel(model2);
 		car2.setYear(year2);
 		car2.setMotorType(engine);
-		car2.setOwner(customer);
 
 
 		customerAccountRepository.save(customer);

@@ -676,20 +676,7 @@ public class TestTechnicianAccountService {
 			assertEquals(users.get(1).getUsername(), USERNAME2);
 		}
 
-		
-		
-		/**
-		 * Add appointment to account
-		 */
-		@Test 
-		public void testAddAppointment() {
-			Appointment appointment = new Appointment();
-			appointment.setAppointmentId(APT_ID);
-			TechnicianAccount user = technicianAccountService.addAppointment(APT_ID, USERNAME1);
-			assertNotNull(user);
-			assertEquals(user.getUsername(), USERNAME1);
-		}
-
+	
 		
 		/**
 		 * Add timeslot to account
