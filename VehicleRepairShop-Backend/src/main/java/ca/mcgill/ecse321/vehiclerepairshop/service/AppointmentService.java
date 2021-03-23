@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.dao.TechnicianAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
@@ -22,6 +23,8 @@ import java.time.LocalTime;
 public class AppointmentService {
 	@Autowired
 	private AppointmentRepository appointmentRepository;
+	@Autowired
+	private TechnicianAccountRepository technicianAccountRepository;
 	/**
 	 *  
 	 * @param worker
@@ -107,7 +110,7 @@ public class AppointmentService {
 		if (appointmentRepository.findByAppointmentId(id)==null) {
 			error = error + "appointment not found";
 		}
-		
+
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
@@ -194,16 +197,16 @@ public class AppointmentService {
 			error = error + "appointment not found";
 			error = error.trim();
 			throw new InvalidInputException(error);
-				
+
 		}else {
-			
+
 			Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
 			appointmentRepository.delete(appointment);
 			return appointment;
 		}
-		
-	
-		
+
+
+
 	}
 
 	/**
@@ -375,6 +378,89 @@ public class AppointmentService {
 		appointmentRepository.save(appointment);
 		return appointment;
 	}
+
+
+	@Transactional
+	public List<Appointment> findAppointmentByCar(String licesePlate){
+		List<Appointment> appointments = toList(appointmentRepository.findAll());
+		List<Appointment> result = new ArrayList<Appointment>();
+		if (appointments.isEmpty()) {
+			return result;
+		}
+		else {
+			for (Appointment appointment:appointments) {
+				if (appointment.getCar().getLicensePlate().equals(licesePlate)) {
+					result.add(appointment);
+				}
+			}
+			return result;
+		}
+
+	}
+
+	@Transactional
+	public List<Appointment> findAppointmentByGarage(String garageId){
+		List<Appointment> appointments = toList(appointmentRepository.findAll());
+		List<Appointment> result = new ArrayList<Appointment>();
+		if (appointments.isEmpty()) {
+			return result;
+		}
+		else {
+			for (Appointment appointment:appointments) {
+				if (appointment.getGarage().getGarageId().equals(garageId)) {
+					result.add(appointment);
+				}
+			}
+			return result;
+		}
+
+	}
+
+
+
+	@Transactional
+	public List<Appointment> findAppointmentByTechnicianAccount(String username){
+		List<Appointment> appointments = toList(appointmentRepository.findAll());
+		List<Appointment> result = new ArrayList<Appointment>();
+		if (appointments.isEmpty()) {
+			return result;
+		}
+		else {
+			for (Appointment appointment:appointments) {
+				for (TechnicianAccount technicianAccount:toList(technicianAccountRepository.findAll())) {
+					if (technicianAccount.getUsername().equals(username)) {
+						result.add(appointment);
+					}
+				}
+			}
+
+			return result;
+
+		}
+
+	}
+	
+	
+	@Transactional
+	public List<Appointment> findAppointmentByOfferedService(String serviceId){
+		List<Appointment> appointments = toList(appointmentRepository.findAll());
+		List<Appointment> result = new ArrayList<Appointment>();
+		if (appointments.isEmpty()) {
+			return result;
+		}
+		else {
+			for (Appointment appointment:appointments) {
+				if (appointment.getOfferedService().getOfferedServiceId().equals(serviceId)) {
+					result.add(appointment);
+				}
+			}
+			return result;
+		}
+
+	}
+	
+	
+
 	/**
 	 * @author chengchen
 	 * @return
