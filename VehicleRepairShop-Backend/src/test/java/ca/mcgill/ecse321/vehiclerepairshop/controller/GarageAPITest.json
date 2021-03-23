@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a185c5fb-54c0-494c-b1aa-3e926465ae60",
+		"_postman_id": "26e3bed3-c81e-45da-98c4-65d8f338e74b",
 		"name": "Garage",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -268,7 +268,14 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"get delete garages\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData0 = pm.response.json()[0];",
+							"  pm.expect(jsonData0.garageId).to.include(\"garage 2\");",
+							"  const jsonData1 = pm.response.json()[1];",
+							"  pm.expect(jsonData1.garageId).to.include(\"garage 3\");",
+							"  ",
+							"});"
 						],
 						"type": "text/javascript"
 					}

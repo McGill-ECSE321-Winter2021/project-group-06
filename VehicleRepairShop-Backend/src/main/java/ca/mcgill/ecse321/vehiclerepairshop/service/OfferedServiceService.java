@@ -14,7 +14,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 
 /**
- * 
+ *
  * @author mikewang
  *
  */
@@ -24,9 +24,9 @@ public class OfferedServiceService {
 	private OfferedServiceRepository offeredServiceRepository;
 	@Autowired
 	private AppointmentRepository appointmentRepository;
-	
+
 	// --------------------------- Mike starts here --------------------------------
-	
+
 	/**
 	 * create a service object
 	 * @param offeredServiceId
@@ -37,10 +37,10 @@ public class OfferedServiceService {
 	 * @param reminderDate
 	 * @param description
 	 * @return
-	 * @throws InvalidInputException 
+	 * @throws InvalidInputException
 	 */
 
-	
+
 	@Transactional
 	public OfferedService createOfferedService(String offeredServiceId, double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
 
@@ -88,31 +88,31 @@ public class OfferedServiceService {
 			offeredService.setReminderDate(reminderDate);
 			offeredService.setDescription(description);
 			offeredServiceRepository.save(offeredService);
-			
+
 			return offeredService;
 		}
-		
-		
+
+
 	}
-	
-	
-	
+
+
+
 	/**
-	 * find offered service through an appointment 
+	 * find offered service through an appointment
 	 * @param appointment
 	 * @return
-	 * @throws InvalidInputException 
+	 * @throws InvalidInputException
 	 */
 	@Transactional
 	public OfferedService getOfferedServiceByAppointment(Appointment appointment){
-		
+
 		if(appointment == null) {
 			throw new InvalidInputException("appointment cannot be null!");
 		}
 		OfferedService offeredService = offeredServiceRepository.findByAppointment(appointment);
 		return offeredService;
 	}
-	
+
 	/**
 	 * find offered service through a offered service id
 	 * @param serviceId
@@ -127,9 +127,9 @@ public class OfferedServiceService {
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		return offeredService;
 	}
-	
+
 	/**
-	 * find all offered Service 
+	 * find all offered Service
 	 * @return
 	 */
 	@Transactional
@@ -137,16 +137,16 @@ public class OfferedServiceService {
 		Iterable<OfferedService> offeredServices = offeredServiceRepository.findAll();
 		return toList(offeredServices);
 	}
-	
+
 	/**
-	 * delete service in the repository 
+	 * delete service in the repository
 	 * @param serviceId
-	 * 
+	 *
 	 */
 	@Transactional
 	public OfferedService deleteOfferedService(String serviceId){
 		String error = "";
-		
+
 		if(serviceId == null || serviceId.trim().length()==0) {
 			error = error + "the serviceId can not be empty!";
 		}
@@ -158,11 +158,11 @@ public class OfferedServiceService {
 		}
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		offeredServiceRepository.delete(offeredService);
-		
-		
+
+
 		return offeredService;
 	}
-	
+
 	/**
 	 * update service information by offering new information and offeredServiceId
 	 * @param serviceId
@@ -174,9 +174,9 @@ public class OfferedServiceService {
 	 * @param newDescription
 	 */
 	@Transactional
-	public OfferedService updateService(String serviceId, double newPrice, String newName, int newDuration, 
+	public OfferedService updateService(String serviceId, double newPrice, String newName, int newDuration,
 										Time newReminderTime, int newReminderDate, String newDescription){
-		
+
 		String error = "";
 		if(serviceId == null || serviceId.trim().length()==0) {
 			error = error + "the serviceId can not be empty!";
@@ -208,7 +208,7 @@ public class OfferedServiceService {
 		if (newDescription == null || newDescription.trim().length()==0) {
 			error = error + "Offered service description cannot be empty!";
 		}
-		
+
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		if(offeredService == null) {
 			error = error + "the offered service can not found in the system!";
@@ -223,10 +223,10 @@ public class OfferedServiceService {
 		offeredService.setReminderDate(newReminderDate);
 		offeredService.setDescription(newDescription);
 		offeredServiceRepository.save(offeredService);
-		
+
 		return offeredService;
 	}
-	
+
 	// helper method that converts iterable to list
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
@@ -235,8 +235,8 @@ public class OfferedServiceService {
 		}
 		return resultList;
 	}
-	
-	
+
+
 	/**
 	 * helper method to determine if the offered Service id has been taken
 	 * @param Id
@@ -250,14 +250,13 @@ public class OfferedServiceService {
 			return available;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// --------------------------- Mike ends here ----------------------------------
 
+
+
+
+
+
+
+
+
+	// --------------------------- Mike ends here ----------------------------------

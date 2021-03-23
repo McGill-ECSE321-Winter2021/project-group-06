@@ -125,7 +125,6 @@ public class TestTechnicianAccountPersistence {
 		List<TechnicianAccount> users = new ArrayList<TechnicianAccount>();
 
 		users = technicianAccountRepository.findTechnicianAccountByName(name1);
-		System.out.println(users);
 		if (users.get(0).getUsername().equals(username1)) {
 			user1 = users.get(0);
 			user2 = users.get(1);
@@ -171,7 +170,6 @@ public class TestTechnicianAccountPersistence {
 		List<TechnicianAccount> users = new ArrayList<TechnicianAccount>();
 
 		users = technicianAccountRepository.findTechnicianAccountByAppointment(apt);
-		System.out.println(users);
 		if (users.get(0).getUsername().equals(username1)) {
 			user1 = users.get(0);
 		}

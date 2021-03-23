@@ -74,7 +74,6 @@ public class GarageService {
 		if (appointment == null) {
 			throw new InvalidInputException("Appointment cannot be empty!");
 		}
-		System.out.println(appointment.getAppointmentId());
 		Garage garage = garageRepository.findByAppointment(appointment);
 		if (garage == null) {
 			throw new InvalidInputException("The garage is not found in the system!");

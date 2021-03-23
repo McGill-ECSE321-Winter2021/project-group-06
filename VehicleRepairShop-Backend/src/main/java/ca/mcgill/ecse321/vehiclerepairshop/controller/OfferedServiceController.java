@@ -24,7 +24,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 
 /**
- * 
+ *
  * @author mikewang
  *
  */
@@ -67,7 +67,7 @@ public class OfferedServiceController {
 	}
 
 	/**
-	 * get offered service by offeredServiceId 
+	 * get offered service by offeredServiceId
 	 * @param offeredServiceId
 	 * @return
 	 */
@@ -80,7 +80,7 @@ public class OfferedServiceController {
 	}
 
 	/**
-	 * update offered service 
+	 * update offered service
 	 * @param offeredServiceId
 	 * @param price
 	 * @param name
@@ -89,15 +89,15 @@ public class OfferedServiceController {
 	 * @param reminderDate
 	 * @param description
 	 * @return
-	 * @throws InvalidInputException 
+	 * @throws InvalidInputException
 	 */
-	@PutMapping(value = {"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
+	@PutMapping(value = {"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}",
 	"/updateOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
-	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
-			@PathVariable("price")double price, 
-			@PathVariable("name")String name, 
-			@PathVariable("duration")int duration, 
-			@PathVariable("reminderTime")String reminderTime, 
+	public OfferedServiceDto updateOfferedService(@PathVariable("offeredServiceId")String offeredServiceId,
+			@PathVariable("price")double price,
+			@PathVariable("name")String name,
+			@PathVariable("duration")int duration,
+			@PathVariable("reminderTime")String reminderTime,
 			@PathVariable("reminderDate")int reminderDate,
 			@PathVariable("description")String description) throws InvalidInputException {
 		OfferedServiceDto updatedServiceDtos = new OfferedServiceDto();
@@ -108,7 +108,7 @@ public class OfferedServiceController {
 			throw new InvalidInputException(e.getMessage());
 		}
 		updatedServiceDtos = convertToDto(updatedService);
-		return updatedServiceDtos; 
+		return updatedServiceDtos;
 	}
 
 
@@ -123,13 +123,13 @@ public class OfferedServiceController {
 	 * @param description
 	 * @return
 	 */
-	@PostMapping(value = {"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}", 
+	@PostMapping(value = {"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}",
 	"/createOfferedService/{offeredServiceId}/{price}/{name}/{duration}/{reminderTime}/{reminderDate}/{description}/"})
-	public OfferedServiceDto createOfferedService(@PathVariable("offeredServiceId")String offeredServiceId, 
-			@PathVariable("price")double price, 
-			@PathVariable("name")String name, 
-			@PathVariable("duration")int duration, 
-			@PathVariable("reminderTime")String reminderTime, 
+	public OfferedServiceDto createOfferedService(@PathVariable("offeredServiceId")String offeredServiceId,
+			@PathVariable("price")double price,
+			@PathVariable("name")String name,
+			@PathVariable("duration")int duration,
+			@PathVariable("reminderTime")String reminderTime,
 			@PathVariable("reminderDate")int reminderDate,
 			@PathVariable("description")String description) throws InvalidInputException{
 		OfferedService createdOfferedService = offeredServiceService.createOfferedService(offeredServiceId,price, name, duration, Time.valueOf(reminderTime), reminderDate, description);
@@ -143,7 +143,7 @@ public class OfferedServiceController {
 
 
 	/**
-	 * delete a offered service 
+	 * delete a offered service
 	 * @param offeredServiceId
 	 * @return
 	 * @throws InvalidInputException
@@ -175,7 +175,7 @@ public class OfferedServiceController {
 		if (s == null) {
 			throw new InvalidInputException("There is no such OfferedService!");
 		}
-		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
+		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(),
 				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
 		return offerServiceDto;
 
@@ -198,9 +198,9 @@ public class OfferedServiceController {
 		}
 		AppointmentDto appointmentDto = new AppointmentDto(convertToTimeSlotDto(appointment.getTimeSlot()),
 				convertToCarDto(appointment.getCar()),
-				appointment.getComment(), 
+				appointment.getComment(),
 				convertToGarageDto(appointment.getGarage()),
-				convertToTechnicianAccountListDtos(appointment.getWorker()), 
+				convertToTechnicianAccountListDtos(appointment.getWorker()),
 				convertToOfferedServiceDto(appointment.getOfferedService()),
 				appointment.getAppointmentId());
 
@@ -271,7 +271,7 @@ public class OfferedServiceController {
 			for (TechnicianAccount user:users) {
 				TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
 				technicianAccountDtos.add(technicianAccountDto);
-			}	
+			}
 		}
 		return technicianAccountDtos;
 	}
@@ -289,7 +289,7 @@ public class OfferedServiceController {
 			throw new InvalidInputException("There is no such OfferedService!");
 		}
 
-		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(), 
+		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(),
 				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
 		return offerServiceDto;
 	}

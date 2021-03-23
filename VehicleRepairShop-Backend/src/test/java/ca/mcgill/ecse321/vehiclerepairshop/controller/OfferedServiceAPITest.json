@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "8e5ee0d9-495f-484f-a673-aa72fcfff85f",
-		"name": "OfferedServiceAPITest",
+		"_postman_id": "fc85f1e5-0619-40fd-a9db-fde79ee62110",
+		"name": "OfferedServiceAPITest Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -141,22 +141,21 @@
 			"response": []
 		},
 		{
-			"name": "createCar/mikewang1/jeep/1999/Gas",
+			"name": "create owner 1",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"create Offered Service test 2\", function() {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.licensePlate).to.include(\"mikewang1\");",
-							"    pm.expect(jsonData.model).to.include(\"jeep\");",
-							"    pm.expect(jsonData.year).to.equal(1999);",
-							"    pm.expect(jsonData.motorType).to.include(\"Gas\");",
-							"    pm.expect(jsonData.owner).to.be.null;",
-							"    pm.expect(jsonData.appointments).to.be.null;",
-							"})"
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.username).to.include(\"1\");",
+							"  pm.expect(jsonData.password).to.include(\"1\");",
+							"  pm.expect(jsonData.name).to.include(\"owner\");",
+							"",
+							"  ",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -166,7 +165,48 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createCar/mikewang1/jeep/1999/Gas",
+					"raw": "http://localhost:8080/createCustomerAccount/1/1/owner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"1",
+						"1",
+						"owner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createCar/mikewang1/jeep/1999/Gas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.model).to.include(\"jeep\");",
+							"  pm.expect(jsonData.year).to.equal(1999);",
+							"  pm.expect(jsonData.motorType).to.include(\"Gas\");",
+							"  pm.expect(jsonData.owner.username).to.include(\"1\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/1/jeep/1999/Gas/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -174,10 +214,11 @@
 					"port": "8080",
 					"path": [
 						"createCar",
-						"mikewang1",
+						"1",
 						"jeep",
 						"1999",
-						"Gas"
+						"Gas",
+						"1"
 					]
 				}
 			},
@@ -226,9 +267,13 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"create worker\", function () {",
-							"  pm.response.to.have.status(200);",
-							"});"
+							"pm.test(\"create Technician Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"workerMike1\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"worker1\");",
+							"})"
 						],
 						"type": "text/javascript"
 					}
@@ -269,7 +314,7 @@
 							"    pm.expect(jsonData.timeSlot.endTime).to.include(\"09:50:00\");",
 							"    pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
 							"    pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
-							"    pm.expect(jsonData.car.licensePlate).to.include(\"mikewang1\");",
+							"    pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
 							"    pm.expect(jsonData.car.model).to.include(\"jeep\");",
 							"    pm.expect(jsonData.car.year).to.equal(1999);",
 							"    pm.expect(jsonData.car.motorType).to.include(\"Gas\");",
@@ -287,7 +332,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createAppointment/This_is_an_appointment_in_test_by_mike_wang_1/-1339073152/mikewang1/garageMike1/test1/workerMike1",
+					"raw": "http://localhost:8080/createAppointment/This_is_an_appointment_in_test_by_mike_wang_1/-296706816/1/garageMike1/test1/workerMike1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -296,8 +341,8 @@
 					"path": [
 						"createAppointment",
 						"This_is_an_appointment_in_test_by_mike_wang_1",
-						"-1339073152",
-						"mikewang1",
+						"-296706816",
+						"1",
 						"garageMike1",
 						"test1",
 						"workerMike1"

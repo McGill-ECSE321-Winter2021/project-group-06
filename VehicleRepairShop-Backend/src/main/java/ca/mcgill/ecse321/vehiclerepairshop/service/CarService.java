@@ -17,14 +17,14 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 public class CarService {
 	@Autowired
 	private CarRepository carRepository;
-	@Autowired 
+	@Autowired
 	private CustomerAccountRepository customerAccountRepository;
-	
+
 	/**
 	 * @author James Darby
 	 *
 	 */
-	
+
 	/*
 	 * Create a Car with given parameters
 	 * @param licensePlate
@@ -62,9 +62,9 @@ public class CarService {
 			carRepository.save(car);
 			return car;
 		}
-		
+
 	}
-	
+
 	/*
 	 * gets all cars belonging to one owner
 	 * @param owner
@@ -87,9 +87,9 @@ public class CarService {
 			List<Car> cars = carRepository.findByOwner(owner);
 			return cars;
 		}
-			
+
 	}
-	
+
 	/*
 	 * gets car with the specified license plate
 	 * @param licensePlate
@@ -108,11 +108,11 @@ public class CarService {
 			throw new InvalidInputException(error);
 		}
 			Car car = carRepository.findByLicensePlate(licensePlate);
-			return car;	
-			
+			return car;
+
 	}
-	
-	
+
+
 //	/**
 //	 * car add owner
 //	 * @param owner
@@ -127,22 +127,22 @@ public class CarService {
 //		}else if (customerAccountRepository.findByUsername(owner.getUsername()) == null) {
 //			error = error + "This owner does not found in customerAccountRepository!";
 //		}
-//		
+//
 //		if (car == null) {
 //			error = error + "car can not be null!";
 //		}else if (carRepository.findByLicensePlate(car.getLicensePlate())==null) {
 //			error = error + "car can not be found in the carRepository!";
 //		}
-//		
+//
 //		if (error.length() >0) {
 //			throw new InvalidInputException(error);
 //		}else {
 //			car.setOwner(owner);
 //			return car;
 //		}
-//		
+//
 //	}
-	
+
 	/*
 	 * gets all cars in the database
 	 * @return
@@ -150,16 +150,16 @@ public class CarService {
 	@Transactional
 	public List<Car> getAllCars() {
 		Iterable<Car> cars = carRepository.findAll();
-		return toList(cars);	
+		return toList(cars);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param licensePlate
 	 * @return
 	 */
 	@Transactional
-	public Car deleteCar(String licensePlate) { 
+	public Car deleteCar(String licensePlate) {
 		String error = "";
 		if (carRepository.findByLicensePlate(licensePlate)==null) {
 			error = error + "car not found";
@@ -172,7 +172,7 @@ public class CarService {
 		carRepository.delete(car);
 		return car;
 	}
-	
+
 	// Helper method that converts iterable to list
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();

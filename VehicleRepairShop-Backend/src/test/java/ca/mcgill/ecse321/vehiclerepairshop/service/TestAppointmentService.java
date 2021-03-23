@@ -433,7 +433,6 @@ public class TestAppointmentService {
 		} catch (InvalidInputException e) {
 			fail(e.getMessage());
 		}
-		System.out.println(appointment.getAppointmentId());
 		appointment2 = appointmentService.getAppointmentById(APPOINTMENTID);
 		assertNotNull(appointment);
 		assertEquals(appointment2.getComment(), appointment.getComment());
