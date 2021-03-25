@@ -1,68 +1,58 @@
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 
-
-import java.util.*;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
 import javax.persistence.Entity;
 
 
 @Entity
 public class Car
 {
-	
+	public enum MotorType { Electric, Hybrid, Gas, Diesel }
 
-  public enum MotorType { Electric, Hybrid, Gas, Diesel }
+	private String licensePlate;
+	private String model;
+	private int year;
+	private MotorType motorType;
 
+	public void setLicensePlate(String aLicensePlate)
+	{
+		this.licensePlate = aLicensePlate;
+	}
 
-  private String licensePlate;
-  private String model;
-  private int year;
-  private MotorType motorType;
+	public void setModel(String aModel)
+	{
+		this.model = aModel;
+	}
 
-  public void setLicensePlate(String aLicensePlate)
-  {
-    this.licensePlate = aLicensePlate;
-  }
+	public void setYear(int aYear)
+	{
+		this.year = aYear;
+	}
 
-  public void setModel(String aModel)
-  {
-    this.model = aModel;
-  }
+	public void setMotorType(MotorType aMotorType)
+	{
+		this.motorType = aMotorType;
+	}
 
-  public void setYear(int aYear)
-  {
-    this.year = aYear;
-  }
+	@Id
+	public String getLicensePlate()
+	{
+		return licensePlate;
+	}
 
-  public void setMotorType(MotorType aMotorType)
-  {
-    this.motorType = aMotorType;
-  }
+	public String getModel()
+	{
+		return model;
+	}
 
-  @Id
-  public String getLicensePlate()
-  {
-    return licensePlate;
-  }
+	public int getYear()
+	{
+		return year;
+	}
 
-  public String getModel()
-  {
-    return model;
-  }
-
-  public int getYear()
-  {
-    return year;
-  }
-
-  public MotorType getMotorType()
-  {
-    return motorType;
-  }
-  
-
+	public MotorType getMotorType()
+	{
+		return motorType;
+	}
 }
 

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.OfferedServiceRepository;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 
 /**
@@ -22,8 +20,6 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 public class OfferedServiceService {
 	@Autowired
 	private OfferedServiceRepository offeredServiceRepository;
-	@Autowired
-	private AppointmentRepository appointmentRepository;
 
 	// --------------------------- Mike starts here --------------------------------
 
@@ -39,8 +35,6 @@ public class OfferedServiceService {
 	 * @return
 	 * @throws InvalidInputException
 	 */
-
-
 	@Transactional
 	public OfferedService createOfferedService(String offeredServiceId, double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
 
@@ -93,24 +87,6 @@ public class OfferedServiceService {
 		}
 
 
-	}
-
-
-
-	/**
-	 * find offered service through an appointment
-	 * @param appointment
-	 * @return
-	 * @throws InvalidInputException
-	 */
-	@Transactional
-	public OfferedService getOfferedServiceByAppointment(Appointment appointment){
-
-		if(appointment == null) {
-			throw new InvalidInputException("appointment cannot be null!");
-		}
-		OfferedService offeredService = offeredServiceRepository.findByAppointment(appointment);
-		return offeredService;
 	}
 
 	/**
@@ -175,15 +151,15 @@ public class OfferedServiceService {
 	 */
 	@Transactional
 	public OfferedService updateService(String serviceId, double newPrice, String newName, int newDuration,
-										Time newReminderTime, int newReminderDate, String newDescription){
+			Time newReminderTime, int newReminderDate, String newDescription){
 
 		String error = "";
 		if(serviceId == null || serviceId.trim().length()==0) {
 			error = error + "the serviceId can not be empty!";
 		}
-//		if (newPrice == null) {
-//			error = error + "price cannot be empty!";
-//		}
+		//		if (newPrice == null) {
+		//			error = error + "price cannot be empty!";
+		//		}
 		if (newPrice < 0.0) {
 			error = error + "price cannot be negative!";
 		}
@@ -247,16 +223,8 @@ public class OfferedServiceService {
 		if (offeredServiceRepository.findByOfferedServiceId(Id) == null) {
 			available = true;
 		}
-			return available;
-		}
+		return available;
 	}
+}
 
-
-
-
-
-
-
-
-
-	// --------------------------- Mike ends here ----------------------------------
+// --------------------------- Mike ends here ----------------------------------

@@ -43,9 +43,6 @@ public class TestGarageService {
 	private static final String GARAGE_ID2 = "garageId2";
 	private static final String NON_EXISTING_GARAGE_ID = "nonExistingGarageId";
 
-	private Appointment appointment1 = new Appointment();
-	private static final int APPOINTMENT_ID = 211;
-
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(garageRepository.findByGarageId(anyString())).thenAnswer((InvocationOnMock invocation)->{
@@ -78,21 +75,21 @@ public class TestGarageService {
 			return garages;
 		});
 
-		lenient().when(garageRepository.findByAppointment(any(Appointment.class))).thenAnswer( (InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(appointment1)) {
-				appointment1.setAppointmentId(APPOINTMENT_ID);
-				List<Appointment> appointments = new ArrayList<Appointment>(); 
-				appointments.add(appointment1);
-
-				Garage garage = new Garage();
-				garage.setGarageId(GARAGE_ID1);
-
-				return garage;
-			}
-			else {
-				return null;
-			}
-		});
+		//		lenient().when(garageRepository.findByAppointment(any(Appointment.class))).thenAnswer( (InvocationOnMock invocation) -> {
+		//			if (invocation.getArgument(0).equals(appointment1)) {
+		//				appointment1.setAppointmentId(APPOINTMENT_ID);
+		//				List<Appointment> appointments = new ArrayList<Appointment>(); 
+		//				appointments.add(appointment1);
+		//
+		//				Garage garage = new Garage();
+		//				garage.setGarageId(GARAGE_ID1);
+		//
+		//				return garage;
+		//			}
+		//			else {
+		//				return null;
+		//			}
+		//		});
 
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -314,17 +311,16 @@ public class TestGarageService {
 	@Test
 	public void testGetGarageWithNullAppointment() {
 		assertEquals(2, garageService.getAllGarages().size());
-		Appointment appointment = null;
 		String error = null;
 
 		Garage garage = null;
 		try {
-			garage = garageService.getGarageByAppointment(appointment);
+			garage = garageService.findGarageByAppointment(1000);
 		}catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
 		assertNull(garage);
-		assertEquals("Appointment cannot be empty!", error);
+		assertEquals("AppointmentId not found!", error);
 	}
 
 	//----------------------------------- getAllGarages -------------------------------------------------

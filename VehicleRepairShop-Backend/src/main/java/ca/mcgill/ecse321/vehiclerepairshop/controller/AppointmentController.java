@@ -131,7 +131,7 @@ public class AppointmentController {
 				offeredService, 
 				car, 
 				garage, comment, worker)  ;
-		
+
 		return convertToDto(appointment);
 	}
 
@@ -244,7 +244,7 @@ public class AppointmentController {
 				convertToTechnicianAccountListDtos(appointment.getWorker()), 
 				convertToOfferedServiceDto(appointment.getOfferedService()),
 				appointment.getAppointmentId());
-		
+
 		return appointmentDto;
 	}
 
@@ -284,12 +284,12 @@ public class AppointmentController {
 		return technicianAccountDtos;
 	}
 
-	
+
 	private TechnicianAccountDto convertToTechnicianAccountDto(TechnicianAccount user) throws InvalidInputException{
 		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto();
 		if (user != null) {
-				technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-			}
+			technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
+		}
 		return technicianAccountDto;
 	}
 
@@ -336,47 +336,6 @@ public class AppointmentController {
 		TechnicianAccount technicianAccount = technicianAccountService.getTechnicianAccountByUsername(technicianAccountDto.getUsername());
 		return technicianAccount;
 	}
-
-
-//	/**
-//	 * Helper method which can turn a CarDto to Car
-//	 * @param carDto
-//	 * @return
-//	 */
-//	private Car convertToCarDomainObject(CarDto carDto) {
-//		if (carDto == null) {
-//			throw new InvalidInputException("There is no such carDto!");
-//		}
-//		Car car = carService.getCarByLicensePlate(carDto.getLicensePlate());
-//		return car;
-//	}
-
-//	/**
-//	 * Helper method which can turn a timeSlotDto to timeSlot
-//	 * @param timeSlotDto
-//	 * @return
-//	 */
-//	private TimeSlot convertToTimeSlotDomainObject(TimeSlotDto timeSlotDto) {
-//		if (timeSlotDto == null) {
-//			throw new InvalidInputException("There is no such timeSlotDto!");
-//		}
-//		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getTimeslotId());
-//		return timeSlot;
-//	}
-
-//	/**
-//	 * Helper method which can turn a OfferedServiceDto to OfferedService
-//	 * @param offeredServiceDto
-//	 * @return
-//	 */
-//	private OfferedService convertToOfferedServiceDomainObject(OfferedServiceDto offeredServiceDto) {
-//		if (offeredServiceDto == null) {
-//			throw new InvalidInputException("There is no such offeredServiceDto!");
-//		}
-//		OfferedService offeredService = offeredServiceService.getOfferedServiceByOfferedServiceId(offeredServiceDto.getOfferedServiceId());
-//		return offeredService;
-//	}
-
 
 	/**
 	 * convert TimeSlot to timeslotDto

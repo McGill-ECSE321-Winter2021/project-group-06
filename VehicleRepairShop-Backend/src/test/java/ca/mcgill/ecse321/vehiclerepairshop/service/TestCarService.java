@@ -76,6 +76,23 @@ public class TestCarService {
 
 		});
 
+		lenient().when(customerAccountRepository.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+			CustomerAccount user = new CustomerAccount();
+			user.setUsername(OWNER_USERNAME);
+			List<Car> cars = new ArrayList<Car>();
+			Car car = new Car();
+			car.setLicensePlate(LICENSEPLATE);
+			car.setModel(MODEL);
+			car.setYear(YEAR);
+			car.setMotorType(MOTORTYPE);
+			cars.add(car);
+			user.setCar(cars);
+			List<CustomerAccount> customerAccounts = new ArrayList<CustomerAccount>();
+			customerAccounts.add(user);
+			return customerAccounts;
+
+		});
+
 		lenient().when(carRepository.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
 			Car car = new Car();
 			car.setLicensePlate(LICENSEPLATE);
@@ -319,130 +336,129 @@ public class TestCarService {
 		assertEquals(MOTORTYPE, car.getMotorType());
 	}
 
-  	 	
-  	/**
-  	 * testing get cars by valid owner info 
-  	 */
-  	@Test
-  	public void testGetCarsByOwner() {
-  		List<Car> cars = new ArrayList<Car>();
-  		owner.setUsername(OWNER_USERNAME);
-  		
-  		try {
-  			cars = carService.getCarsByOwner(owner);
-  		}catch(InvalidInputException e) {
-  			fail();
-  		}
-  		assertNotNull(cars);
-  		for(Car c : cars) {
-  			testCarAttrribute(c);
-  		}
-  	}
-  	
-  	
-  	
-  	/**
-  	 * testing get cars by null owner 
-  	 */
-  	@Test
-  	public void testGetCarsByOwnerWithNullOwner() {
-  		List<Car> cars = new ArrayList<Car>();
-  		CustomerAccount owner = null;
-  		String error = "";
-  		try {
-  			cars = carService.getCarsByOwner(owner);
-  		}catch(InvalidInputException e) {
-  			error = e.getMessage();
-  		}
-  		assertEquals(cars.size(), 0);
-  		assertEquals("Car owner cannot be null!",error);
-  		
-  	}
-  	
-  	
-  	/**
-  	 * testing get car by owner but with an empty owner username 
-  	 */
-  	@Test
-  	public void testGetCarsByOwnerWithEmptyOwnerUsername() {
-  		List<Car> cars = new ArrayList<Car>();
-  		CustomerAccount owner = new CustomerAccount();
-  		owner.setUsername("");
-  		String error = "";
-  		try {
-  			cars = carService.getCarsByOwner(owner);
-  		}catch(InvalidInputException e) {
-  			error = e.getMessage();
-  		}
-  		assertEquals(cars.size(), 0);
-  		assertEquals("This owner's username cannot be empty or null!",error);
-  		
-  	}
-	
-  	/**
-  	 * testing get cars by using null owner username 
-  	 */
-  	@Test
-  	public void testGetCarsByOwnerWithNullOwnerUsername() {
-  		List<Car> cars = new ArrayList<Car>();
-  		CustomerAccount owner = new CustomerAccount();
-  		owner.setUsername(null);
-  		String error = "";
-  		try {
-  			cars = carService.getCarsByOwner(owner);
-  		}catch(InvalidInputException e) {
-  			error = e.getMessage();
-  		}
-  		assertEquals(cars.size(), 0);
-  		assertEquals("This owner's username cannot be empty or null!",error);
-  		
-  	}
-  	
-  	
-  	/**
-  	 * testing get cars by owner with space owner username 
-  	 */
-  	@Test
-  	public void testGetCarsByOwnerWithSpaceOwnerUsername() {
-  		List<Car> cars = new ArrayList<Car>();
-  		CustomerAccount owner = new CustomerAccount();
-  		owner.setUsername(" ");
-  		String error = "";
-  		try {
-  			cars = carService.getCarsByOwner(owner);
-  		}catch(InvalidInputException e) {
-  			error = e.getMessage();
-  		}
-  		assertEquals(cars.size(), 0);
-  		assertEquals("This owner's username cannot be empty or null!",error);
-  		
-  	}
-  	
-  	
-  	/**
-  	 * testing get cars by owner with not saved owner object
-  	 */
-  	@Test
-  	public void testGetCarsByOwnerWithOwnerNotFoundInCustomerRepo() {
-  		List<Car> cars = new ArrayList<Car>();
-  		CustomerAccount owner = new CustomerAccount();
-  		owner.setUsername("owner2");
-  		String error = "";
-  		try {
-  			cars = carService.getCarsByOwner(owner);
-  		}catch(InvalidInputException e) {
-  			error = e.getMessage();
-  		}
-  		assertEquals(cars.size(), 0);
-  		assertEquals("cannot find this car owner in customerAccountRepository!",error);
-  		
-  	}
-  	
-  	
-  	/**
-  	 * testing deleting car 
-  	 */
-  	
+
+	/**
+	 * testing get cars by valid owner info 
+	 */
+	@Test
+	public void testGetCarsByOwner() {
+		List<Car> cars = new ArrayList<Car>();
+		owner.setUsername(OWNER_USERNAME);
+
+		try {
+			cars = carService.findCarByCustomerAccount(OWNER_USERNAME);
+		}catch(InvalidInputException e) {
+			fail();
+		}
+		assertNotNull(cars);
+		for(Car c : cars) {
+			testCarAttrribute(c);
+		}
+	}
+
+
+
+	/**
+	 * testing get cars by null owner 
+	 */
+	@Test
+	public void testGetCarsByOwnerWithNullOwner() {
+		List<Car> cars = new ArrayList<Car>();
+		String error = "";
+		try {
+			cars = carService.findCarByCustomerAccount(null);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals(cars.size(), 0);
+		assertEquals("Username not found!",error);
+
+	}
+
+
+	/**
+	 * testing get car by owner but with an empty owner username 
+	 */
+	@Test
+	public void testGetCarsByOwnerWithEmptyOwnerUsername() {
+		List<Car> cars = new ArrayList<Car>();
+		CustomerAccount owner = new CustomerAccount();
+		owner.setUsername("");
+		String error = "";
+		try {
+			cars = carService.findCarByCustomerAccount("");
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals(cars.size(), 0);
+		assertEquals("Username not found!",error);
+
+	}
+
+	/**
+	 * testing get cars by using null owner username 
+	 */
+	@Test
+	public void testGetCarsByOwnerWithNullOwnerUsername() {
+		List<Car> cars = new ArrayList<Car>();
+		CustomerAccount owner = new CustomerAccount();
+		owner.setUsername(null);
+		String error = "";
+		try {
+			cars = carService.findCarByCustomerAccount(null);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals(cars.size(), 0);
+		assertEquals("Username not found!",error);
+
+	}
+
+
+	/**
+	 * testing get cars by owner with space owner username 
+	 */
+	@Test
+	public void testGetCarsByOwnerWithSpaceOwnerUsername() {
+		List<Car> cars = new ArrayList<Car>();
+		CustomerAccount owner = new CustomerAccount();
+		owner.setUsername(" ");
+		String error = "";
+		try {
+			cars = carService.findCarByCustomerAccount(" ");
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals(cars.size(), 0);
+		assertEquals("Username not found!",error);
+
+	}
+
+
+	/**
+	 * testing get cars by owner with not saved owner object
+	 */
+	@Test
+	public void testGetCarsByOwnerWithOwnerNotFoundInCustomerRepo() {
+		List<Car> cars = new ArrayList<Car>();
+		CustomerAccount owner = new CustomerAccount();
+		owner.setUsername("owner2");
+		String error = "";
+		try {
+			cars = carService.findCarByCustomerAccount("owner2");
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals(cars.size(), 0);
+		assertEquals("Username not found!",error);
+
+	}
+
+
+	/**
+	 * testing deleting car 
+	 */
+
 	@Test
 	public void testDeleteCar() {	
 
