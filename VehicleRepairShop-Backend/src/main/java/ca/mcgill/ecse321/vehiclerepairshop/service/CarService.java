@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CarRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -17,6 +19,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 public class CarService {
 	@Autowired
 	private CarRepository carRepository;
+	@Autowired
+	private AppointmentRepository appointmentRepository;
 	@Autowired
 	private CustomerAccountRepository customerAccountRepository;
 
@@ -180,6 +184,46 @@ public class CarService {
 			resultList.add(t);
 		}
 		return resultList;
+	}
+	
+	@Transactional
+	public List<Car> findCarByAppointment(int appId){
+		List<Car> cars = toList(carRepository.findAll());
+		List<Appointment> appointments = toList(appointmentRepository.findAll());
+		List<Car> result = new ArrayList<Car>();
+		if (cars.isEmpty()) {
+			return result;
+		}
+		else {
+			for (Appointment appointment:appointments) {
+				if (appointment.getAppointmentId() == appId) {
+					result.add(appointment.getCar());
+					break;
+				}
+			}
+			return result;
+		}
+
+	}
+	
+	@Transactional
+	public List<Car> findCarByACustomerAccount(String customerUsername){
+		List<Car> cars = toList(carRepository.findAll());
+		List<CustomerAccount> customers = toList(customerAccountRepository.findAll());
+		List<Car> result = new ArrayList<Car>();
+		if (cars.isEmpty()) {
+			return result;
+		}
+		else {
+			for (CustomerAccount customer:customers) {
+				if (customer.getUsername().equals(customerUsername)) {
+					result = customer.getCar();
+					break;
+				}
+			}
+			return result;
+		}
+
 	}
 
 }

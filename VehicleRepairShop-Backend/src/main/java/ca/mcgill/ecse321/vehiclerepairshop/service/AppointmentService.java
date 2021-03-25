@@ -381,7 +381,7 @@ public class AppointmentService {
 
 
 	@Transactional
-	public List<Appointment> findAppointmentByCar(String licesePlate){
+	public List<Appointment> findAppointmentByCar(String licensePlate){
 		List<Appointment> appointments = toList(appointmentRepository.findAll());
 		List<Appointment> result = new ArrayList<Appointment>();
 		if (appointments.isEmpty()) {
@@ -389,7 +389,7 @@ public class AppointmentService {
 		}
 		else {
 			for (Appointment appointment:appointments) {
-				if (appointment.getCar().getLicensePlate().equals(licesePlate)) {
+				if (appointment.getCar().getLicensePlate().equals(licensePlate)) {
 					result.add(appointment);
 				}
 			}
