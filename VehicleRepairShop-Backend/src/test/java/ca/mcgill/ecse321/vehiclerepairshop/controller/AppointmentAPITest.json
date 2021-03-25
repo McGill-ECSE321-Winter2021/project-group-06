@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "50f91d3f-b865-4815-b85c-25f222e5ba3d",
-		"name": "appointment tests",
+		"_postman_id": "34f1a69a-6a63-4475-9552-8c38394bcce4",
+		"name": "Appointment tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -261,7 +261,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createAppointment/this/-1061325312/1/1/1/worker1",
+					"raw": "http://localhost:8080/createAppointment/this/-360286848/1/1/1/worker1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -270,7 +270,7 @@
 					"path": [
 						"createAppointment",
 						"this",
-						"-1061325312",
+						"-360286848",
 						"1",
 						"1",
 						"1",
@@ -862,8 +862,8 @@
 							"  pm.response.to.have.status(200);",
 							"",
 							"  const jsonData = pm.response.json();",
-							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"11:00:00\");",
-							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
 							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
 							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
 							"  pm.expect(jsonData.car.licensePlate).to.include(\"2\");",
@@ -883,7 +883,7 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/updateAppointmentTimeSlot/3559070/277747840",
+					"raw": "http://localhost:8080/updateAppointmentTimeSlot/3559070/-360286848",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -892,7 +892,7 @@
 					"path": [
 						"updateAppointmentTimeSlot",
 						"3559070",
-						"277747840"
+						"-360286848"
 					]
 				}
 			},
@@ -909,8 +909,8 @@
 							"  pm.response.to.have.status(200);",
 							"",
 							"  const jsonData = pm.response.json();",
-							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"11:00:00\");",
-							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
 							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
 							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
 							"  pm.expect(jsonData.car.licensePlate).to.include(\"2\");",
@@ -1137,7 +1137,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createAppointment/conmment2/1540793728/1/1/1/worker1",
+					"raw": "http://localhost:8080/createAppointment/conmment2/-409737984/1/1/1/worker1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1146,7 +1146,7 @@
 					"path": [
 						"createAppointment",
 						"conmment2",
-						"1540793728",
+						"-409737984",
 						"1",
 						"1",
 						"1",
