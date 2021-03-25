@@ -207,7 +207,7 @@ public class CarService {
 	}
 	
 	@Transactional
-	public List<Car> findCarByACustomerAccount(String customerUsername){
+	public List<Car> findCarByCustomerAccount(String customerUsername){
 		List<Car> cars = toList(carRepository.findAll());
 		List<CustomerAccount> customers = toList(customerAccountRepository.findAll());
 		List<Car> result = new ArrayList<Car>();
