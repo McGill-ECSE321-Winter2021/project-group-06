@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.OfferedServiceRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 
 /**
@@ -20,6 +22,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 public class OfferedServiceService {
 	@Autowired
 	private OfferedServiceRepository offeredServiceRepository;
+	@Autowired
+	private AppointmentRepository appointmentRepository; 
 
 	// --------------------------- Mike starts here --------------------------------
 
@@ -133,6 +137,16 @@ public class OfferedServiceService {
 			throw new InvalidInputException(error);
 		}
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
+		if (appointmentRepository.findAll() != null) {
+			List<Appointment> apts = (List<Appointment>) appointmentRepository.findAll();
+			for (Appointment appointment: apts) {
+				if (appointment.getOfferedService().getOfferedServiceId() == serviceId) {
+					appointment.setOfferedService(null);
+					appointmentRepository.delete(appointment);
+				}
+			}
+			
+		}
 		offeredServiceRepository.delete(offeredService);
 
 
@@ -202,6 +216,45 @@ public class OfferedServiceService {
 
 		return offeredService;
 	}
+	
+	
+	/**
+	 * This is service method which can find the offeredService by given appointment
+	 * @param apt
+	 * @return
+	 */
+	@Transactional
+	public OfferedService getOfferedServiceByAppointment(Appointment apt) {
+		String error = "";
+		OfferedService returnedService = null;
+		if (apt == null) {
+			error = error + "appointment cannot be null!";
+		}else {
+			if (appointmentRepository.findByAppointmentId(apt.getAppointmentId())!= null ) {
+				List<OfferedService> offeredServices = (List<OfferedService>) offeredServiceRepository.findAll();
+				OfferedService extractedOfferedService = apt.getOfferedService();
+				for(OfferedService service: offeredServices){
+					if (service.getOfferedServiceId() == extractedOfferedService.getOfferedServiceId()) {
+						returnedService = service;
+					}
+				}
+				if (returnedService == null) {
+					error = error + "this offeredService does not exist in the offeredServiceRepository!";
+				}
+			}else {
+				error = error + "can not find this appointment in appointmentRepository!";
+			}
+		}
+		if (error.length()>0) {
+			throw new InvalidInputException(error);
+		}
+		return returnedService;
+		
+		
+	}
+	
+	
+	
 
 	// helper method that converts iterable to list
 	private <T> List<T> toList(Iterable<T> iterable){
