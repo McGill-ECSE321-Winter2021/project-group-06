@@ -71,6 +71,11 @@ public class TestCustomerAccountService {
 				user.setPassword(PASSWORD1);
 				user.setName(NAME1);
 				user.setToken(TOKEN1);
+				List<Car> cars = new ArrayList<Car>();
+				Car car = new Car();
+				car.setLicensePlate(LICENSE2);
+				cars.add(car);
+				user.setCar(cars);
 				return user;
 			} 
 			else if (invocation.getArgument(0).equals(USERNAME2)) {
@@ -91,6 +96,11 @@ public class TestCustomerAccountService {
 			user.setPassword(PASSWORD1);
 			user.setName(NAME1);
 			user.setToken(TOKEN1);
+			List<Car> cars = new ArrayList<Car>();
+			Car car = new Car();
+			car.setLicensePlate(LICENSE2);
+			cars.add(car);
+			user.setCar(cars);
 			CustomerAccount user2 = new CustomerAccount();
 			user2.setUsername(USERNAME2);
 			user2.setPassword(PASSWORD2);
@@ -140,33 +150,6 @@ public class TestCustomerAccountService {
 				return null;
 			}
 		});
-		lenient().when(customerAccountRepository.findByCar(any(Car.class))).thenAnswer( (InvocationOnMock invocation) -> { 
-			Car car = invocation.getArgument(0);
-			
-			if (car.getLicensePlate().equals(LICENSE)) {
-				CustomerAccount user = new CustomerAccount();
-				user.setUsername(USERNAME1);
-				user.setPassword(PASSWORD1);
-				user.setName(NAME1);
-				user.setToken(TOKEN1);
-	            return user;
-			}
-			else if (car.getLicensePlate().equals(LICENSE2)) {
-				List<Car> cars = new ArrayList<Car>();
-				addCar.setLicensePlate(LICENSE2);
-				cars.add(addCar);
-				ownerWithCar.setUsername(USERNAME1);
-				ownerWithCar.setPassword(PASSWORD1);
-				ownerWithCar.setName(NAME1);
-				ownerWithCar.setToken(TOKEN1);
-				ownerWithCar.setCar(cars);
-	            return ownerWithCar;
-			}
-			else {
-				return null;
-			}
-			
-         });
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -660,9 +643,7 @@ public class TestCustomerAccountService {
 		 */
 		@Test
 		public void testGetCustomerAccountWithCar() {
-			Car car = new Car();
-			car.setLicensePlate(LICENSE);
-			CustomerAccount user = customerAccountService.getCustomerAccountWithCar(LICENSE);
+			CustomerAccount user = customerAccountService.getCustomerAccountWithCar(LICENSE2);
 			assertNotNull(user);
 			assertEquals(user.getUsername(), USERNAME1);
 		}
@@ -693,7 +674,7 @@ public class TestCustomerAccountService {
 		
 		
 		/**
-		 * add car into a customer account
+		 * add car into a customer account with an empty customer
 		 */
 		@Test
 		public void testCustomerAddCarWithEmptyCustomer() {
@@ -715,7 +696,7 @@ public class TestCustomerAccountService {
 		
 		
 		/**
-		 * add car into a customer account
+		 * add car into a customer account with null customer
 		 */
 		@Test
 		public void testCustomerAddCarWithNullCustomer() {
@@ -735,7 +716,7 @@ public class TestCustomerAccountService {
 		}
 		
 		/**
-		 * add car into a customer account
+		 * add car into a customer account with non existing customer
 		 */
 		@Test
 		public void testCustomerAddCarWithNonExistingCustomer() {
@@ -755,10 +736,10 @@ public class TestCustomerAccountService {
 		}
 		
 		/**
-		 * add car into a customer account
+		 * add car into a customer account with non existing car
 		 */
 		@Test
-		public void testCustomerAddCarWithNonExistingLicensePlate() {
+		public void testCustomerAddCarWithNonExistingCar() {
 			String error = "";
 			String inValidLicensePlate = "1234567890"; 
 			CustomerAccount ownerCarAdded = null;
@@ -774,7 +755,7 @@ public class TestCustomerAccountService {
 		
 		
 		/**
-		 * add car into a customer account
+		 * add car into a customer account with null license plate
 		 */
 		@Test
 		public void testCustomerAddCarWithNullLicensePlate() {
@@ -793,7 +774,7 @@ public class TestCustomerAccountService {
 		
 		
 		/**
-		 * add car into a customer account
+		 * add car into a customer account with empty license plate
 		 */
 		@Test
 		public void testCustomerAddCarWithEmptyLicensePlate() {
@@ -811,7 +792,7 @@ public class TestCustomerAccountService {
 		}
 		
 		/**
-		 * add car into a customer account
+		 * add car into a customer account with spaces in the license plate
 		 */
 		@Test
 		public void testCustomerAddCarWithSpaceLicensePlate() {
