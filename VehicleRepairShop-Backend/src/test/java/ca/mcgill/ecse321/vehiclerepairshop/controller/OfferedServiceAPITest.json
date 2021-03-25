@@ -100,7 +100,7 @@
 			"response": []
 		},
 		{
-			"name": "Create TimeSlot 1 Copy",
+			"name": "Create TimeSlot 1",
 			"event": [
 				{
 					"listen": "test",
@@ -142,7 +142,7 @@
 			"response": []
 		},
 		{
-			"name": "Create Customer Account Copy",
+			"name": "Create Customer Account",
 			"event": [
 				{
 					"listen": "test",
@@ -181,7 +181,7 @@
 			"response": []
 		},
 		{
-			"name": "Create Car 1 Copy",
+			"name": "Create Car 1",
 			"event": [
 				{
 					"listen": "test",
@@ -223,7 +223,7 @@
 			"response": []
 		},
 		{
-			"name": "Create TechnicianAccount1 Copy",
+			"name": "Create TechnicianAccount1",
 			"event": [
 				{
 					"listen": "test",
@@ -262,7 +262,7 @@
 			"response": []
 		},
 		{
-			"name": "Create Garage 1 Copy",
+			"name": "Create Garage 1",
 			"event": [
 				{
 					"listen": "test",
@@ -297,7 +297,7 @@
 			"response": []
 		},
 		{
-			"name": "Create Appointment 1 - Linked to Garage 1 Copy",
+			"name": "Create Appointment 1 - Linked to Garage 1",
 			"event": [
 				{
 					"listen": "test",
@@ -776,7 +776,7 @@
 			"response": []
 		},
 		{
-			"name": "delete all appointment Copy",
+			"name": "delete all appointment",
 			"event": [
 				{
 					"listen": "test",

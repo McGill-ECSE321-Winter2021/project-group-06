@@ -741,19 +741,9 @@ public class TestOfferedServiceService {
 	public void testGetOfferedServiceWithNullAppointment() {
 		assertEquals(2, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		String testOfferedServiceId = "testGetOfferedServiceWithNullAppointment";
-		int testOfferedServiceDuration = 10;
-		double testOfferedServicePrice = 10.0;
-		String testOfferedServiceName = "wash";
-		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int testOfferedServiceReminderDate = 30;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = null;
+
 		OfferedService extractedOfferedService = null;
-		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+
 		Appointment apt = null;
 		appointmentRepository.save(apt);
 		assertNull(apt);
@@ -774,22 +764,11 @@ public class TestOfferedServiceService {
 	public void testGetOfferedServiceWithNotFoundAppointment() {
 		assertEquals(2, offeredServiceService.getAllOfferedServices().size());
 		String error = null;
-		String testOfferedServiceId = "testGetOfferedServiceWithNullAppointment";
-		int testOfferedServiceDuration = 10;
-		double testOfferedServicePrice = 10.0;
-		String testOfferedServiceName = "wash";
-		Time testOfferedServiceReminderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int testOfferedServiceReminderDate = 30;
-		String testOfferedServiceDescription = "this is a testing Wash service";
-		OfferedService offeredService = null;
+		
 		OfferedService extractedOfferedService = null;
-		offeredService = offeredServiceService.createOfferedService(testOfferedServiceId,
-				testOfferedServicePrice,  testOfferedServiceName,
-				testOfferedServiceDuration,testOfferedServiceReminderTime, 
-				testOfferedServiceReminderDate, testOfferedServiceDescription);
+
 		Appointment apt1 = new Appointment();
-		//appointmentRepository.save(apt);
-		//assertNull(apt);
+
 		testOs.setOfferedServiceId(OFFERED_SERVICE_KEY_2);
 		apt1.setOfferedService(testOs);
 		try {
@@ -1504,18 +1483,5 @@ public class TestOfferedServiceService {
 		assertEquals(reminderDate, offeredService.getReminderDate());
 		assertEquals(description, offeredService.getDescription());
 	}
-
-	private void checkResultOfferedServicePlusAppointment(OfferedService offeredService, String offeredServiceId, double price, String name, 
-			int duration, Time reminderTime, int reminderDate, String description, List<Appointment> apts) {
-		assertNotNull(offeredService);
-		assertEquals(offeredServiceId, offeredService.getOfferedServiceId());
-		assertEquals(price, offeredService.getPrice());
-		assertEquals(duration, offeredService.getDuration());
-		assertEquals(reminderTime, offeredService.getReminderTime());
-		assertEquals(reminderDate, offeredService.getReminderDate());
-		assertEquals(description, offeredService.getDescription());
-	}
-
-
 }
 

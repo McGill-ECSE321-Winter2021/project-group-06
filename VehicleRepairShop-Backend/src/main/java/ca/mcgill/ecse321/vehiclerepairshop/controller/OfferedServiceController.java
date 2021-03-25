@@ -14,11 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
@@ -161,10 +157,6 @@ public class OfferedServiceController {
 	}
 
 
-
-
-
-
 	// ---------------------------- Helper method ---------------------------
 	/**
 	 * converting OfferedService to type OfferedServiceDto
@@ -180,118 +172,4 @@ public class OfferedServiceController {
 		return offerServiceDto;
 
 	}
-
-
-
-
-
-
-	//helper method
-	/**
-	 * Covert appointment to AppointmentDto
-	 * @param appointment
-	 * @return
-	 */
-	private AppointmentDto convertToAppointmentDto(Appointment appointment) {
-		if (appointment == null) {
-			throw new InvalidInputException("There is no such appointment!");
-		}
-		AppointmentDto appointmentDto = new AppointmentDto(convertToTimeSlotDto(appointment.getTimeSlot()),
-				convertToCarDto(appointment.getCar()),
-				appointment.getComment(),
-				convertToGarageDto(appointment.getGarage()),
-				convertToTechnicianAccountListDtos(appointment.getWorker()),
-				convertToOfferedServiceDto(appointment.getOfferedService()),
-				appointment.getAppointmentId());
-
-		return appointmentDto;
-	}
-
-
-
-	/**
-	 * convert TimeSlot to timeslotDto
-	 * @param timeSlot
-	 * @return
-	 */
-	private TimeSlotDto convertToTimeSlotDto(TimeSlot timeSlot) {
-		if (timeSlot == null) {
-			throw new InvalidInputException("There is no such timeslot!");
-		}
-		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
-		return timeSlotDto;
-	}
-
-
-
-
-
-
-
-	/**
-	 * Convert Car to carDto
-	 * @param car
-	 * @return
-	 */
-	private CarDto convertToCarDto(Car car)  {
-		if (car == null) {
-			return null;
-		} else {
-			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
-			return carDto;
-		}
-	}
-
-
-
-	/**
-	 * convert garage to garageDto
-	 * @param garage
-	 * @return
-	 */
-	private GarageDto convertToGarageDto(Garage garage) {
-		if (garage == null) {
-			throw new InvalidInputException("There is no such Garage");
-		}
-
-		GarageDto garageDto = new GarageDto(garage.getGarageId());
-		return garageDto;
-	}
-
-
-	/**
-	 * Convert a list of TechinicianAccounts to a list of TechnicianAccountDtos
-	 * @param users
-	 * @return
-	 * @throws InvalidInputException
-	 */
-	private List<TechnicianAccountDto> convertToTechnicianAccountListDtos(List<TechnicianAccount> users) throws InvalidInputException{
-		List<TechnicianAccountDto> technicianAccountDtos = new ArrayList<TechnicianAccountDto>();
-		if (users != null) {
-			for (TechnicianAccount user:users) {
-				TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-				technicianAccountDtos.add(technicianAccountDto);
-			}
-		}
-		return technicianAccountDtos;
-	}
-
-
-
-
-	/**
-	 * Convert OfferedService to offeredServiceDto
-	 * @param s
-	 * @return
-	 */
-	private OfferedServiceDto convertToOfferedServiceDto(OfferedService s) {
-		if (s == null) {
-			throw new InvalidInputException("There is no such OfferedService!");
-		}
-
-		OfferedServiceDto offerServiceDto = new OfferedServiceDto(s.getOfferedServiceId(), s.getPrice(),
-				s.getName(),s.getDuration(), s.getReminderTime(),s.getReminderDate(), s.getDescription());
-		return offerServiceDto;
-	}
-
 }
