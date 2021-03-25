@@ -16,7 +16,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
 
 @Service
 public class AdminAccountService {
-	
+
 	@Autowired
 	private AdminAccountRepository adminAccountRepository;
 	@Autowired
@@ -36,7 +36,7 @@ public class AdminAccountService {
 	 */
 	@Transactional
 	public AdminAccount createAdminAccount(String username, String password, String name)   {
-		
+
 		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
@@ -66,7 +66,7 @@ public class AdminAccountService {
 		}
 	}
 
-	
+
 	/**
 	 * Find admin account by username
 	 * @author Catherine
@@ -113,7 +113,7 @@ public class AdminAccountService {
 		List<AdminAccount> adminAccountsWithBusinessInfo = adminAccountRepository.findByBusinessInformation(businessInfo);
 		return adminAccountsWithBusinessInfo;
 	}
-	
+
 	/**
 	 * Update an Admin Account password and name. 
 	 * If one parameter shouldn't change, pass old value as new value. 
@@ -146,10 +146,10 @@ public class AdminAccountService {
 			adminAccountRepository.save(user);
 			return user;
 		}
-			
+
 	}
-	
-	
+
+
 	/**
 	 * Deletes the admin account
 	 * @author Catherine
@@ -193,9 +193,9 @@ public class AdminAccountService {
 		}
 
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Logout the account and delete token for the account
 	 * @param username
@@ -217,7 +217,7 @@ public class AdminAccountService {
 			return user;
 		}
 	}
-	
+
 	/**
 	 * Authenticate token
 	 * @author Catherine
@@ -253,8 +253,8 @@ public class AdminAccountService {
 		return user;
 	}
 
-	
-	
+
+
 	//----------------------------- Helper Methods --------------------------------
 
 	/**
@@ -279,8 +279,8 @@ public class AdminAccountService {
 			return available;
 		}
 	}
-	
-	
+
+
 	/**
 	 * helper method that converts iterable to list
 	 * @param <T>

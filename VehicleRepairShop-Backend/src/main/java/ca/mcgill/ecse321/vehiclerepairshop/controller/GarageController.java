@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
@@ -31,9 +30,6 @@ public class GarageController {
 
 	@Autowired
 	private GarageRepository garageRepository;
-
-	@Autowired
-	private AppointmentService appointmentService;
 
 	/**
 	 * Get all garages
@@ -61,8 +57,7 @@ public class GarageController {
 	 */
 	@GetMapping(value = {"/getGarageByAppointment/{appointmentId}", "/getGarageByAppointment/{appointmentId}/"})
 	public GarageDto getGarageByAppointment(@PathVariable("appointmentId") int appointmentId){
-		Appointment appointment = appointmentService.getAppointmentById(appointmentId);
-		return convertToDto(garageService.getGarageByAppointment(appointment));
+		return convertToDto(garageService.findGarageByAppointment(appointmentId));
 	}
 
 	/**
@@ -72,7 +67,7 @@ public class GarageController {
 	 */
 	@PostMapping(value = { "/createGarage/{garageId}","/createGarage/{garageId}/"})
 	public GarageDto createGarage(@PathVariable("garageId") String garageId){
-		
+
 		Garage garage = garageService.createGarage(garageId);
 		return convertToDto(garage);
 	}
@@ -119,5 +114,3 @@ public class GarageController {
 		return garageDto;
 	}
 }
-
-

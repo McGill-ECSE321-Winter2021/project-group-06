@@ -35,7 +35,7 @@ public class TestCustomerAccountService {
 	private static final String NAME1 = "Alicia";
 	private static final String PASSWORD1 = "PassWord123!";
 	private static final int TOKEN1 = 1000000;
-	
+
 	private static final String USERNAME2 = "Username2";
 	private static final String NAME2 = "Catherine The 1st";
 	private static final String PASSWORD2 = "GhostPassword101?!";
@@ -46,7 +46,7 @@ public class TestCustomerAccountService {
 	Car addCar = new Car();
 	CustomerAccount ownerWithCar = new CustomerAccount();
 
-	
+
 
 	@Mock
 	private CustomerAccountRepository customerAccountRepository;
@@ -60,7 +60,7 @@ public class TestCustomerAccountService {
 
 	@InjectMocks
 	private CustomerAccountService customerAccountService;
-	
+
 
 	@BeforeEach
 	public void setMockOutput() {
@@ -109,8 +109,8 @@ public class TestCustomerAccountService {
 			List<CustomerAccount> customerAccounts = new ArrayList<CustomerAccount>();
 			customerAccounts.add(user);
 			customerAccounts.add(user2);
-            return customerAccounts;
-         });
+			return customerAccounts;
+		});
 		lenient().when(customerAccountRepository.findCustomerAccountByName(anyString())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(NAME1)) {
 				CustomerAccount user = new CustomerAccount();
@@ -161,656 +161,656 @@ public class TestCustomerAccountService {
 		lenient().when(technicianAccountRepository.save(any(TechnicianAccount.class))).thenAnswer(returnParameterAsAnswer);
 
 	}
-	
-		/**
-		 * Create Customer Account successfully
-		 */
-		@Test
-		public void testCreateCustomerAccountSuccessfully() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-			
-			String username = "newUsername";
-			CustomerAccount user = null;
-			try {
-				user = customerAccountService.createCustomerAccount(username, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				// Check that no error occurred
-				fail();
-			}
-			//CustomerAccount savedUser = customerAccountService.getCustomerAccountByUsername(USERNAME1);
-			assertNotNull(user);
-			assertEquals(username, user.getUsername());
-			assertEquals(PASSWORD1, user.getPassword());
-			assertEquals(NAME1, user.getName());
-		}
-		
-	
 
-		/**
-		 * Create Customer Account with empty username	
-		 */
-		@Test
-		public void testCreateCustomerAccountWithEmptyUsername() {
-			String username = "";
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.createCustomerAccount(username, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
+	/**
+	 * Create Customer Account successfully
+	 */
+	@Test
+	public void testCreateCustomerAccountSuccessfully() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
 
-			assertNull(user);
-			// check error
-			assertEquals("Username cannot be empty.", error);
+		String username = "newUsername";
+		CustomerAccount user = null;
+		try {
+			user = customerAccountService.createCustomerAccount(username, PASSWORD1, NAME1);
+		} catch (InvalidInputException e) {
+			// Check that no error occurred
+			fail();
 		}
-				
-		/**
-		 * Create Customer Account with spaces in username	
-		 */
-		@Test
-		public void testCreateCustomerAccountWithSpacesInUsername() {
-			String username = "This is a bad username";
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.createCustomerAccount(username, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Username cannot contain spaces.", error);
-		}
-		
-		/**
-		 * Create Customer Account with taken username	
-		 */
-		@Test
-		public void testCreateCustomerAccountWithTakenUsername() {
-			
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.createCustomerAccount(USERNAME1, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("This username is not available.", error);
-		}
-		
-		/**
-		 * Create Customer Account with empty password	
-		 */
-		@Test
-		public void testCreateCustomerAccountWithEmptyPassword() {
-			String username = "Catherine";
-			String password = "";
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.createCustomerAccount(username, password, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Password cannot be empty.", error);
-		}
-		
-		/**
-		 * Create Customer Account with spaces in password	
-		 */
-		@Test
-		public void testCreateCustomerAccountWithSpacesInPassword() {
-			String username = "Catherine";
-			String password = "this is a bad password";
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.createCustomerAccount(username, password, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Password cannot contain spaces.", error);
-		}
-		
-		/**
-		 * Create Customer Account with empty name	
-		 */
-		@Test
-		public void testCreateCustomerAccountWithEmptyName() {
-			String name = "";
-			String username = "Catherine";
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.createCustomerAccount(username, PASSWORD1, name);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Name cannot be empty.", error);
-		}
-		
-		/**
-		 * Update Customer Account successfully	
-		 */
-		@Test
-		public void testUpdateCustomerAccountSuccessfully() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			String newName = "New Name";
-			String newPassword = "newPassword";
-			
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.updateCustomerAccount(USERNAME1, newPassword, newName);
-			} catch (InvalidInputException e) {
-				// Check that no error occurred
-				fail();
-			}
-			assertNotNull(user);
-			assertEquals(USERNAME1, user.getUsername());
-			assertEquals(newPassword, user.getPassword());
-			assertEquals(newName, user.getName());
-		}
-		
-		/**
-		 * Update Customer Account with invalid token	
-		 */
-		@Test
-		public void testUpdateCustomerAccountWithInvalidToken() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+		//CustomerAccount savedUser = customerAccountService.getCustomerAccountByUsername(USERNAME1);
+		assertNotNull(user);
+		assertEquals(username, user.getUsername());
+		assertEquals(PASSWORD1, user.getPassword());
+		assertEquals(NAME1, user.getName());
+	}
 
 
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.updateCustomerAccount(USERNAME2, PASSWORD1, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
 
-			assertNull(user);
-			// check error
-			assertEquals("You do not have permission to modify this account.", error);
-		}
-		
-		/**
-		 * Update Customer Account with empty password
-		 */
-		@Test
-		public void testUpdateCustomerAccountWithEmptyPassword() {
-			String newPassword = "";
-
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.updateCustomerAccount(USERNAME1, newPassword, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Password cannot be empty.", error);
-		}
-		
-		/**
-		 * Update Customer Account with spaces in password	
-		 */
-		@Test
-		public void testUpdateCustomerAccountWithSpacesInPassword() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			String newPassword = "this is a bad password";
-
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.updateCustomerAccount(USERNAME1, newPassword, NAME1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Password cannot contain spaces.", error);
-		}
-		
-		/**
-		 * Update Customer Account with empty name	
-		 */
-		@Test
-		public void testUpdateCustomerAccountWithEmptyName() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			String newName = "";
-
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.updateCustomerAccount(USERNAME1, PASSWORD1, newName);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-
-			assertNull(user);
-			// check error
-			assertEquals("Name cannot be empty.", error);
-		}
-		
-		/**
-		 * Delete Customer Account successfully
-		 */
-		@Test
-		public void testDeleteCustomerAccountSuccessfully() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.deleteCustomerAccount(USERNAME1);
-			} catch (InvalidInputException e) {
-				fail();
-			}
-			CustomerAccount savedUser = customerAccountService.getCustomerAccountByUsername(USERNAME1);
-			assertNotNull(user);
-			assertEquals(savedUser.getUsername(), user.getUsername());
-			assertEquals(savedUser.getPassword(), user.getPassword());
-			assertEquals(savedUser.getName(), user.getName());
-		}
-		
-		/**
-		 * Delete Customer Account with user null
-		 */
-		@Test
-		public void testDeleteCustomerAccountWithNonExistingUser() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			String username = "Catherine";
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.deleteCustomerAccount(username);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertNull(user);
-			// check error
-			assertEquals("The user cannot be found.", error);
-		}
-		
-		
-		/**
-		 * Delete Customer Account with invalid token
-		 */
-		@Test
-		public void testDeleteCustomerAccountWithInvalidToken() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.deleteCustomerAccount(USERNAME2);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertNull(user);
-			// check error
-			assertEquals("You do not have permission to delete this account.", error);
-		}
-		
-		/**
-		 * Login Customer Account successfully	
-		 */
-		@Test
-		public void testLoginCustomerAccountSuccessfully() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.loginCustomerAccount(USERNAME2, PASSWORD2);
-			} catch (InvalidInputException e) {
-				fail();
-			}
-			 
-			assertNotNull(user);			
-			assertEquals(USERNAME2, user.getUsername());
-			assertEquals(PASSWORD2, user.getPassword());
-			assertEquals(NAME2, user.getName());
-		}
-		
-		/**
-		 * Login Customer Account with user null
-		 */
-		@Test
-		public void testLoginCustomerAccountWithNonExistingUser() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			String username = "Catherine";
-			String password = "password";
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.loginCustomerAccount(username, password);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-			 
-			assertNull(user);
-			// check error
-			assertEquals("The user cannot be found. Please sign up if you do not have an account yet.", error);
-		}
-		
-		/**
-		 * Login Customer Account with invalid credentials
-		 */
-		@Test
-		public void testLoginCustomerAccountWithInvalidCredentials() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.loginCustomerAccount(USERNAME2, PASSWORD1);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-			 
-			assertNull(user);
-			// check error
-			assertEquals("Username or password incorrect. Please try again.", error);
-		}
-		
-		/**
-		 * Logout Customer Account successfully
-		 */
-		@Test
-		public void testLogoutCustomerAccountSuccessfully() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.logoutCustomerAccount(USERNAME1);
-			} catch (InvalidInputException e) {
-				fail();
-			}
-			 
-			assertNotNull(user);
-			assertEquals(USERNAME1, user.getUsername());
-			assertEquals(PASSWORD1, user.getPassword());
-			assertEquals(NAME1, user.getName());
-		}
-		
-		/**
-		 * Logout Customer Account with user null
-		 */
-		@Test
-		public void testLogoutCustomerAccountWithNonExistingUser() {
-			assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
-
-			String username = "Catherine";
-			String error = null;
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.logoutCustomerAccount(username);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertNull(user);
-			// check error
-			assertEquals("The user cannot be found.", error);
-		}
-		
-		/**
-		 * Authenticate Customer Account successfully
-		 */
-		@Test
-		public void testAuthenticateCustomerAccountSuccessfully() {
-
-			CustomerAccount user = null; 
-			try {
-				user = customerAccountService.authenticateCustomerAccount(USERNAME1);
-			} catch (InvalidInputException e) {
-				fail();
-			}
-			assertNotNull(user);
-			assertNotEquals(0, user.getToken());
-		}
-		
-		/**
-		 * Authenticate Customer Account with user null
-		 */
-		@Test
-		public void testAuthenticateCustomerAccountWithNonExistingUser() {
-			
-			String username = "Catherine";
-			String error = null;
-			CustomerAccount user = null;
-			try {
-				user = customerAccountService.authenticateCustomerAccount(username);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertNull(user);
-			// check error
-			assertEquals("The user cannot be found.", error);
-		}
-		
-		/**
-		 * Authenticate Customer Account with invalid token
-		 */
-		@Test
-		public void testAuthenticateCustomerAccountWithInvalidToken() {
-			
-			String error = null;
-			CustomerAccount user = null;
-			try {
-				user = customerAccountService.authenticateCustomerAccount(USERNAME2);
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertNull(user);
-			// check error
-			assertEquals("An error occured. Please try again.", error);
-		
-		}
-		
-		/**
-		 * Get Customer Accounts by Name
-		 */
-		@Test
-		public void testGetCustomerAccountsByName() {
-			
-			List<CustomerAccount> users = customerAccountService.getCustomerAccountsByName(NAME1);
-			assertNotNull(users);
-			assertEquals(users.get(0).getUsername(), USERNAME1);
-		}
-		
-		/**
-		 * Get Customer Account by Car
-		 */
-		@Test
-		public void testGetCustomerAccountWithCar() {
-			CustomerAccount user = customerAccountService.getCustomerAccountWithCar(LICENSE2);
-			assertNotNull(user);
-			assertEquals(user.getUsername(), USERNAME1);
+	/**
+	 * Create Customer Account with empty username	
+	 */
+	@Test
+	public void testCreateCustomerAccountWithEmptyUsername() {
+		String username = "";
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.createCustomerAccount(username, PASSWORD1, NAME1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
 		}
 
-		/**
-		 * add car into a customer account
-		 */
-		@Test
-		public void testCustomerAddCarWithValidInformation() {
-			String error = "";
-//			Car c = new Car();
-//			c.setLicensePlate(LICENSE2);
-			CustomerAccount ownerCarAdded = null;
-			try {
-				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, LICENSE2);
-			}catch(InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertEquals("",error);
-			assertNotNull(ownerCarAdded);
-			assertEquals(USERNAME1,ownerCarAdded.getUsername());
-			List<Car> cars = ownerCarAdded.getCar();
-			for (Car addedCar: cars) {
-				assertEquals(LICENSE2, addedCar.getLicensePlate());
-			}
-			
+		assertNull(user);
+		// check error
+		assertEquals("Username cannot be empty.", error);
+	}
+
+	/**
+	 * Create Customer Account with spaces in username	
+	 */
+	@Test
+	public void testCreateCustomerAccountWithSpacesInUsername() {
+		String username = "This is a bad username";
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.createCustomerAccount(username, PASSWORD1, NAME1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
 		}
-		
-		
-		/**
-		 * add car into a customer account with an empty customer
-		 */
-		@Test
-		public void testCustomerAddCarWithEmptyCustomer() {
-			String error = "";
-			Car c = new Car();
-			c.setLicensePlate(LICENSE2);
-			CustomerAccount ownerCarAdded = null;
-			String InvalidCustomerAccountUsername = "";
-			try {
-				ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
-			}catch(InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertEquals("customerAccountUsername can not be empty or null!",error);
-			assertNull(ownerCarAdded);
-			
+
+		assertNull(user);
+		// check error
+		assertEquals("Username cannot contain spaces.", error);
+	}
+
+	/**
+	 * Create Customer Account with taken username	
+	 */
+	@Test
+	public void testCreateCustomerAccountWithTakenUsername() {
+
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.createCustomerAccount(USERNAME1, PASSWORD1, NAME1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
 		}
-		
-		
-		
-		/**
-		 * add car into a customer account with null customer
-		 */
-		@Test
-		public void testCustomerAddCarWithNullCustomer() {
-			String error = "";
-			Car c = new Car();
-			c.setLicensePlate(LICENSE2);
-			CustomerAccount ownerCarAdded = null;
-			String InvalidCustomerAccountUsername = null;
-			try {
-				ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
-			}catch(InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertEquals("customerAccountUsername can not be empty or null!",error);
-			assertNull(ownerCarAdded);
-			
+
+		assertNull(user);
+		// check error
+		assertEquals("This username is not available.", error);
+	}
+
+	/**
+	 * Create Customer Account with empty password	
+	 */
+	@Test
+	public void testCreateCustomerAccountWithEmptyPassword() {
+		String username = "Catherine";
+		String password = "";
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.createCustomerAccount(username, password, NAME1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
 		}
-		
-		/**
-		 * add car into a customer account with non existing customer
-		 */
-		@Test
-		public void testCustomerAddCarWithNonExistingCustomer() {
-			String error = "";
-			Car c = new Car();
-			c.setLicensePlate(LICENSE2);
-			CustomerAccount ownerCarAdded = null;
-			String InvalidCustomerAccountUsername = "test";
-			try {
-				ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
-			}catch(InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertEquals("can not find this customer in customer Account repository!",error);
-			assertNull(ownerCarAdded);
-			
+
+		assertNull(user);
+		// check error
+		assertEquals("Password cannot be empty.", error);
+	}
+
+	/**
+	 * Create Customer Account with spaces in password	
+	 */
+	@Test
+	public void testCreateCustomerAccountWithSpacesInPassword() {
+		String username = "Catherine";
+		String password = "this is a bad password";
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.createCustomerAccount(username, password, NAME1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
 		}
-		
-		/**
-		 * add car into a customer account with non existing car
-		 */
-		@Test
-		public void testCustomerAddCarWithNonExistingCar() {
-			String error = "";
-			String inValidLicensePlate = "1234567890"; 
-			CustomerAccount ownerCarAdded = null;
-			try {
-				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
-			}catch(InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertEquals("can not find this car in car repository!",error);
-			assertNull(ownerCarAdded);
-			
+
+		assertNull(user);
+		// check error
+		assertEquals("Password cannot contain spaces.", error);
+	}
+
+	/**
+	 * Create Customer Account with empty name	
+	 */
+	@Test
+	public void testCreateCustomerAccountWithEmptyName() {
+		String name = "";
+		String username = "Catherine";
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.createCustomerAccount(username, PASSWORD1, name);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
 		}
-		
-		
-		/**
-		 * add car into a customer account with null license plate
-		 */
-		@Test
-		public void testCustomerAddCarWithNullLicensePlate() {
-			String error = "";
-			String inValidLicensePlate = null; 
-			CustomerAccount ownerCarAdded = null;
-			try {
-				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
-			}catch(InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertEquals("licensePlate can not be empty or null!",error);
-			assertNull(ownerCarAdded);
-			
+
+		assertNull(user);
+		// check error
+		assertEquals("Name cannot be empty.", error);
+	}
+
+	/**
+	 * Update Customer Account successfully	
+	 */
+	@Test
+	public void testUpdateCustomerAccountSuccessfully() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		String newName = "New Name";
+		String newPassword = "newPassword";
+
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.updateCustomerAccount(USERNAME1, newPassword, newName);
+		} catch (InvalidInputException e) {
+			// Check that no error occurred
+			fail();
 		}
-		
-		
-		/**
-		 * add car into a customer account with empty license plate
-		 */
-		@Test
-		public void testCustomerAddCarWithEmptyLicensePlate() {
-			String error = "";
-			String inValidLicensePlate = ""; 
-			CustomerAccount ownerCarAdded = null;
-			try {
-				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
-			}catch(InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertEquals("licensePlate can not be empty or null!",error);
-			assertNull(ownerCarAdded);
-			
+		assertNotNull(user);
+		assertEquals(USERNAME1, user.getUsername());
+		assertEquals(newPassword, user.getPassword());
+		assertEquals(newName, user.getName());
+	}
+
+	/**
+	 * Update Customer Account with invalid token	
+	 */
+	@Test
+	public void testUpdateCustomerAccountWithInvalidToken() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.updateCustomerAccount(USERNAME2, PASSWORD1, NAME1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
 		}
-		
-		/**
-		 * add car into a customer account with spaces in the license plate
-		 */
-		@Test
-		public void testCustomerAddCarWithSpaceLicensePlate() {
-			String error = "";
-			String inValidLicensePlate = " "; 
-			CustomerAccount ownerCarAdded = null;
-			try {
-				ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
-			}catch(InvalidInputException e) {
-				error = e.getMessage();
-			}
-			assertEquals("licensePlate can not be empty or null!",error);
-			assertNull(ownerCarAdded);
-			
+
+		assertNull(user);
+		// check error
+		assertEquals("You do not have permission to modify this account.", error);
+	}
+
+	/**
+	 * Update Customer Account with empty password
+	 */
+	@Test
+	public void testUpdateCustomerAccountWithEmptyPassword() {
+		String newPassword = "";
+
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.updateCustomerAccount(USERNAME1, newPassword, NAME1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
 		}
-		
-		
-		
+
+		assertNull(user);
+		// check error
+		assertEquals("Password cannot be empty.", error);
+	}
+
+	/**
+	 * Update Customer Account with spaces in password	
+	 */
+	@Test
+	public void testUpdateCustomerAccountWithSpacesInPassword() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		String newPassword = "this is a bad password";
+
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.updateCustomerAccount(USERNAME1, newPassword, NAME1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(user);
+		// check error
+		assertEquals("Password cannot contain spaces.", error);
+	}
+
+	/**
+	 * Update Customer Account with empty name	
+	 */
+	@Test
+	public void testUpdateCustomerAccountWithEmptyName() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		String newName = "";
+
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.updateCustomerAccount(USERNAME1, PASSWORD1, newName);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(user);
+		// check error
+		assertEquals("Name cannot be empty.", error);
+	}
+
+	/**
+	 * Delete Customer Account successfully
+	 */
+	@Test
+	public void testDeleteCustomerAccountSuccessfully() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.deleteCustomerAccount(USERNAME1);
+		} catch (InvalidInputException e) {
+			fail();
+		}
+		CustomerAccount savedUser = customerAccountService.getCustomerAccountByUsername(USERNAME1);
+		assertNotNull(user);
+		assertEquals(savedUser.getUsername(), user.getUsername());
+		assertEquals(savedUser.getPassword(), user.getPassword());
+		assertEquals(savedUser.getName(), user.getName());
+	}
+
+	/**
+	 * Delete Customer Account with user null
+	 */
+	@Test
+	public void testDeleteCustomerAccountWithNonExistingUser() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		String username = "Catherine";
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.deleteCustomerAccount(username);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(user);
+		// check error
+		assertEquals("The user cannot be found.", error);
+	}
+
+
+	/**
+	 * Delete Customer Account with invalid token
+	 */
+	@Test
+	public void testDeleteCustomerAccountWithInvalidToken() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.deleteCustomerAccount(USERNAME2);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(user);
+		// check error
+		assertEquals("You do not have permission to delete this account.", error);
+	}
+
+	/**
+	 * Login Customer Account successfully	
+	 */
+	@Test
+	public void testLoginCustomerAccountSuccessfully() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.loginCustomerAccount(USERNAME2, PASSWORD2);
+		} catch (InvalidInputException e) {
+			fail();
+		}
+
+		assertNotNull(user);			
+		assertEquals(USERNAME2, user.getUsername());
+		assertEquals(PASSWORD2, user.getPassword());
+		assertEquals(NAME2, user.getName());
+	}
+
+	/**
+	 * Login Customer Account with user null
+	 */
+	@Test
+	public void testLoginCustomerAccountWithNonExistingUser() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		String username = "Catherine";
+		String password = "password";
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.loginCustomerAccount(username, password);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(user);
+		// check error
+		assertEquals("The user cannot be found. Please sign up if you do not have an account yet.", error);
+	}
+
+	/**
+	 * Login Customer Account with invalid credentials
+	 */
+	@Test
+	public void testLoginCustomerAccountWithInvalidCredentials() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.loginCustomerAccount(USERNAME2, PASSWORD1);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(user);
+		// check error
+		assertEquals("Username or password incorrect. Please try again.", error);
+	}
+
+	/**
+	 * Logout Customer Account successfully
+	 */
+	@Test
+	public void testLogoutCustomerAccountSuccessfully() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.logoutCustomerAccount(USERNAME1);
+		} catch (InvalidInputException e) {
+			fail();
+		}
+
+		assertNotNull(user);
+		assertEquals(USERNAME1, user.getUsername());
+		assertEquals(PASSWORD1, user.getPassword());
+		assertEquals(NAME1, user.getName());
+	}
+
+	/**
+	 * Logout Customer Account with user null
+	 */
+	@Test
+	public void testLogoutCustomerAccountWithNonExistingUser() {
+		assertEquals(2, customerAccountService.getAllCustomerAccounts().size());
+
+		String username = "Catherine";
+		String error = null;
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.logoutCustomerAccount(username);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(user);
+		// check error
+		assertEquals("The user cannot be found.", error);
+	}
+
+	/**
+	 * Authenticate Customer Account successfully
+	 */
+	@Test
+	public void testAuthenticateCustomerAccountSuccessfully() {
+
+		CustomerAccount user = null; 
+		try {
+			user = customerAccountService.authenticateCustomerAccount(USERNAME1);
+		} catch (InvalidInputException e) {
+			fail();
+		}
+		assertNotNull(user);
+		assertNotEquals(0, user.getToken());
+	}
+
+	/**
+	 * Authenticate Customer Account with user null
+	 */
+	@Test
+	public void testAuthenticateCustomerAccountWithNonExistingUser() {
+
+		String username = "Catherine";
+		String error = null;
+		CustomerAccount user = null;
+		try {
+			user = customerAccountService.authenticateCustomerAccount(username);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(user);
+		// check error
+		assertEquals("The user cannot be found.", error);
+	}
+
+	/**
+	 * Authenticate Customer Account with invalid token
+	 */
+	@Test
+	public void testAuthenticateCustomerAccountWithInvalidToken() {
+
+		String error = null;
+		CustomerAccount user = null;
+		try {
+			user = customerAccountService.authenticateCustomerAccount(USERNAME2);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertNull(user);
+		// check error
+		assertEquals("An error occured. Please try again.", error);
+
+	}
+
+	/**
+	 * Get Customer Accounts by Name
+	 */
+	@Test
+	public void testGetCustomerAccountsByName() {
+
+		List<CustomerAccount> users = customerAccountService.getCustomerAccountsByName(NAME1);
+		assertNotNull(users);
+		assertEquals(users.get(0).getUsername(), USERNAME1);
+	}
+
+	/**
+	 * Get Customer Account by Car
+	 */
+	@Test
+	public void testGetCustomerAccountWithCar() {
+		CustomerAccount user = customerAccountService.getCustomerAccountWithCar(LICENSE2);
+		assertNotNull(user);
+		assertEquals(user.getUsername(), USERNAME1);
+	}
+
+	/**
+	 * add car into a customer account
+	 */
+	@Test
+	public void testCustomerAddCarWithValidInformation() {
+		String error = "";
+		//			Car c = new Car();
+		//			c.setLicensePlate(LICENSE2);
+		CustomerAccount ownerCarAdded = null;
+		try {
+			ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, LICENSE2);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("",error);
+		assertNotNull(ownerCarAdded);
+		assertEquals(USERNAME1,ownerCarAdded.getUsername());
+		List<Car> cars = ownerCarAdded.getCar();
+		for (Car addedCar: cars) {
+			assertEquals(LICENSE2, addedCar.getLicensePlate());
+		}
+
+	}
+
+
+	/**
+	 * add car into a customer account with an empty customer
+	 */
+	@Test
+	public void testCustomerAddCarWithEmptyCustomer() {
+		String error = "";
+		Car c = new Car();
+		c.setLicensePlate(LICENSE2);
+		CustomerAccount ownerCarAdded = null;
+		String InvalidCustomerAccountUsername = "";
+		try {
+			ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("customerAccountUsername can not be empty or null!",error);
+		assertNull(ownerCarAdded);
+
+	}
+
+
+
+	/**
+	 * add car into a customer account with null customer
+	 */
+	@Test
+	public void testCustomerAddCarWithNullCustomer() {
+		String error = "";
+		Car c = new Car();
+		c.setLicensePlate(LICENSE2);
+		CustomerAccount ownerCarAdded = null;
+		String InvalidCustomerAccountUsername = null;
+		try {
+			ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("customerAccountUsername can not be empty or null!",error);
+		assertNull(ownerCarAdded);
+
+	}
+
+	/**
+	 * add car into a customer account with non existing customer
+	 */
+	@Test
+	public void testCustomerAddCarWithNonExistingCustomer() {
+		String error = "";
+		Car c = new Car();
+		c.setLicensePlate(LICENSE2);
+		CustomerAccount ownerCarAdded = null;
+		String InvalidCustomerAccountUsername = "test";
+		try {
+			ownerCarAdded = customerAccountService.customerAccountAddCar(InvalidCustomerAccountUsername, LICENSE2);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("can not find this customer in customer Account repository!",error);
+		assertNull(ownerCarAdded);
+
+	}
+
+	/**
+	 * add car into a customer account with non existing car
+	 */
+	@Test
+	public void testCustomerAddCarWithNonExistingCar() {
+		String error = "";
+		String inValidLicensePlate = "1234567890"; 
+		CustomerAccount ownerCarAdded = null;
+		try {
+			ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("can not find this car in car repository!",error);
+		assertNull(ownerCarAdded);
+
+	}
+
+
+	/**
+	 * add car into a customer account with null license plate
+	 */
+	@Test
+	public void testCustomerAddCarWithNullLicensePlate() {
+		String error = "";
+		String inValidLicensePlate = null; 
+		CustomerAccount ownerCarAdded = null;
+		try {
+			ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("licensePlate can not be empty or null!",error);
+		assertNull(ownerCarAdded);
+
+	}
+
+
+	/**
+	 * add car into a customer account with empty license plate
+	 */
+	@Test
+	public void testCustomerAddCarWithEmptyLicensePlate() {
+		String error = "";
+		String inValidLicensePlate = ""; 
+		CustomerAccount ownerCarAdded = null;
+		try {
+			ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("licensePlate can not be empty or null!",error);
+		assertNull(ownerCarAdded);
+
+	}
+
+	/**
+	 * add car into a customer account with spaces in the license plate
+	 */
+	@Test
+	public void testCustomerAddCarWithSpaceLicensePlate() {
+		String error = "";
+		String inValidLicensePlate = " "; 
+		CustomerAccount ownerCarAdded = null;
+		try {
+			ownerCarAdded = customerAccountService.customerAccountAddCar(USERNAME1, inValidLicensePlate);
+		}catch(InvalidInputException e) {
+			error = e.getMessage();
+		}
+		assertEquals("licensePlate can not be empty or null!",error);
+		assertNull(ownerCarAdded);
+
+	}
+
+
+
 
 
 }

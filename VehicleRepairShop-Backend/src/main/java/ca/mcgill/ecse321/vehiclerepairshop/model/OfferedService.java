@@ -1,11 +1,8 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.sql.Time;
-import java.util.*;
 
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 
 

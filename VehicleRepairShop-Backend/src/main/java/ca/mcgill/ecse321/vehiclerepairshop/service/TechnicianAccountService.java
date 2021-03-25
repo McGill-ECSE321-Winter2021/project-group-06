@@ -19,7 +19,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 
 @Service
 public class TechnicianAccountService {
-	
+
 	@Autowired
 	private AdminAccountRepository adminAccountRepository;
 	@Autowired
@@ -42,7 +42,7 @@ public class TechnicianAccountService {
 	 */
 	@Transactional
 	public TechnicianAccount createTechnicianAccount(String username, String password, String name)   {
-		
+
 		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
@@ -72,7 +72,7 @@ public class TechnicianAccountService {
 		}
 	}
 
-	
+
 	/**
 	 * Find technician account by username
 	 * @author Catherine
@@ -108,7 +108,7 @@ public class TechnicianAccountService {
 		return toList(technicianAccountRepository.findAll());
 	}
 
-	
+
 	/**
 	 * Update an Technician Account password and name. 
 	 * If one parameter shouldn't change, pass old value as new value. 
@@ -141,10 +141,10 @@ public class TechnicianAccountService {
 			technicianAccountRepository.save(user);
 			return user;
 		}
-			
+
 	}
-	
-	
+
+
 	/**
 	 * Deletes the technician account
 	 * @author Catherine
@@ -194,9 +194,9 @@ public class TechnicianAccountService {
 		}
 
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Logout the account and delete token for the account
 	 * @param username
@@ -218,7 +218,7 @@ public class TechnicianAccountService {
 			return user;
 		}
 	}
-	
+
 	/**
 	 * Authenticate token
 	 * @author Catherine
@@ -241,7 +241,7 @@ public class TechnicianAccountService {
 		}
 	}
 
-	
+
 	/**
 	 * add a timeslot for an account
 	 * @param timeSlotId
@@ -263,26 +263,29 @@ public class TechnicianAccountService {
 			user.setAvailability(timeslots);
 			return user;
 		}
-		
+
 	}
 
-	
 
 	/**
 	 * Find all technician accounts linked to an appointment
-	 * @author Catherine
-	 * @param username
-	 * @return a list of accounts
+	 * @author aureliahaas
+	 * @param appointmentId
+	 * @return
 	 */
 	@Transactional
-	public List<TechnicianAccount> getTechnicianAccountsForAppointment(int appointmentId) {
-		Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId);
-		List<TechnicianAccount> users = technicianAccountRepository.findTechnicianAccountByAppointment(appointment);
-		return users;
+	public List<TechnicianAccount> findTechnicianAccountByAppointment(int appointmentId) {
+		List<Appointment> appointments = toList(appointmentRepository.findAll());
+		for (Appointment appointment : appointments) {
+			if (appointment.getAppointmentId() == appointmentId) {
+				return appointment.getWorker();
+			}
+		}
+		throw new InvalidInputException("AppointmentId does not exist!");
 	}
-	
+
 	//----------------------------- Helper Methods --------------------------------
-	
+
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use
 	 * @author Catherine
@@ -306,7 +309,7 @@ public class TechnicianAccountService {
 		}
 	}
 
-	
+
 	/**
 	 *  helper method that converts iterable to list
 	 * 

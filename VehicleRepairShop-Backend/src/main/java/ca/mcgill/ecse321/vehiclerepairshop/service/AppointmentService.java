@@ -306,6 +306,12 @@ public class AppointmentService {
 
 	}
 
+	/**
+	 * @author chengchen
+	 * @param appointmentId
+	 * @param offeredService
+	 * @return
+	 */
 	@Transactional
 	public Appointment updateAppointmentOfferedService(int appointmentId, OfferedService offeredService) {
 		String error = "";
@@ -380,6 +386,11 @@ public class AppointmentService {
 	}
 
 
+	/**
+	 * @author chengchen
+	 * @param licensePlate
+	 * @return
+	 */
 	@Transactional
 	public List<Appointment> findAppointmentByCar(String licensePlate){
 		List<Appointment> appointments = toList(appointmentRepository.findAll());
@@ -398,6 +409,11 @@ public class AppointmentService {
 
 	}
 
+	/**
+	 * @author chengchen
+	 * @param garageId
+	 * @return
+	 */
 	@Transactional
 	public List<Appointment> findAppointmentByGarage(String garageId){
 		List<Appointment> appointments = toList(appointmentRepository.findAll());
@@ -418,6 +434,11 @@ public class AppointmentService {
 
 
 
+	/**
+	 * @author chengchen
+	 * @param username
+	 * @return
+	 */
 	@Transactional
 	public List<Appointment> findAppointmentByTechnicianAccount(String username){
 		List<Appointment> appointments = toList(appointmentRepository.findAll());
@@ -439,8 +460,13 @@ public class AppointmentService {
 		}
 
 	}
-	
-	
+
+
+	/**
+	 * @author chengchen
+	 * @param serviceId
+	 * @return
+	 */
 	@Transactional
 	public List<Appointment> findAppointmentByOfferedService(String serviceId){
 		List<Appointment> appointments = toList(appointmentRepository.findAll());
@@ -458,11 +484,13 @@ public class AppointmentService {
 		}
 
 	}
-	
-	
+
+
 
 	/**
 	 * @author chengchen
+	 * @param timeSlot1
+	 * @param timeSlot2
 	 * @return
 	 */
 	private boolean isTimeslotOverlapped(TimeSlot timeSlot1, TimeSlot timeSlot2){
@@ -480,6 +508,12 @@ public class AppointmentService {
 	}
 
 	// helper method that converts iterable to list
+	/**
+	 * @author chengchen
+	 * @param <T>
+	 * @param iterable
+	 * @return
+	 */
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
