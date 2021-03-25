@@ -244,11 +244,18 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount getCustomerAccountWithCar(String licensePlate) {
-		Car car = carRepository.findByLicensePlate(licensePlate);
-		CustomerAccount user = customerAccountRepository.findByCar(car);
+		CustomerAccount user = null;
+		for (CustomerAccount customer : customerAccountRepository.findAll()) {
+			if (customer.getCar() != null) {
+				for (Car car : customer.getCar()) {
+					if (car.getLicensePlate().equals(licensePlate)){
+						return customer;
+					}
+				}
+			}
+		}
 		return user;
 	}
-	
 	/**
 	 * add a car into one customer account
 	 * @param customerAccountUsername

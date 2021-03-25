@@ -149,37 +149,5 @@ public class TestCustomerAccountPersistence {
 		
 	}
 	
-	/**
-	 * Tests a finding customer account by car
-	 */
-	@Test
-	public void testPersistAndLoadCustomerAccountByCar() {
-		// create a car
-		String licensePlate = "3JOH22A";
-	
-		Car car = new Car();
-		car.setLicensePlate(licensePlate);
-		
-		carRepository.save(car);
-		List<Car> cars = new ArrayList<Car>();
-		cars.add(car);
-		user1.setCar(cars);
-		customerAccountRepository.save(user1);
-		
-		user1 = null;
-		
-		user1 = customerAccountRepository.findByCar(car);
-		assertNotNull(user1);
-		assertEquals(user1.getName(), name1);
-		assertEquals(user1.getPassword(), password1);
-		assertEquals(user1.getUsername(), username1);
-
-	}
-	
-//	@Test
-//	public void testPersistAndLoadCustomerAccountByCar2() {
-//		
-//	}
-//	
 
 }
