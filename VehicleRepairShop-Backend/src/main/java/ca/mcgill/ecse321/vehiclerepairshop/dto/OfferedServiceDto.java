@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop.dto;
 
 import java.sql.Time;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 
@@ -89,9 +87,4 @@ public class OfferedServiceDto {
 	public void setDescription(String aDescription) {
 		this.description = aDescription;
 	}
-	
-	
-//	public void deleteOfferedService() {
-//		this.delete();
-//	}
 }

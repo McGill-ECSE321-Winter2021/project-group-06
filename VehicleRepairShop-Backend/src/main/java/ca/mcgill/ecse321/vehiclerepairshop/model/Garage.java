@@ -22,7 +22,4 @@ public class Garage
   {
     return this.garageId;
   }
-  
-
-
 }

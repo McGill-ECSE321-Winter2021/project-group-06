@@ -28,17 +28,17 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*")
 @RestController
 public class TimeSlotController {
-	
+
 	@Autowired
 	private TimeSlotService timeSlotService;
 	@Autowired
 	private TimeSlotRepository timeslotRepository;
-	
+
 	@GetMapping(value = { "/getAllTimeSlots", "/getAllTimeSlots/" })
 	public List<TimeSlotDto> getAllTimeSlots() {
 		return timeSlotService.getAllTimeSlots().stream().map(timeslot->convertToDto(timeslot)).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * get a time slot by id
 	 * @author mikewang
@@ -50,7 +50,16 @@ public class TimeSlotController {
 		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
 		return convertToDto(timeSlot);
 	}
-	
+
+	/** 
+	 * create a time slot
+	 * @author mikewang
+	 * @param startTime
+	 * @param endTime
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
 	@PostMapping(value = { "/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}","/createTimeSlot/{startTime}/{endTime}/{startDate}/{endDate}/"})
 	public TimeSlotDto createTimeSlot(@PathVariable("startTime") String startTime,
 			@PathVariable("endTime") String endTime,
@@ -59,7 +68,13 @@ public class TimeSlotController {
 		TimeSlot timeSlot = timeSlotService.createTimeSlot(Time.valueOf(startTime),Time.valueOf(endTime),Date.valueOf(startDate),Date.valueOf(endDate));
 		return convertToDto(timeSlot);
 	}
-	
+
+	/** 
+	 * delete a time slot by id
+	 * @author mikewang
+	 * @param timeslotId
+	 * @return
+	 */
 	@DeleteMapping(value = {"/deleteTimeSlot/{timeslotId}","/deleteTimeSlot/{timeslotId}/"})
 	public TimeSlotDto deleteTimeSlotDto(@PathVariable("timeslotId") int timeslotId) {
 		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeslotId);
@@ -67,7 +82,12 @@ public class TimeSlotController {
 		return convertToDto(timeSlot);
 
 	}
-	
+
+	/**
+	 * delete all time slots
+	 * @author mikewang
+	 * @return
+	 */
 	@DeleteMapping(value = {"/deleteAllTimeSlot","/deleteAllTimeSlot/"})
 	public List<TimeSlotDto> deleteAllTimeSlotDto() {
 		List<TimeSlot >timeSlot = timeSlotService.deleteAllTimeSlot();
@@ -78,10 +98,16 @@ public class TimeSlotController {
 		return timeSlotDtos;
 
 	}
-	
-	
-	
+
+
+
 	//helper method
+	/**
+	 * convert to dto
+	 * @author mikewang
+	 * @param timeSlot
+	 * @return
+	 */
 	private TimeSlotDto convertToDto(TimeSlot timeSlot) {
 		if (timeSlot == null) {
 			throw new InvalidInputException("There is no such timeslot!");
@@ -89,6 +115,6 @@ public class TimeSlotController {
 		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(),timeSlot.getEndTime(),timeSlot.getStartDate(),timeSlot.getEndDate());
 		return timeSlotDto;
 	}
-	
+
 
 }
