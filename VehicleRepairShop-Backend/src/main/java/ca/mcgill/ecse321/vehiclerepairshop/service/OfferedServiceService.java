@@ -141,7 +141,7 @@ public class OfferedServiceService {
 			List<Appointment> apts = (List<Appointment>) appointmentRepository.findAll();
 			for (Appointment appointment: apts) {
 				if (appointment.getOfferedService().getOfferedServiceId() == serviceId) {
-					appointment.setOfferedService(null);
+					//appointment.setOfferedService(null);
 					appointmentRepository.delete(appointment);
 				}
 			}
