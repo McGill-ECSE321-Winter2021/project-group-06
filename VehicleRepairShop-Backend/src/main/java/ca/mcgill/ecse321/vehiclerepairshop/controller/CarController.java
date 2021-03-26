@@ -57,6 +57,13 @@ public class CarController {
 	public List<CarDto> getCarsByOwner(@PathVariable("username") String username) {	
 		return carService.findCarByCustomerAccount(username).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
+	
+	@GetMapping(value = { "/getCarByAppointment/{appointmentId}", "/getCarByAppointment/{appointmentId}/" })
+	public CarDto getCarsByAppointment(@PathVariable("appointmentId") int appointmentId) {	
+		Car car = carService.findCarByAppointment(appointmentId);
+		return convertToDto(car);
+		
+	}
 
 	/**
 	 * Create a Car Dto with provided parameters
@@ -70,10 +77,11 @@ public class CarController {
 	@PostMapping(value = { "/createCar/{licensePlate}/{model}/{year}/{motorType}/{username}", "/createAdminAccount/{licensePlate}/{model}/{year}/{motorType}/{username}/" })
 	public CarDto createCar(@PathVariable("licensePlate") String licensePlate, @PathVariable("model") String model, @PathVariable("year") int year, 
 			@PathVariable("motorType") MotorType motorType,@PathVariable("username") String username) {
-		CustomerAccount owner = customerAccountService.getCustomerAccountByUsername(username);
-		Car car = carService.createCar(licensePlate, model, year, motorType,owner);
+		Car car = carService.createCar(licensePlate, model, year, motorType,username);
 		return convertToDto(car);
 	}
+	
+
 
 
 	@DeleteMapping(value = {"/deleteCar/{licensePlate}"})

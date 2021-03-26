@@ -23,6 +23,10 @@ public class CarService {
 	private AppointmentRepository appointmentRepository;
 	@Autowired
 	private CustomerAccountRepository customerAccountRepository;
+	@Autowired
+	private AppointmentService appointmentService;
+	@Autowired
+	private CustomerAccountService customerAccountService;
 
 	/**
 	 * @author James Darby
@@ -38,7 +42,7 @@ public class CarService {
 	 * @return
 	 */
 	@Transactional
-	public Car createCar(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner) {
+	public Car createCar(String licensePlate, String model, int year, MotorType motorType, String username) {
 		String error = "";
 		if (licensePlate == null || licensePlate.trim().length() == 0) {
 			error = error + "licensePlate can not be null or empty!";
@@ -54,16 +58,27 @@ public class CarService {
 		if (motorType == null) {
 			error = error + "motorType can't be null!";
 		}
+		if (username == null) {
+			error = error + "username can't be null!";
+		}
+		if (customerAccountRepository.findByUsername(username) == null) {
+			error = error + "Customer account not found";
+		}
 		if (error.length() >0 ) {
 			throw new InvalidInputException(error);
 		}
 		else {
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
 			Car car = new Car();
 			car.setLicensePlate(licensePlate);
 			car.setModel(model);
 			car.setYear(year);
 			car.setMotorType(motorType);
 			carRepository.save(car);
+			List <Car> cars = user.getCar();
+			cars.add(car);
+			user.setCar(cars);
+			customerAccountRepository.save(user);
 			return car;
 		}
 
@@ -112,10 +127,23 @@ public class CarService {
 		if (carRepository.findByLicensePlate(licensePlate)==null) {
 			error = error + "car not found";
 		}
+		if (!appointmentService.findAppointmentByCar(licensePlate).isEmpty()) {
+			error = error + "car linked to an appointment";
+		}
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
+		
+		CustomerAccount user = customerAccountService.getCustomerAccountWithCar(licensePlate);
+		List <Car> cars = user.getCar();
+		for (Car car: cars) {
+			if (car.getLicensePlate().equals(licensePlate)) {
+				cars.remove(car);
+			}
+		}
+		user.setCar(cars);
+		customerAccountRepository.save(user);
 		Car car = carRepository.findByLicensePlate(licensePlate);
 		carRepository.delete(car);
 		return car;
@@ -140,23 +168,14 @@ public class CarService {
 	 * @return
 	 */
 	@Transactional
-	public List<Car> findCarByAppointment(int appId){
-		List<Car> cars = toList(carRepository.findAll());
+	public Car findCarByAppointment(int appId){
 		List<Appointment> appointments = toList(appointmentRepository.findAll());
-		List<Car> result = new ArrayList<Car>();
-		if (cars.isEmpty()) {
-			return result;
-		}
-		else {
-			for (Appointment appointment:appointments) {
-				if (appointment.getAppointmentId() == appId) {
-					result.add(appointment.getCar());
-					break;
-				}
+		for (Appointment appointment:appointments) {
+			if (appointment.getAppointmentId() == appId) {
+				return appointment.getCar();
 			}
-			return result;
 		}
-
+		throw new InvalidInputException ("AppointmentId not found!");
 	}
 
 	/**
