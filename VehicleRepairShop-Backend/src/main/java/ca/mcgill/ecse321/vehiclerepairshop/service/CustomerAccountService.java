@@ -16,7 +16,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 
 @Service
 public class CustomerAccountService {
-	
+
 	@Autowired
 	private CustomerAccountRepository customerAccountRepository;
 	@Autowired
@@ -36,7 +36,7 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount createCustomerAccount(String username, String password, String name)   {
-		
+
 		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
@@ -66,7 +66,7 @@ public class CustomerAccountService {
 		}
 	}
 
-	
+
 	/**
 	 * Find customer account by username
 	 * @author Catherine
@@ -89,7 +89,6 @@ public class CustomerAccountService {
 	@Transactional
 	public List<CustomerAccount> getCustomerAccountsByName(String name) {
 		List<CustomerAccount> users = customerAccountRepository.findCustomerAccountByName(name);
-		System.out.println(users.get(0));
 		return users;
 	}
 
@@ -103,7 +102,7 @@ public class CustomerAccountService {
 		return toList(customerAccountRepository.findAll());
 	}
 
-	
+
 	/**
 	 * Update an Customer Account password and name. 
 	 * If one parameter shouldn't change, pass old value as new value. 
@@ -136,10 +135,10 @@ public class CustomerAccountService {
 			customerAccountRepository.save(user);
 			return user;
 		}
-			
+
 	}
-	
-	
+
+
 	/**
 	 * Deletes the customer account
 	 * @author Catherine
@@ -189,9 +188,9 @@ public class CustomerAccountService {
 		}
 
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Logout the account and delete token for the account
 	 * @param username
@@ -213,7 +212,7 @@ public class CustomerAccountService {
 			return user;
 		}
 	}
-	
+
 	/**
 	 * Authenticate token
 	 * @author Catherine
@@ -235,7 +234,7 @@ public class CustomerAccountService {
 			throw new InvalidInputException("An error occured. Please try again."); 
 		}
 	}
-	
+
 
 	/**
 	 * Find Customer Account by car
@@ -248,7 +247,6 @@ public class CustomerAccountService {
 		for (CustomerAccount customer : customerAccountRepository.findAll()) {
 			if (!customer.getCar().isEmpty()) {
 				for (Car car : customer.getCar()) {
-					System.out.println(car.getLicensePlate());
 					if (car.getLicensePlate().equals(licensePlate)){
 						return customer;
 					}
@@ -257,9 +255,9 @@ public class CustomerAccountService {
 		}
 		throw new InvalidInputException("Customer not found");
 	}
-	
+
 	//------------------------------- Helper Methods --------------------------
-	
+
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use
 	 * @author Catherine
