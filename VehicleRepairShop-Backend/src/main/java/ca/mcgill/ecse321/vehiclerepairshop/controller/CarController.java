@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
-import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 
@@ -23,10 +22,6 @@ public class CarController {
 
 	@Autowired
 	private CarService carService;
-
-	@Autowired
-	private CustomerAccountService customerAccountService;
-
 
 	/**
 	 * Return a list of all Car Dtos 

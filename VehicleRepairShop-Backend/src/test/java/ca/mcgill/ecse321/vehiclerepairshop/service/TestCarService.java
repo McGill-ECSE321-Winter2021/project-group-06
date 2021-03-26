@@ -116,7 +116,7 @@ public class TestCarService {
 
 		Car car = null;
 		try {
-			car = carService.createCar(LICENSEPLATE,MODEL,YEAR,MOTORTYPE,null);
+			car = carService.createCar(LICENSEPLATE,MODEL,YEAR,MOTORTYPE, OWNER_USERNAME);
 		} catch (InvalidInputException e) {
 			fail();
 		}
@@ -141,7 +141,7 @@ public class TestCarService {
 		}
 
 		assertNull(car);
-		assertEquals("licensePlate can not be null or empty!model can not be null or empty!Theres not car have been invented until 1886!motorType can't be null!",error);
+		assertEquals("licensePlate can not be null or empty!model can not be null or empty!Theres not car have been invented until 1886!motorType can't be null!username can't be null!Customer account not found",error);
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class TestCarService {
 			error = e.getMessage();
 		}
 		assertNull(car);
-		assertEquals("licensePlate can not be null or empty!", error);
+		assertEquals("licensePlate can not be null or empty!username can't be null!Customer account not found", error);
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class TestCarService {
 			error = e.getMessage();
 		}
 		assertNull(car);
-		assertEquals("licensePlate can not be null or empty!", error);
+		assertEquals("licensePlate can not be null or empty!username can't be null!Customer account not found", error);
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class TestCarService {
 			error = e.getMessage();
 		}
 		assertNull(car);
-		assertEquals("licensePlate can not be null or empty!", error);
+		assertEquals("licensePlate can not be null or empty!username can't be null!Customer account not found", error);
 	}
 
 
@@ -210,7 +210,7 @@ public class TestCarService {
 			error = e.getMessage();
 		}
 		assertNull(car);
-		assertEquals("model can not be null or empty!", error);
+		assertEquals("model can not be null or empty!username can't be null!Customer account not found", error);
 
 	}
 
@@ -229,7 +229,7 @@ public class TestCarService {
 			error = e.getMessage();
 		}
 		assertNull(car);
-		assertEquals("model can not be null or empty!", error);
+		assertEquals("model can not be null or empty!username can't be null!Customer account not found", error);
 
 	}
 
@@ -247,7 +247,7 @@ public class TestCarService {
 			error = e.getMessage();
 		}
 		assertNull(car);
-		assertEquals("model can not be null or empty!", error);
+		assertEquals("model can not be null or empty!username can't be null!Customer account not found", error);
 
 	}
 
