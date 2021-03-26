@@ -1309,7 +1309,7 @@
 						"exec": [
 							"pm.test(\"delete appointment conflicit\", function () {",
 							"  pm.response.to.have.status(200);",
-							"   const jsonData = pm.response.json();",
+							"  const jsonData = pm.response.json();",
 							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"14:20:00\");",
 							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"15:20:00\");",
 							"});"

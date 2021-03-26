@@ -297,7 +297,7 @@
 			"response": []
 		},
 		{
-			"name": "Create Appointment 1 - Linked to Garage 1",
+			"name": "Create Appointment 1 - Linked to Offered Service 1",
 			"event": [
 				{
 					"listen": "test",

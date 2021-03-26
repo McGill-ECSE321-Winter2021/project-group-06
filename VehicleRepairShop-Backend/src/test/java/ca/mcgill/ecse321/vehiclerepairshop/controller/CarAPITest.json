@@ -1,12 +1,101 @@
 {
 	"info": {
-		"_postman_id": "d505b714-9a86-40c2-be95-a26def0de030",
+		"_postman_id": "0503ab92-c57a-4f16-80b5-8e5daf1688a9",
 		"name": "Car tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "create owner 1",
+			"name": "createOfferedService1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Offered Service test 1\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
+							"    pm.expect(jsonData.price).to.equal(10.5);",
+							"    pm.expect(jsonData.name).to.include(\"carWashing\");",
+							"    pm.expect(jsonData.duration).to.equal(10);",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderDate).to.equal(10);",
+							"    pm.expect(jsonData.description).to.include(\"thisIsATest\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createOfferedService/test1/10.5/carWashing/10/09:00:00/10/thisIsATest ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createOfferedService",
+						"test1",
+						"10.5",
+						"carWashing",
+						"10",
+						"09:00:00",
+						"10",
+						"thisIsATest "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create TimeSlot 1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create timeslot 1\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.startTime).to.include(\"10:00:00\");",
+							"  pm.expect(jsonData.endTime).to.include(\"11:00:00\");",
+							"  pm.expect(jsonData.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.endDate).to.include(\"2021-03-01\");",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTimeSlot/10:00:00/11:00:00/2021-03-01/2021-03-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTimeSlot",
+						"10:00:00",
+						"11:00:00",
+						"2021-03-01",
+						"2021-03-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create owner 1 Copy",
 			"event": [
 				{
 					"listen": "test",
@@ -56,8 +145,8 @@
 							"pm.test(\"create car\", function () {",
 							"  pm.response.to.have.status(200);",
 							"  const jsonData = pm.response.json();",
-							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
-							"  pm.expect(jsonData.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.licensePlate).to.include(\"licensePlate1\");",
+							"  pm.expect(jsonData.model).to.include(\"model1\");",
 							"  pm.expect(jsonData.year).to.equal(2020);",
 							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
 							"  ",
@@ -71,7 +160,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createCar/1/Tesla/2020/Electric/1",
+					"raw": "http://localhost:8080/createCar/licensePlate1/model1/2020/Electric/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -79,11 +168,135 @@
 					"port": "8080",
 					"path": [
 						"createCar",
-						"1",
-						"Tesla",
+						"licensePlate1",
+						"model1",
 						"2020",
 						"Electric",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create TechnicianAccount1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Technician Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"technician1\");",
+							"    pm.expect(jsonData.password).to.include(\"password1\");",
+							"    pm.expect(jsonData.name).to.include(\"name1\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/technician1/password1/name1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"technician1",
+						"password1",
+						"name1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Garage 1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create garage\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.garageId).to.include(\"garage 1\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createGarage/garage 1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createGarage",
+						"garage 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Appointment 1 - Linked to Car 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create appointment\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"10:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"11:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"model1\");",
+							"  pm.expect(jsonData.car.year).to.equal(2020);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"garage 1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"test1\");",
+							"   ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAppointment/comment1/-317900160/licensePlate1/garage 1/test1/technician1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAppointment",
+						"comment1",
+						"-317900160",
+						"licensePlate1",
+						"garage 1",
+						"test1",
+						"technician1"
 					]
 				}
 			},
@@ -133,6 +346,43 @@
 			"response": []
 		},
 		{
+			"name": "get owner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get owner\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.username).to.include(\"1\");",
+							"  pm.expect(jsonData.password).to.include(\"1\");",
+							"  pm.expect(jsonData.token).to.equal(49);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCustomerAccountByUsername/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCustomerAccountByUsername",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get car by license plate",
 			"event": [
 				{
@@ -143,7 +393,7 @@
 							"  pm.response.to.have.status(200);",
 							"  const jsonData = pm.response.json();",
 							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
-							"  pm.expect(jsonData.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.model).to.include(\"model1\");",
 							"  pm.expect(jsonData.year).to.equal(2020);",
 							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
 							"  ",
@@ -157,7 +407,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/getCarByLicensePlate/1",
+					"raw": "http://localhost:8080/getCarByLicensePlate/licensePlate1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -165,14 +415,53 @@
 					"port": "8080",
 					"path": [
 						"getCarByLicensePlate",
-						"1"
+						"licensePlate1"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "get car by imvalid license plate",
+			"name": "Get  Car by Appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get car by Appointment\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.model).to.include(\"model1\");",
+							"  pm.expect(jsonData.year).to.equal(2020);",
+							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
+							" ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCarByAppointment/-602415694",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCarByAppointment",
+						"-602415694"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get car by invalid license plate",
 			"event": [
 				{
 					"listen": "test",
@@ -211,14 +500,13 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"get car by licensePlate\", function () {",
+							"pm.test(\"get car by Owner\", function () {",
 							"  pm.response.to.have.status(200);",
 							"  const jsonData = pm.response.json()[0];",
-							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
-							"  pm.expect(jsonData.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.licensePlate).to.include(\"licensePlate1\");",
+							"  pm.expect(jsonData.model).to.include(\"model1\");",
 							"  pm.expect(jsonData.year).to.equal(2020);",
 							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
-							"  ",
 							"});"
 						],
 						"type": "text/javascript"
@@ -288,7 +576,7 @@
 							"  pm.response.to.have.status(200);",
 							"  const jsonData0 = pm.response.json()[0];",
 							"  pm.expect(jsonData0.licensePlate).to.include(\"1\");",
-							"  pm.expect(jsonData0.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData0.model).to.include(\"model1\");",
 							" const jsonData1 = pm.response.json()[1];",
 							"  pm.expect(jsonData1.licensePlate).to.include(\"2\");",
 							"  pm.expect(jsonData1.model).to.include(\"TeslaX\");",
@@ -317,17 +605,14 @@
 			"response": []
 		},
 		{
-			"name": "delete car",
+			"name": "delete all appointment Copy",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"delete car by licensePlate\", function () {",
+							"pm.test(\"delete all app\", function () {",
 							"  pm.response.to.have.status(200);",
-							"  const jsonData0 = pm.response.json();",
-							"  pm.expect(jsonData0.licensePlate).to.include(\"1\");",
-							"  pm.expect(jsonData0.model).to.include(\"Tesla\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -338,7 +623,42 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/deleteCar/1",
+					"raw": "http://localhost:8080/deleteAllAppointment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAllAppointment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"delete car by licensePlate\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData0 = pm.response.json();",
+							"  pm.expect(jsonData0.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData0.model).to.include(\"model1\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteCar/licensePlate1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -346,7 +666,7 @@
 					"port": "8080",
 					"path": [
 						"deleteCar",
-						"1"
+						"licensePlate1"
 					]
 				}
 			},
