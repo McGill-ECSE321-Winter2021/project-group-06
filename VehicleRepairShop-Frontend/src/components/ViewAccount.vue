@@ -1,23 +1,42 @@
 <template>
   <div id="viewaccount">
       
-    <h1 style="color:red">View Account </h1>
-    <button v-bind:class="{'white': !clicked, 'blue': clicked}">Manage Account </button>
-    <button>Delete Account</button>
-    <button>Log off</button>
+    <h1 style="color:#c30000;">View Account </h1>
+
+
+    <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+                <font size="3"><b>Manage Account</b></font>
+    </button>
+     <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+                <font size="3"><b>Delete Account</b></font>
+    </button>
+     <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+                <font size="3"><b>Log Off</b></font>
+    </button>
     <h2></h2>
-    <button>Create Time Slot</button>
-    <button>See Appointments</button>
+     <button @click="goToTest"  onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+                <font size="3"><b>Create Time Slot</b></font>
+    </button>
+     <button @click="goToTest"  onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+                <font size="3"><b>See Appointments</b></font>
+    </button>
     <table>
-        <h3>Username: </h3>
-        <h3>Name: </h3>
+
+        <h3 style="color:#c30000;" >Username: </h3>
+        <h3 style="color:#c30000;">Name: </h3>
     </table>
 
   </div>
 </template>
 
 <script>
-
+       export default{
+           methods:{
+               goToTest(){
+                   this.$router.push("/Test");
+               }
+           }
+       }
 </script>
 
 <style>
