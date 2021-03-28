@@ -20,6 +20,9 @@ export default new Router({
       path: '/calendarAdmin',
       name: 'CalendarAdmin',
       component: CalendarAdmin
+    },
+    {
+    
       path: '/app',
       name: 'MainMenu',
       component: MainMenu
