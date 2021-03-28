@@ -65,7 +65,10 @@ public class TimeSlotController {
 			@PathVariable("endTime") String endTime,
 			@PathVariable("startDate") String startDate,
 			@PathVariable("endDate") String endDate) {
+		
 		TimeSlot timeSlot = timeSlotService.createTimeSlot(Time.valueOf(startTime),Time.valueOf(endTime),Date.valueOf(startDate),Date.valueOf(endDate));
+		System.out.println(timeSlot.getStartTime());
+		System.out.println(timeSlot.getEndTime());
 		return convertToDto(timeSlot);
 	}
 
