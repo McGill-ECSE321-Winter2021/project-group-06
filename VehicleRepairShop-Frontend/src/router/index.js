@@ -5,6 +5,7 @@ import Hello from '@/components/Hello'
 import MainMenu from '@/components/MainMenu'
 import ViewAccount from '@/components/ViewAccount'
 import Test from '@/components/Test'
+import EditAccount from '@/components/EditAccount'
 
 Vue.use(Router)
 Vue.use(Modal);
@@ -30,6 +31,11 @@ export default new Router({
       path: '/Test',
       name: 'Test',
       component: Test
+    },
+    {
+      path: '/EditAccount',
+      name: 'EditAccount',
+      component: EditAccount
     }
   ]
 })

@@ -7,7 +7,7 @@
     <h1 style="color:#c30000;">View Account </h1>
 
 
-    <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+    <button @click="goToEditAccount" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
                 <font size="3"><b>Manage Account</b></font>
     </button>
      <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
@@ -40,6 +40,9 @@
            methods:{
             goToMainMenu(){
               this.$router.push("/app");
+            },
+            goToEditAccount(){
+              this.$router.push("/EditAccount");
             },
             goToTest(){
               this.$router.push("/Test");
