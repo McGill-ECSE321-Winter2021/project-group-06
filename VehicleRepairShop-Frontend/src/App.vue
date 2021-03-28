@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <CalendarAdminAccount />
   </div>
 </template>
 
 <script>
+import CalendarAdminAccount from './components/CalendarAdminAccount.vue'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: { 
+    CalendarAdminAccount
+  }
 }
 </script>
 
@@ -17,7 +21,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #2c3e50; 
   margin-top: 60px;
 }
 </style>
