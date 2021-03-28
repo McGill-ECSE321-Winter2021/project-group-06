@@ -16,9 +16,11 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "latest",
+    "element-ui": "^2.15.1",
     "jquery": "^3.6.0",
     "popper.js": "^1.12.9",
     "vue": "^2.5.2",
+    "vue-material": "^1.0.0-beta-15",
     "vue-router": "^3.0.1",
     "vue-table-dynamic": "^0.4.4"
   },

@@ -1,4 +1,4 @@
-function PersonDto (name) {
+  function PersonDto (name) {
     this.name = name
     this.events = []
   }

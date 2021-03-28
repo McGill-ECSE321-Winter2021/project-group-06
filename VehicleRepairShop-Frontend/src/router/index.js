@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import FirstCompoent from '@/components/FirstCompoent'
 import OfferedService from '@/components/OfferedService'
+import ElementUITable from '@/components/ElementUITable'
 
 
 
@@ -25,6 +26,12 @@ export default new Router({
       name: 'OfferedService',
       component: OfferedService
     },
+    {
+      path: '/elementTable',
+      name: 'ElementUITable',
+      component: ElementUITable
+    }
+
 
 
   ]
