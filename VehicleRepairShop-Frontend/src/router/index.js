@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Modal from "@burhanahmeed/vue-modal-2";
 import Hello from '@/components/Hello'
-import CalendarAdmin from '@/components/CalendarAdminAccount'
 import MainMenu from '@/components/MainMenu'
 import ViewAccount from '@/components/ViewAccount'
 import Test from '@/components/Test'
@@ -18,13 +17,6 @@ export default new Router({
       component: Hello
     },
     {
-
-      path: '/calendarAdmin',
-      name: 'CalendarAdmin',
-      component: CalendarAdmin
-    },
-    {
-    
       path: '/app',
       name: 'MainMenu',
       component: MainMenu
@@ -38,7 +30,6 @@ export default new Router({
       path: '/Test',
       name: 'Test',
       component: Test
-
     }
   ]
 })
