@@ -5,7 +5,7 @@
     	
     	<h1 style="color:#c30000;">Manage Your Account</h1>
     	<h4 style="color:#000000;">Here you can change your name and password</h4>
-        <br></br>
+        <!-- <br></br> -->
  
 		<table id="t01">
 		  <tr>
@@ -27,7 +27,7 @@
 		    <td><input type="text" id="confirmPassword" name="confirmPassword"></td>
 		  </tr>
 		</table>
-        <br></br>
+        <!-- <br></br> -->
 		
 		<button @click="goToViewAccount" type="button" style="border-color:#a9a9a9; color: #a9a9a9;" class="btn ">
             <font size="3"><b>Cancel</b></font>
