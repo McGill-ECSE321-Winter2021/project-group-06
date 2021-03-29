@@ -61,7 +61,9 @@ public class CarService {
 		if (username == null) {
 			error = error + "username can't be null!";
 		}
-		if (customerAccountRepository.findByUsername(username) == null) {
+		if (customerAccountService.getCustomerAccountByUsername(username) == null) {
+			System.out.println(username);
+			System.out.println(customerAccountService.getAllCustomerAccounts());
 			error = error + "Customer account not found";
 		}
 		if (error.length() >0 ) {

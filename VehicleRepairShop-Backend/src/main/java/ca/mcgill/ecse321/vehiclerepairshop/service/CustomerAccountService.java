@@ -76,6 +76,7 @@ public class CustomerAccountService {
 	@Transactional
 	public CustomerAccount getCustomerAccountByUsername(String username) {
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
+		System.out.println(user);
 		return user;
 	}
 

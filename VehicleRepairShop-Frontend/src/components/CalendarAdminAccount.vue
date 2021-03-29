@@ -1,6 +1,6 @@
 <template>
 <div>
-    <Fullcalendar 
+    <Fullcalendar ref="calendar"
         :options="calendarOptions"
     />
 
@@ -11,21 +11,7 @@
     :show-x-mark="true"
     @close="isShowModal=false"
 >
-        <dropdown-menu
-        v-model="show"
-        :right="right"
-        :hover="hover"
-        :interactive="interactive"
->
-    <button class="btn btn-primary dropdown-toggle">
-        Click to open dropdown
-    </button>
-    <div slot="dropdown">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-    </div>
-</dropdown-menu>
+    
     </modal-window>
 </div>
 
@@ -41,6 +27,7 @@ import InteractionPlugin from '@fullcalendar/interaction'
 import axios from 'axios'
 import DropdownMenu from '@innologica/vue-dropdown-menu'
 import ModalWindow from "@vuesence/modal-window";
+// import {loadEvents} from "./LoadAppointments.js"
 
 var config = require('../../config')
 
@@ -52,8 +39,16 @@ var AXIOS = axios.create({
     headers: { 'Access-Control-Allow-Origin': frontendUrl }
   })
 
+// import {INITIAL_EVENTS} from "./LoadAppointments.js"
+// const resolve = async () => {
+//     INITIAL_EVENTS = await loadEvents();
+//   console.log(INITIAL_EVENTS)
+// };
 
 
+// resolve();
+// console.log(INITIAL_EVENTS)
+// // console.log(resolve())
 export default {
     components : {
         Fullcalendar,
@@ -76,10 +71,11 @@ export default {
                     InteractionPlugin
                 ],
                 initialView: 'timeGridWeek',
+                // initialEvents: this.EVENTS,
                 customButtons: {
                   creat_app: {
-                    text: 'create appointment',
-                    click: this.toggleShowModal
+                    text: 'load appointment',
+                    click: this.loadAppointment
                   }
                 },
                 
@@ -90,24 +86,78 @@ export default {
                   },
 
                  
-
+                  events: this.EVENTS,
                   editable: true,
                   selectable: true,
                   selectMirror: true,
                   dayMaxEvents: true,
                   weekends: true,
                   select: this.timeSlotSelected,
-                  events: this.getAllAppointment,
+                //   events: ,
                 
             },
-            timeslots: this.getAllTimeSlot
+            currentSelectedTimeslotId: 1,
+            currentSelectedOwnerUsername: 1,
+            currentSelectedCarLicensePlate: 1,
+            curreantSelectedServiceId: 1,
+            currentSelectedGarageId: 1,
+            currentSelectedTechnicianUsername: 1,
+            currentSelectedAppointmentId: 1,
+            selectedInfo: {},
+            EVENTS: undefined,
+            
+
+
 
            
         }
    
     },
+    mounted (){
+        AXIOS.get('/getAllAppointment').then((response)=>{
+            // console.log(response.data)
+            let EVENTS = [];
+            for (var i = 0;i < response.data.length; i++){
+            let startStr = response.data[0].timeSlot.startDate+'T'+response.data[0].timeSlot.startTime;
+            let endStr = response.data[0].timeSlot.endDate+'T'+response.data[0].timeSlot.endTime;
+            let event = {
+                id: response.data[0].appointmentId,
+                title: response.data[0].offeredService.name,
+                start: startStr,
+                end: endStr
+            }
+            console.log(event)
+            EVENTS.push(event)
+           
+
+            }
+            this.EVENTS = EVENTS;
+        })
+            
+    },
 
     methods: {
+        async loadAppointment (){
+            console.log(this.EVENTS)
+            let calendarApi = this.selectedInfo.view.calendar;
+            console.log(calendarApi)
+           const response = await AXIOS.get('/getAllAppointment');
+            console.log(response.data)
+            for (var i = 0;i < response.data.length; i++){
+            let startStr = response.data[0].timeSlot.startDate+'T'+response.data[0].timeSlot.startTime;
+            let endStr = response.data[0].timeSlot.endDate+'T'+response.data[0].timeSlot.endTime;
+            let event = {
+                id: response.data[0].appointmentId,
+                title: response.data[0].offeredService.name,
+                start: startStr,
+                end: endStr
+            }
+           
+            
+            }
+        
+        },
+
       toggleShowModal (){
         
         this.isShowModal = true;
@@ -125,7 +175,10 @@ export default {
             }
         },
         async timeSlotSelected(selectionInfo){
+            this.selectedInfo = selectionInfo;
+            console.log(selectionInfo.startStr);
             try{
+                
                 let startTime = selectionInfo.start.getHours().toString()+':'+selectionInfo.start.getMinutes().toString()+':'+selectionInfo.start.getSeconds().toString();
                 let endTime = selectionInfo.end.getHours().toString()+':'+selectionInfo.end.getMinutes().toString()+':'+selectionInfo.end.getSeconds().toString();
                 let startDate = selectionInfo.start.getFullYear().toString()+'-'+(selectionInfo.start.getMonth()+1).toString()+'-'+selectionInfo.start.getDate().toString();
@@ -133,55 +186,101 @@ export default {
                 if (confirm('Do you want to make an appointment?')){
                     this.toggleShowModal();
                     const response = await AXIOS.post('/createTimeSlot/'+startTime+'/'+endTime+'/'+startDate+'/'+endDate);
-                    console.log(response);
-                }
-                
+                    this.currentSelectedTimeslotId = response.data.timeslotId;
+                    console.log(this.currentSelectedTimeslotId);
+                    this.createService();
+                }  
+
             }catch(error){
                 console.error(error)
             }finally{
                 console.log('get all timeslot')
             }
-        }
-        // async creatOwner(){
-        //     try{
-        //         const response = await AXIOS.post('/createAdminAccount/username1/password1/name1');
-        //         console.log(response);
-        //     }catch(error){
-        //         console.error(error)
-        //     }finally{
-        //         console.log('create owner')
-        //     }
-        // },
-        // async creatCar(){
-        //     try{
-        //         const response = await AXIOS.post('/createCar/licensePlate1/model1/year1/Electric/username1');
-        //         console.log(response);
-        //     }catch(error){
-        //         console.error(error)
-        //     }finally{
-        //         console.log('create car')
-        //     }
-        // },
-        // async creatService(){
-        //     try{
-        //         const response = await AXIOS.post('/createOfferedService/offeredServiceId1/price1/name1/30/10:00:00/30/description1');
-        //         console.log(response);
-        //     }catch(error){
-        //         console.error(error)
-        //     }finally{
-        //         console.log('create service')
-        //     }
-        // },
-        // async creatCar(){
-        //     try{
-        //         const response = await AXIOS.post('/createCar/licensePlate1/model1/year1/Electric/username1');
-        //         console.log(response);
-        //     }catch(error){
-        //         console.error(error)
-        //     }finally{
-        //         console.log('create car')
-        //     }
-        // },
+        },
+        async createOwner(){
+            try{
+                const response = await AXIOS.post('/createCustomerAccount/username1/password/name1');
+                this.currentSelectedOwnerUsername = response.data.username;
+                console.log(response.data.username);
+                this.createGarage();
+            }catch(error){
+                console.error(error)
+            }finally{
+                console.log('create owner: '+this.currentSelectedOwnerUsername)
+            }
+        },
+        async createTechnician(){
+            try{
+                const response = await AXIOS.post('/createTechnicianAccount/username1/password/name1');
+                this.currentSelectedTechnicianUsername = response.data.username;
+                console.log(response.data.username);
+                this.createCar();
+            }catch(error){
+                console.error(error)
+            }finally{
+                console.log('create technician: '+this.currentSelectedTechnicianUsername)
+            }
+        },
+        async createCar(){
+            try{
+                const response = await AXIOS.post('/createCar/licensePlate1/model1/'+2019+'/Electric/'+this.currentSelectedOwnerUsername);
+                this.currentSelectedCarLicensePlate = response.data.licensePlate
+                // console.log(this.currentSelectedCarLicensePlate);
+                this.createAppointment();
+            }catch(error){
+                console.error(error)
+            }finally{
+                console.log('create car: '+this.currentSelectedCarLicensePlate)
+            }
+        },
+        async createService(){
+            try{
+                const response = await AXIOS.post('/createOfferedService/offeredServiceId1'+'/'+20.0+'/'+'name1/'+30+'/10:00:00/'+30+'/description1');
+                this.curreantSelectedServiceId = response.data.offeredServiceId
+                this.createOwner();
+                this.createTechnician();
+                // console.log(this.curreantSelectedServiceId );
+            }catch(error){
+                console.error(error)
+            }finally{
+                console.log('create service: '+this.curreantSelectedServiceId)
+            }
+        },
+        async createGarage(){
+            try{
+                const response = await AXIOS.post('/createGarage/garageId1');
+                this.currentSelectedGarageId = response.data.garageId
+                // console.log(this.currentSelectedGarageId);
+            }catch(error){
+                console.error(error)
+            }finally{
+                console.log('create garage: '+this.currentSelectedGarageId)
+            }
+        },
+        async createAppointment(){
+            try{
+                const response = await AXIOS.post('/createAppointment/comment1/'+this.currentSelectedTimeslotId+'/'+this.currentSelectedCarLicensePlate+'/'+this.currentSelectedGarageId+'/'+this.curreantSelectedServiceId+'/'+this.currentSelectedTechnicianUsername);
+                this.currentSelectedAppointmentId = response.data.appointmentId
+                // console.log(this.currentSelectedAppointmentId);
+                // this.newlyAddedAppointment = response.data
+                // console.log(this.newlyAddedAppointment)
+                let calendarApi = this.selectedInfo.view.calendar;
+
+                calendarApi.unselect();
+                calendarApi.addEvent({
+                id: response.data.appointmentId,
+                title: response.data.offeredService.name,
+                start: this.selectedInfo.startStr,
+                end: this.selectedInfo.endStr,
+                allDay: this.selectedInfo.allDay,
+            });
+
+            }catch(error){
+                console.error(error)
+            }finally{
+                console.log('create appointment: '+this.currentSelectedAppointmentId)
+            }
+        },
         // async getAllAppointment(){
         //     try{
         //         const response = await AXIOS.get('/getAllAppointment');
