@@ -23,8 +23,8 @@
     <button @click="goToTest" onclick="" type="button" style="border-color:#a9a9a9; color: #a9a9a9;" class="btn ">
                 <font size="3"><b>Delete Account</b></font>
     </button>
-    <button @click="goToTest" onclick="" type="button" style="border-color:#c30000; color: #c30000;" class="btn ">
-                <font size="3"><b>Edit Account</b></font>
+    <button @click="goToEditAccount" onclick="" type="button" style="border-color:#c30000; color: #c30000;" class="btn ">
+                <font size="3"><b>Manage Account</b></font>
     </button>
     <br></br>
      <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
