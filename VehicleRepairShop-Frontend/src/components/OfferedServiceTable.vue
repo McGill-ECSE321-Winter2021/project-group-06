@@ -14,17 +14,19 @@
                     </el-time-select>
                 </td>
                 <td>
+                    <button  @click="initializeTable()">Initialize OfferedService</button>
+                </td>
+                <td>
                     <button  @click="createOfferedService(Id,price,name,duration,reminderTime,reminderDate,comments)">Create OfferedService</button>
-                    
                 </td>
                 
                 </center>
                 
         </tr>
-        <!-- <p>
-            <span v-if="errorPerson" style="color:red">Error: {{errorPerson}}</span>
+        <p>
+            <span v-if="errorOfferedService" style="color:red">Error: {{errorOfferedService}}</span>
         </p>
-    -->
+        <center>
         <el-table
             :data="tableData"
             border
@@ -34,22 +36,22 @@
             prop="Id"
             label="Id"
             sortable
-            width="100">
+            width="120">
             </el-table-column>
             <el-table-column
             prop="name"
             label="name"
-            width="120">
+            width="80">
             </el-table-column>
             <el-table-column
             prop="duration"
             label="duration"
-            width="120">
+            width="80">
             </el-table-column>
             <el-table-column
             prop="price"
             label="price"
-            width="120">
+            width="80">
             </el-table-column>
             <el-table-column
             prop="comments"
@@ -76,6 +78,7 @@
             </template>
             </el-table-column>
         </el-table>
+        </center>
     <!-- delete dialogue -->
         <el-dialog title="CAUTION" :visible.sync="delVisible" width="295px" center>
 
