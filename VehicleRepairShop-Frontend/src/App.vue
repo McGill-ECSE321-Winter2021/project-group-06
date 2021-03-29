@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <CalendarAdminAccount />
+    <!-- <CalendarAdminAccount /> -->
+    <!-- <MainMenu /> -->
+    
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import CalendarAdminAccount from './components/CalendarAdminAccount.vue'
+import MainMenu from './components/MainMenu.vue'
 
 export default {
   name: 'app',
   components: { 
-    CalendarAdminAccount
+
   }
 }
 </script>
