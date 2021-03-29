@@ -27,7 +27,7 @@
                 <font size="3"><b>Manage Account</b></font>
     </button>
     <br></br>
-     <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+     <button @click="goToLogin" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
                 <font size="3"><b>Log Out</b></font>
     </button>
     <br></br>
@@ -57,6 +57,10 @@
             goToEditAccount(){
               this.$router.push("/editAccount");
             },
+            goToLogin(){
+              this.$router.push("/login");
+            },
+
           }
        }
 </script>

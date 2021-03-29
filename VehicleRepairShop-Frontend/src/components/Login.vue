@@ -21,7 +21,7 @@
             <font size="3"><b>Log in</b></font>
         </button>	
         <br></br>
-        <b-link href="#/Test">Do not have an account? Sign up!</b-link>
+        <b-link href="#/signUp">Do not have an account? Sign up!</b-link>
   </div>
 </template>
 

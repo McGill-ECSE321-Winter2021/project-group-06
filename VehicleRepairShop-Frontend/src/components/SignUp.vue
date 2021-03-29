@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="signUp">
    		<button @click="goBack" style="position: absolute; left: 0px">Go Back</button>
     	<button @click="goToMainMenu" style="position: absolute; right: 0px">Main Menu</button> 
     	
