@@ -4,6 +4,7 @@
     <!-- <MainMenu /> -->
     <template>
       <div>
+		<my-header></my-header>
         <b-navbar toggleable="lg" type="dark" variant="dark">
           <b-navbar-brand href="#">VRSS</b-navbar-brand>
 
@@ -55,8 +56,10 @@
 <script>
 import CalendarAdminAccount from "./components/CalendarAdminAccount.vue";
 import MainMenu from "./components/MainMenu.vue";
+import Header from './components/Header'
 
 export default {
+  'my-header':Header,
   name: "app",
   components: {},
   methods:{
