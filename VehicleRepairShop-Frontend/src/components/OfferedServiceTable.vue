@@ -1,6 +1,5 @@
 <template>
-    <div style="width: 1000px"
-    id = "eventregistration">
+    <div style="width: 1000px">
         <h3><center>Offered Service</center></h3>
         <tr><center>
                 <td>

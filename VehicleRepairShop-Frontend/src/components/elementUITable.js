@@ -34,9 +34,9 @@ export default {
       }
     },
 
-    mounted(){
-        this.getData()
-    },
+    // mounted(){
+    //     this.getData()
+    // },
 
     methods: {
         handleEdit(index, row) {
