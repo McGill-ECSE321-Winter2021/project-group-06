@@ -13,6 +13,7 @@ import Test from '@/components/Test'
 Vue.use(Router)
 Vue.use(Modal);
 
+
 export default new Router({
   routes: [
     {

@@ -4,15 +4,15 @@
     <!-- <MainMenu /> -->
     <template>
       <div>
-        <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar toggleable="lg" type="dark" variant="dark">
           <b-navbar-brand href="#">VRSS</b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item @click="goBack">Go Back</b-nav-item>
-              <b-nav-item href="#/app">Home</b-nav-item>
+              <b-nav-item @click="goBack" style="color:white;">Go Back</b-nav-item>
+              <b-nav-item href="#/app" color="white" >Home</b-nav-item>
               <b-nav-item href="#" disabled>Services and Pricing</b-nav-item>
               <b-nav-item href="#" disabled>Information</b-nav-item>
             </b-navbar-nav>
@@ -26,7 +26,7 @@
                   placeholder="Search"
                 ></b-form-input>
                 <b-button size="sm" class="my-2 my-sm-0" type="submit"
-                  >Search</b-button
+                  style="background-color: #a9a9a9; color:white">Search</b-button
                 >
               </b-nav-form>
 
@@ -39,19 +39,6 @@
                 <!-- Using 'button-content' slot -->
                 <template #button-content>
                   <em>User</em>
-                  <!-- <div>
-                <!-- Image and text -->
-                  <!-- <b-navbar variant="faded" type="light">
-                  <b-navbar-brand href="#">
-                    <img
-                      src="https://placekitten.com/g/30/30"
-                      class="d-inline-block align-top"
-                      alt="Kitten"
-                    />
-                    User name
-                  </b-navbar-brand>
-                </b-navbar> -->
-                  <!-- </div> -->
                 </template>
                 <b-dropdown-item href="#/viewAccount">Profile</b-dropdown-item>
                 <b-dropdown-item href="#">Sign Out</b-dropdown-item>
@@ -80,13 +67,23 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+ .navbar.navbar-dark.bg-dark{
+    background-color: #c30000!important;
+ }
+ nav .navbar-nav li a{
+  color: white !important;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a, .navbar-default .navbar-nav .open .dropdown-menu {
+    background-color: #3344ff;
+    color:#ffffff;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
   margin-top: 60px;
 }
 </style>
