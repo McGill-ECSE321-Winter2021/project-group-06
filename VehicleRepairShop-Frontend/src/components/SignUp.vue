@@ -24,6 +24,16 @@
 		    <td><input type="text" id="confirmPassword" name="confirmPassword"></td>
 		  </tr>
 		</table>
+
+        <br></br>
+        <h4>Select your account type</h4>
+        <select v-model="selected">
+            <option disabled value="">Select your account type</option>
+            <option>Admin Account</option>
+            <option>Customer Account</option>
+            <option>Technician Account</option>
+        </select>
+        
         <br></br>
 		
         <button @click="goToLogin" type="button" style="border-color:#a9a9a9; color: #a9a9a9;" class="btn ">
@@ -38,6 +48,18 @@
 
 
 <script>
+import axios from 'axios'
+
+var config = require('../../config')
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+var AXIOS = axios.create({
+    baseURL: backendUrl,
+    headers: { 'Access-Control-Allow-Origin': frontendUrl }
+  })
+
        export default{
            methods:{
             goToMainMenu(){
@@ -50,6 +72,9 @@
               this.$router.push("/login");
             }
           }
+
+
+          
        }
 </script>
 
