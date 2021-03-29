@@ -55,7 +55,7 @@
             this.params.data.push([offeredServiceId, name, price, duration, description, reminderDate, reminderTime])
         },
         deleteOfferedService: function(rowIndex){
-            delete this.tableData.SelectedRows
+            delete this.tableData.SelectedRows[rowIndex]
         }
     },
     components: { VueTableDynamic }
