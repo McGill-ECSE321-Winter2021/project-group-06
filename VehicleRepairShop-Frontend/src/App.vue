@@ -12,8 +12,10 @@
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item @click="goBack" style="color:white;">Go Back</b-nav-item>
-              <b-nav-item href="#/app" color="white" >Home</b-nav-item>
+              <b-nav-item @click="goBack" style="color: white"
+                >Go Back</b-nav-item
+              >
+              <b-nav-item href="#/app" color="white">Home</b-nav-item>
               <b-nav-item href="#" disabled>Services and Pricing</b-nav-item>
               <b-nav-item href="#" disabled>Information</b-nav-item>
             </b-navbar-nav>
@@ -26,8 +28,12 @@
                   class="mr-sm-2"
                   placeholder="Search"
                 ></b-form-input>
-                <b-button size="sm" class="my-2 my-sm-0" type="submit"
-                  style="background-color: #a9a9a9; color:white">Search</b-button
+                <b-button
+                  size="sm"
+                  class="my-2 my-sm-0"
+                  type="submit"
+                  style="background-color: #a9a9a9; color: white"
+                  >Search</b-button
                 >
               </b-nav-form>
 
@@ -62,31 +68,28 @@ export default {
   'my-header':Header,
   name: "app",
   components: {},
-  methods:{
-    goBack(){
-              this.$router.go(-1);
-            }
-  }
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
+  },
 };
 </script>
 
 <style scoped>
- .navbar.navbar-dark.bg-dark{
-    background-color: #c30000!important;
- }
- nav .navbar-nav li a{
-  color: white !important;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu>li>a, .navbar-default .navbar-nav .open .dropdown-menu {
-    background-color: #3344ff;
-    color:#ffffff;
+.navbar.navbar-dark.bg-dark {
+  background-color: #c30000 !important;
 }
+nav .navbar-nav li a {
+  color: white !important;
+}
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: white;
+  color: black;
   margin-top: 60px;
 }
 </style>
