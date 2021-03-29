@@ -6,32 +6,39 @@
     <button @click="goToMainMenu" style="position: absolute; right: 0px">Main Menu</button> 
     <h1 style="color:#c30000;">View Account </h1>
 
+    <br></br>
 
-    <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
-                <font size="3"><b>Manage Account</b></font>
-    </button>
-     <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+    	<table id="t01">
+		  <tr>
+		    <th>Username:</th>
+		    <td>Placeholder username</td>
+		  </tr>
+		  <tr>
+		    <th>Name:</th>
+		    <td>Placeholder Name</td>
+        </tr>
+		</table>
+    <br></br>
+
+    <button @click="goToTest" onclick="" type="button" style="border-color:#a9a9a9; color: #a9a9a9;" class="btn ">
                 <font size="3"><b>Delete Account</b></font>
     </button>
-     <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
-                <font size="3"><b>Log Off</b></font>
+    <button @click="goToTest" onclick="" type="button" style="border-color:#c30000; color: #c30000;" class="btn ">
+                <font size="3"><b>Edit Account</b></font>
     </button>
-    <h2></h2>
-     <button @click="goToTest"  onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+    <br></br>
+     <button @click="goToTest" onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
+                <font size="3"><b>Log Out</b></font>
+    </button>
+    <br></br>
+     <!-- <button @click="goToTest"  onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
                 <font size="3"><b>Create Time Slot</b></font>
     </button>
      <button @click="goToTest"  onclick="" type="button" style="background-color:#a9a9a9; color: white;" class="btn ">
                 <font size="3"><b>See Appointments</b></font>
-    </button>
-    <h3></h3>
-    <button @click="open">Delete</button>
-    <vue-modal-2 name="modal-1" @on-close="close"> Are you sure you want to delete this account?
-    </vue-modal-2>
-    <table>
-
-        <h2 style="color:#c30000;" >Username: </h2>
-        <h2 style="color:#c30000;">Name: </h2>
-    </table>
+    </button> -->
+    <!-- <br></br> -->
+  
   </div>
 </template>
 
@@ -47,12 +54,9 @@
             goBack(){
               this.$router.go(-1);
             },
-            open () {
-              this.$vm2.open('modal-1')
+            goToEditAccount(){
+              this.$router.push("/editAccount");
             },
-            close () {
-              this.$vm2.close('modal-1')
-            }
           }
        }
 </script>
@@ -64,6 +68,12 @@
     /* background-color: #a9a9a9;
     color: #c30000; */
   }
+  #t01 {
+  width: 20%;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 </style>
 
