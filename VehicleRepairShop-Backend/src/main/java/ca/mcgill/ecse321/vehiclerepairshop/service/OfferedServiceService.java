@@ -51,7 +51,7 @@ public class OfferedServiceService {
 		if (isOfferedServiceIdAvailable(offeredServiceId) == false) {
 			error = error + "can not create OfferedService with same Id!";
 		}
-		if (price < 0.0) {
+		if (price < 0.0 ) {
 			error = error + "price cannot be negative!";
 		}
 		if (name == null || name.trim().length()==0) {
@@ -63,7 +63,7 @@ public class OfferedServiceService {
 		if (duration < 0) {
 			error = error + "duration cannot be negative!";
 		}
-		if (reminderTime == null) {
+		if (reminderTime == null ) {
 			error = error + "reminderTime cannot be empty!";
 		}
 		if (reminderDate == 0) {
