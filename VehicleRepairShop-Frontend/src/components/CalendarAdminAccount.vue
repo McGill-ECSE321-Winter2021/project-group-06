@@ -38,17 +38,6 @@ var AXIOS = axios.create({
     baseURL: backendUrl,
     headers: { 'Access-Control-Allow-Origin': frontendUrl }
   })
-
-// import {INITIAL_EVENTS} from "./LoadAppointments.js"
-// const resolve = async () => {
-//     INITIAL_EVENTS = await loadEvents();
-//   console.log(INITIAL_EVENTS)
-// };
-
-
-// resolve();
-// console.log(INITIAL_EVENTS)
-// // console.log(resolve())
 export default {
     components : {
         Fullcalendar,
@@ -71,7 +60,6 @@ export default {
                     InteractionPlugin
                 ],
                 initialView: 'timeGridWeek',
-                // initialEvents: this.EVENTS,
                 customButtons: {
                   creat_app: {
                     text: 'load appointment',
@@ -93,7 +81,7 @@ export default {
                   dayMaxEvents: true,
                   weekends: true,
                   select: this.timeSlotSelected,
-                //   events: ,
+    
                 
             },
             currentSelectedTimeslotId: 1,
@@ -104,7 +92,7 @@ export default {
             currentSelectedTechnicianUsername: 1,
             currentSelectedAppointmentId: 1,
             selectedInfo: {},
-            EVENTS: undefined,
+
             
 
 
@@ -114,49 +102,28 @@ export default {
    
     },
     mounted (){
+        let calendarApi = this.$refs.calendar.getApi()
+      
         AXIOS.get('/getAllAppointment').then((response)=>{
-            // console.log(response.data)
-            let EVENTS = [];
+            console.log(response.data)
+        
             for (var i = 0;i < response.data.length; i++){
-            let startStr = response.data[0].timeSlot.startDate+'T'+response.data[0].timeSlot.startTime;
-            let endStr = response.data[0].timeSlot.endDate+'T'+response.data[0].timeSlot.endTime;
-            let event = {
-                id: response.data[0].appointmentId,
-                title: response.data[0].offeredService.name,
-                start: startStr,
-                end: endStr
+                let startStr = response.data[0].timeSlot.startDate+'T'+response.data[0].timeSlot.startTime;
+                let endStr = response.data[0].timeSlot.endDate+'T'+response.data[0].timeSlot.endTime;
+                let event = {
+                    id: response.data[0].appointmentId,
+                    title: response.data[0].offeredService.name,
+                    start: startStr,
+                    end: endStr
+                }
+                console.log(event)
+                calendarApi.addEvent(event);
             }
-            console.log(event)
-            EVENTS.push(event)
-           
-
-            }
-            this.EVENTS = EVENTS;
         })
             
     },
 
     methods: {
-        async loadAppointment (){
-            console.log(this.EVENTS)
-            let calendarApi = this.selectedInfo.view.calendar;
-            console.log(calendarApi)
-           const response = await AXIOS.get('/getAllAppointment');
-            console.log(response.data)
-            for (var i = 0;i < response.data.length; i++){
-            let startStr = response.data[0].timeSlot.startDate+'T'+response.data[0].timeSlot.startTime;
-            let endStr = response.data[0].timeSlot.endDate+'T'+response.data[0].timeSlot.endTime;
-            let event = {
-                id: response.data[0].appointmentId,
-                title: response.data[0].offeredService.name,
-                start: startStr,
-                end: endStr
-            }
-           
-            
-            }
-        
-        },
 
       toggleShowModal (){
         
@@ -176,7 +143,8 @@ export default {
         },
         async timeSlotSelected(selectionInfo){
             this.selectedInfo = selectionInfo;
-            console.log(selectionInfo.startStr);
+            console.log(selectionInfo.view.calendar);
+            
             try{
                 
                 let startTime = selectionInfo.start.getHours().toString()+':'+selectionInfo.start.getMinutes().toString()+':'+selectionInfo.start.getSeconds().toString();
@@ -281,16 +249,7 @@ export default {
                 console.log('create appointment: '+this.currentSelectedAppointmentId)
             }
         },
-        // async getAllAppointment(){
-        //     try{
-        //         const response = await AXIOS.get('/getAllAppointment');
-        //         console.log(response);
-        //     }catch(error){
-        //         console.error(error)
-        //     }finally{
-        //         console.log('get all app')
-        //     }
-        // }
+
     }
   
 }
