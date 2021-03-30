@@ -69,6 +69,7 @@ public class AdminAccountController {
 	@PostMapping(value = { "/createAdminAccount/{username}/{password}/{name}", "/createAdminAccount/{username}/{password}/{name}/" })
 	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name)  {
 		AdminAccount user = adminAccountService.createAdminAccount(username, password, name);
+		System.out.println(username + password + name);
 		return convertToDto(user);
 	}
 

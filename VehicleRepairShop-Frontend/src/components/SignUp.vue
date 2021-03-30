@@ -5,27 +5,27 @@
     	
     	<h1 style="color:#c30000;">Sign Up</h1>
     	<h4 style="color:#000000;">Create your own account</h4>
-        <br></br>
+        <br><br/>
  
 		<table id="t01">
 		  <tr>
 		   	<th>Username:</th>
-		    <td><input type="text" id="username" name="username"></td>
+		    <td><input type="text" v-model="username"></td>
 		  <tr>
 
 		    <th>Name:</th>
-		    <td><input type="text" id="name" name="name"></td>
+		    <td><input type="text" v-model="name"></td>
 		  <tr>
 		  	<th>Password:</th>
-		  	<td><input type="text" id="password" name="password"></td>
+		  	<td><input type="text" v-model="password" ></td>
 		  </tr>
 		  <tr>  
 		    <th>Confirm Password:</th>
-		    <td><input type="text" id="confirmPassword" name="confirmPassword"></td>
+		    <td><input type="text" v-model="confirmPassword" ></td>
 		  </tr>
 		</table>
 
-        <br></br>
+        <br><br/>
         <h4>Select your account type</h4>
         <select v-model="selected">
             <option disabled value="">Select your account type</option>
@@ -34,48 +34,60 @@
             <option>Technician Account</option>
         </select>
         
-        <br></br>
+        <br><br/>
 		
         <button @click="goToLogin" type="button" style="border-color:#a9a9a9; color: #a9a9a9;" class="btn ">
             <font size="3"><b>Cancel</b></font>
         </button>
-  		<button @click="goToMainMenu" type="button" style="background-color:#c30000; color: white;" class="btn ">
+        <button @click="checkPassword(password, confirmPassword)" type="button" style="background-color:#c30000; color: white;" class="btn ">
+            <font size="3"><b>Chek</b></font>
+        </button>	
+  		<button @click="createAdminAccount(username, password, name)" style="background-color:#c30000; color: white;" >
             <font size="3"><b>Sign Up</b></font>
         </button>	
-        <br></br>
+        <br><br/>
   </div>
 </template>
 
 
-<script>
-import axios from 'axios'
+<script src="./signUp.js">
+// import axios from 'axios'
 
-var config = require('../../config')
+// var config = require('../../config')
 
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+// var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+// var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
-var AXIOS = axios.create({
-    baseURL: backendUrl,
-    headers: { 'Access-Control-Allow-Origin': frontendUrl }
-  })
+// var AXIOS = axios.create({
+//     baseURL: backendUrl,
+//     headers: { 'Access-Control-Allow-Origin': frontendUrl }
+//   })
 
-       export default{
-           methods:{
-            goToMainMenu(){
-              this.$router.push("/app");
-            },
-            goBack(){
-              this.$router.go(-1);
-            },
-            goToLogin() {
-              this.$router.push("/login");
-            }
-          }
+//        export default{
+         
+//            methods:{
+//             goToMainMenu(){
+//               this.$router.push("/app");
+//             },
+//             goBack(){
+//               this.$router.go(-1);
+//             },
+//             goToLogin() {
+//               this.$router.push("/login");
+//             },
+//             checkPassword: function (password, confirmPassword){
+//               if (password == confirmPassword) {
+//                 console.log("the passwords match");
+//               }
+//               else {
+//                 console.log("they dont");
+//               }
+//             }
+//           }
 
 
           
-       }
+//        }
 </script>
 
 <style>
