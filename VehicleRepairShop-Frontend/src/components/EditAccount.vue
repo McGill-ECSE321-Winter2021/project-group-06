@@ -3,7 +3,7 @@
    		<button @click="goBack" style="position: absolute; left: 0px">Go Back</button>
     	<button @click="goToMainMenu" style="position: absolute; right: 0px">Main Menu</button> 
     	
-    	<h1 style="color:#c30000;">Manage Your Account</h1>
+    	<h1 style="color:#409EFF;">Manage Your Account</h1>
     	<h4 style="color:#000000;">Here you can change your name and password</h4>
         <!-- <br></br> -->
  
@@ -29,10 +29,10 @@
 		</table>
         <!-- <br></br> -->
 		
-		<button @click="goToViewAccount" type="button" style="border-color:#a9a9a9; color: #a9a9a9;" class="btn ">
+		<button @click="goToViewAccount" type="button" style="border-color:#909399; color: #909399;" class="btn ">
             <font size="3"><b>Cancel</b></font>
         </button>
-  		<button @click="goToViewAccount" type="button" style="background-color:#c30000; color: white;" class="btn ">
+  		<button @click="goToViewAccount" type="button" style="background-color:#409EFF; color: white;" class="btn ">
             <font size="3"><b>Save</b></font>
         </button>	
   </div>

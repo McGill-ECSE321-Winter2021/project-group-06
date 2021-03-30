@@ -4,9 +4,12 @@ import Modal from "@burhanahmeed/vue-modal-2";
 import Hello from '@/components/Hello'
 import CalendarAdminAccount from '@/components/CalendarAdminAccount.vue'
 import MainMenu from '@/components/MainMenu'
+import SelectAccount from '@/components/SelectAccount'
 import ViewAccount from '@/components/ViewAccount'
 import EditAccount from '@/components/EditAccount'
-import Login from '@/components/Login'
+import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
+import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
+import TechnicianAccountLogin from '@/components/TechnicianAccountLogin'
 import SignUp from '@/components/SignUp'
 import Test from '@/components/Test'
 
@@ -18,8 +21,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'SelectAccount',
+      component: SelectAccount
     },
     {
 
@@ -35,9 +38,20 @@ export default new Router({
     },
     {
     
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/adminAccountLogin',
+      name: 'AdminAccountLogin',
+      component: AdminAccountLogin
+    },
+    {
+    
+      path: '/customerAccountLogin',
+      name: 'CustomerAccountLogin',
+      component: CustomerAccountLogin
+    },
+    {
+      path: '/technicianAccountLogin',
+      name: 'TechnicianAccountLogin',
+      component: TechnicianAccountLogin
     },
     {
     

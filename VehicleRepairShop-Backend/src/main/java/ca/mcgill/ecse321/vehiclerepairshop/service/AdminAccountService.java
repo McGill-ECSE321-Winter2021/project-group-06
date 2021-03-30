@@ -37,7 +37,7 @@ public class AdminAccountService {
 	@Transactional
 	public AdminAccount createAdminAccount(String username, String password, String name)   {
 
-		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
+		if (username == null || username.replaceAll("\\s+", "").length() == 0 || username.equals("undefined")) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else if (username.contains(" ")) {
@@ -46,13 +46,13 @@ public class AdminAccountService {
 		else if (isUsernameAvailable(username) == false) {
 			throw new InvalidInputException("This username is not available.");
 		}
-		else if (password == null || password.replaceAll("\\s+", "").length() == 0) {
+		else if (password == null || password.replaceAll("\\s+", "").length() == 0 || password.equals("undefined")) {
 			throw new InvalidInputException("Password cannot be empty.");
 		}
 		else if (password.contains(" ")) {
 			throw new InvalidInputException("Password cannot contain spaces.");
 		}
-		else if (name == null || name.replaceAll("\\s+", "").length() == 0){ //name.trim().length() == 0
+		else if (name == null || name.replaceAll("\\s+", "").length() == 0 || name.equals("undefined")){ //name.trim().length() == 0
 			throw new InvalidInputException("Name cannot be empty.");
 		}
 		else {

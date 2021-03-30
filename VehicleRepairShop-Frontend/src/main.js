@@ -18,3 +18,20 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+export default {
+  data() {
+      return {
+        accountType: '',
+        username: '',
+        name:''
+      }
+  },
+
+  methods:{
+    setUpCurrentAccount(username, accountType){
+      this.username = '',
+      this.accountType = ''
+    }
+  }
+}

@@ -1,56 +1,67 @@
 <template>
   <div class="signUp">
-   		<button @click="goBack" style="position: absolute; left: 0px">Go Back</button>
-    	<button @click="goToMainMenu" style="position: absolute; right: 0px">Main Menu</button> 
-    	
-    	<h1 style="color:#c30000;">Sign Up</h1>
-    	<h4 style="color:#000000;">Create your own account</h4>
-        <br><br/>
- 
-		<table id="t01">
-		  <tr>
-		   	<th>Username:</th>
-		    <td><input type="text" v-model="username"></td>
-		  <tr>
+    <br /><br />
 
-		    <th>Name:</th>
-		    <td><input type="text" v-model="name"></td>
-		  <tr>
-		  	<th>Password:</th>
-		  	<td><input type="text" v-model="password" ></td>
-		  </tr>
-		  <tr>  
-		    <th>Confirm Password:</th>
-		    <td><input type="text" v-model="confirmPassword" ></td>
-		  </tr>
-		</table>
+    <h1 style="color: #409EFF">Sign Up</h1>
+    <h4 style="color: #000000">Create your own account</h4>
+    <br /><br />
 
-        <br><br/>
-        <h4>Select your account type</h4>
-        <select v-model="selected">
-            <option disabled value="">Select your account type</option>
-            <option>Admin Account</option>
-            <option>Customer Account</option>
-            <option>Technician Account</option>
-        </select>
-        
-        <br><br/>
-		
-        <button @click="goToLogin" type="button" style="border-color:#a9a9a9; color: #a9a9a9;" class="btn ">
-            <font size="3"><b>Cancel</b></font>
-        </button>
-        <button @click="checkPassword(password, confirmPassword)" type="button" style="background-color:#c30000; color: white;" class="btn ">
-            <font size="3"><b>Chek</b></font>
-        </button>	
-  		<button @click="createAdminAccount(username, password, name)" style="background-color:#c30000; color: white;" >
-            <font size="3"><b>Sign Up</b></font>
-        </button>	
-        <br><br/>
+    <table id="t01">
+      <tr>
+        <th>Username:</th>
+        <td><input type="text" v-model="username" /></td>
+      </tr>
+
+      <tr>
+        <th>Name:</th>
+        <td><input type="text" v-model="name" /></td>
+      </tr>
+
+      <tr>
+        <th>Password:</th>
+        <td><input type="text" v-model="password" /></td>
+      </tr>
+    </table>
+
+    <!-- <br /><br />
+    <h4>Select your account type</h4>
+    <select v-model="selected">
+      <option disabled value="">Select your account type</option>
+      <option>Admin Account</option>
+      <option>Customer Account</option>
+      <option>Technician Account</option>
+    </select> -->
+
+    <br /><br />
+    <p>
+      <span v-if="errorAdminAccount" style="color: red">Error: {{ errorAdminAccount }}
+    </span>
+    </p>
+
+    <button
+      @click="goToLogin"
+      type="button"
+      style="border-color: #909399; color: #909399"
+      class="btn"
+    >
+      <font size="3"><b>Cancel</b></font>
+    </button>
+    <button
+      @click="createAdminAccount(username, password, name)"
+      type="button"
+      style="background-color: #409EFF; color: white"
+      class="btn"
+    >
+      <font size="3"><b>Sign Up</b></font>
+    </button>
+
+    <br /><br />
   </div>
 </template>
 
 
-<script src="./signUp.js">
+<script src="./adminAccount.js">
+
 // import axios from 'axios'
 
 // var config = require('../../config')
@@ -64,7 +75,7 @@
 //   })
 
 //        export default{
-         
+
 //            methods:{
 //             goToMainMenu(){
 //               this.$router.push("/app");
@@ -85,21 +96,18 @@
 //             }
 //           }
 
-
-          
 //        }
 </script>
 
 <style>
 #login {
-    margin-bottom: 0;
-    margin-top: 0;
-  }
+  margin-bottom: 0;
+  margin-top: 0;
+}
 #t01 {
   width: 20%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
 }
-
 </style>

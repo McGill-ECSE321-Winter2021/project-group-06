@@ -1,4 +1,5 @@
 import axios from 'axios'
+import main from '../main'
 // import { response } from 'express'
 var config = require('../../config')
 
@@ -11,10 +12,6 @@ var AXIOS = axios.create({
 })
 
 
-// const adminAccounts = AXIOS.post('/createAdminAccount').then(response => {
-//     return response.data
-// });
-
 export default {
     data() {
         return {
@@ -25,23 +22,23 @@ export default {
                 name: ''
             },
             selectedAdminAccount: '',
+            errorAdminAccount: '',
             response: []
 
 
         }
+
     },
     methods: {
-        createAdminAccount: function (username, password, name) {
-            AXIOS.post('/createAdminAccount/' + username + '/' + password + '/' + name).then(response => {
-                // JSON responses are automatically parsed.
-                this.adminAccounts.push(response.data)
-                this.newAdminAccount.username = ''
-                this.newAdminAccount.password = ''
-                this.newAdminAccount.name = ''
+        logoutAdminAccount: function () {
+            AXIOS.put('/logoutAdminAccount/' + username).then(response => {
+                this.adminAccounts = response.data
+                main.username = ''
+                main.accountType = ''
             })
                 .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
+                    console.log(e)
+                    this.errorAdminAccount = e
                 })
         }
     }

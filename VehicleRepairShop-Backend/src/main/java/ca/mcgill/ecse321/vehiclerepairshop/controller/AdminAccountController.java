@@ -112,6 +112,7 @@ public class AdminAccountController {
 	@PutMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}" })
 	public AdminAccountDto loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) {
 		AdminAccount user = adminAccountService.loginAdminAccount(username, password);
+		System.out.println(username + password);
 		return convertToDto(user);
 	}
 
