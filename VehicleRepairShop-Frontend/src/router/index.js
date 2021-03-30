@@ -23,19 +23,6 @@ export default new Router({
     },
     {
 
-
-      path: '/app',
-      name: 'FirstCompoent',
-      component: FirstCompoent
-    },
-    {
-      path:'/OfferedServiceTable',
-      name:'OfferedServiceTable',
-      component: OfferedServiceTable
-    },
-
-    {
-
       path: '/calendarAdmin',
       name: 'CalendarAdminAccount',
       component: CalendarAdminAccount
