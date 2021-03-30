@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-
-    <img src="./assets/newLogo.png">
-
     <template>
         <b-navbar toggleable="lg" type="dark" variant="dark" sticky="true">
           <b-navbar-brand href="#/app"> &nbsp; VRSS</b-navbar-brand>

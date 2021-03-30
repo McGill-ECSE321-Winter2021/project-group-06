@@ -8,15 +8,6 @@ import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
-import ElementUI from 'element-ui';
-import locale from 'element-ui/lib/locale/lang/en'
-import 'element-ui/lib/theme-chalk/index.css';
-
-Vue.use(ElementUI ,{locale});
-Vue.use(VueMaterial)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
@@ -27,4 +18,3 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
-
