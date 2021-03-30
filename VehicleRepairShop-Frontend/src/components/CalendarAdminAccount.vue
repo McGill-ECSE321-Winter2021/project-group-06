@@ -27,16 +27,13 @@ import InteractionPlugin from '@fullcalendar/interaction'
 import axios from 'axios'
 import DropdownMenu from '@innologica/vue-dropdown-menu'
 import ModalWindow from "@vuesence/modal-window";
-// import {loadEvents} from "./LoadAppointments.js"
 
 var config = require('../../config')
-
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-
 var AXIOS = axios.create({
     baseURL: backendUrl,
-    headers: { 'Access-Control-Allow-Origin': frontendUrl }
+    headers: { 'Access-Control-Allow-Origin': frontendUrl}
   })
 export default {
     components : {
@@ -48,7 +45,6 @@ export default {
     
     },
    
-
     data() {
         return {
             isShowModal: false,
@@ -60,27 +56,19 @@ export default {
                     InteractionPlugin
                 ],
                 initialView: 'timeGridWeek',
-                customButtons: {
-                  creat_app: {
-                    text: 'load appointment',
-                    click: this.loadAppointment
-                  }
-                },
-                
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'creat_app,timeGridWeek,timeGridDay'
+                    right: 'timeGridWeek,timeGridDay'
                   },
-
                  
-                  events: this.EVENTS,
                   editable: true,
                   selectable: true,
                   selectMirror: true,
                   dayMaxEvents: true,
                   weekends: true,
                   select: this.timeSlotSelected,
+                  eventClick: this.deleteAppointment,
     
                 
             },
@@ -92,11 +80,8 @@ export default {
             currentSelectedTechnicianUsername: 1,
             currentSelectedAppointmentId: 1,
             selectedInfo: {},
-
+            appointmentIdToDelete: 1
             
-
-
-
            
         }
    
@@ -122,15 +107,27 @@ export default {
         })
             
     },
-
     methods: {
+        async deleteAppointment(selectionInfo){
+             var c = confirm("are you sure you want to delete this appointment?")
+                      if (c == true) {
+                          let appointment = selectionInfo.event;
+                          let appointmentId = selectionInfo.event.id;
+                          this.appointmentIdToDelete = parseInt(appointmentId);
+                        //   console.log(typeof(this.appointmentIdToDelete))
+                          this.deleteAppointment;
+                          appointment.remove();
+                          const response = await AXIOS.delete('/deleteAppointmentById/'+this.appointmentIdToDelete);
+                          console.log(response.data)
+                      } 
+            
+        },
 
       toggleShowModal (){
         
         this.isShowModal = true;
         console.log(this.isShowModal);
       },
-
         async getAllTimeSlot(){
             try{
                 const response = await AXIOS.get('/getAllTimeSlots');
@@ -158,7 +155,6 @@ export default {
                     console.log(this.currentSelectedTimeslotId);
                     this.createService();
                 }  
-
             }catch(error){
                 console.error(error)
             }finally{
@@ -233,7 +229,6 @@ export default {
                 // this.newlyAddedAppointment = response.data
                 // console.log(this.newlyAddedAppointment)
                 let calendarApi = this.selectedInfo.view.calendar;
-
                 calendarApi.unselect();
                 calendarApi.addEvent({
                 id: response.data.appointmentId,
@@ -242,20 +237,16 @@ export default {
                 end: this.selectedInfo.endStr,
                 allDay: this.selectedInfo.allDay,
             });
-
             }catch(error){
                 console.error(error)
             }finally{
                 console.log('create appointment: '+this.currentSelectedAppointmentId)
             }
         },
-
     }
   
 }
-
 </script>
 
 <style>
-
 </style>
