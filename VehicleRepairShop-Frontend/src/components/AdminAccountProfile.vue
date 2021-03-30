@@ -1,5 +1,5 @@
 <template>
-  <div id="viewaccount">
+  <div id="adminAccountProfile">
         <template>
       <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
@@ -39,8 +39,8 @@
                 <template #button-content>
                   <em>User</em>
                 </template>
-                <b-dropdown-item href="#/viewAccount" style="background-color: #909399">Profile</b-dropdown-item>
-                <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item>
+                <b-dropdown-item href="#/adminAccountProfile" style="background-color: #909399">Profile</b-dropdown-item>
+                <b-dropdown-item href="#" style="background-color: #909399">Sign Out</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
           </b-collapse>
@@ -87,7 +87,7 @@
   </div>
 </template>
 
-<script src="./viewAccount.js">
+<script src="./adminAccountProfile.js">
       //  export default{
       //      methods:{
       //       goToMainMenu(){
@@ -117,7 +117,7 @@
 nav .navbar-nav li a {
   color: white !important;
 }
-#viewaccount {
+#adminAccountProfile {
     margin-bottom: 0;
     margin-top: 0;
     /* background-color: #909399;

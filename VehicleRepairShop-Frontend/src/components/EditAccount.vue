@@ -29,10 +29,10 @@
 		</table>
         <!-- <br></br> -->
 		
-		<button @click="goToViewAccount" type="button" style="border-color:#909399; color: #909399;" class="btn ">
+		<button @click="goToadminAccountProfile" type="button" style="border-color:#909399; color: #909399;" class="btn ">
             <font size="3"><b>Cancel</b></font>
         </button>
-  		<button @click="goToViewAccount" type="button" style="background-color:#409EFF; color: white;" class="btn ">
+  		<button @click="goToadminAccountProfile" type="button" style="background-color:#409EFF; color: white;" class="btn ">
             <font size="3"><b>Save</b></font>
         </button>	
   </div>
@@ -48,8 +48,8 @@
             goBack(){
               this.$router.go(-1);
             },
-            goToViewAccount() {
-              this.$router.push("/ViewAccount");
+            goToadminAccountProfile() {
+              this.$router.push("/adminAccountProfile");
             }
           }
        }

@@ -34,8 +34,8 @@
       //       goBack(){
       //         this.$router.go(-1);
       //       },
-      //       goToViewAccount() {
-      //         this.$router.push("/ViewAccount");
+      //       goToadminAccountProfile() {
+      //         this.$router.push("/adminAccountProfile");
       //       }
       //     }
       //  }
