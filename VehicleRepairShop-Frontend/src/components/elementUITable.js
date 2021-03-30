@@ -63,21 +63,12 @@ export default {
 
     methods: {
         handleEdit(index, row) {
-            console.log(index, row);
+            //console.log(index, row);
             this.msg = row;
             this.msg2 = index;
         },
 
         Edit(Id,name,duration,price,description,reminderDate,reminderTime){
-            let i=0
-            for(let os in this.OfferedServices){
-                console.log(os.Id === this.msg.Id)
-                if ( os.Id === this.msg.Id ){
-                    
-                    this.OfferedServices.splice(i,1)
-                }
-                i++
-            }
             var newValue2 = {
                 Id: Id,
                 name: name,
@@ -87,11 +78,30 @@ export default {
                 reminderDate: reminderDate,
                 reminderTime: reminderTime
             }
-            this.tableData.push(newValue2)
-            this.tableData.splice(this.mesg2, 1)
-            var o = new OfferedServiceDTO(Id,name,duration,price,description,reminderDate,reminderTime)
-            this.OfferedServices.push(o)
+            //this.tableData[this.msg2] = newValue2
+            this.tableData.splice(this.msg2, 1)
+            this.tableData.push(this.msg2, newValue2)
+            this.tableData.splice(this.msg2, 1)
+            
+            var o = new OfferedServiceDTO(Id,price,name,duration,reminderTime,reminderDate,description)
+            let i=0
+            for(let os of this.OfferedServices){
+                console.log("boolean:" + (os.Id === this.msg.Id))
+                console.log("os.Id:" + os.Id)
+                console.log("os:" + os)
+                console.log("this.msg.Id:" + this.msg.Id)
+                console.log("this.msg2:"+this.msg2)
+                console.log("service length: " + this.OfferedServices.length)
+                console.log("i:" + i)
+                if ( os.Id === this.msg.Id ){
+                    
+                    this.OfferedServices[i] = o
+                }
+                i++
+            }
+            // this.OfferedServices.push(o)
             this.delVisible = false;
+            this.dialogFormVisible = false;
         },
 
         getPackData() {

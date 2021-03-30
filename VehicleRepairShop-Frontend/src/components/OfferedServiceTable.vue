@@ -132,7 +132,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="Edit(form.Id,form.name,form.duration,form.price,form.comments,form.reminderDate,form.reminderTime), dialogFormVisible = false">Comfirm</el-button>
+                <el-button type="primary" @click=" dialogFormVisible = false, Edit(form.Id,form.name,form.duration,form.price,form.comments,form.reminderDate,form.reminderTime)">Comfirm</el-button>
             </div>
         </el-dialog>
     </div>
