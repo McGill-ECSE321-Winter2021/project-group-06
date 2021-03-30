@@ -16,7 +16,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 
 @Service
 public class CustomerAccountService {
-	
+
 	@Autowired
 	private CustomerAccountRepository customerAccountRepository;
 	@Autowired
@@ -36,7 +36,7 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount createCustomerAccount(String username, String password, String name)   {
-		
+
 		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
@@ -66,7 +66,7 @@ public class CustomerAccountService {
 		}
 	}
 
-	
+
 	/**
 	 * Find customer account by username
 	 * @author Catherine
@@ -76,6 +76,7 @@ public class CustomerAccountService {
 	@Transactional
 	public CustomerAccount getCustomerAccountByUsername(String username) {
 		CustomerAccount user = customerAccountRepository.findByUsername(username);
+		System.out.println(user);
 		return user;
 	}
 
@@ -102,7 +103,7 @@ public class CustomerAccountService {
 		return toList(customerAccountRepository.findAll());
 	}
 
-	
+
 	/**
 	 * Update an Customer Account password and name. 
 	 * If one parameter shouldn't change, pass old value as new value. 
@@ -135,10 +136,10 @@ public class CustomerAccountService {
 			customerAccountRepository.save(user);
 			return user;
 		}
-			
+
 	}
-	
-	
+
+
 	/**
 	 * Deletes the customer account
 	 * @author Catherine
@@ -188,9 +189,9 @@ public class CustomerAccountService {
 		}
 
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Logout the account and delete token for the account
 	 * @param username
@@ -212,7 +213,7 @@ public class CustomerAccountService {
 			return user;
 		}
 	}
-	
+
 	/**
 	 * Authenticate token
 	 * @author Catherine
@@ -234,7 +235,7 @@ public class CustomerAccountService {
 			throw new InvalidInputException("An error occured. Please try again."); 
 		}
 	}
-	
+
 
 	/**
 	 * Find Customer Account by car
@@ -244,49 +245,20 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount getCustomerAccountWithCar(String licensePlate) {
-		Car car = carRepository.findByLicensePlate(licensePlate);
-		CustomerAccount user = customerAccountRepository.findByCar(car);
-		return user;
-	}
-	
-	/**
-	 * add a car into one customer account
-	 * @param customerAccountUsername
-	 * @param licensePlate
-	 * @return
-	 */
-	@Transactional
-	public CustomerAccount customerAccountAddCar(String customerAccountUsername, String licensePlate) {
-		String error = "";
-		if (licensePlate == null || licensePlate.trim().length() == 0) {
-			error = error + "licensePlate can not be empty or null!";
-		}else if (carRepository.findByLicensePlate(licensePlate) == null) {
-			error = error + "can not find this car in car repository!";
-		}
-		if (customerAccountUsername == null || customerAccountUsername.trim().length() == 0) {
-			error = error + "customerAccountUsername can not be empty or null!";
-		}else if (customerAccountRepository.findByUsername(customerAccountUsername) == null) {
-			error = error + "can not find this customer in customer Account repository!";
-		}
-		if (error.length() > 0) {
-			throw new InvalidInputException(error);
-		}
-		Car car = carRepository.findByLicensePlate(licensePlate);
-		CustomerAccount ca = customerAccountRepository.findByUsername(customerAccountUsername);
-		List<Car> cars = new ArrayList<Car>();
-		if (ca.getCar() != null) {
-			for (Car c: ca.getCar()) {
-				cars.add(c);
+		for (CustomerAccount customer : customerAccountRepository.findAll()) {
+			if (!customer.getCar().isEmpty()) {
+				for (Car car : customer.getCar()) {
+					if (car.getLicensePlate().equals(licensePlate)){
+						return customer;
+					}
+				}
 			}
 		}
-		cars.add(car);
-		ca.setCar(cars);
-		return ca;
-		
+		throw new InvalidInputException("Customer not found");
 	}
-	
+
 	//------------------------------- Helper Methods --------------------------
-	
+
 	/**
 	 * Helper method to search through all accounts and see if the username is already in use
 	 * @author Catherine

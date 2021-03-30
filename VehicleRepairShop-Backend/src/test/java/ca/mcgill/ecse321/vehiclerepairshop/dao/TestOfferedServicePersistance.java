@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Time;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 
 @ExtendWith(SpringExtension.class)
@@ -92,34 +89,6 @@ public class TestOfferedServicePersistance {
 
 	}
 
-	
-	@Test
-	public void testPersistAndLoadServiceViaAppointment() {
-		
-		// create an appointment
-		int appointmentID = 1;
 
-		Appointment apt = new Appointment();
-		apt.setAppointmentId(appointmentID);
-		appointmentRepository.save(apt);
-
-		List<Appointment> appointments = new ArrayList<Appointment>();
-		appointments.add(apt);
-		service.setAppointment(appointments);
-		offeredServiceRepository.save(service);
-
-		service = null;
-
-		service = offeredServiceRepository.findByAppointment(apt);
-
-		assertNotNull(service);
-		assertEquals(service.getName(), serviceName);
-		assertEquals(service.getPrice(), price);
-		assertEquals(service.getDuration(), duration);
-		assertEquals(service.getReminderDate(), reminderDate);
-		assertEquals(service.getReminderTime(), reminderTime);
-		assertEquals(service.getDescription(), description);
-
-	}
 
 }

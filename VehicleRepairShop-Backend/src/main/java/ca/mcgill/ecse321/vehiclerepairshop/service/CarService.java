@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CarRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.CustomerAccountRepository;
+import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car.MotorType;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
@@ -17,15 +19,21 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
 public class CarService {
 	@Autowired
 	private CarRepository carRepository;
-	@Autowired 
+	@Autowired
+	private AppointmentRepository appointmentRepository;
+	@Autowired
 	private CustomerAccountRepository customerAccountRepository;
-	
+	@Autowired
+	private AppointmentService appointmentService;
+	@Autowired
+	private CustomerAccountService customerAccountService;
+
 	/**
 	 * @author James Darby
 	 *
 	 */
-	
-	/*
+
+	/**
 	 * Create a Car with given parameters
 	 * @param licensePlate
 	 * @param model
@@ -34,7 +42,7 @@ public class CarService {
 	 * @return
 	 */
 	@Transactional
-	public Car createCar(String licensePlate, String model, int year, MotorType motorType, CustomerAccount owner) {
+	public Car createCar(String licensePlate, String model, int year, MotorType motorType, String username) {
 		String error = "";
 		if (licensePlate == null || licensePlate.trim().length() == 0) {
 			error = error + "licensePlate can not be null or empty!";
@@ -50,54 +58,35 @@ public class CarService {
 		if (motorType == null) {
 			error = error + "motorType can't be null!";
 		}
+		if (username == null) {
+			error = error + "username can't be null!";
+		}
+		if (customerAccountService.getCustomerAccountByUsername(username) == null) {
+			System.out.println(username);
+			System.out.println(customerAccountService.getAllCustomerAccounts());
+			error = error + "Customer account not found";
+		}
 		if (error.length() >0 ) {
 			throw new InvalidInputException(error);
 		}
 		else {
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
 			Car car = new Car();
 			car.setLicensePlate(licensePlate);
 			car.setModel(model);
 			car.setYear(year);
 			car.setMotorType(motorType);
-			car.setOwner(owner);
-//			CustomerAccount user = new CustomerAccount();
-//			user = customerAccountRepository.findByUsername(owner.getUsername());
-//			List<Car> cars = new ArrayList<Car>();
-//			cars.add(car);
-//			user.setCar(cars);
-//			//customerAccountRepository.save(owner);
 			carRepository.save(car);
+			List <Car> cars = user.getCar();
+			cars.add(car);
+			user.setCar(cars);
+			customerAccountRepository.save(user);
 			return car;
 		}
-		
+
 	}
-	
-	/*
-	 * gets all cars belonging to one owner
-	 * @param owner
-	 * @return
-	 */
-	@Transactional
-	public List<Car> getCarsByOwner(CustomerAccount owner) {
-		String error = "";
-		if (owner == null) {
-			error = error + "Car owner cannot be null!";
-		}else if (owner.getUsername() == null || owner.getUsername().trim().length() == 0) {
-			error = error + "This owner's username cannot be empty or null!";
-		}else if (customerAccountRepository.findByUsername(owner.getUsername())==null) {
-			error = error + "cannot find this car owner in customerAccountRepository!";
-		}
-		if (error.length() >0 ) {
-			throw new InvalidInputException(error);
-		}
-		else {
-			List<Car> cars = carRepository.findByOwner(owner);
-			return cars;
-		}
-			 
-	}
-	
-	/*
+
+	/**
 	 * gets car with the specified license plate
 	 * @param licensePlate
 	 * @return
@@ -114,79 +103,97 @@ public class CarService {
 		if (error.length() > 0) {
 			throw new InvalidInputException(error);
 		}
-			Car car = carRepository.findByLicensePlate(licensePlate);
-			return car;	
-			
+		Car car = carRepository.findByLicensePlate(licensePlate);
+		return car;
+
 	}
-	
-	
+
 	/**
-	 * car add owner
-	 * @param owner
-	 * @param car
-	 * @return
-	 */
-	@Transactional
-	public Car carAddOwner(CustomerAccount owner, Car car) {
-		String error = "";
-		if (owner == null) {
-			error = error + "owner can not be null!";
-		}else if (customerAccountRepository.findByUsername(owner.getUsername()) == null) {
-			error = error + "This owner does not found in customerAccountRepository!";
-		}
-		
-		if (car == null) {
-			error = error + "car can not be null!";
-		}else if (carRepository.findByLicensePlate(car.getLicensePlate())==null) {
-			error = error + "car can not be found in the carRepository!";
-		}
-		
-		if (error.length() >0) {
-			throw new InvalidInputException(error);
-		}else {
-			car.setOwner(owner);
-			return car;
-		}
-		
-	}
-	
-	/*
 	 * gets all cars in the database
 	 * @return
 	 */
 	@Transactional
 	public List<Car> getAllCars() {
 		Iterable<Car> cars = carRepository.findAll();
-		return toList(cars);	
+		return toList(cars);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param licensePlate
 	 * @return
 	 */
 	@Transactional
-	public Car deleteCar(String licensePlate) { 
+	public Car deleteCar(String licensePlate) {
 		String error = "";
 		if (carRepository.findByLicensePlate(licensePlate)==null) {
 			error = error + "car not found";
 		}
+		if (!appointmentService.findAppointmentByCar(licensePlate).isEmpty()) {
+			error = error + "car linked to an appointment";
+		}
 		error = error.trim();
-	    if (error.length() > 0) {
-	        throw new InvalidInputException(error);
-	    }
+		if (error.length() > 0) {
+			throw new InvalidInputException(error);
+		}
+		
+		CustomerAccount user = customerAccountService.getCustomerAccountWithCar(licensePlate);
+		List <Car> cars = user.getCar();
+		for (Car car: cars) {
+			if (car.getLicensePlate().equals(licensePlate)) {
+				cars.remove(car);
+			}
+		}
+		user.setCar(cars);
+		customerAccountRepository.save(user);
 		Car car = carRepository.findByLicensePlate(licensePlate);
 		carRepository.delete(car);
 		return car;
 	}
-	
+
 	// Helper method that converts iterable to list
+	/**
+	 * @param <T>
+	 * @param iterable
+	 * @return
+	 */
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
 			resultList.add(t);
 		}
 		return resultList;
+	}
+
+	/**
+	 * @param appId
+	 * @return
+	 */
+	@Transactional
+	public Car findCarByAppointment(int appId){
+		List<Appointment> appointments = toList(appointmentRepository.findAll());
+		for (Appointment appointment:appointments) {
+			if (appointment.getAppointmentId() == appId) {
+				return appointment.getCar();
+			}
+		}
+		throw new InvalidInputException ("AppointmentId not found!");
+	}
+
+	/**
+	 * @param customerUsername
+	 * @return
+	 */
+	@Transactional
+	public List<Car> findCarByCustomerAccount(String customerUsername){
+		List<CustomerAccount> customers = toList(customerAccountRepository.findAll());
+		for (CustomerAccount customer:customers) {
+			if (customer.getUsername().equals(customerUsername)) {
+				return customer.getCar();
+			}
+		}
+		throw new InvalidInputException("Username not found!");
+
 	}
 
 }

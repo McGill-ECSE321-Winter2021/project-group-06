@@ -10,5 +10,4 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "TimeSlot_data", path = "TimeSlot_data")
 public interface TimeSlotRepository extends CrudRepository<TimeSlot, Integer>{
 	TimeSlot findByTimeSlotId(int Id);
-	//empty cannot see any other classes
 }

@@ -14,7 +14,7 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
 
 /**
- * 
+ *
  * @author mikewang
  *
  */
@@ -23,10 +23,10 @@ public class OfferedServiceService {
 	@Autowired
 	private OfferedServiceRepository offeredServiceRepository;
 	@Autowired
-	private AppointmentRepository appointmentRepository;
-	
+	private AppointmentRepository appointmentRepository; 
+
 	// --------------------------- Mike starts here --------------------------------
-	
+
 	/**
 	 * create a service object
 	 * @param offeredServiceId
@@ -37,10 +37,8 @@ public class OfferedServiceService {
 	 * @param reminderDate
 	 * @param description
 	 * @return
-	 * @throws InvalidInputException 
+	 * @throws InvalidInputException
 	 */
-
-	
 	@Transactional
 	public OfferedService createOfferedService(String offeredServiceId, double price, String name, int duration, Time reminderTime, int reminderDate, String description) {
 
@@ -88,72 +86,13 @@ public class OfferedServiceService {
 			offeredService.setReminderDate(reminderDate);
 			offeredService.setDescription(description);
 			offeredServiceRepository.save(offeredService);
-			
+
 			return offeredService;
 		}
-		
-		
+
+
 	}
-	
-	
-	/**
-	 * this method add an appointment to the existing offeredService
-	 * @param offeredService
-	 * @param appointment
-	 * @return
-	 * @throws InvalidInputException 
-	 */
-	@Transactional 
-	public OfferedService addAppointments(OfferedService offeredService, Appointment appointment) throws InvalidInputException{
-		String error = "";
-		if (offeredService == null) {
-			error = error + "inputted OfferedService can not be null!";	
-		}else if (offeredServiceRepository.findByOfferedServiceId(offeredService.getOfferedServiceId())==null) {
-			error = error + "inputted OfferedService can not be found in the persistence!";
-		} 
-		if (appointment == null) {
-			error = error + "inputted Appoitnment can not be null!";
-		}else if (appointmentRepository.findByAppointmentId(appointment.getAppointmentId()) == null) {
-			error = error + "inputted Appointment can not be found in the persistence!";
-		}
-		if (error.length()>0) {
-			
-			//return offeredService;
-			throw new InvalidInputException(error);
-		}
-		else { 
-			List<Appointment> appointments = new ArrayList<Appointment>();
-			List<Appointment> ExistingAppointments = new ArrayList<Appointment>();
-			if (offeredService.getAppointment() != null) {
-				ExistingAppointments = offeredService.getAppointment();
-				for (Appointment apt: ExistingAppointments) {
-					appointments.add(apt);
-				}
-			}
-			appointments.add(appointment);
-			offeredService.setAppointment(appointments);
-			return offeredService;
-		}
-		
-	}
-	
-	
-	/**
-	 * find offered service through an appointment 
-	 * @param appointment
-	 * @return
-	 * @throws InvalidInputException 
-	 */
-	@Transactional
-	public OfferedService getOfferedServiceByAppointment(Appointment appointment){
-		
-		if(appointment == null) {
-			throw new InvalidInputException("appointment cannot be null!");
-		}
-		OfferedService offeredService = offeredServiceRepository.findByAppointment(appointment);
-		return offeredService;
-	}
-	
+
 	/**
 	 * find offered service through a offered service id
 	 * @param serviceId
@@ -168,9 +107,9 @@ public class OfferedServiceService {
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		return offeredService;
 	}
-	
+
 	/**
-	 * find all offered Service 
+	 * find all offered Service
 	 * @return
 	 */
 	@Transactional
@@ -178,16 +117,16 @@ public class OfferedServiceService {
 		Iterable<OfferedService> offeredServices = offeredServiceRepository.findAll();
 		return toList(offeredServices);
 	}
-	
+
 	/**
-	 * delete service in the repository 
+	 * delete service in the repository
 	 * @param serviceId
-	 * 
+	 *
 	 */
 	@Transactional
 	public OfferedService deleteOfferedService(String serviceId){
 		String error = "";
-		
+
 		if(serviceId == null || serviceId.trim().length()==0) {
 			error = error + "the serviceId can not be empty!";
 		}
@@ -198,12 +137,22 @@ public class OfferedServiceService {
 			throw new InvalidInputException(error);
 		}
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
+		if (appointmentRepository.findAll() != null) {
+			List<Appointment> apts = (List<Appointment>) appointmentRepository.findAll();
+			for (Appointment appointment: apts) {
+				if (appointment.getOfferedService().getOfferedServiceId() == serviceId) {
+					//appointment.setOfferedService(null);
+					appointmentRepository.delete(appointment);
+				}
+			}
+			
+		}
 		offeredServiceRepository.delete(offeredService);
-		
-		
+
+
 		return offeredService;
 	}
-	
+
 	/**
 	 * update service information by offering new information and offeredServiceId
 	 * @param serviceId
@@ -215,16 +164,16 @@ public class OfferedServiceService {
 	 * @param newDescription
 	 */
 	@Transactional
-	public OfferedService updateService(String serviceId, double newPrice, String newName, int newDuration, 
-										Time newReminderTime, int newReminderDate, String newDescription){
-		
+	public OfferedService updateService(String serviceId, double newPrice, String newName, int newDuration,
+			Time newReminderTime, int newReminderDate, String newDescription){
+
 		String error = "";
 		if(serviceId == null || serviceId.trim().length()==0) {
 			error = error + "the serviceId can not be empty!";
 		}
-//		if (newPrice == null) {
-//			error = error + "price cannot be empty!";
-//		}
+		//		if (newPrice == null) {
+		//			error = error + "price cannot be empty!";
+		//		}
 		if (newPrice < 0.0) {
 			error = error + "price cannot be negative!";
 		}
@@ -249,7 +198,7 @@ public class OfferedServiceService {
 		if (newDescription == null || newDescription.trim().length()==0) {
 			error = error + "Offered service description cannot be empty!";
 		}
-		
+
 		OfferedService offeredService = offeredServiceRepository.findByOfferedServiceId(serviceId);
 		if(offeredService == null) {
 			error = error + "the offered service can not found in the system!";
@@ -264,10 +213,49 @@ public class OfferedServiceService {
 		offeredService.setReminderDate(newReminderDate);
 		offeredService.setDescription(newDescription);
 		offeredServiceRepository.save(offeredService);
-		
+
 		return offeredService;
 	}
 	
+	
+	/**
+	 * This is service method which can find the offeredService by given appointment
+	 * @param apt
+	 * @return
+	 */
+	@Transactional
+	public OfferedService getOfferedServiceByAppointment(Appointment apt) {
+		String error = "";
+		OfferedService returnedService = null;
+		if (apt == null) {
+			error = error + "appointment cannot be null!";
+		}else {
+			if (appointmentRepository.findByAppointmentId(apt.getAppointmentId())!= null ) {
+				List<OfferedService> offeredServices = (List<OfferedService>) offeredServiceRepository.findAll();
+				OfferedService extractedOfferedService = apt.getOfferedService();
+				for(OfferedService service: offeredServices){
+					if (service.getOfferedServiceId() == extractedOfferedService.getOfferedServiceId()) {
+						returnedService = service;
+					}
+				}
+				if (returnedService == null) {
+					error = error + "this offeredService does not exist in the offeredServiceRepository!";
+				}
+			}else {
+				error = error + "can not find this appointment in appointmentRepository!";
+			}
+		}
+		if (error.length()>0) {
+			throw new InvalidInputException(error);
+		}
+		return returnedService;
+		
+		
+	}
+	
+	
+	
+
 	// helper method that converts iterable to list
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
@@ -276,8 +264,8 @@ public class OfferedServiceService {
 		}
 		return resultList;
 	}
-	
-	
+
+
 	/**
 	 * helper method to determine if the offered Service id has been taken
 	 * @param Id
@@ -288,17 +276,8 @@ public class OfferedServiceService {
 		if (offeredServiceRepository.findByOfferedServiceId(Id) == null) {
 			available = true;
 		}
-			return available;
-		}
+		return available;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// --------------------------- Mike ends here ----------------------------------
+}
 
+// --------------------------- Mike ends here ----------------------------------

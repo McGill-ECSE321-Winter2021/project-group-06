@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.vehiclerepairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.GarageRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
@@ -19,6 +20,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
 public class GarageService {
 	@Autowired
 	private GarageRepository garageRepository;
+	@Autowired
+	private AppointmentRepository appointmentRepository;
 	@Autowired
 	GarageService garageService;
 
@@ -64,22 +67,7 @@ public class GarageService {
 		return garage;
 	}
 
-	/**
-	 * Find garage through an appointment
-	 * @param appointment
-	 * @return
-	 */
-	@Transactional
-	public Garage getGarageByAppointment(Appointment appointment) {
-		if (appointment == null) {
-			throw new InvalidInputException("Appointment cannot be empty!");
-		}
-		Garage garage = garageRepository.findByAppointment(appointment);
-		if (garage == null) {
-			throw new InvalidInputException("The garage is not found in the system!");
-		}
-		return garage;
-	}
+
 
 	/**
 	 * Find all the garages
@@ -123,6 +111,23 @@ public class GarageService {
 		Iterable<Garage> garages = garageRepository.findAll();
 		garageRepository.deleteAll();
 		return toList(garages);
+	}
+
+	/**
+	 * Find Garage by appointmentId
+	 * @param appointmentId
+	 * @return
+	 */
+	@Transactional
+	public Garage findGarageByAppointment(int appointmentId){
+		List<Appointment> appointments = toList(appointmentRepository.findAll());
+		for (Appointment appointment:appointments) {
+			if (appointment.getAppointmentId() == appointmentId) {
+				return appointment.getGarage();
+			}
+		}
+		throw new InvalidInputException("AppointmentId not found!");
+
 	}
 
 

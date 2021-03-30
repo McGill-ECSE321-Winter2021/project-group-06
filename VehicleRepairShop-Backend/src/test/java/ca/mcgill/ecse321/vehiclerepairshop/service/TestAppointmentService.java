@@ -92,10 +92,7 @@ public class TestAppointmentService {
 				appointment.setAppointmentId(APPOINTMENTID);
 				List<Appointment> appointments = new ArrayList<Appointment>();
 				appointments.add(appointment);
-				offeredService.setAppointment(appointments);
-				car.setAppointment(appointments);
-				garage.setAppointment(appointments);
-				workers.get(0).setAppointment(appointments);
+
 
 
 
@@ -153,10 +150,6 @@ public class TestAppointmentService {
 				appointment.setAppointmentId(APPOINTMENTID);
 				List<Appointment> appointments = new ArrayList<Appointment>();
 				appointments.add(appointment);
-				offeredService.setAppointment(appointments);
-				car1.setAppointment(appointments);
-				garage.setAppointment(appointments);
-				workers.get(0).setAppointment(appointments);
 
 
 
@@ -216,10 +209,6 @@ public class TestAppointmentService {
 				appointment.setAppointmentId(APPOINTMENTID);
 				List<Appointment> appointments = new ArrayList<Appointment>();
 				appointments.add(appointment);
-				offeredService.setAppointment(appointments);
-				car.setAppointment(appointments);
-				garage.setAppointment(appointments);
-				workers.get(0).setAppointment(appointments);
 
 
 
@@ -278,10 +267,8 @@ public class TestAppointmentService {
 				appointment.setAppointmentId(APPOINTMENTID);
 				List<Appointment> appointments = new ArrayList<Appointment>();
 				appointments.add(appointment);
-				offeredService.setAppointment(appointments);
-				car1.setAppointment(appointments);
-				garage.setAppointment(appointments);
-				workers.get(0).setAppointment(appointments);
+
+
 
 
 
@@ -386,16 +373,6 @@ public class TestAppointmentService {
 			List<Appointment> appointments = new ArrayList<Appointment>();
 			appointments.add(appointment);
 			appointments.add(appointment1);
-			offeredService.setAppointment(appointments);
-			car.setAppointment(appointments);
-			garage.setAppointment(appointments);
-			workers.get(0).setAppointment(appointments);
-			offeredService.setAppointment(appointments);
-			car1.setAppointment(appointments);
-			garage1.setAppointment(appointments);
-			workers1.get(0).setAppointment(appointments);
-			offeredService1.setAppointment(appointments);
-
 
 
 			return (Iterable<Appointment>) appointments;

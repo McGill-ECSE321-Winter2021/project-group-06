@@ -1,11 +1,8 @@
 
 package ca.mcgill.ecse321.vehiclerepairshop.model;
 import java.sql.Time;
-import java.util.*;
 
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 
 
@@ -20,7 +17,7 @@ public class OfferedService
   private Time reminderTime;
   private int reminderDate;
   private String description;
-  private List<Appointment> appointment;
+
 
 
 
@@ -99,18 +96,6 @@ public class OfferedService
   public String getDescription()
   {
     return this.description;
-  }
-
- 
-  @OneToMany(cascade = {CascadeType.ALL})
-  public List<Appointment> getAppointment()
-  {
-	  return this.appointment;
-  }
-
-  
-  public void setAppointment(List<Appointment> appointment) {
-	  this.appointment = appointment;
   }
 
 

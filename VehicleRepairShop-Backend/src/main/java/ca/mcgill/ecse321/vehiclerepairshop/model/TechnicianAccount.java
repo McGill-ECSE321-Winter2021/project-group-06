@@ -45,7 +45,6 @@ public class TechnicianAccount
 	}
 
 	private List<TimeSlot> availability;
-	private List<Appointment> appointment;
 
 	@ManyToMany
 	public List<TimeSlot> getAvailability()
@@ -57,15 +56,6 @@ public class TechnicianAccount
 		this.availability = availability;	  
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	public List<Appointment> getAppointment()
-	{
-		return appointment;
-	}
-
-	public void setAppointment(List<Appointment> appointment) {
-		this.appointment =  appointment;
-	}
 
 	public void setToken(int token) {
 		this.token = token;

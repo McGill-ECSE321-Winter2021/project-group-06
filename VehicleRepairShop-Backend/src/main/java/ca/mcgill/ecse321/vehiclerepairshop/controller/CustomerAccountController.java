@@ -12,13 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
 import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.Garage;
-import ca.mcgill.ecse321.vehiclerepairshop.model.OfferedService;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
-import ca.mcgill.ecse321.vehiclerepairshop.model.TimeSlot;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 @CrossOrigin(origins = "*")
@@ -67,7 +62,6 @@ public class CustomerAccountController {
 	 * @param password
 	 * @param name
 	 * @return Customer Account Dto
-	 * @ 
 	 */
 	@PostMapping(value = { "/createCustomerAccount/{username}/{password}/{name}", "/createCustomerAccount/{username}/{password}/{name}/" })
 	public CustomerAccountDto createCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name)  {
@@ -84,7 +78,6 @@ public class CustomerAccountController {
 	 * @param newPassword
 	 * @param newName
 	 * @return Customer Account Dto
-	 * @ 
 	 */
 	@PutMapping(value = {"/updateCustomerAccount/{username}/{newPassword}/{newName}", "/updateCustomerAccount/{username}/{newPassword}/{newName}/" })
 	public CustomerAccountDto updateCustomerAccount(@PathVariable("username") String username, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName)   {
@@ -97,7 +90,6 @@ public class CustomerAccountController {
 	 * @author Catherine
 	 * @param username
 	 * @return boolean if successful
-	 * @ 
 	 */
 	@DeleteMapping(value = { "/deleteCustomerAccount/{username}", "/deleteCustomerAccount/{username}/" })
 	public CustomerAccountDto deleteCustomerAccount(@PathVariable("username") String username)   {
@@ -111,7 +103,6 @@ public class CustomerAccountController {
 	 * @param username
 	 * @param password
 	 * @return boolean if successful
-	 * @ 
 	 */
 	@PutMapping(value = {"/loginCustomerAccount/{username}/{password}", "/loginCustomerAccount/{username}/{password}/" })
 	public CustomerAccountDto loginCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password)   {
@@ -124,7 +115,6 @@ public class CustomerAccountController {
 	 * @author Catherine
 	 * @param username
 	 * @return boolean if successful
-	 * @ 
 	 */
 	@PutMapping(value = {"/logoutCustomerAccount/{username}", "/logoutCustomerAccount/{username}/" })
 	public CustomerAccountDto logoutCustomerAccount(@PathVariable("username") String username)   {
@@ -154,7 +144,7 @@ public class CustomerAccountController {
 	public CustomerAccountDto getCustomerAccountByCar(@PathVariable("licensePlate") String licensePlate) {
 		return convertToDto(customerAccountService.getCustomerAccountWithCar(licensePlate));
 	}
-	
+
 
 
 	//-------------------------- Helper Methods -----------------------------
@@ -175,7 +165,7 @@ public class CustomerAccountController {
 			customerAccountDto.setCars(user.getCar().stream().map(c -> convertToDto(c)).collect(Collectors.toList()));
 		}
 		customerAccountDto.setToken(user.getToken());
-		
+
 		return customerAccountDto;
 	}
 
@@ -191,100 +181,12 @@ public class CustomerAccountController {
 			return null;
 		}
 		else {
-			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType(), car.getOwner(), 
-					car.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
+			CarDto carDto = new CarDto(car.getLicensePlate(), car.getModel(), car.getYear(), car.getMotorType());
 			return carDto;
 		}
-	}
+	}	
 
 
-	/**
-	 * Helper Method to convert an appointment to a Dto
-	 * Will return null if you pass null
-	 * @author Catherine
-	 * @param car
-	 * @return AppointmentDto
-	 */
-	private AppointmentDto convertToDto(Appointment apt)  {
-		if (apt == null) {
-			return null;
-		}
-		else {
-			AppointmentDto aptDto = new AppointmentDto(convertToDto(apt.getTimeSlot()), convertToDto(apt.getCar()), 
-					apt.getComment(), convertToDto(apt.getGarage()), 
-					apt.getWorker().stream().map(a -> convertToDto(a)).collect(Collectors.toList()), convertToDto(apt.getOfferedService()),apt.getAppointmentId());
-			return aptDto;
-		}
-	}
-
-	/**
-	 * Helper Method to convert an offeredService to a Dto
-	 * Will return null if you pass null
-	 * @author Catherine
-	 * @param offeredService
-	 * @return OfferedServiceDto
-	 */
-	private OfferedServiceDto convertToDto(OfferedService offeredService) {
-		if (offeredService == null) {
-			return null;
-		}
-		else {
-		OfferedServiceDto offeredServiceDto = new OfferedServiceDto(offeredService.getOfferedServiceId(), offeredService.getPrice(), 
-				offeredService.getName(), offeredService.getDuration(), offeredService.getReminderTime(), offeredService.getReminderDate(), offeredService.getDescription());
-		return offeredServiceDto;
-		}
-	}
-	
-
-	/**
-	 * Helper Method to convert an technician account to a Dto
-	 * Will return null if you pass null
-	 * @author Catherine
-	 * @param user
-	 * @return Dto
-	 */
-	private TechnicianAccountDto convertToDto(TechnicianAccount user){
-		if (user == null) {
-			return null;
-		}
-		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
-		if (user.getAppointment() != null) {
-			technicianAccountDto.setAppointments(user.getAppointment().stream().map(t -> convertToDto(t)).collect(Collectors.toList()));
-		}
-		return technicianAccountDto;
-	}
-	
-	/**
-	 * Helper Method to convert a garage to a Dto
-	 * Will return null if you pass null
-	 * @author Catherine	 
-	 * @param garage
-	 * @return Dto
-	 */
-	private GarageDto convertToDto(Garage garage) {
-		if (garage == null) {
-			return null;
-		}
-		
-		GarageDto garageDto = new GarageDto(garage.getGarageId(), 
-				garage.getAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList()));
-		return garageDto;
-	}
-
-	/**
-	 * Helper Method to convert a timeSlot to a Dto
-	 * Will return null if you pass null
-	 * @author Catherine	 
-	 * @param timeSlot
-	 * @return Dto
-	 */
-	private TimeSlotDto convertToDto(TimeSlot timeSlot) {
-		if (timeSlot == null) {
-			return null;
-		}
-		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(), timeSlot.getEndTime(), timeSlot.getStartDate(), timeSlot.getEndDate());
-		return timeSlotDto;
-	}
 
 
 }

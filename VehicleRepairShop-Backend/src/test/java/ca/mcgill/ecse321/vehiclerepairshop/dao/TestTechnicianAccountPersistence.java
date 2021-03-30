@@ -13,8 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import ca.mcgill.ecse321.vehiclerepairshop.model.Appointment;
 import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 
 
@@ -149,41 +147,4 @@ public class TestTechnicianAccountPersistence {
 		assertEquals(user2.getUsername(), username2);
 
 	}
-
-	/**
-	 * Tests a finding technician account by appointment
-	 */
-	@Test
-	public void testPersistAndLoadTechnicianAccountByAppointment() {
-		// create an appointment
-		int appointmentID = 1;
-
-		Appointment apt = new Appointment();
-		apt.setAppointmentId(appointmentID);
-		appointmentRepository.save(apt);
-
-		List<Appointment> appointments = new ArrayList<Appointment>();
-		appointments.add(apt);
-		user1.setAppointment(appointments);
-		technicianAccountRepository.save(user1);
-
-		user1 = null;
-		List<TechnicianAccount> users = new ArrayList<TechnicianAccount>();
-
-		users = technicianAccountRepository.findTechnicianAccountByAppointment(apt);
-		if (users.get(0).getUsername().equals(username1)) {
-			user1 = users.get(0);
-		}
-		else {
-			assertEquals(0,1); //always fails
-		}
-
-		assertNotNull(user1);
-		assertEquals(user1.getName(), name1);
-		assertEquals(user1.getPassword(), password1);
-		assertEquals(user1.getUsername(), username1);
-
-	}
-	
-	
 }

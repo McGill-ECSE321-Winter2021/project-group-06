@@ -25,10 +25,7 @@ public class AdminAccountController {
 
 	@Autowired
 	private AdminAccountService adminAccountService;
-//	@Autowired
-//	private BusinessInformationService businessInformationService;
 
-	
 	/**
 	 * Return a list of all Admin Account Dtos 
 	 * @author Catherine
@@ -49,7 +46,7 @@ public class AdminAccountController {
 	public AdminAccountDto getAdminAccountByUsername(@PathVariable("username") String username) {
 		return convertToDto(adminAccountService.getAdminAccountByUsername(username));
 	}
-	
+
 	/**
 	 * Return a list of all Admin Accounts with specified name
 	 * @author Catherine
@@ -60,7 +57,7 @@ public class AdminAccountController {
 	public List<AdminAccountDto> getAdminAccountsByName(@PathVariable("name") String name) {
 		return adminAccountService.getAdminAccountsByName(name).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * Create an Admin Account Dto with provided parameters
 	 * @author Catherine
@@ -75,7 +72,7 @@ public class AdminAccountController {
 		return convertToDto(user);
 	}
 
-	
+
 	/**
 	 * Update an Admin Account Dto username, password, and name
 	 * If not changing something, pass old value
@@ -103,7 +100,7 @@ public class AdminAccountController {
 		AdminAccount user = adminAccountService.deleteAdminAccount(username);
 		return convertToDto(user);
 	}
-	
+
 	/**
 	 * Login and generate token
 	 * @author Catherine
@@ -116,7 +113,7 @@ public class AdminAccountController {
 		AdminAccount user = adminAccountService.loginAdminAccount(username, password);
 		return convertToDto(user);
 	}
-	
+
 	/**
 	 * Logout and delete token
 	 * @author Catherine
@@ -128,7 +125,7 @@ public class AdminAccountController {
 		AdminAccount user = adminAccountService.logoutAdminAccount(username);
 		return convertToDto(user);
 	}
-	
+
 	/**
 	 * Authenticate token
 	 * @author Catherine
@@ -140,7 +137,7 @@ public class AdminAccountController {
 		AdminAccount user = adminAccountService.authenticateAdminAccount(username);
 		return convertToDto(user);
 	}
-	
+
 	/**
 	 * Get admin account associated to business information
 	 * @author Catherine
@@ -151,7 +148,7 @@ public class AdminAccountController {
 	public List<AdminAccountDto> getAdminAccountsByBusinessInformation(@PathVariable("businessName") String businessName) {
 		return adminAccountService.getAllAdminAccountsWithBusinessInformation(businessName).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
-	 
+
 	/**
 	 * Set business information for an admin account
 	 * @author Catherine
@@ -164,9 +161,9 @@ public class AdminAccountController {
 		AdminAccount user = adminAccountService.setBusinessInformation(businessName, username);
 		return convertToDto(user);
 	}
-	
+
 	//-------------------------- Helper Methods -----------------------------
-	
+
 	/**
 	 * Helper Method to convert an admin account to a Dto
 	 * @author Catherine
@@ -184,7 +181,7 @@ public class AdminAccountController {
 		}
 		return adminAccountDto;
 	}
-	
+
 	/**
 	 * Helper Method to convert a business info to a Dto
 	 * Will return null if you pass null
@@ -203,5 +200,5 @@ public class AdminAccountController {
 	}
 
 
-		
+
 }

@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "fc85f1e5-0619-40fd-a9db-fde79ee62110",
-		"name": "OfferedServiceAPITest Copy",
+		"name": "OfferedServiceAPITest",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -100,20 +100,21 @@
 			"response": []
 		},
 		{
-			"name": "createTimeSlot/9:00:00/9:50:00/2021-03-01/2021-03-01",
+			"name": "Create TimeSlot 1",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"create Offered Service test mike 1\", function() {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.startTime).to.include(\"09:00:00\");",
-							"    pm.expect(jsonData.endTime).to.include(\"09:50:00\");",
-							"    pm.expect(jsonData.startDate).to.include(\"2021-03-01\");",
-							"    pm.expect(jsonData.endDate).to.include(\"2021-03-01\");",
-							"})"
+							"pm.test(\"create timeslot 1\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.startTime).to.include(\"10:00:00\");",
+							"  pm.expect(jsonData.endTime).to.include(\"11:00:00\");",
+							"  pm.expect(jsonData.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.endDate).to.include(\"2021-03-01\");",
+							"",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -123,7 +124,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createTimeSlot/09:00:00/09:50:00/2021-03-01/2021-03-01",
+					"raw": "http://localhost:8080/createTimeSlot/10:00:00/11:00:00/2021-03-01/2021-03-01",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -131,8 +132,8 @@
 					"port": "8080",
 					"path": [
 						"createTimeSlot",
-						"09:00:00",
-						"09:50:00",
+						"10:00:00",
+						"11:00:00",
 						"2021-03-01",
 						"2021-03-01"
 					]
@@ -141,101 +142,18 @@
 			"response": []
 		},
 		{
-			"name": "create owner 1",
+			"name": "Create Customer Account",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"create car\", function () {",
-							"  pm.response.to.have.status(200);",
-							"  const jsonData = pm.response.json();",
-							"  pm.expect(jsonData.username).to.include(\"1\");",
-							"  pm.expect(jsonData.password).to.include(\"1\");",
-							"  pm.expect(jsonData.name).to.include(\"owner\");",
-							"",
-							"  ",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/createCustomerAccount/1/1/owner",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"createCustomerAccount",
-						"1",
-						"1",
-						"owner"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "createCar/mikewang1/jeep/1999/Gas",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"create car\", function () {",
-							"  pm.response.to.have.status(200);",
-							"  const jsonData = pm.response.json();",
-							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
-							"  pm.expect(jsonData.model).to.include(\"jeep\");",
-							"  pm.expect(jsonData.year).to.equal(1999);",
-							"  pm.expect(jsonData.motorType).to.include(\"Gas\");",
-							"  pm.expect(jsonData.owner.username).to.include(\"1\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/createCar/1/jeep/1999/Gas/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"createCar",
-						"1",
-						"jeep",
-						"1999",
-						"Gas",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "createGarage/garageMike1",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"create Offered Service test 2\", function() {",
+							"pm.test(\"create Customer Account\", function() {",
 							"    pm.response.to.have.status(200);",
 							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.garageId).to.include(\"garageMike1\");",
-							"    pm.expect(jsonData.appointments).to.be.empty;",
+							"    pm.expect(jsonData.username).to.include(\"customer1\");",
+							"    pm.expect(jsonData.password).to.equal(\"password1\");",
+							"    pm.expect(jsonData.name).to.include(\"name1\");",
 							"})"
 						],
 						"type": "text/javascript"
@@ -246,22 +164,66 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createGarage/garageMike1",
+					"raw": "http://localhost:8080/createCustomerAccount/customer1/password1/name1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"createGarage",
-						"garageMike1"
+						"createCustomerAccount",
+						"customer1",
+						"password1",
+						"name1"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "create worker",
+			"name": "Create Car 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.licensePlate).to.include(\"licensePlate1\");",
+							"  pm.expect(jsonData.model).to.include(\"model1\");",
+							"  pm.expect(jsonData.year).to.equal(1990);",
+							"  pm.expect(jsonData.motorType).to.include(\"Hybrid\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/licensePlate1/model1/1990/Hybrid/customer1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCar",
+						"licensePlate1",
+						"model1",
+						"1990",
+						"Hybrid",
+						"customer1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create TechnicianAccount1",
 			"event": [
 				{
 					"listen": "test",
@@ -270,9 +232,9 @@
 							"pm.test(\"create Technician Account\", function() {",
 							"    pm.response.to.have.status(200);",
 							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.username).to.include(\"workerMike1\");",
-							"    pm.expect(jsonData.password).to.include(\"123\");",
-							"    pm.expect(jsonData.name).to.include(\"worker1\");",
+							"    pm.expect(jsonData.username).to.include(\"technician1\");",
+							"    pm.expect(jsonData.password).to.include(\"password1\");",
+							"    pm.expect(jsonData.name).to.include(\"name1\");",
 							"})"
 						],
 						"type": "text/javascript"
@@ -283,7 +245,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createTechnicianAccount/workerMike1/123/worker1",
+					"raw": "http://localhost:8080/createTechnicianAccount/technician1/password1/name1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -291,37 +253,70 @@
 					"port": "8080",
 					"path": [
 						"createTechnicianAccount",
-						"workerMike1",
-						"123",
-						"worker1"
+						"technician1",
+						"password1",
+						"name1"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "CreateAppointment1",
+			"name": "Create Garage 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create garage\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.garageId).to.include(\"garage 1\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createGarage/garage 1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createGarage",
+						"garage 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Appointment 1 - Linked to Offered Service 1",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"create appointment\", function () {",
-							"    pm.response.to.have.status(200);",
+							"  pm.response.to.have.status(200);",
 							"",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.timeSlot.startTime).to.include(\"09:00:00\");",
-							"    pm.expect(jsonData.timeSlot.endTime).to.include(\"09:50:00\");",
-							"    pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
-							"    pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
-							"    pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
-							"    pm.expect(jsonData.car.model).to.include(\"jeep\");",
-							"    pm.expect(jsonData.car.year).to.equal(1999);",
-							"    pm.expect(jsonData.car.motorType).to.include(\"Gas\");",
-							"    pm.expect(jsonData.garage.garageId).to.include(\"garageMike1\");",
-							"    pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"test1\");",
-							"  ",
-							"  ",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"10:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"11:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"licensePlate1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"model1\");",
+							"  pm.expect(jsonData.car.year).to.equal(1990);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"garage 1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"test1\");",
+							"   ",
 							"});"
 						],
 						"type": "text/javascript"
@@ -332,7 +327,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createAppointment/This_is_an_appointment_in_test_by_mike_wang_1/-296706816/1/garageMike1/test1/workerMike1",
+					"raw": "http://localhost:8080/createAppointment/comment1/-317900160/licensePlate1/garage 1/test1/technician1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -340,15 +335,14 @@
 					"port": "8080",
 					"path": [
 						"createAppointment",
-						"This_is_an_appointment_in_test_by_mike_wang_1",
-						"-296706816",
-						"1",
-						"garageMike1",
+						"comment1",
+						"-317900160",
+						"licensePlate1",
+						"garage 1",
 						"test1",
-						"workerMike1"
+						"technician1"
 					]
-				},
-				"description": "/This is an appointment in test by mike wang/928/licensePlateMike1/garageIdMike1/test1"
+				}
 			},
 			"response": []
 		},
@@ -545,159 +539,6 @@
 			"response": []
 		},
 		{
-			"name": "OfferedServiceAddAppointment/test1/nonExisitngAppointmentId",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Offered Service add appointment\", function() {",
-							"    pm.response.to.have.status(409);",
-							"    ",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/OfferedServiceAddAppointment/test1/-1425",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"OfferedServiceAddAppointment",
-						"test1",
-						"-1425"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "OfferedServiceAddAppointment/nonExisitngOfferedServiceId",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Offered Service add appointment\", function() {",
-							"    pm.response.to.have.status(409);",
-							"    ",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/OfferedServiceAddAppointment/nonExistingId/-142578265",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"OfferedServiceAddAppointment",
-						"nonExistingId",
-						"-142578265"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "OfferedServiceAddAppointment/nonExistingOfferServiceId/nonExistingAppointmentId",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Offered Service add appointment\", function() {",
-							"    pm.response.to.have.status(409);",
-							"    ",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/OfferedServiceAddAppointment/NonExisitngTest1/-1425",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"OfferedServiceAddAppointment",
-						"NonExisitngTest1",
-						"-1425"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "OfferedServiceAddAppointment/getAppointmentById/1/getOfferedServiceById/test1 Copy",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Offered Service add appointment\", function() {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
-							"    pm.expect(jsonData.price).to.equal(100.0);",
-							"    pm.expect(jsonData.name).to.include(\"carBaking\");",
-							"    pm.expect(jsonData.duration).to.equal(30);",
-							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
-							"    pm.expect(jsonData.reminderDate).to.equal(100);",
-							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
-							"    pm.expect(jsonData.appointments).to.be.not.null;",
-							"    pm.expect(jsonData.appointments).to.be.an(\"array\");",
-							"    pm.expect(jsonData.appointments[0].appointmentId).to.equal(-142578265);",
-							"    pm.expect(jsonData.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
-							"    pm.expect(jsonData.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
-							"    ",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/OfferedServiceAddAppointment/test1/-142578265",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"OfferedServiceAddAppointment",
-						"test1",
-						"-142578265"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "getAllOfferedServices/afterTest1AddingAppointmentAndUpdate",
 			"event": [
 				{
@@ -714,11 +555,7 @@
 							"    pm.expect(jsonData1.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData1.reminderDate).to.equal(100);",
 							"    pm.expect(jsonData1.description).to.include(\"ThisIsAModifyedService\");",
-							"    pm.expect(jsonData1.appointments).to.be.not.null;",
-							"    pm.expect(jsonData1.appointments).to.be.an(\"array\");",
-							"    pm.expect(jsonData1.appointments[0].appointmentId).to.equal(-142578265);",
-							"    pm.expect(jsonData1.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
-							"    pm.expect(jsonData1.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
+							"",
 							"",
 							"",
 							"    const jsonData = pm.response.json()[0];",
@@ -772,11 +609,7 @@
 							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData.reminderDate).to.equal(100);",
 							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
-							"    pm.expect(jsonData.appointments).to.be.not.null;",
-							"    pm.expect(jsonData.appointments).to.be.an(\"array\");",
-							"    pm.expect(jsonData.appointments[0].appointmentId).to.equal(-142578265);",
-							"    pm.expect(jsonData.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
-							"    pm.expect(jsonData.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
+							"",
 							"})"
 						],
 						"type": "text/javascript"
@@ -845,17 +678,13 @@
 							"    pm.response.to.have.status(200);",
 							"    const jsonData = pm.response.json();",
 							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
-							"    pm.expect(jsonData.price).to.equal(100.0);",
+							"    pm.expect(jsonData.price).to.equal(100);",
 							"    pm.expect(jsonData.name).to.include(\"carBaking\");",
 							"    pm.expect(jsonData.duration).to.equal(30);",
 							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData.reminderDate).to.equal(100);",
 							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
-							"    pm.expect(jsonData.appointments).to.be.not.null;",
-							"    pm.expect(jsonData.appointments).to.be.an(\"array\");",
-							"    pm.expect(jsonData.appointments[0].appointmentId).to.equal(-142578265);",
-							"    pm.expect(jsonData.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
-							"    pm.expect(jsonData.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
+							"    ",
 							"})"
 						],
 						"type": "text/javascript"
@@ -866,7 +695,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/getOfferedServiceByAppointment/-142578265",
+					"raw": "http://localhost:8080/getOfferedServiceByAppointment/-602415694",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -874,7 +703,7 @@
 					"port": "8080",
 					"path": [
 						"getOfferedServiceByAppointment",
-						"-142578265"
+						"-602415694"
 					]
 				}
 			},
@@ -947,6 +776,38 @@
 			"response": []
 		},
 		{
+			"name": "delete all appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"delete all app\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAllAppointment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAllAppointment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "deleteOfferedServiceById/test1",
 			"event": [
 				{
@@ -963,11 +824,6 @@
 							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
 							"    pm.expect(jsonData.reminderDate).to.equal(100);",
 							"    pm.expect(jsonData.description).to.include(\"ThisIsAModifyedService\");",
-							"    pm.expect(jsonData.appointments).to.be.not.null;",
-							"    pm.expect(jsonData.appointments).to.be.an(\"array\");",
-							"    pm.expect(jsonData.appointments[0].appointmentId).to.equal(-142578265);",
-							"    pm.expect(jsonData.appointments[0]).to.have.keys('appointmentId','comment','timeSlot','car','garage','worker','offeredService');",
-							"    pm.expect(jsonData.appointments[0].timeSlot).to.have.keys('startTime','endTime','startDate','endDate','timeslotId');",
 							"})"
 						],
 						"type": "text/javascript"
