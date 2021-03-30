@@ -78,10 +78,16 @@ export default {
                 reminderDate: reminderDate,
                 reminderTime: reminderTime
             }
-            //this.tableData[this.msg2] = newValue2
-            this.tableData.splice(this.msg2, 1)
-            this.tableData.push(this.msg2, newValue2)
-            this.tableData.splice(this.msg2, 1)
+            this.tableData[this.msg2].Id = Id
+            this.tableData[this.msg2].name = name
+            this.tableData[this.msg2].duration = duration
+            this.tableData[this.msg2].price = price
+            this.tableData[this.msg2].comments = description
+            this.tableData[this.msg2].reminderDate = reminderDate
+            this.tableData[this.msg2].reminderTime = reminderTime
+            // this.tableData.splice(this.msg2, 1)
+            // this.tableData.push(this.msg2, newValue2)
+            // this.tableData.splice(this.msg2, 1)
             
             var o = new OfferedServiceDTO(Id,price,name,duration,reminderTime,reminderDate,description)
             let i=0
