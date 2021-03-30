@@ -4,7 +4,6 @@
     <!-- <MainMenu /> -->
     <template>
       <div>
-		<my-header></my-header>
         <b-navbar toggleable="lg" type="dark" variant="dark">
           <b-navbar-brand href="#">VRSS</b-navbar-brand>
 
@@ -12,10 +11,9 @@
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item @click="goBack" style="color: white"
-                >Go Back</b-nav-item
-              >
+              <b-nav-item @click="goBack" style="color: white">Go Back</b-nav-item>
               <b-nav-item href="#/app" color="white">Home</b-nav-item>
+              <b-nav-item href="#/Calender">Calendar</b-nav-item>
               <b-nav-item href="#" disabled>Services and Pricing</b-nav-item>
               <b-nav-item href="#" disabled>Information</b-nav-item>
             </b-navbar-nav>
@@ -33,8 +31,7 @@
                   class="my-2 my-sm-0"
                   type="submit"
                   style="background-color: #a9a9a9; color: white"
-                  >Search</b-button
-                >
+                  >Search</b-button>
               </b-nav-form>
 
               <b-nav-item-dropdown text="Lang" right>
@@ -56,16 +53,45 @@
       </div>
     </template>
     <router-view></router-view>
+    <template>
+      <div>
+        <footer class="bg-white">
+          <div class="container py-5">
+            <div class="row py-4">
+              <div class="col-lg-6 col-md-6 mb-4 mb-lg-0"><img src="img/logo.png" alt="" width="180" class="mb-3">
+                <p class="font-italic text-muted">Welcome to the website for our amazing, outstanding, mindblowing, Vehicle Repair Shop!</p>
+              </div>
+            <div class="col-lg-6 col-md-6 mb-2 mb-lg-0">
+              <h6 class="text-uppercase font-weight-bold mb-4">Business Information</h6>
+              <ul class="list-unstyled mb-0">
+                <li class="mb-2"><a class="text-muted">Name</a></li>
+                <li class="mb-2"><a class="text-muted">Address</a></li>
+                <li class="mb-2"><a class="text-muted">Phone Number</a></li>
+                <li class="mb-2"><a class="text-muted">Email</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+    <!-- Copyrights -->
+    <div class="bg-light py-4">
+      <div class="container text-center">
+        <p class="text-muted mb-0 py-2">© 2021 Project Group 6 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- End -->
+        
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import CalendarAdminAccount from "./components/CalendarAdminAccount.vue";
 import MainMenu from "./components/MainMenu.vue";
-import Header from './components/Header'
 
 export default {
-  'my-header':Header,
   name: "app",
   components: {},
   methods: {
