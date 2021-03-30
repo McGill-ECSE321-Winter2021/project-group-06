@@ -106,7 +106,7 @@
     <el-dialog title="EIDTING" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="Id" :label-width="formLabelWidth">
-          <el-input v-model="form.Id" autocomplete="off"></el-input>
+          <el-input v-model="form.Id" autocomplete="off" readonly = "true"></el-input>
         </el-form-item>
 
         <el-form-item label="name" :label-width="formLabelWidth">

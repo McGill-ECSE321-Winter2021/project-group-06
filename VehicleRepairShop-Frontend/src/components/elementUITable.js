@@ -99,6 +99,8 @@ export default {
         handleEdit(index, row) {
             this.msg = row;
             this.msg2 = index;
+            console.log("msg.Id: " + this.msg.Id)
+            this.form.Id = this.msg.Id
         },
 
         
@@ -120,6 +122,7 @@ export default {
                             reminderDate: reminderDate,
                             reminderTime: reminderTime
                         }
+                        
                         this.tableData.splice(this.msg2,1,newValue2)
 
                         let i=0
@@ -129,6 +132,7 @@ export default {
                             }
                             i++
                         }
+                        
                         this.errorOfferedService = ''
                         this.newOfferedService = ''
                         var j
