@@ -11,7 +11,8 @@
               <b-nav-item @click="goBack" style="color: white">Go Back</b-nav-item>
               <b-nav-item href="#/app" color="white">Home</b-nav-item>
               <b-nav-item href="#/Calender">Calendar</b-nav-item>
-              <b-nav-item href="#/Services" disabled>Services and Pricing</b-nav-item>
+              <b-nav-item href="#/Services">Services and Pricing</b-nav-item>
+              <b-nav-item href="#/Car">Cars</b-nav-item>
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
@@ -19,10 +20,10 @@
 
               <b-nav-item-dropdown text="Lang" right>
                 <b-dropdown-item href="#">EN</b-dropdown-item>
-                <b-dropdown-item href="#">FA</b-dropdown-item>
+                <b-dropdown-item href="#">FR</b-dropdown-item>
               </b-nav-item-dropdown>
 
-              <b-nav-item-dropdown right align="right"> 
+              <b-nav-item-dropdown right> 
                 <!-- Using 'button-content' slot -->
                 <template #button-content>
                   <em>User</em>
@@ -95,6 +96,11 @@ nav .navbar-nav li a {
 .textLeft {
   text-align: left;
 }
+
+.textRight {
+  text-align: right;
+}
+
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
