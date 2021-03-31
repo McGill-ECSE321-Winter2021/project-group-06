@@ -66,10 +66,15 @@
 		</table>
     <br><br/>
 
+	<p>
+        <span v-if="errorAdminAccount" style="color: red">Error: {{ errorAdminAccount }}
+        </span>
+    </p>
+
     <button @click="deleteAdminAccount(username)" onclick="" type="button" style="border-color:#909399; color: #909399;" class="btn ">
                 <font size="3"><b>Delete Account</b></font>
     </button>
-    <button @click="goToEditAdminAccount" onclick="" type="button" style="border-color:#409EFF; color: #409EFF;" class="btn ">
+    <button @click="goToEditAdminAccount()" onclick="" type="button" style="border-color:#409EFF; color: #409EFF;" class="btn ">
                 <font size="3"><b>Manage Account</b></font>
     </button>
     <br><br/>

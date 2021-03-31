@@ -40,6 +40,16 @@ export default {
                 })
                 this.$router.push("/adminAccountLogin");
         },
+        loginAdminAccount: function (username) {
+            AXIOS.put('/loginAdminAccount/' + username).then(response => {
+                this.adminAccounts = response.data
+            })
+                .catch(e => {
+                    console.log(e)
+                    this.errorAdminAccount = e
+                })
+                this.$router.push("/adminAccountLogin");
+        },
         getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')
                 .then(response => {
@@ -49,6 +59,9 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
+        goToEditAdminAccount: function (){
+            this.$router.push("/EditdminAccount");
+        }
     }
 
 }
