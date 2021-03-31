@@ -10,7 +10,7 @@ import EditAccount from '@/components/EditAccount'
 import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
 import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
 import TechnicianAccountLogin from '@/components/TechnicianAccountLogin'
-import SignUp from '@/components/SignUp'
+import AdminAccountSignUp from '@/components/AdminAccountSignUp'
 import Test from '@/components/Test'
 
 Vue.use(Router)
@@ -55,9 +55,9 @@ export default new Router({
     },
     {
     
-      path: '/signUp',
-      name: 'SignUp',
-      component: SignUp
+      path: '/adminAccountSignUp',
+      name: 'AdminAccountSignUp',
+      component: AdminAccountSignUp
     },
     {
     

@@ -1,9 +1,9 @@
 <template>
-  <div class="signUp">
+  <div class="adminAccountSignUp">
     <br /><br />
 
     <h1 style="color: #409EFF">Sign Up</h1>
-    <h4 style="color: #000000">Create your own account</h4>
+    <h4 style="color: #000000">Create your account</h4>
     <br /><br />
 
     <table id="t01">
@@ -60,7 +60,7 @@
 </template>
 
 
-<script src="./adminAccount.js">
+<script src="./adminAccountSignUp.js">
 
 // import axios from 'axios'
 
