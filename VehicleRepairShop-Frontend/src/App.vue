@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import ViewAdminAccount from './components/ViewAdminAccount.vue';
+import AdminAccountLogin from './components/AdminAccountLogin.vue';
 export default {
   name: "app",
   components: {},

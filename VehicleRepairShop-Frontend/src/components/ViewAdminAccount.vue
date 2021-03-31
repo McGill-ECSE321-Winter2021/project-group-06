@@ -62,11 +62,11 @@
     <table id="t01">
       <tr>
         <th>Username:</th>
-        <td>{{ username }}</td>
+        <td>{{ this.$currentUsername.value}}</td>
       </tr>
       <tr>
         <th>Name:</th>
-        <td>{{ name }}</td>
+        <td>{{ this.$currentName.value }}</td>
       </tr>
     </table>
     <br /><br />
@@ -78,7 +78,7 @@
     </p>
 
     <button
-      @click="deleteAdminAccount(username)"
+      @click="deleteAdminAccount()"
       onclick=""
       type="button"
       style="border-color: #909399; color: #909399"
@@ -97,7 +97,7 @@
     </button>
     <br /><br />
     <button
-      @click="logoutAdminAccount(username)"
+      @click="logoutAdminAccount()"
       type="button"
       style="background-color: #909399; color: white"
       class="btn"

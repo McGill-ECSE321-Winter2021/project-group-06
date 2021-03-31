@@ -37,6 +37,10 @@ export default {
                 this.newAdminAccount.password = ''
                 this.newAdminAccount.name = ''
                 this.errorAdminAccount = ''
+                this.$currentUsername.value = username
+                this.$currentName.value = name
+                console.log(this.$currentUsername.value);
+                console.log(this.$currentName.value);
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message

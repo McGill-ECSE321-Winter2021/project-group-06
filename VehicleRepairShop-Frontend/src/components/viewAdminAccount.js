@@ -13,6 +13,7 @@ var AXIOS = axios.create({
 
 
 export default {
+    props: ['currentUsername'],
     data() {
         return {
             adminAccounts: [],
@@ -36,12 +37,16 @@ export default {
     methods: {
         goBack() {
             this.$router.go(-1);
+
         },
-        deleteAdminAccount: function (username) {
-            AXIOS.put('/deleteAdminAccount/' + username).then(response => {
+        deleteAdminAccount: function () {
+            console.log(this.$currentUsername.value);
+            AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
                 this.adminAccounts = response.data
                 this.selectedAdminAccount.username = ''
                 this.errorAdminAccount = ''
+                this.$currentUsername.value = ''
+                this.$currentName.value = ''
                 this.$router.push("/adminAccountLogin");
             })
                 .catch(e => {
@@ -50,11 +55,13 @@ export default {
                 })
 
         },
-        logoutAdminAccount: function (username) {
-            AXIOS.put('/logoutAdminAccount/' + username).then(response => {
+        logoutAdminAccount: function () {
+            AXIOS.put('/logoutAdminAccount/' + this.$currentUsername.value).then(response => {
                 this.adminAccounts = response.data
                 this.selectedAdminAccount.username = ''
                 this.errorAdminAccount = ''
+                this.$currentUsername.value = ''
+                this.$currentName.value = ''
                 this.$router.push("/adminAccountLogin");
             })
                 .catch(e => {

@@ -61,7 +61,6 @@
 
 
 <script src="./adminAccountSignUp.js">
-
 // import axios from 'axios'
 
 // var config = require('../../config')

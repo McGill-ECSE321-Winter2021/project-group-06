@@ -20,6 +20,9 @@ Vue.use(VueMaterial)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
+Vue.prototype.$currentUsername = {value: ""};
+Vue.prototype.$currentName = {value: ""};
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
