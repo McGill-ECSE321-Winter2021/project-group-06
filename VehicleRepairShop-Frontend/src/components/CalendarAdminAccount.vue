@@ -28,6 +28,7 @@ import axios from 'axios'
 import DropdownMenu from '@innologica/vue-dropdown-menu'
 import ModalWindow from "@vuesence/modal-window";
 
+
 var config = require('../../config')
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
@@ -66,9 +67,12 @@ export default {
                   selectable: true,
                   selectMirror: true,
                   dayMaxEvents: true,
+                  droppable: true,
+                  eventOverlap: false,
                   weekends: true,
                   select: this.timeSlotSelected,
-                  eventClick: this.deleteAppointment,
+                  eventClick: this.deleteOrUpdateAppointment,
+                  eventDrop: this.createTimeslot,
     
                 
             },
@@ -108,13 +112,34 @@ export default {
             
     },
     methods: {
-        async deleteAppointment(selectionInfo){
+        async updateAppointmentTimeslot(appointmentId,timeslotId){
+           const response = await AXIOS.put('/updateAppointmentTimeSlot/'+parseInt(appointmentId)+'/'+parseInt(timeslotId));
+           console.log(response.data)
+        },
+
+        async createTimeslot(info){
+            let startTime = info.event.startStr.substring(11,19);
+           let startDate = info.event.startStr.substring(0,10);
+           let endTime = info.event.endStr.substring(11,19);
+           let endDate = info.event.endStr.substring(0,10);
+           let appointmentId = info.event.id;
+            var c = confirm("are you sure you want to change the timeslot of the appointment?");
+            if (c == true ){
+                const response = await AXIOS.post('/createTimeSlot/'+startTime+'/'+endTime+'/'+startDate+'/'+endDate);
+                // console.log(response.data)
+                this.updateAppointmentTimeslot(appointmentId,response.data.timeslotId)
+            }
+                    
+        },
+        
+
+        async deleteOrUpdateAppointment(selectionInfo){
+            var choice = prompt("do you want to update or delete appointment?");
              var c = confirm("are you sure you want to delete this appointment?")
                       if (c == true) {
                           let appointment = selectionInfo.event;
                           let appointmentId = selectionInfo.event.id;
                           this.appointmentIdToDelete = parseInt(appointmentId);
-                        //   console.log(typeof(this.appointmentIdToDelete))
                           this.deleteAppointment;
                           appointment.remove();
                           const response = await AXIOS.delete('/deleteAppointmentById/'+this.appointmentIdToDelete);
