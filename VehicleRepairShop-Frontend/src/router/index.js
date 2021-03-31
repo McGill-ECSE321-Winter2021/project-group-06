@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Modal from "@burhanahmeed/vue-modal-2";
+import Modal from "@burhanahmeed/vue-modal-2"
 import Hello from '@/components/Hello'
 import CalendarAdminAccount from '@/components/CalendarAdminAccount.vue'
 import MainMenu from '@/components/MainMenu'
-import SelectAccount from '@/components/SelectAccount'
-import AdminAccountProfile from '@/components/AdminAccountProfile'
-import EditAccount from '@/components/EditAccount'
+import SelectAccount from '@/components/SelectAccount.vue'
+import ViewAdminAccount from '@/components/ViewAdminAccount.vue'
+import EditAdminAccount from '@/components/EditAdminAccount.vue'
 import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
 import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
-import TechnicianAccountLogin from '@/components/TechnicianAccountLogin'
-import SignUp from '@/components/SignUp'
-import Test from '@/components/Test'
+import TechnicianAccountLogin from '@/components/TechnicianAccountLogin.vue'
+import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
+import Test from '@/components/Test.vue'
 
 Vue.use(Router)
 Vue.use(Modal);
@@ -55,20 +55,21 @@ export default new Router({
     },
     {
     
-      path: '/signUp',
-      name: 'SignUp',
-      component: SignUp
+      path: '/adminAccountSignUp',
+      name: 'AdminAccountSignUp',
+      component: AdminAccountSignUp
     },
     {
     
-      path: '/editAccount',
-      name: 'EditAccount',
-      component: EditAccount
+      path: '/editAdminAccount',
+      name: 'EditAdminAccount',
+      component: EditAdminAccount
     },
+
     {
-      path: '/adminAccountProfile',
-      name: 'AdminAccountProfile',
-      component: AdminAccountProfile
+      path: '/viewAdminAccount',
+      name: 'ViewAdminAccount',
+      component: ViewAdminAccount
     },
     {
       path: '/test',

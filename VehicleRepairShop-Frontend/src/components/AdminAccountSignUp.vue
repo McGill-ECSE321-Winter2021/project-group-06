@@ -1,10 +1,10 @@
 <template>
-  <div class="signUp">
-    <br /><br />
+  <div class="adminAccountSignUp">
+    <br><br/>
 
     <h1 style="color: #409EFF">Sign Up</h1>
-    <h4 style="color: #000000">Create your own account</h4>
-    <br /><br />
+    <h4 style="color: #000000">Create your account</h4>
+    <br><br/>
 
     <table id="t01">
       <tr>
@@ -32,14 +32,14 @@
       <option>Technician Account</option>
     </select> -->
 
-    <br /><br />
+    <br><br/>
     <p>
       <span v-if="errorAdminAccount" style="color: red">Error: {{ errorAdminAccount }}
     </span>
     </p>
 
     <button
-      @click="goToLogin"
+      @click="goToAdminAccountLogin()"
       type="button"
       style="border-color: #909399; color: #909399"
       class="btn"
@@ -55,12 +55,12 @@
       <font size="3"><b>Sign Up</b></font>
     </button>
 
-    <br /><br />
+    <br><br/>
   </div>
 </template>
 
 
-<script src="./adminAccount.js">
+<script src="./adminAccountSignUp.js">
 
 // import axios from 'axios'
 
@@ -100,10 +100,7 @@
 </script>
 
 <style>
-#login {
-  margin-bottom: 0;
-  margin-top: 0;
-}
+
 #t01 {
   width: 20%;
   text-align: left;

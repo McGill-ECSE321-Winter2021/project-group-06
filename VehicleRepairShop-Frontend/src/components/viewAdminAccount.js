@@ -1,5 +1,5 @@
 import axios from 'axios'
-// import main from '../main'
+import main from '../main'
 // import { response } from 'express'
 var config = require('../../config')
 
@@ -21,7 +21,11 @@ export default {
                 password: '',
                 name: ''
             },
-            selectedAdminAccount: '',
+            selectedAdminAccount: {
+                username: '',
+                password: '',
+                name: ''
+            },
             errorAdminAccount: '',
             response: []
 
@@ -29,20 +33,33 @@ export default {
         }
 
     },
-    methods: {
-        loginAdminAccount: function (username, password) {
-            AXIOS.put('/loginAdminAccount/' + username + '/' + password).then(response => {
+        methods: {
+        deleteAdminAccount: function (username) {
+            AXIOS.put('/deleteAdminAccount/' + username).then(response => {
                 this.adminAccounts = response.data
-                // main.username = username
-                // main.accountType = 'Admin'
+                this.selectedAdminAccount.username = ''
+                this.errorAdminAccount = ''
+                this.$router.push("/adminAccountLogin");
             })
                 .catch(e => {
                     console.log(e)
                     this.errorAdminAccount = e
                 })
-                this.$router.push("/calendarAdmin");
+                
         },
-                getAllAdminAccounts: function () {
+        logoutAdminAccount: function (username) {
+            AXIOS.put('/logoutAdminAccount/' + username).then(response => {
+                this.adminAccounts = response.data
+                this.selectedAdminAccount.username = ''
+                this.errorAdminAccount = ''
+                this.$router.push("/adminAccountLogin");
+            })
+                .catch(e => {
+                    console.log(e)
+                    this.errorAdminAccount = e
+                })
+        },
+        getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')
                 .then(response => {
                     this.adminAccounts = response.data
@@ -51,6 +68,9 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
+        goToEditAdminAccount: function (){
+            this.$router.push("/editAdminAccount");
+        }
     }
 
 }

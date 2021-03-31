@@ -1,5 +1,5 @@
 import axios from 'axios'
-import main from '../main'
+// import main from '../main'
 // import { response } from 'express'
 var config = require('../../config')
 
@@ -29,14 +29,15 @@ export default {
 
     },
     methods: {
-        createAdminAccount: function (username, password, name) {
-            AXIOS.post('/createAdminAccount/' + username + '/' + password + '/' + name).then(response => {
+        updateAdminAccount: function (username, newPassword, newName) {
+            AXIOS.put('/updateAdminAccount/' + username + '/' + newPassword + '/' + newName).then(response => {
                 // JSON responses are automatically parsed.
                 this.adminAccounts.push(response.data)
                 this.newAdminAccount.username = ''
-                this.newAdminAccount.password = ''
+                this.newAdminAccount.password = '' //should this be .newPassword?
                 this.newAdminAccount.name = ''
-                this.errorAdminAccount = ''
+				this.errorAdminAccount = ''
+				console.log(newAdminAccount.username + " " + newAdminAccount.name)
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
@@ -55,6 +56,9 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
+        goToViewAdminAccount(){
+              this.$router.push("/viewAdminAccount");
+            }
     }
 
 }
