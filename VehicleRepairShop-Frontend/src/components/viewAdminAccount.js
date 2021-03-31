@@ -33,7 +33,10 @@ export default {
         }
 
     },
-        methods: {
+    methods: {
+        goBack() {
+            this.$router.go(-1);
+        },
         deleteAdminAccount: function (username) {
             AXIOS.put('/deleteAdminAccount/' + username).then(response => {
                 this.adminAccounts = response.data
@@ -45,7 +48,7 @@ export default {
                     console.log(e)
                     this.errorAdminAccount = e
                 })
-                
+
         },
         logoutAdminAccount: function (username) {
             AXIOS.put('/logoutAdminAccount/' + username).then(response => {
@@ -68,7 +71,7 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
-        goToEditAdminAccount: function (){
+        goToEditAdminAccount: function () {
             this.$router.push("/editAdminAccount");
         }
     }

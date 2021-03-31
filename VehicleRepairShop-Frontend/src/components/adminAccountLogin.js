@@ -35,12 +35,13 @@ export default {
                 this.adminAccounts = response.data
                 // main.username = username
                 // main.accountType = 'Admin'
+                this.$router.push("/calendarAdmin");
             })
                 .catch(e => {
                     console.log(e)
                     this.errorAdminAccount = e
                 })
-                this.$router.push("/calendarAdmin");
+                
         },
                 getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')

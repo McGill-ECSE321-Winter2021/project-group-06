@@ -1,6 +1,6 @@
 <template>
   <div id="viewAdminAccount">
-        <template>
+    <template>
       <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
           <b-navbar-brand href="#">VRSS</b-navbar-brand>
@@ -13,7 +13,12 @@
                 >Go Back</b-nav-item
               >
               <b-nav-item href="#/app" color="white">Home</b-nav-item>
-			  <b-nav-item href="#/viewAdminAccount" color="white">Profile</b-nav-item>
+              <b-nav-item href="#/calendarAdmin" color="white"
+                >Calendar</b-nav-item
+              >
+              <b-nav-item href="#/viewAdminAccount" color="white"
+                >Profile</b-nav-item
+              >
               <b-nav-item href="#" disabled>Services and Pricing</b-nav-item>
               <b-nav-item href="#" disabled>Information</b-nav-item>
             </b-navbar-nav>
@@ -36,79 +41,94 @@
               </b-nav-form>
 
               <!-- <b-nav-item-dropdown right> -->
-                <!-- Using 'button-content' slot -->
-                <!-- <template #button-content> -->
-                  <!-- <em>User</em> -->
-                <!-- </template> -->
-                <!-- <b-dropdown-item href="#/viewAdminAccount" style="background-color: #909399">Profile</b-dropdown-item> -->
-                <!-- <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item> -->
+              <!-- Using 'button-content' slot -->
+              <!-- <template #button-content> -->
+              <!-- <em>User</em> -->
+              <!-- </template> -->
+              <!-- <b-dropdown-item href="#/viewAdminAccount" style="background-color: #909399">Profile</b-dropdown-item> -->
+              <!-- <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item> -->
               <!-- </b-nav-item-dropdown>  -->
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
       </div>
-    </template> 
+    </template>
 
-    <br><br/>
-    <h1 style="color:#409EFF;">View Account </h1>
+    <br /><br />
+    <h1 style="color: #409eff">View Account</h1>
 
-    <br><br/>
+    <br /><br />
 
-    	<table id="t01">
-		  <tr>
-		    <th>Username:</th>
-		    <td>{{ username }}</td>
-		  </tr>
-		  <tr>
-		    <th>Name:</th>
-		    <td>{{ name }}</td>
-        </tr>
-		</table>
-    <br><br/>
+    <table id="t01">
+      <tr>
+        <th>Username:</th>
+        <td>{{ username }}</td>
+      </tr>
+      <tr>
+        <th>Name:</th>
+        <td>{{ name }}</td>
+      </tr>
+    </table>
+    <br /><br />
 
-	<p>
-        <span v-if="errorAdminAccount" style="color: red">Error: {{ errorAdminAccount }}
-        </span>
+    <p>
+      <span v-if="errorAdminAccount" style="color: red"
+        >Error: {{ errorAdminAccount }}
+      </span>
     </p>
 
-    <button @click="deleteAdminAccount(username)" onclick="" type="button" style="border-color:#909399; color: #909399;" class="btn ">
-                <font size="3"><b>Delete Account</b></font>
+    <button
+      @click="deleteAdminAccount(username)"
+      onclick=""
+      type="button"
+      style="border-color: #909399; color: #909399"
+      class="btn"
+    >
+      <font size="3"><b>Delete Account</b></font>
     </button>
-    <button @click="goToEditAdminAccount()" onclick="" type="button" style="border-color:#409EFF; color: #409EFF;" class="btn ">
-                <font size="3"><b>Manage Account</b></font>
+    <button
+      @click="goToEditAdminAccount()"
+      onclick=""
+      type="button"
+      style="border-color: #409eff; color: #409eff"
+      class="btn"
+    >
+      <font size="3"><b>Manage Account</b></font>
     </button>
-    <br><br/>
-     <button @click="logoutAdminAccount(username)" type="button" style="background-color:#909399; color: white;" class="btn ">
-                <font size="3"><b>Log Out</b></font>
+    <br /><br />
+    <button
+      @click="logoutAdminAccount(username)"
+      type="button"
+      style="background-color: #909399; color: white"
+      class="btn"
+    >
+      <font size="3"><b>Log Out</b></font>
     </button>
-    <br><br/>
-
+    <br /><br />
   </div>
 </template>
 
 <script src="./viewAdminAccount.js">
-
 </script>
 
 <style>
 .navbar.navbar-dark.bg-dark {
-  background-color: #409EFF!important;
+  background-color: #409eff !important;
 }
 nav .navbar-nav li a {
   color: white !important;
 }
 #adminAccountProfile {
-    margin-bottom: 0;
-    margin-top: 0;
-    /* background-color: #909399;
+  margin-bottom: 0;
+  margin-top: 0;
+  /* background-color: #909399;
     color: #409EFF; */
-  }
-  #t01 {
+}
+#t01 {
   width: 20%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
 }
-
 </style>
 
