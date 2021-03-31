@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+
+    <img src="./assets/newLogo.png">
+
     <template>
         <b-navbar toggleable="lg" type="dark" variant="dark" sticky="true">
           <b-navbar-brand href="#/app"> &nbsp; VRSS</b-navbar-brand>
@@ -73,7 +76,6 @@
 </template>
 
 <script>
-
 export default {
   name: "app",
   components: {},
@@ -92,16 +94,12 @@ export default {
 nav .navbar-nav li a {
   color: white !important;
 }
-
 .textLeft {
   text-align: left;
 }
-
 .textRight {
   text-align: right;
 }
-
-
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
