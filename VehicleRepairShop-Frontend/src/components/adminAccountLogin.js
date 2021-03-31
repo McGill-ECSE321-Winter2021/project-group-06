@@ -40,6 +40,7 @@ export default {
                     console.log(e)
                     this.errorAdminAccount = e
                 })
+                this.$router.push("/calendarAdmin");
         },
                 getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')
