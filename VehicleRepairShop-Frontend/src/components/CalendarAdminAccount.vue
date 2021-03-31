@@ -21,7 +21,7 @@
 
 <script>
 import Fullcalendar from '@fullcalendar/vue'
-import DayGridPlugin from '@fullcalendar/daygrid'
+// import DayGridPlugin from '@fullcalendar/daygrid'
 import TimeGridPlugin from '@fullcalendar/timegrid'
 import InteractionPlugin from '@fullcalendar/interaction'
 import axios from 'axios'
@@ -52,7 +52,7 @@ export default {
             
             calendarOptions :{
                 plugins : [
-                    DayGridPlugin,
+                    // DayGridPlugin,
                     TimeGridPlugin,
                     InteractionPlugin
                 ],
@@ -60,7 +60,7 @@ export default {
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'timeGridWeek,timeGridDay'
+                    right: 'timeGridWeek'
                   },
                  
                   editable: true,
@@ -174,6 +174,7 @@ export default {
                 let startDate = selectionInfo.start.getFullYear().toString()+'-'+(selectionInfo.start.getMonth()+1).toString()+'-'+selectionInfo.start.getDate().toString();
                 let endDate = selectionInfo.end.getFullYear().toString()+'-'+(selectionInfo.end.getMonth()+1).toString()+'-'+selectionInfo.end.getDate().toString();
                 if (confirm('Do you want to make an appointment?')){
+                    // once selected a timeslot, show modal
                     this.toggleShowModal();
                     const response = await AXIOS.post('/createTimeSlot/'+startTime+'/'+endTime+'/'+startDate+'/'+endDate);
                     this.currentSelectedTimeslotId = response.data.timeslotId;
