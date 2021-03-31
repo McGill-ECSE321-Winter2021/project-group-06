@@ -35,7 +35,8 @@ export default new Router({
       path:'/OfferedServiceTable',
       name:'OfferedServiceTable',
       component: OfferedServiceTable
-
+    },
+    {
 
       path: '/calendarAdmin',
       name: 'CalendarAdminAccount',
