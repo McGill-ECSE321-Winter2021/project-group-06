@@ -21,7 +21,11 @@ export default {
                 password: '',
                 name: ''
             },
-            selectedAdminAccount: '',
+            selectedAdminAccount: {
+                username: '',
+                password: '',
+                name: ''
+            },
             errorAdminAccount: '',
             response: []
 
@@ -33,22 +37,27 @@ export default {
         deleteAdminAccount: function (username) {
             AXIOS.put('/deleteAdminAccount/' + username).then(response => {
                 this.adminAccounts = response.data
+                this.selectedAdminAccount.username = ''
+                this.errorAdminAccount = ''
+                this.$router.push("/adminAccountLogin");
             })
                 .catch(e => {
                     console.log(e)
                     this.errorAdminAccount = e
                 })
-                this.$router.push("/adminAccountLogin");
+                
         },
-        loginAdminAccount: function (username) {
-            AXIOS.put('/loginAdminAccount/' + username).then(response => {
+        logoutAdminAccount: function (username) {
+            AXIOS.put('/logoutAdminAccount/' + username).then(response => {
                 this.adminAccounts = response.data
+                this.selectedAdminAccount.username = ''
+                this.errorAdminAccount = ''
+                this.$router.push("/adminAccountLogin");
             })
                 .catch(e => {
                     console.log(e)
                     this.errorAdminAccount = e
                 })
-                this.$router.push("/adminAccountLogin");
         },
         getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')
@@ -60,7 +69,7 @@ export default {
                 })
         },
         goToEditAdminAccount: function (){
-            this.$router.push("/EditdminAccount");
+            this.$router.push("/editAdminAccount");
         }
     }
 

@@ -6,7 +6,7 @@ import CalendarAdminAccount from '@/components/CalendarAdminAccount.vue'
 import MainMenu from '@/components/MainMenu'
 import SelectAccount from '@/components/SelectAccount.vue'
 import ViewAdminAccount from '@/components/ViewAdminAccount.vue'
-import EditAccount from '@/components/EditAccount.vue'
+import EditAdminAccount from '@/components/EditAdminAccount.vue'
 import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
 import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
 import TechnicianAccountLogin from '@/components/TechnicianAccountLogin.vue'
@@ -61,9 +61,9 @@ export default new Router({
     },
     {
     
-      path: '/editAccount',
-      name: 'EditAccount',
-      component: EditAccount
+      path: '/editAdminAccount',
+      name: 'EditAdminAccount',
+      component: EditAdminAccount
     },
 
     {
