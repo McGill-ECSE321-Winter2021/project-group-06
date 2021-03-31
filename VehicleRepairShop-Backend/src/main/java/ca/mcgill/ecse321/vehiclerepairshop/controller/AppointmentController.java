@@ -207,8 +207,9 @@ public class AppointmentController {
 	 * @return
 	 */
 
-	@DeleteMapping(value = {"/deleteAppointmentById/{appointmentId}"})
+	@DeleteMapping(value = {"/deleteAppointmentById/{appointmentId}","/deleteAppointmentById/{appointmentId}/"})
 	public AppointmentDto deleteAppointmentByid(@PathVariable("appointmentId") int appointmentId) {
+		
 		Appointment appointment = appointmentService.deleteAppointment(appointmentId);
 		return convertToDto(appointment);
 	}
