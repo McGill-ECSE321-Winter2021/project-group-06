@@ -1,5 +1,5 @@
 <template>
-  <div id="viewaccount">
+  <div id="viewAdminAccount">
         <template>
       <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
@@ -13,6 +13,7 @@
                 >Go Back</b-nav-item
               >
               <b-nav-item href="#/app" color="white">Home</b-nav-item>
+			  <b-nav-item href="#/viewAdminAccount" color="white">Profile</b-nav-item>
               <b-nav-item href="#" disabled>Services and Pricing</b-nav-item>
               <b-nav-item href="#" disabled>Information</b-nav-item>
             </b-navbar-nav>
@@ -34,14 +35,14 @@
                 >
               </b-nav-form>
 
-              <b-nav-item-dropdown right>
+              <!-- <b-nav-item-dropdown right> -->
                 <!-- Using 'button-content' slot -->
-                <template #button-content>
-                  <em>User</em>
-                </template>
-                <b-dropdown-item href="#/viewAccount" style="background-color: #909399">Profile</b-dropdown-item>
-                <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item>
-              </b-nav-item-dropdown>
+                <!-- <template #button-content> -->
+                  <!-- <em>User</em> -->
+                <!-- </template> -->
+                <!-- <b-dropdown-item href="#/viewAdminAccount" style="background-color: #909399">Profile</b-dropdown-item> -->
+                <!-- <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item> -->
+              <!-- </b-nav-item-dropdown>  -->
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -56,58 +57,32 @@
     	<table id="t01">
 		  <tr>
 		    <th>Username:</th>
-		    <td>Placeholder Username</td>
+		    <td>{{ username }}</td>
 		  </tr>
 		  <tr>
 		    <th>Name:</th>
-		    <td>Placeholder Name</td>
+		    <td>{{ name }}</td>
         </tr>
 		</table>
     <br><br/>
 
-    <button @click="goToTest" onclick="" type="button" style="border-color:#909399; color: #909399;" class="btn ">
+    <button @click="deleteAdminAccount(username)" onclick="" type="button" style="border-color:#909399; color: #909399;" class="btn ">
                 <font size="3"><b>Delete Account</b></font>
     </button>
-    <button @click="goToEditAccount" onclick="" type="button" style="border-color:#409EFF; color: #409EFF;" class="btn ">
+    <button @click="goToEditAdminAccount" onclick="" type="button" style="border-color:#409EFF; color: #409EFF;" class="btn ">
                 <font size="3"><b>Manage Account</b></font>
     </button>
     <br><br/>
-     <button @click="logoutAdminAccount()" type="button" style="background-color:#909399; color: white;" class="btn ">
+     <button @click="logoutAdminAccount(username)" type="button" style="background-color:#909399; color: white;" class="btn ">
                 <font size="3"><b>Log Out</b></font>
     </button>
     <br><br/>
-     <!-- <button @click="goToTest"  onclick="" type="button" style="background-color:#909399; color: white;" class="btn ">
-                <font size="3"><b>Create Time Slot</b></font>
-    </button>
-     <button @click="goToTest"  onclick="" type="button" style="background-color:#909399; color: white;" class="btn ">
-                <font size="3"><b>See Appointments</b></font>
-    </button> -->
-    <!-- <br></br> -->
-  
+
   </div>
 </template>
 
-<script src="./viewAccount.js">
-      //  export default{
-      //      methods:{
-      //       goToMainMenu(){
-      //         this.$router.push("/app");
-      //       },
-      //       goToTest(){
-      //         this.$router.push("/Test");
-      //       },
-      //       goBack(){
-      //         this.$router.go(-1);
-      //       },
-      //       goToEditAccount(){
-      //         this.$router.push("/editAccount");
-      //       },
-      //       goToLogin(){
-      //         this.$router.push("/login");
-      //       },
+<script src="./viewAdminAccount.js">
 
-      //     }
-      //  }
 </script>
 
 <style>

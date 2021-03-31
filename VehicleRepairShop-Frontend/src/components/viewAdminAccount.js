@@ -29,18 +29,26 @@ export default {
         }
 
     },
-    methods: {
-        logoutAdminAccount: function () {
-            AXIOS.put('/logoutAdminAccount/' + username).then(response => {
+        methods: {
+        deleteAdminAccount: function (username) {
+            AXIOS.put('/deleteAdminAccount/' + username).then(response => {
                 this.adminAccounts = response.data
-                main.username = ''
-                main.accountType = ''
             })
                 .catch(e => {
                     console.log(e)
                     this.errorAdminAccount = e
                 })
-        }
+                this.$router.push("/adminAccountLogin");
+        },
+        getAllAdminAccounts: function () {
+            AXIOS.get('/getAllAdminAccounts')
+                .then(response => {
+                    this.adminAccounts = response.data
+                })
+                .catch(e => {
+                    this.errorAdminAccount = e
+                })
+        },
     }
 
 }
