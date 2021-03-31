@@ -1,5 +1,5 @@
 import axios from 'axios'
-import main from '../main'
+// import main from '../main'
 // import { response } from 'express'
 var config = require('../../config')
 
@@ -55,6 +55,9 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
+        goToAdminAccountLogin(){
+              this.$router.push("/adminAccountLogin");
+            }
     }
 
 }

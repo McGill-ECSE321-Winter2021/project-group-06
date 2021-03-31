@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Modal from "@burhanahmeed/vue-modal-2";
+import Modal from "@burhanahmeed/vue-modal-2"
 import Hello from '@/components/Hello'
 import CalendarAdminAccount from '@/components/CalendarAdminAccount.vue'
 import MainMenu from '@/components/MainMenu'
@@ -9,8 +9,8 @@ import ViewAccount from '@/components/ViewAccount'
 import EditAccount from '@/components/EditAccount'
 import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
 import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
-import TechnicianAccountLogin from '@/components/TechnicianAccountLogin'
-import AdminAccountSignUp from '@/components/AdminAccountSignUp'
+import TechnicianAccountLogin from '@/components/TechnicianAccountLogin.vue'
+import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
 import Test from '@/components/Test'
 
 Vue.use(Router)

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import main from '../main'
+// import main from '../main'
 // import { response } from 'express'
 var config = require('../../config')
 
@@ -33,14 +33,23 @@ export default {
         loginAdminAccount: function (username, password) {
             AXIOS.put('/loginAdminAccount/' + username + '/' + password).then(response => {
                 this.adminAccounts = response.data
-                main.username = username
-                main.accountType = 'Admin'
+                // main.username = username
+                // main.accountType = 'Admin'
             })
                 .catch(e => {
                     console.log(e)
                     this.errorAdminAccount = e
                 })
-        }
+        },
+                getAllAdminAccounts: function () {
+            AXIOS.get('/getAllAdminAccounts')
+                .then(response => {
+                    this.adminAccounts = response.data
+                })
+                .catch(e => {
+                    this.errorAdminAccount = e
+                })
+        },
     }
 
 }

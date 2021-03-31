@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <!-- <CalendarAdminAccount />
-    <!-- <MainMenu /> -->
     <router-view></router-view>
   </div>
 </template>
