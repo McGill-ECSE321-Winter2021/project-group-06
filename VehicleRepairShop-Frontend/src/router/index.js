@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Modal from "@burhanahmeed/vue-modal-2"
 import Hello from '@/components/Hello'
 import CalendarAdminAccount from '@/components/CalendarAdminAccount.vue'
+import CalendarCustomerAccount from '@/components/CalendarCustomerAccount.vue'
+import CalendarTechnicianAccount from '@/components/CalendarTechnicianAccount.vue'
 import OfferedServiceTable from '@/components/OfferedServiceTable.vue'
 import MainMenu from '@/components/MainMenu.vue'
 import SelectAccount from '@/components/SelectAccount.vue'
@@ -42,6 +44,18 @@ export default new Router({
       path: '/calendarAdmin',
       name: 'CalendarAdminAccount',
       component: CalendarAdminAccount
+    },
+    {
+
+      path: '/calendarTechnician',
+      name: 'CalendarTechnicianAccount',
+      component: CalendarTechnicianAccount
+    },
+    {
+
+      path: '/calendarCustomer',
+      name: 'CalendarCustomerAccount',
+      component: CalendarCustomerAccount
     },
     {
     

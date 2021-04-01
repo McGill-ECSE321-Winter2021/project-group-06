@@ -1,18 +1,8 @@
 <template>
 <div>
-    <Fullcalendar ref="calendar"
+    <Fullcalendar ref="calendarCustomer"
         :options="calendarOptions"
     />
-
-    <modal-window
-    :visible="isShowModal"
-    :close-on-escape="true"
-    :close-on-outside-click="true"
-    :show-x-mark="true"
-    @close="isShowModal=false"
->
-    
-    </modal-window>
 </div>
 
 
@@ -25,8 +15,7 @@ import DayGridPlugin from '@fullcalendar/daygrid'
 import TimeGridPlugin from '@fullcalendar/timegrid'
 import InteractionPlugin from '@fullcalendar/interaction'
 import axios from 'axios'
-import DropdownMenu from '@innologica/vue-dropdown-menu'
-import ModalWindow from "@vuesence/modal-window";
+
 
 
 var config = require('../../config')
@@ -39,8 +28,6 @@ var AXIOS = axios.create({
 export default {
     components : {
         Fullcalendar,
-        ModalWindow,
-        DropdownMenu
     },
     computed: {
     
@@ -67,12 +54,13 @@ export default {
                   selectable: true,
                   selectMirror: true,
                   dayMaxEvents: true,
-                  droppable: true,
+                //   droppable: true,
                   eventOverlap: false,
                   weekends: true,
+                  eventStartEditable: false,
                   select: this.timeSlotSelected,
-                  eventClick: this.deleteOrUpdateAppointment,
-                  eventDrop: this.createTimeslot,
+                //   eventClick: this.deleteOrUpdateAppointment,
+                //   eventDrop: this.createTimeslot,
                   allDaySlot: false,
                   businessHours: [ 
                     {
@@ -83,7 +71,6 @@ export default {
                 ],
                 selectConstraint: "businessHours",
                 eventConstraint:"businessHours",
-        
 
             },
             currentSelectedTimeslotId: 1,
@@ -101,32 +88,50 @@ export default {
    
     },
     mounted (){
-        let calendarApi = this.$refs.calendar.getApi()
-      
-        AXIOS.get('/getAllAppointment').then((response)=>{
+        let calendarApi = this.$refs.calendarCustomer.getApi()
+        console.log(this.$currentUsername)
+        let currentCustomerAppointment = []
+        AXIOS.get('/getAppointmentByCustomer/username1').then((response)=>{
+            console.log(response.data)
+        
+            for (var i = 0;i < response.data.length; i++){
+                let startStr = response.data[i].timeSlot.startDate+'T'+response.data[i].timeSlot.startTime;
+                let endStr = response.data[i].timeSlot.endDate+'T'+response.data[i].timeSlot.endTime;
+                currentCustomerAppointment.push(response.data[i].appointmentId)
+                let event = {
+                    id: response.data[i].appointmentId,
+                    title: response.data[i].offeredService.name,
+                    start: startStr,
+                    end: endStr,
+                    
+                }
+                console.log(event)
+                calendarApi.addEvent(event);
+            }
+         AXIOS.get('/getAllAppointment').then((response)=>{
             console.log(response.data)
         
             for (var i = 0;i < response.data.length; i++){
                 let startStr = response.data[0].timeSlot.startDate+'T'+response.data[0].timeSlot.startTime;
                 let endStr = response.data[0].timeSlot.endDate+'T'+response.data[0].timeSlot.endTime;
-                let event = {
+                if (currentCustomerAppointment.includes(response.data[0].appointmentId) == false){
+                    let event = {
                     id: response.data[0].appointmentId,
-                    title: response.data[0].offeredService.name,
+                    title: "Booked timeslot",
                     start: startStr,
-                    end: endStr
+                    end: endStr,
+                    editable: false
                 }
                 console.log(event)
                 calendarApi.addEvent(event);
+                }
             }
+        })
+
         })
             
     },
     methods: {
-        async updateAppointmentTimeslot(appointmentId,timeslotId){
-            console.log("update timeslot")
-           const response = await AXIOS.put('/updateAppointmentTimeSlot/'+parseInt(appointmentId)+'/'+parseInt(timeslotId));
-           console.log(response.data)
-        },
 
         async createTimeslot(info){
             let startTime = info.event.startStr.substring(11,19);
@@ -158,12 +163,6 @@ export default {
                       } 
             
         },
-
-      toggleShowModal (){
-        
-        this.isShowModal = true;
-        console.log(this.isShowModal);
-      },
         async getAllTimeSlot(){
             try{
                 const response = await AXIOS.get('/getAllTimeSlots');
@@ -212,7 +211,7 @@ export default {
         },
         async createTechnician(){
             try{
-                const response = await AXIOS.post('/createTechnicianAccount/technician1/password/name1');
+                const response = await AXIOS.post('/createTechnicianAccount/username1/password/name1');
                 this.currentSelectedTechnicianUsername = response.data.username;
                 console.log(response.data.username);
                 this.createCar();
