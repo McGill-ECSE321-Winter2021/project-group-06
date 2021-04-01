@@ -91,7 +91,7 @@ public class CustomerAccountController {
 	 * @param username
 	 * @return boolean if successful
 	 */
-	@DeleteMapping(value = { "/deleteCustomerAccount/{username}", "/deleteCustomerAccount/{username}/" })
+	@PutMapping(value = { "/deleteCustomerAccount/{username}", "/deleteCustomerAccount/{username}/" })
 	public CustomerAccountDto deleteCustomerAccount(@PathVariable("username") String username)   {
 		CustomerAccount user = customerAccountService.deleteCustomerAccount(username);
 		return convertToDto(user);

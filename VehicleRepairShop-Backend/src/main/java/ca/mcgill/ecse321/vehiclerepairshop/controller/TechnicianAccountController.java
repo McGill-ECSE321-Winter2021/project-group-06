@@ -99,7 +99,7 @@ public class TechnicianAccountController {
 	 * @return boolean if successful
 	 * @throws InvalidInputException
 	 */
-	@DeleteMapping(value = { "/deleteTechnicianAccount/{username}", "/deleteTechnicianAccount/{username}/" })
+	@PutMapping(value = { "/deleteTechnicianAccount/{username}", "/deleteTechnicianAccount/{username}/" })
 	public TechnicianAccountDto deleteTechnicianAccount(@PathVariable("username") String username) {
 		TechnicianAccount user = technicianAccountService.deleteTechnicianAccount(username);
 		return convertToDto(user);
