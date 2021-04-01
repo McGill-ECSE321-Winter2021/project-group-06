@@ -3,8 +3,8 @@ import Router from 'vue-router'
 import Modal from "@burhanahmeed/vue-modal-2"
 import Hello from '@/components/Hello'
 import CalendarAdminAccount from '@/components/CalendarAdminAccount.vue'
-import OfferedServiceTable from '@/components/OfferedServiceTable'
-import MainMenu from '@/components/MainMenu'
+import OfferedServiceTable from '@/components/OfferedServiceTable.vue'
+import MainMenu from '@/components/MainMenu.vue'
 import SelectAccount from '@/components/SelectAccount.vue'
 import ViewAdminAccount from '@/components/ViewAdminAccount.vue'
 import EditAdminAccount from '@/components/EditAdminAccount.vue'
@@ -32,7 +32,7 @@ export default new Router({
     //   component: FirstCompoent
     // },
     {
-      path:'/OfferedServiceTable',
+      path:'/offeredServiceTable',
       name:'OfferedServiceTable',
       component: OfferedServiceTable
     },
