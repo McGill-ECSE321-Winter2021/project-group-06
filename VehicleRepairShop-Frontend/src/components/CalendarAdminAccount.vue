@@ -21,7 +21,7 @@
 
 <script>
 import Fullcalendar from '@fullcalendar/vue'
-// import DayGridPlugin from '@fullcalendar/daygrid'
+import DayGridPlugin from '@fullcalendar/daygrid'
 import TimeGridPlugin from '@fullcalendar/timegrid'
 import InteractionPlugin from '@fullcalendar/interaction'
 import axios from 'axios'
@@ -52,7 +52,7 @@ export default {
             
             calendarOptions :{
                 plugins : [
-                    // DayGridPlugin,
+                    DayGridPlugin,
                     TimeGridPlugin,
                     InteractionPlugin
                 ],
@@ -60,7 +60,7 @@ export default {
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'timeGridWeek'
+                    right: 'timeGridWeek,timeGridDay'
                   },
                  
                   editable: true,
@@ -73,8 +73,15 @@ export default {
                   select: this.timeSlotSelected,
                   eventClick: this.deleteOrUpdateAppointment,
                   eventDrop: this.createTimeslot,
-    
-                
+                  allDaySlot: false,
+                  businessHours: [ 
+                    {
+                        daysOfWeek: [ 1, 2, 3, 4, 5 ], 
+                        startTime: '09:00', 
+                        endTime: '17:00' 
+                    },
+                ],
+
             },
             currentSelectedTimeslotId: 1,
             currentSelectedOwnerUsername: 1,
