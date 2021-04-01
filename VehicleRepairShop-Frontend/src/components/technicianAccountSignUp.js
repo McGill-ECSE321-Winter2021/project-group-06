@@ -29,47 +29,47 @@ export default {
             errorTechnicianAccount: '',
             response: []
 
-
         }
 
     },
-
     methods: {
-        loginTechnicianAccount: function (username, password) {
-            AXIOS.put('/loginTechnicianAccount/' + username + '/' + password).then(response => {
-                this.selectedTechnicianAccount = response.data
+        createTechnicianAccount: function (username, password, name) {
+            AXIOS.post('/createTechnicianAccount/' + username + '/' + password + '/' + name).then(response => {
+                // JSON responses are automatically parsed.
+                this.technicianAccounts.push(response.data)
+                this.newTechnicianAccount.username = ''
+                this.newTechnicianAccount.password = ''
+                this.newTechnicianAccount.name = ''
+                this.errorTechnicianAccount = ''
                 this.$currentUsername.value = username
-                this.$currentName.value = this.selectedTechnicianAccount.name
-                console.log(this.$currentUsername.value)
-                console.log(this.$currentName.value)
-                this.$router.push("/viewTechnicianAccount")
-            
+                this.$currentName.value = name
+                //this.$router.push("/calendarTechnician");
+                this.$router.push("/viewTechnicianAccount");
+
+                console.log(this.$currentUsername.value);
+                console.log(this.$currentName.value);
+                
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
                     this.errorTechnicianAccount = errorMsg
                 })
-                
         },
         getAllTechnicianAccounts: function () {
+            // Initializing persons from backend
             AXIOS.get('/getAllTechnicianAccounts')
                 .then(response => {
+                    // JSON responses are automatically parsed.
                     this.technicianAccounts = response.data
                 })
                 .catch(e => {
                     this.errorTechnicianAccount = e
                 })
         },
-        getTechnicianAccountByUsername: function (username) {
-            AXIOS.get('/getTechnicianAccountByUsername/' + username)
-                .then(response => {
-                    this.selectedTechnicianAccount = response.data
-                })
-                .catch(e => {
-                    this.errorTechnicianAccount = e
-                })
-        },
-
+        goToTechnicianAccountLogin(){
+              this.$router.push("/technicianAccountLogin");
+            }
     }
+
 }

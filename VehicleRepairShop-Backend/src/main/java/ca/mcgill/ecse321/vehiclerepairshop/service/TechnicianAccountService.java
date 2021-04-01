@@ -43,7 +43,7 @@ public class TechnicianAccountService {
 	@Transactional
 	public TechnicianAccount createTechnicianAccount(String username, String password, String name)   {
 
-		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
+		if (username == null || username.replaceAll("\\s+", "").length() == 0 || username.equals("undefined")) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else if (username.contains(" ")) {
@@ -52,13 +52,13 @@ public class TechnicianAccountService {
 		else if (isUsernameAvailable(username) == false) {
 			throw new InvalidInputException("This username is not available.");
 		}
-		else if (password == null || password.replaceAll("\\s+", "").length() == 0) {
+		else if (password == null || password.replaceAll("\\s+", "").length() == 0 || password.equals("undefined")) {
 			throw new InvalidInputException("Password cannot be empty.");
 		}
 		else if (password.contains(" ")) {
 			throw new InvalidInputException("Password cannot contain spaces.");
 		}
-		else if (name == null || name.replaceAll("\\s+", "").length() == 0){ //name.trim().length() == 0
+		else if (name == null || name.replaceAll("\\s+", "").length() == 0 || name.equals("undefined")){ //name.trim().length() == 0
 			throw new InvalidInputException("Name cannot be empty.");
 		}
 		else {
@@ -119,29 +119,33 @@ public class TechnicianAccountService {
 	 */
 	@Transactional
 	public TechnicianAccount updateTechnicianAccount(String username, String newPassword, String newName)   {
-		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() == 0) {
-			throw new InvalidInputException("You do not have permission to modify this account.");
-		}
-		else if (newPassword == null || newPassword.replaceAll("\\s+", "").length() == 0) {
-			throw new InvalidInputException("Password cannot be empty.");
-		}
-		else if (newPassword.contains(" ")) {
-			throw new InvalidInputException("Password cannot contain spaces.");
-		}
-		else if (newName == null || newName.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("Name cannot be empty.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else {
-			user.setPassword(newPassword);
-			user.setName(newName);
-			technicianAccountRepository.save(user);
-			return user;
+			TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() == 0) {
+				throw new InvalidInputException("You do not have permission to modify this account.");
+			}
+			else if (newPassword == null || newPassword.replaceAll("\\s+", "").length() == 0 || newPassword.equals("undefined")) {
+				throw new InvalidInputException("Password cannot be empty.");
+			}
+			else if (newPassword.contains(" ")) {
+				throw new InvalidInputException("Password cannot contain spaces.");
+			}
+			else if (newName == null || newName.replaceAll("\\s+", "").length() == 0 || newName.equals("undefined")){
+				throw new InvalidInputException("Name cannot be empty.");
+			}
+			else {
+				user.setPassword(newPassword);
+				user.setName(newName);
+				technicianAccountRepository.save(user);
+				return user;
+			}
 		}
-
 	}
 
 
@@ -153,22 +157,27 @@ public class TechnicianAccountService {
 	 */
 	@Transactional
 	public TechnicianAccount deleteTechnicianAccount(String username)  {
-		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() == 0) {
-			throw new InvalidInputException("You do not have permission to delete this account.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else {
-			if(user.getAvailability() != null) {
-				for (TimeSlot timeslot : user.getAvailability()) {
-					timeSlotRepository.delete(timeslot); //cannot exist without technician
-				}
+			TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
 			}
-			technicianAccountRepository.delete(user);
-			user.setAvailability(null);
-			return user;
+			else if (user.getToken() == 0) {
+				throw new InvalidInputException("You do not have permission to delete this account.");
+			}
+			else {
+				if(user.getAvailability() != null) {
+					for (TimeSlot timeslot : user.getAvailability()) {
+						timeSlotRepository.delete(timeslot); //cannot exist without technician
+					}
+				}
+				technicianAccountRepository.delete(user);
+				user.setAvailability(null);
+				return user;
+			}
 		}
 	}
 
@@ -180,19 +189,23 @@ public class TechnicianAccountService {
 	 */
 	@Transactional
 	public TechnicianAccount loginTechnicianAccount(String username, String password)   {
-		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
-		}
-		else if (!user.getPassword().equals(password)) {
-			throw new InvalidInputException("Username or password incorrect. Please try again.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else {
-			user.setToken(username.hashCode());
-			technicianAccountRepository.save(user);
-			return user;
+			TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
+			}
+			else if (!user.getPassword().equals(password)) {
+				throw new InvalidInputException("Username or password incorrect. Please try again.");
+			}
+			else {
+				user.setToken(username.hashCode());
+				technicianAccountRepository.save(user);
+				return user;
+			}
 		}
-
 	}
 
 
@@ -205,17 +218,22 @@ public class TechnicianAccountService {
 	 */
 	@Transactional
 	public TechnicianAccount logoutTechnicianAccount(String username) {
-		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() == 0){
-			throw new InvalidInputException("You do not have permission to access this account.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else {
-			user.setToken(0);
-			technicianAccountRepository.save(user);
-			return user;
+			TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() == 0){
+				throw new InvalidInputException("You do not have permission to access this account.");
+			}
+			else {
+				user.setToken(0);
+				technicianAccountRepository.save(user);
+				return user;
+			}
 		}
 	}
 
@@ -228,16 +246,21 @@ public class TechnicianAccountService {
 	 */
 	@Transactional
 	public TechnicianAccount authenticateTechnicianAccount(String username) {
-		TechnicianAccount user = technicianAccountRepository.findByUsername(username);
-		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() != 0) {
-			return user;
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else {
-			//General error message to capture if the session expired or the user does not have permission
-			throw new InvalidInputException("An error occured. Please try again."); 
+			TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() != 0) {
+				return user;
+			}
+			else {
+				//General error message to capture if the session expired or the user does not have permission
+				throw new InvalidInputException("An error occured. Please try again."); 
+			}
 		}
 	}
 

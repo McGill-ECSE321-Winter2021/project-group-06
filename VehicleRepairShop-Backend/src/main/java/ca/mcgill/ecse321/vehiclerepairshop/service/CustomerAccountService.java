@@ -37,7 +37,7 @@ public class CustomerAccountService {
 	@Transactional
 	public CustomerAccount createCustomerAccount(String username, String password, String name)   {
 
-		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
+		if (username == null || username.replaceAll("\\s+", "").length() == 0 || username.equals("undefined")) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else if (username.contains(" ")) {
@@ -46,13 +46,13 @@ public class CustomerAccountService {
 		else if (isUsernameAvailable(username) == false) {
 			throw new InvalidInputException("This username is not available.");
 		}
-		else if (password == null || password.replaceAll("\\s+", "").length() == 0) {
+		else if (password == null || password.replaceAll("\\s+", "").length() == 0 || password.equals("undefined")) {
 			throw new InvalidInputException("Password cannot be empty.");
 		}
 		else if (password.contains(" ")) {
 			throw new InvalidInputException("Password cannot contain spaces.");
 		}
-		else if (name == null || name.replaceAll("\\s+", "").length() == 0){ //name.trim().length() == 0
+		else if (name == null || name.replaceAll("\\s+", "").length() == 0 || name.equals("undefined")){ //name.trim().length() == 0
 			throw new InvalidInputException("Name cannot be empty.");
 		}
 		else {
@@ -114,29 +114,33 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount updateCustomerAccount(String username, String newPassword, String newName)   {
-		CustomerAccount user = customerAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() == 0) {
-			throw new InvalidInputException("You do not have permission to modify this account.");
-		}
-		else if (newPassword == null || newPassword.replaceAll("\\s+", "").length() == 0) {
-			throw new InvalidInputException("Password cannot be empty.");
-		}
-		else if (newPassword.contains(" ")) {
-			throw new InvalidInputException("Password cannot contain spaces.");
-		}
-		else if (newName == null || newName.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("Name cannot be empty.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be null.");
 		}
 		else {
-			user.setPassword(newPassword);
-			user.setName(newName);
-			customerAccountRepository.save(user);
-			return user;
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() == 0) {
+				throw new InvalidInputException("You do not have permission to modify this account.");
+			}
+			else if (newPassword == null || newPassword.replaceAll("\\s+", "").length() == 0 || newPassword.equals("undefined")) {
+				throw new InvalidInputException("Password cannot be empty.");
+			}
+			else if (newPassword.contains(" ")) {
+				throw new InvalidInputException("Password cannot contain spaces.");
+			}
+			else if (newName == null || newName.replaceAll("\\s+", "").length() == 0 || newName.equals("undefined")){
+				throw new InvalidInputException("Name cannot be empty.");
+			}
+			else {
+				user.setPassword(newPassword);
+				user.setName(newName);
+				customerAccountRepository.save(user);
+				return user;
+			}
 		}
-
 	}
 
 
@@ -148,22 +152,28 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount deleteCustomerAccount(String username)  {
-		CustomerAccount user = customerAccountRepository.findByUsername(username);
-		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() == 0) {
-			throw new InvalidInputException("You do not have permission to delete this account.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be null.");
 		}
 		else {
-			if (user.getCar() != null) {
-				for (Car car : user.getCar()) {
-					carRepository.delete(car);
-				}
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
+		
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
 			}
-			customerAccountRepository.delete(user);
-			user.setCar(null);
-			return user;
+			else if (user.getToken() == 0) {
+				throw new InvalidInputException("You do not have permission to delete this account.");
+			}
+			else {
+				if (user.getCar() != null) {
+					for (Car car : user.getCar()) {
+						carRepository.delete(car);
+					}
+				}
+				customerAccountRepository.delete(user);
+				user.setCar(null);
+				return user;
+			}
 		}
 	}
 
@@ -175,19 +185,23 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount loginCustomerAccount(String username, String password)   {
-		CustomerAccount user = customerAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
-		}
-		else if (!user.getPassword().equals(password)) {
-			throw new InvalidInputException("Username or password incorrect. Please try again.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be null.");
 		}
 		else {
-			user.setToken(username.hashCode());
-			customerAccountRepository.save(user);
-			return user;
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
+			}
+			else if (!user.getPassword().equals(password)) {
+				throw new InvalidInputException("Username or password incorrect. Please try again.");
+			}
+			else {
+				user.setToken(username.hashCode());
+				customerAccountRepository.save(user);
+				return user;
+			}
 		}
-
 	}
 
 
@@ -200,17 +214,23 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount logoutCustomerAccount(String username) {
-		CustomerAccount user = customerAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() == 0){
-			throw new InvalidInputException("You do not have permission to access this account.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be null.");
 		}
 		else {
-			user.setToken(0);
-			customerAccountRepository.save(user);
-			return user;
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
+			
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() == 0){
+				throw new InvalidInputException("You do not have permission to access this account.");
+			}
+			else {
+				user.setToken(0);
+				customerAccountRepository.save(user);
+				return user;
+			}
 		}
 	}
 
@@ -223,16 +243,22 @@ public class CustomerAccountService {
 	 */
 	@Transactional
 	public CustomerAccount authenticateCustomerAccount(String username) {
-		CustomerAccount user = customerAccountRepository.findByUsername(username);
-		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() != 0) {
-			return user;
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username cannot be null.");
 		}
 		else {
-			//General error message to capture if the session expired or the user does not have permission
-			throw new InvalidInputException("An error occured. Please try again."); 
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
+			
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() != 0) {
+				return user;
+			}
+			else {
+				//General error message to capture if the session expired or the user does not have permission
+				throw new InvalidInputException("An error occured. Please try again."); 
+			}
 		}
 	}
 

@@ -29,47 +29,47 @@ export default {
             errorCustomerAccount: '',
             response: []
 
-
         }
 
     },
-
     methods: {
-        loginCustomerAccount: function (username, password) {
-            AXIOS.put('/loginCustomerAccount/' + username + '/' + password).then(response => {
-                this.selectedCustomerAccount = response.data
+        createCustomerAccount: function (username, password, name) {
+            AXIOS.post('/createCustomerAccount/' + username + '/' + password + '/' + name).then(response => {
+                // JSON responses are automatically parsed.
+                this.customerAccounts.push(response.data)
+                this.newCustomerAccount.username = ''
+                this.newCustomerAccount.password = ''
+                this.newCustomerAccount.name = ''
+                this.errorCustomerAccount = ''
                 this.$currentUsername.value = username
-                this.$currentName.value = this.selectedCustomerAccount.name
-                console.log(this.$currentUsername.value)
-                console.log(this.$currentName.value)
-                //this.$router.push("/calendarCustomer")
-                this.$router.push("/viewCustomerAccount")
+                this.$currentName.value = name
+                //this.$router.push("/calendarCustomer");
+                this.$router.push("/viewCustomerAccount");
+
+                console.log(this.$currentUsername.value);
+                console.log(this.$currentName.value);
+                
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
                     this.errorCustomerAccount = errorMsg
                 })
-                
         },
         getAllCustomerAccounts: function () {
+            // Initializing persons from backend
             AXIOS.get('/getAllCustomerAccounts')
                 .then(response => {
+                    // JSON responses are automatically parsed.
                     this.customerAccounts = response.data
                 })
                 .catch(e => {
                     this.errorCustomerAccount = e
                 })
         },
-        getCustomerAccountByUsername: function (username) {
-            AXIOS.get('/getCustomerAccountByUsername/' + username)
-                .then(response => {
-                    this.selectedCustomerAccount = response.data
-                })
-                .catch(e => {
-                    this.errorCustomerAccount = e
-                })
-        },
-
+        goToCustomerAccountLogin(){
+              this.$router.push("/customerAccountLogin");
+            }
     }
+
 }

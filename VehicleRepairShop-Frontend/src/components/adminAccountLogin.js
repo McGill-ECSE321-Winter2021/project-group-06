@@ -46,8 +46,9 @@ export default {
                 this.$router.push("/adminHome")
             })
                 .catch(e => {
-                    console.log(e)
-                    this.errorAdminAccount = e
+                    var errorMsg = e.response.data.message
+                    console.log(errorMsg)
+                    this.errorAdminAccount = errorMsg
                 })
                 
         },

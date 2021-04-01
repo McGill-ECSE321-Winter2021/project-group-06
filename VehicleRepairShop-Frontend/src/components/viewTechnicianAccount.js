@@ -16,18 +16,18 @@ export default {
     props: ['currentUsername'],
     data() {
         return {
-            adminAccounts: [],
-            newAdminAccount: {
+            technicianAccounts: [],
+            newTechnicianAccount: {
                 username: '',
                 password: '',
                 name: ''
             },
-            selectedAdminAccount: {
+            selectedTechnicianAccount: {
                 username: '',
                 password: '',
                 name: ''
             },
-            errorAdminAccount: '',
+            errorTechnicianAccount: '',
             response: [],
             searchInput:'',
         }
@@ -48,7 +48,7 @@ export default {
                     this.$router.push("/offeredServiceTable");
                 }
                 else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account"){
-                    this.$router.push("/viewAdminAccount");
+                    this.$router.push("/viewTechnicianAccount");
                 }
                 else{
                     this.searchInput = "";
@@ -56,55 +56,55 @@ export default {
                 }
                 
         },
-        deleteAdminAccount: function () {
-            AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
-                this.adminAccounts = response.data
-                this.errorAdminAccount = ''
+        deleteTechnicianAccount: function () {
+            AXIOS.put('/deleteTechnicianAccount/' + this.$currentUsername.value).then(response => {
+                this.technicianAccounts = response.data
+                this.errorTechnicianAccount = ''
                 this.$currentUsername.value = ''
                 this.$currentName.value = ''
-                this.$router.push("/adminAccountLogin");
+                this.$router.push("/technicianAccountLogin");
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
-                    this.errorAdminAccount = errorMsg
+                    this.errorTechnicianAccount = errorMsg
                 })
 
         },
-        logoutAdminAccount: function () {
-            AXIOS.put('/logoutAdminAccount/' + this.$currentUsername.value).then(response => {
-                this.selectedAdminAccount = response.data
-                this.errorAdminAccount = ''
+        logoutTechnicianAccount: function () {
+            AXIOS.put('/logoutTechnicianAccount/' + this.$currentUsername.value).then(response => {
+                this.selectedTechnicianAccount = response.data
+                this.errorTechnicianAccount = ''
                 this.$currentUsername.value = ''
                 this.$currentName.value = ''
-                this.$router.push("/adminAccountLogin");
+                this.$router.push("/technicianAccountLogin");
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
-                    this.errorAdminAccount = errorMsg
+                    this.errorTechnicianAccount = errorMsg
                 })
         },
-        getAllAdminAccounts: function () {
-            AXIOS.get('/getAllAdminAccounts')
+        getAllTechnicianAccounts: function () {
+            AXIOS.get('/getAllTechnicianAccounts')
                 .then(response => {
-                    this.adminAccounts = response.data
+                    this.technicianAccounts = response.data
                 })
                 .catch(e => {
-                    this.errorAdminAccount = e
+                    this.errorTechnicianAccount = e
                 })
         },
-        // getAdminAccountByUsername: function () {
-        //     AXIOS.get('/getAdminAccountByUsername/' + this.$currentUsername.value)
+        // getTechnicianAccountByUsername: function () {
+        //     AXIOS.get('/getTechnicianAccountByUsername/' + this.$currentUsername.value)
         //         .then(response => {
-        //             this.selectedAdminAccount = response.data
+        //             this.selectedTechnicianAccount = response.data
         //         })
         //         .catch(e => {
-        //             this.errorAdminAccount = e
+        //             this.errorTechnicianAccount = e
         //         })
         // },
-        goToEditAdminAccount: function () {
-            this.$router.push("/editAdminAccount");
+        goToEditTechnicianAccount: function () {
+            this.$router.push("/editTechnicianAccount");
         }
     }
 

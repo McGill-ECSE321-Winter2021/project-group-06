@@ -9,11 +9,15 @@ import OfferedServiceTable from '@/components/OfferedServiceTable.vue'
 import MainMenu from '@/components/MainMenu.vue'
 import SelectAccount from '@/components/SelectAccount.vue'
 import ViewAdminAccount from '@/components/ViewAdminAccount.vue'
+import ViewCustomerAccount from '@/components/ViewCustomerAccount.vue'
+import ViewTechnicianAccount from '@/components/ViewTechnicianAccount.vue'
 import EditAdminAccount from '@/components/EditAdminAccount.vue'
 import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
 import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
 import TechnicianAccountLogin from '@/components/TechnicianAccountLogin.vue'
 import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
+import CustomerAccountSignUp from '@/components/CustomerAccountSignUp.vue'
+import TechnicianAccountSignUp from '@/components/TechnicianAccountSignUp.vue'
 import AdminHome from '@/components/AdminHome.vue'
 import Test from '@/components/Test.vue'
 
@@ -87,10 +91,20 @@ export default new Router({
       component: TechnicianAccountLogin
     },
     {
-    
+
       path: '/adminAccountSignUp',
       name: 'AdminAccountSignUp',
       component: AdminAccountSignUp
+    },
+    {
+      path: '/customerAccountSignUp',
+      name: 'CustomerAccountSignUp',
+      component: CustomerAccountSignUp
+    },
+    {
+      path: '/technicianAccountSignUp',
+      name: 'TechnicianAccountSignUp',
+      component: TechnicianAccountSignUp
     },
     {
     
@@ -103,6 +117,16 @@ export default new Router({
       path: '/viewAdminAccount',
       name: 'ViewAdminAccount',
       component: ViewAdminAccount
+    },
+    {
+      path: '/viewCustomerAccount',
+      name: 'ViewCustomerAccount',
+      component: ViewCustomerAccount
+    },
+    {
+      path: '/viewTechnicianAccount',
+      name: 'ViewTechnicianAccount',
+      component: ViewTechnicianAccount
     },
     {
       path: '/test',
