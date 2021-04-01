@@ -1,15 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Modal from "@burhanahmeed/vue-modal-2";
+import Modal from "@burhanahmeed/vue-modal-2"
 import Hello from '@/components/Hello'
 import CalendarAdminAccount from '@/components/CalendarAdminAccount.vue'
 import OfferedServiceTable from '@/components/OfferedServiceTable'
 import MainMenu from '@/components/MainMenu'
-import ViewAccount from '@/components/ViewAccount'
-import EditAccount from '@/components/EditAccount'
-import Login from '@/components/Login'
-import SignUp from '@/components/SignUp'
-import Test from '@/components/Test'
+import SelectAccount from '@/components/SelectAccount.vue'
+import ViewAdminAccount from '@/components/ViewAdminAccount.vue'
+import EditAdminAccount from '@/components/EditAdminAccount.vue'
+import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
+import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
+import TechnicianAccountLogin from '@/components/TechnicianAccountLogin.vue'
+import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
+import Test from '@/components/Test.vue'
 
 Vue.use(Router)
 Vue.use(Modal);
@@ -19,8 +22,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'SelectAccount',
+      component: SelectAccount
     },
     // {
 
@@ -47,26 +50,38 @@ export default new Router({
     },
     {
     
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/adminAccountLogin',
+      name: 'AdminAccountLogin',
+      component: AdminAccountLogin
     },
     {
     
-      path: '/signUp',
-      name: 'SignUp',
-      component: SignUp
+      path: '/customerAccountLogin',
+      name: 'CustomerAccountLogin',
+      component: CustomerAccountLogin
+    },
+    {
+      path: '/technicianAccountLogin',
+      name: 'TechnicianAccountLogin',
+      component: TechnicianAccountLogin
     },
     {
     
-      path: '/editAccount',
-      name: 'EditAccount',
-      component: EditAccount
+      path: '/adminAccountSignUp',
+      name: 'AdminAccountSignUp',
+      component: AdminAccountSignUp
     },
     {
-      path: '/viewAccount',
-      name: 'ViewAccount',
-      component: ViewAccount
+    
+      path: '/editAdminAccount',
+      name: 'EditAdminAccount',
+      component: EditAdminAccount
+    },
+
+    {
+      path: '/viewAdminAccount',
+      name: 'ViewAdminAccount',
+      component: ViewAdminAccount
     },
     {
       path: '/test',

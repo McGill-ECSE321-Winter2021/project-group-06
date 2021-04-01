@@ -69,6 +69,7 @@ public class AdminAccountController {
 	@PostMapping(value = { "/createAdminAccount/{username}/{password}/{name}", "/createAdminAccount/{username}/{password}/{name}/" })
 	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name)  {
 		AdminAccount user = adminAccountService.createAdminAccount(username, password, name);
+		System.out.println(username + password + name + " created");
 		return convertToDto(user);
 	}
 
@@ -111,6 +112,7 @@ public class AdminAccountController {
 	@PutMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}" })
 	public AdminAccountDto loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) {
 		AdminAccount user = adminAccountService.loginAdminAccount(username, password);
+		System.out.println(username + password + " logged in");
 		return convertToDto(user);
 	}
 

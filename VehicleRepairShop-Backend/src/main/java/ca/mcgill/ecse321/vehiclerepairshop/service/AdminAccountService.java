@@ -37,7 +37,7 @@ public class AdminAccountService {
 	@Transactional
 	public AdminAccount createAdminAccount(String username, String password, String name)   {
 
-		if (username == null || username.replaceAll("\\s+", "").length() == 0) {
+		if (username == null || username.replaceAll("\\s+", "").length() == 0 || username.equals("undefined")) {
 			throw new InvalidInputException("Username cannot be empty.");
 		}
 		else if (username.contains(" ")) {
@@ -46,13 +46,13 @@ public class AdminAccountService {
 		else if (isUsernameAvailable(username) == false) {
 			throw new InvalidInputException("This username is not available.");
 		}
-		else if (password == null || password.replaceAll("\\s+", "").length() == 0) {
+		else if (password == null || password.replaceAll("\\s+", "").length() == 0 || password.equals("undefined")) {
 			throw new InvalidInputException("Password cannot be empty.");
 		}
 		else if (password.contains(" ")) {
 			throw new InvalidInputException("Password cannot contain spaces.");
 		}
-		else if (name == null || name.replaceAll("\\s+", "").length() == 0){ //name.trim().length() == 0
+		else if (name == null || name.replaceAll("\\s+", "").length() == 0 || name.equals("undefined")){ //name.trim().length() == 0
 			throw new InvalidInputException("Name cannot be empty.");
 		}
 		else {
@@ -124,27 +124,32 @@ public class AdminAccountService {
 	 */
 	@Transactional
 	public AdminAccount updateAdminAccount(String username, String newPassword, String newName)   {
-		AdminAccount user = adminAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() == 0) {
-			throw new InvalidInputException("You do not have permission to modify this account.");
-		}
-		else if (newPassword == null || newPassword.replaceAll("\\s+", "").length() == 0) {
-			throw new InvalidInputException("Password cannot be empty.");
-		}
-		else if (newPassword.contains(" ")) {
-			throw new InvalidInputException("Password cannot contain spaces.");
-		}
-		else if (newName == null || newName.replaceAll("\\s+", "").length() == 0){
-			throw new InvalidInputException("Name cannot be empty.");
+		if (username.equals("undefined") || newPassword.equals("undefined") || newName.equals("undefined")) {
+			throw new InvalidInputException("One or more fields empty. Please try again.");
 		}
 		else {
-			user.setPassword(newPassword);
-			user.setName(newName);
-			adminAccountRepository.save(user);
-			return user;
+			AdminAccount user = adminAccountRepository.findByUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() == 0) {
+				throw new InvalidInputException("You do not have permission to modify this account.");
+			}
+			else if (newPassword == null || newPassword.replaceAll("\\s+", "").length() == 0 || newPassword.equals("undefined")) {
+				throw new InvalidInputException("Password cannot be empty.");
+			}
+			else if (newPassword.contains(" ")) {
+				throw new InvalidInputException("Password cannot contain spaces.");
+			}
+			else if (newName == null || newName.replaceAll("\\s+", "").length() == 0 || newName.equals("undefined")){
+				throw new InvalidInputException("Name cannot be empty.");
+			}
+			else {
+				user.setPassword(newPassword);
+				user.setName(newName);
+				adminAccountRepository.save(user);
+				return user;
+			}
 		}
 
 	}
@@ -158,16 +163,21 @@ public class AdminAccountService {
 	 */
 	@Transactional
 	public AdminAccount deleteAdminAccount(String username)  {
-		AdminAccount user = adminAccountRepository.findByUsername(username);
-		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username empty. Please try again.");
 		}
-		else if (user.getToken() == 0) {
-			throw new InvalidInputException("You do not have permission to delete this account.");
-		}
-		else {
-			adminAccountRepository.delete(user);
-			return user;
+			else {
+			AdminAccount user = adminAccountRepository.findByUsername(username);
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() == 0) {
+				throw new InvalidInputException("You do not have permission to delete this account.");
+			}
+			else {
+				adminAccountRepository.delete(user);
+				return user;
+			}
 		}
 	}
 
@@ -179,17 +189,22 @@ public class AdminAccountService {
 	 */
 	@Transactional
 	public AdminAccount loginAdminAccount(String username, String password)   {
-		AdminAccount user = adminAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
-		}
-		else if (!user.getPassword().equals(password)) {
-			throw new InvalidInputException("Username or password incorrect. Please try again.");
+		if (username.equals("undefined") || password.equals("undefined")) {
+			throw new InvalidInputException("Username or password empty. Please try again.");
 		}
 		else {
-			user.setToken(username.hashCode());
-			adminAccountRepository.save(user);
-			return user;
+			AdminAccount user = adminAccountRepository.findByUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found. Please sign up if you do not have an account yet.");
+			}
+			else if (!user.getPassword().equals(password)) {
+				throw new InvalidInputException("Username or password incorrect. Please try again.");
+			}
+			else {
+				user.setToken(username.hashCode());
+				adminAccountRepository.save(user);
+				return user;
+			}
 		}
 
 	}
@@ -204,18 +219,24 @@ public class AdminAccountService {
 	 */
 	@Transactional
 	public AdminAccount logoutAdminAccount(String username) {
-		AdminAccount user = adminAccountRepository.findByUsername(username);
-		if (user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() == 0){
-			throw new InvalidInputException("You do not have permission to access this account.");
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username empty. Please try again.");
 		}
 		else {
-			user.setToken(0);
-			adminAccountRepository.save(user);
-			return user;
-		}
+			AdminAccount user = adminAccountRepository.findByUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() == 0){
+				throw new InvalidInputException("You do not have permission to access this account.");
+			}
+			else {
+				System.out.println("log out " + username);
+				user.setToken(0);
+				adminAccountRepository.save(user);
+				return user;
+			}
+			}
 	}
 
 	/**
@@ -227,16 +248,21 @@ public class AdminAccountService {
 	 */
 	@Transactional
 	public AdminAccount authenticateAdminAccount(String username) {
-		AdminAccount user = adminAccountRepository.findByUsername(username);
-		if(user == null) {
-			throw new InvalidInputException("The user cannot be found.");
-		}
-		else if (user.getToken() != 0) {
-			return user;
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username empty. Please try again.");
 		}
 		else {
-			//General error message to capture if the session expired or the user does not have permission
-			throw new InvalidInputException("An error occured. Please try again."); 
+			AdminAccount user = adminAccountRepository.findByUsername(username);
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else if (user.getToken() != 0) {
+				return user;
+			}
+			else {
+				//General error message to capture if the session expired or the user does not have permission
+				throw new InvalidInputException("An error occured. Please try again."); 
+			}
 		}
 	}
 	/**
