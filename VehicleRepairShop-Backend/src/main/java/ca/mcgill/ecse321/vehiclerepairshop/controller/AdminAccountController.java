@@ -87,6 +87,7 @@ public class AdminAccountController {
 	@PutMapping(value = {"/updateAdminAccount/{username}/{newPassword}/{newName}", "/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
 	public AdminAccountDto updateAdminAccount(@PathVariable("username") String username, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) {
 		AdminAccount user = adminAccountService.updateAdminAccount(username, newPassword, newName);
+		System.out.println(username + newPassword + newName + " updated");
 		return convertToDto(user);
 	}
 
@@ -96,9 +97,10 @@ public class AdminAccountController {
 	 * @param username
 	 * @return boolean if successful
 	 */
-	@DeleteMapping(value = { "/deleteAdminAccount/{username}", "/deleteAdminAccount/{username}/" })
+	@PutMapping(value = { "/deleteAdminAccount/{username}", "/deleteAdminAccount/{username}/" })
 	public AdminAccountDto deleteAdminAccount(@PathVariable("username") String username) {
 		AdminAccount user = adminAccountService.deleteAdminAccount(username);
+		System.out.println(username  + " deleted!");
 		return convertToDto(user);
 	}
 

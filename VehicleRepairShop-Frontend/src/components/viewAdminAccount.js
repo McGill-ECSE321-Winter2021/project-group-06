@@ -57,10 +57,8 @@ export default {
                 
         },
         deleteAdminAccount: function () {
-            console.log(this.$currentUsername.value);
             AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
                 this.adminAccounts = response.data
-                this.selectedAdminAccount.username = ''
                 this.errorAdminAccount = ''
                 this.$currentUsername.value = ''
                 this.$currentName.value = ''
@@ -74,8 +72,7 @@ export default {
         },
         logoutAdminAccount: function () {
             AXIOS.put('/logoutAdminAccount/' + this.$currentUsername.value).then(response => {
-                this.adminAccounts = response.data
-                this.selectedAdminAccount.username = ''
+                this.selectedAdminAccount = response.data
                 this.errorAdminAccount = ''
                 this.$currentUsername.value = ''
                 this.$currentName.value = ''

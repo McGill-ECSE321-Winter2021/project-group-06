@@ -35,13 +35,11 @@ export default {
     methods: {
         updateAdminAccount: function (newPassword, newName) {
             AXIOS.put('/updateAdminAccount/' + this.$currentUsername.value + '/' + newPassword + '/' + newName).then(response => {
-                // JSON responses are automatically parsed.
-                this.adminAccounts.push(response.data)
-                this.selectedAdminAccount = response.data
-				this.errorAdminAccount = ''
-				this.$currentName.value = this.selectedAdminAccount.name
-				console.log(selectedAdminAccount.username + " " + selectedAdminAccount.name)
-				this.$router.push("/viewAdminAccount")
+				this.selectedAdminAccount = response.data
+                this.$currentName.value = this.selectedAdminAccount.name
+                console.log(this.$currentUsername.value)
+                console.log(this.$currentName.value)
+                this.$router.push("/viewAdminAccount")
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
