@@ -15,7 +15,7 @@
        export default{
            methods:{
                goToadminAccountProfile(){
-                   this.$router.push("/adminAccountProfile");
+                   this.$router.push("/viewAdminAccount");
                }
            }
        }

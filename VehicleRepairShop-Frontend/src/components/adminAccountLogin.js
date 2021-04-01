@@ -21,7 +21,11 @@ export default {
                 password: '',
                 name: ''
             },
-            selectedAdminAccount: '',
+            selectedAdminAccount: {
+                username: '',
+                password: '',
+                name: ''
+            },
             errorAdminAccount: '',
             response: []
 
@@ -29,13 +33,17 @@ export default {
         }
 
     },
+
     methods: {
         loginAdminAccount: function (username, password) {
             AXIOS.put('/loginAdminAccount/' + username + '/' + password).then(response => {
-                this.adminAccounts = response.data
-                // main.username = username
-                // main.accountType = 'Admin'
-                this.$router.push("/calendarAdmin");
+                this.selectedAdminAccount = response.data
+                this.$currentUsername.value = username
+                this.$currentName.value = this.selectedAdminAccount.name
+                console.log(this.$currentUsername.value)
+                console.log(this.$currentName.value)
+                //this.$router.push("/calendarAdmin")
+                this.$router.push("/adminHome")
             })
                 .catch(e => {
                     console.log(e)
@@ -43,7 +51,7 @@ export default {
                 })
                 
         },
-                getAllAdminAccounts: function () {
+        getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')
                 .then(response => {
                     this.adminAccounts = response.data
@@ -52,6 +60,15 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
-    }
+        getAdminAccountByUsername: function (username) {
+            AXIOS.get('/getAdminAccountByUsername/' + username)
+                .then(response => {
+                    this.selectedAdminAccount = response.data
+                })
+                .catch(e => {
+                    this.errorAdminAccount = e
+                })
+        },
 
+    }
 }

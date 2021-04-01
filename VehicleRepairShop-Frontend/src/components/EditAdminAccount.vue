@@ -8,11 +8,11 @@
 		<table id="t01">
 		  <tr>
 		    <th>Username:</th>
-		    <td>{{ username }}</td>
+		    <td>{{ this.$currentUsername.value }}</td>
 		  </tr>
 		  <tr>
 		    <th>Current Name:</th>
-		    <td>{{ name }}</td>
+		    <td>{{ this.$currentName.value }}</td>
 		  </tr>
 		    <th>New Name:</th>
 		    <td><input type="text" v-model="newName"></td>
@@ -31,7 +31,7 @@
             <font size="3"><b>Cancel</b></font>
         </button>
 
-  		<button @click="updateAdminAccount(username, newPassword, newName)" type="button" style="background-color:#409EFF; color: white;" class="btn ">
+  		<button @click="updateAdminAccount(newPassword, newName)" type="button" style="background-color:#409EFF; color: white;" class="btn ">
             <font size="3"><b>Save</b></font>
         </button>	
   </div>

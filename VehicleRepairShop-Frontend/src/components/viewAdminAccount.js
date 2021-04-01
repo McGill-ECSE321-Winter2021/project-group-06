@@ -95,6 +95,15 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
+        // getAdminAccountByUsername: function () {
+        //     AXIOS.get('/getAdminAccountByUsername/' + this.$currentUsername.value)
+        //         .then(response => {
+        //             this.selectedAdminAccount = response.data
+        //         })
+        //         .catch(e => {
+        //             this.errorAdminAccount = e
+        //         })
+        // },
         goToEditAdminAccount: function () {
             this.$router.push("/editAdminAccount");
         }

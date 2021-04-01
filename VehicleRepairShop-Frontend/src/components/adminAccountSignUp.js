@@ -21,7 +21,11 @@ export default {
                 password: '',
                 name: ''
             },
-            selectedAdminAccount: '',
+            selectedAdminAccount: {
+                username: '',
+                password: '',
+                name: ''
+            },
             errorAdminAccount: '',
             response: []
 
@@ -39,8 +43,12 @@ export default {
                 this.errorAdminAccount = ''
                 this.$currentUsername.value = username
                 this.$currentName.value = name
+                //this.$router.push("/calendarAdmin");
+                this.$router.push("/adminHome");
+
                 console.log(this.$currentUsername.value);
                 console.log(this.$currentName.value);
+                
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message

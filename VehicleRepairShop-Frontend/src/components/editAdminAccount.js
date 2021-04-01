@@ -21,7 +21,11 @@ export default {
                 password: '',
                 name: ''
             },
-            selectedAdminAccount: '',
+            selectedAdminAccount: {
+                username: '',
+                password: '',
+                name: ''
+            },
             errorAdminAccount: '',
             response: []
 
@@ -29,15 +33,15 @@ export default {
 
     },
     methods: {
-        updateAdminAccount: function (username, newPassword, newName) {
-            AXIOS.put('/updateAdminAccount/' + username + '/' + newPassword + '/' + newName).then(response => {
+        updateAdminAccount: function (newPassword, newName) {
+            AXIOS.put('/updateAdminAccount/' + this.$currentUsername.value + '/' + newPassword + '/' + newName).then(response => {
                 // JSON responses are automatically parsed.
                 this.adminAccounts.push(response.data)
-                this.newAdminAccount.username = ''
-                this.newAdminAccount.password = '' //should this be .newPassword?
-                this.newAdminAccount.name = ''
+                this.selectedAdminAccount = response.data
 				this.errorAdminAccount = ''
-				console.log(newAdminAccount.username + " " + newAdminAccount.name)
+				this.$currentName.value = this.selectedAdminAccount.name
+				console.log(selectedAdminAccount.username + " " + selectedAdminAccount.name)
+				this.$router.push("/viewAdminAccount")
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
@@ -57,7 +61,7 @@ export default {
                 })
         },
         goToViewAdminAccount(){
-              this.$router.push("/viewAdminAccount");
+              this.$router.push("/viewAdminAccount")
             }
     }
 

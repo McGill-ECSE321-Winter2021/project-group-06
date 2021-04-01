@@ -8,10 +8,10 @@
  
       <table id="t01">
           <th>Username:</th>
-          <td><input type="text" v-model="username" name="username"></td>
+          <td><input type="text" v-model="username"></td>
         <tr>
           <th>Password:</th>
-          <td><input type="text" v-model="password" name="password"></td>
+          <td><input type="text" v-model="password"></td>
         </tr>
       </table>
 
