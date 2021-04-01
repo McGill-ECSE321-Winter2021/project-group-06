@@ -224,6 +224,12 @@ public class AppointmentController {
 		List<Appointment> appointments = appointmentService.deleteAllAppointment();
 		return convertToDtoApplointmentList(appointments);
 	}
+	
+	@GetMapping(value = {"/getAppointmentByCustomer/{username}","/getAppointmentByCustomer/{username}/"})
+	public List<AppointmentDto> getAppointmentByCustomer(@PathVariable("username") String username){
+		List<Appointment> appointments = appointmentService.getAppointmentByCustomer(username);
+		return convertToDtoApplointmentList(appointments);
+	}
 
 
 
@@ -248,6 +254,8 @@ public class AppointmentController {
 
 		return appointmentDto;
 	}
+	
+	
 
 
 

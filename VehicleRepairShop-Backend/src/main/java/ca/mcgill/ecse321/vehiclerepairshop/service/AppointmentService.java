@@ -25,6 +25,8 @@ public class AppointmentService {
 	private AppointmentRepository appointmentRepository;
 	@Autowired
 	private TechnicianAccountRepository technicianAccountRepository;
+	@Autowired
+	private CarService carService;
 	/**
 	 *  
 	 * @param worker
@@ -116,6 +118,17 @@ public class AppointmentService {
 			throw new InvalidInputException(error);
 		}
 		return appointmentRepository.findByAppointmentId(id);
+	}
+	
+	@Transactional
+	public List<Appointment>getAppointmentByCustomer(String username) {
+		List<Car> cars = carService.findCarByCustomerAccount(username);
+		List<Appointment> appointments = new ArrayList<Appointment>();
+		for (Car car : cars) {
+			List<Appointment> appointment = getAppointmentByCar(car);
+			appointments.addAll(appointment);
+		}
+		return appointments;
 	}
 
 	/**
