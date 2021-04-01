@@ -1,6 +1,4 @@
 import axios from 'axios'
-import main from '../main'
-// import { response } from 'express'
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -17,6 +15,8 @@ export default {
     data() {
         return {
             adminAccounts: [],
+            customerAccounts: [],
+            technicianAccounts: [],
             newAdminAccount: {
                 username: '',
                 password: '',
@@ -28,6 +28,8 @@ export default {
                 name: ''
             },
             errorAdminAccount: '',
+            errorCustomerAccount: '',
+            errorTechnicianAccount: '',
             response: [],
             searchInput:'',
         }
@@ -72,20 +74,6 @@ export default {
                 })
 
         },
-        logoutAdminAccount: function () {
-            AXIOS.put('/logoutAdminAccount/' + this.$currentUsername.value).then(response => {
-                this.adminAccounts = response.data
-                this.selectedAdminAccount.username = ''
-                this.errorAdminAccount = ''
-                this.$currentUsername.value = ''
-                this.$currentName.value = ''
-                this.$router.push("/adminAccountLogin");
-            })
-                .catch(e => {
-                    console.log(e)
-                    this.errorAdminAccount = e
-                })
-        },
         getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')
                 .then(response => {
@@ -95,8 +83,23 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
-        goToEditAdminAccount: function () {
-            this.$router.push("/editAdminAccount");
+        getAllCustomerAccounts: function () {
+            AXIOS.get('/getAllCustomerAccounts')
+                .then(response => {
+                    this.customerAccounts = response.data
+                })
+                .catch(e => {
+                    this.errorCustomerAccount = e
+                })
+        },
+        getAllTechnicianAccounts: function () {
+            AXIOS.get('/getAllTechnicianAccounts')
+                .then(response => {
+                    this.technicianAccounts = response.data
+                })
+                .catch(e => {
+                    this.errorTechnicianAccount = e
+                })
         }
     }
 

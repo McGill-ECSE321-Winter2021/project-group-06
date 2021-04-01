@@ -12,6 +12,7 @@ import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
 import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
 import TechnicianAccountLogin from '@/components/TechnicianAccountLogin.vue'
 import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
+import AdminHome from '@/components/AdminHome.vue'
 import Test from '@/components/Test.vue'
 
 Vue.use(Router)
@@ -32,7 +33,7 @@ export default new Router({
     //   component: FirstCompoent
     // },
     {
-      path:'/OfferedServiceTable',
+      path:'/offeredServiceTable',
       name:'OfferedServiceTable',
       component: OfferedServiceTable
     },
@@ -47,6 +48,12 @@ export default new Router({
       path: '/app',
       name: 'MainMenu',
       component: MainMenu
+    },
+    {
+    
+      path: '/adminHome',
+      name: 'AdminHome',
+      component: AdminHome
     },
     {
     

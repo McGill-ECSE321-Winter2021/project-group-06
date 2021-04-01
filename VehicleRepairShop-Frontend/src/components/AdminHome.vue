@@ -1,5 +1,5 @@
 <template>
-  <div id="viewAdminAccount">
+  <div id="adminHome">
     <template>
       <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
@@ -63,60 +63,98 @@
     </template>
 
     <br /><br />
-    <h1 style="color: #409eff">View Account</h1>
+    <h1 style="color: #409eff">Manage Business Information</h1>
 
     <br /><br />
-
-    <table id="t01">
-      <tr>
-        <th>Username:</th>
-        <td>{{ this.$currentUsername.value }}</td>
-      </tr>
-      <tr>
-        <th>Name:</th>
-        <td>{{ this.$currentName.value }}</td>
-      </tr>
-    </table>
-    <br /><br />
-
-    <p>
-      <span v-if="errorAdminAccount" style="color: red"
-        >Error: {{ errorAdminAccount }}
-      </span>
-    </p>
-
+<label for="position" style="display: block; margin: 1rem 0;">
     <button
-      @click="deleteAdminAccount()"
       onclick=""
       type="button"
       style="border-color: #909399; color: #909399"
       class="btn"
     >
-      <font size="3"><b>Delete Account</b></font>
+      <font size="3"><b>Manage Business Information</b></font>
     </button>
+</label>
+<div>
     <button
-      @click="goToEditAdminAccount()"
       onclick=""
       type="button"
-      style="border-color: #409eff; color: #409eff"
+      style="border-color: #909399; color: #909399"
       class="btn"
     >
-      <font size="3"><b>Manage Account</b></font>
+      <font size="3"><b>Manage Offered Services</b></font>
     </button>
-    <br /><br />
-    <button
-      @click="logoutAdminAccount()"
-      type="button"
-      style="background-color: #909399; color: white"
-      class="btn"
-    >
-      <font size="3"><b>Log Out</b></font>
-    </button>
+</div>
+<div>
+     <div class="container">
+        <h3 class="p-3 text-center">List of Admin Accounts</h3>
+        <table v-on="getAllAdminAccounts()" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in adminAccounts" :key="user.id">
+                    <td>{{user.username}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.password}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br><br/>
+      <div class="container">
+        <h3 class="p-3 text-center">List of Customer Accounts</h3>
+        <table v-on="getAllCustomerAccounts()" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in customerAccounts" :key="user.id">
+                    <td>{{user.username}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.password}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br><br/>
+      <div class="container">
+        <h3 class="p-3 text-center">List of Technician Accounts</h3>
+        <table v-on="getAllTechnicianAccounts()" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in technicianAccounts" :key="user.id">
+                    <td>{{user.username}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.password}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
     <br /><br />
   </div>
 </template>
 
-<script src="./viewAdminAccount.js">
+<script src="./adminHome.js">
+
+
 </script>
 
 <style>
