@@ -14,7 +14,7 @@
               <b-nav-item @click="goBack" style="color: white"
                 >Go Back</b-nav-item
               >
-              <b-nav-item href="#/app" color="white">Home</b-nav-item>
+              <b-nav-item href="#/adminHome" color="white">Home</b-nav-item>
               <b-nav-item href="#/viewAdminAccount" color="white"
                 >Profile</b-nav-item
               >
@@ -55,29 +55,9 @@
     </template>
 
     <br /><br />
-    <h1 style="color: #409eff">Manage Business Information</h1>
+    <h1 style="color: #409eff">Manage Business</h1>
 
     <br /><br />
-    <label for="position" style="display: block; margin: 1rem 0">
-      <button
-        onclick=""
-        type="button"
-        style="border-color: #909399; color: #909399"
-        class="btn"
-      >
-        <font size="3"><b>Manage Business Information</b></font>
-      </button>
-    </label>
-    <div>
-      <button
-        onclick=""
-        type="button"
-        style="border-color: #909399; color: #909399"
-        class="btn"
-      >
-        <font size="3"><b>Manage Offered Services</b></font>
-      </button>
-    </div>
     <div>
       <div class="container">
         <h3 class="p-3 text-center">List of Garages</h3>

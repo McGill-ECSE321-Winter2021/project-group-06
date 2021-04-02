@@ -36,7 +36,6 @@ export default {
     methods: {
         // navigation bar
         goBack () {
-            console.log("here");
             this.$router.push("/");
 
         },
@@ -45,7 +44,7 @@ export default {
         },
         searchButton(searchInput) {
             this.searchInput = ''
-            if (searchInput === "Home" || searchInput || "home") {
+            if (searchInput === "Home" || searchInput === "home") {
                 this.$router.push("/adminHome");
             }
             else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {

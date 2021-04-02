@@ -46,8 +46,7 @@ export default {
                     this.errorTechnicianAccount = ''
                     this.$currentUsername.value = username
                     this.$currentName.value = name
-                    //this.$router.push("/calendarTechnician");
-                    this.$router.push("/viewTechnicianAccount");
+                    this.$router.push("/calendarTechnician")
 
                     console.log(this.$currentUsername.value);
                     console.log(this.$currentName.value);
