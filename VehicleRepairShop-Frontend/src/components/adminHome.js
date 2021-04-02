@@ -14,6 +14,7 @@ export default {
     props: ['currentUsername'],
     data() {
         return {
+            garages: [],
             adminAccounts: [],
             customerAccounts: [],
             technicianAccounts: [],
@@ -27,6 +28,7 @@ export default {
                 password: '',
                 name: ''
             },
+            errorGarage: '',
             errorAdminAccount: '',
             errorCustomerAccount: '',
             errorTechnicianAccount: '',
@@ -43,7 +45,7 @@ export default {
         },
         searchButton(searchInput) {
             this.searchInput = ''
-            if (searchInput === "Home" || searchInput || "home") {
+            if (searchInput === "Home" || searchInput === "home") {
                 this.$router.push("/adminHome");
             }
             else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
@@ -60,27 +62,42 @@ export default {
             }
             else {
                 this.searchInput = "";
-                console.log("Not Found");
+                console.log("Not Found!");
             }
 
         },
+        toggleShowModal() {
+            this.isShowModal = true;
+            console.log(this.isShowModal);
+        },
         // backend
         deleteAdminAccount: function () {
-            console.log(this.$currentUsername.value);
-            AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
-                this.adminAccounts = response.data
-                this.selectedAdminAccount.username = ''
-                this.errorAdminAccount = ''
-                this.$currentUsername.value = ''
-                this.$currentName.value = ''
-                this.$router.push("/adminAccountLogin");
-            })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorAdminAccount = errorMsg
+            if (confirm("Do you want to delete this account?\nYou cannot undo this action")) {
+                this.toggleShowModal();
+                AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
+                    this.adminAccounts = response.data
+                    this.selectedAdminAccount.username = ''
+                    this.errorAdminAccount = ''
+                    this.$currentUsername.value = ''
+                    this.$currentName.value = ''
+                    this.$router.push("/adminAccountLogin");
                 })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorAdminAccount = errorMsg
+                    })
+            }
 
+        },
+        getAllGarages: function () {
+            AXIOS.get('/getAllGarages')
+                .then(response => {
+                    this.garages = response.data
+                })
+                .catch(e => {
+                    this.errorGarage = e
+                })
         },
         getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')
@@ -108,7 +125,49 @@ export default {
                 .catch(e => {
                     this.errorTechnicianAccount = e
                 })
-        }
+        },
+        deleteAdminAccount: function (username) {
+            if (confirm("Do you want to delete this account?\nYou cannot undo this action")) {
+                this.toggleShowModal();
+                AXIOS.put('/deleteAdminAccountFromAdmin/' + username).then(response => {
+                    this.adminAccounts = response.data
+                    this.errorAdminAccount = ''
+                })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorAdminAccount = errorMsg
+                    })
+            }
+        },
+        deleteCustomerAccount: function (username) {
+            if (confirm("Do you want to delete this account?\nYou cannot undo this action")) {
+                this.toggleShowModal();
+                AXIOS.put('/deleteCustomerAccountFromAdmin/' + username).then(response => {
+                    this.customerAccounts = response.data
+                    this.errorCustomerAccount = ''
+                })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorCustomerAccount = errorMsg
+                    })
+            }
+        },
+        deleteTechnicianAccount: function (username) {
+            if (confirm("Do you want to delete this account?\nYou cannot undo this action")) {
+                this.toggleShowModal();
+                AXIOS.put('/deleteTechnicianAccountFromAdmin/' + username).then(response => {
+                    this.technicianAccounts = response.data
+                    this.errorTechnicianAccount = ''
+                })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorTechnicianAccount = errorMsg
+                    })
+            }
+        },
     }
 
 }

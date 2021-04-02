@@ -13,6 +13,8 @@ import ca.mcgill.ecse321.vehiclerepairshop.dao.AdminAccountRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.dao.BusinessInformationRepository;
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
+import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 
 @Service
 public class AdminAccountService {
@@ -166,7 +168,7 @@ public class AdminAccountService {
 		if (username.equals("undefined")) {
 			throw new InvalidInputException("Username empty. Please try again.");
 		}
-			else {
+		else {
 			AdminAccount user = adminAccountRepository.findByUsername(username);
 			if(user == null) {
 				throw new InvalidInputException("The user cannot be found.");
@@ -181,6 +183,74 @@ public class AdminAccountService {
 		}
 	}
 
+	/**
+	 * Deletes any account from admin account
+	 * @author aureliahaas
+	 * @param username
+	 * @return user
+	 */
+	@Transactional
+	public AdminAccount deleteAdminAccountFromAdmin(String username)  {
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username empty. Please try again.");
+		}
+		else {
+			AdminAccount user = adminAccountRepository.findByUsername(username);
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else {
+				adminAccountRepository.delete(user);
+				return user;
+			}
+		}
+	}
+
+	/**
+	 * Deletes any account from admin account
+	 * @author aureliahaas
+	 * @param username
+	 * @return user
+	 */
+	@Transactional
+	public CustomerAccount deleteCustomerAccountFromAdmin(String username)  {
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username empty. Please try again.");
+		}
+		else {
+			CustomerAccount user = customerAccountRepository.findByUsername(username);
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else {
+				customerAccountRepository.delete(user);
+				return user;
+			}
+		}
+	}
+
+	/**
+	 * Deletes any account from admin account
+	 * @author aureliahaas
+	 * @param username
+	 * @return user
+	 */
+	@Transactional
+	public TechnicianAccount deleteTechnicianAccountFromAdmin(String username)  {
+		if (username.equals("undefined")) {
+			throw new InvalidInputException("Username empty. Please try again.");
+		}
+		else {
+			TechnicianAccount user = technicianAccountRepository.findByUsername(username);
+			if(user == null) {
+				throw new InvalidInputException("The user cannot be found.");
+			}
+			else {
+				technicianAccountRepository.delete(user);
+				return user;
+			}
+		}
+	}
 	/**
 	 * Login the account and create a token for the account
 	 * @param username
@@ -236,7 +306,7 @@ public class AdminAccountService {
 				adminAccountRepository.save(user);
 				return user;
 			}
-			}
+		}
 	}
 
 	/**

@@ -1,5 +1,22 @@
 <template>
   <div class="customerAccountLogin">
+        <div>
+        <b-navbar toggleable="lg" type="dark" variant="dark">
+          <b-navbar-brand href="#/" style="color: black"
+            >VRSS</b-navbar-brand
+          >
+
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+          <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+              <b-nav-item href="#/" style="color: white"
+                >Go Back</b-nav-item
+              >
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+      </div>
     <br><br/>
 
     	<h1 style="color:#409EFF;">Welcome to our Vehicle Repair Shop App</h1>

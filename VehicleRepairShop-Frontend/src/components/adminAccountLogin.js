@@ -36,6 +36,7 @@ export default {
     },
 
     methods: {
+        //backend
         loginAdminAccount: function (username, password) {
             AXIOS.put('/loginAdminAccount/' + username + '/' + password).then(response => {
                 this.selectedAdminAccount = response.data

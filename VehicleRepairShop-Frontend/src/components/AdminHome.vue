@@ -14,7 +14,7 @@
               <b-nav-item @click="goBack" style="color: white"
                 >Go Back</b-nav-item
               >
-              <b-nav-item href="#/app" color="white">Home</b-nav-item>
+              <b-nav-item href="#/adminHome" color="white">Home</b-nav-item>
               <b-nav-item href="#/viewAdminAccount" color="white"
                 >Profile</b-nav-item
               >
@@ -31,7 +31,13 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-form>
                 <tr>
-                  <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
+                  <td>
+                    <input
+                      type="text"
+                      v-model="searchInput"
+                      placeholder="Search"
+                    />
+                  </td>
                 </tr>
                 <b-button
                   @click="searchButton(searchInput)"
@@ -49,98 +55,139 @@
     </template>
 
     <br /><br />
-    <h1 style="color: #409eff">Manage Business Information</h1>
+    <h1 style="color: #409eff">Manage Business</h1>
 
     <br /><br />
-<label for="position" style="display: block; margin: 1rem 0;">
-    <button
-      onclick=""
-      type="button"
-      style="border-color: #909399; color: #909399"
-      class="btn"
-    >
-      <font size="3"><b>Manage Business Information</b></font>
-    </button>
-</label>
-<div>
-    <button
-      onclick=""
-      type="button"
-      style="border-color: #909399; color: #909399"
-      class="btn"
-    >
-      <font size="3"><b>Manage Offered Services</b></font>
-    </button>
-</div>
-<div>
-     <div class="container">
-        <h3 class="p-3 text-center">List of Admin Accounts</h3>
-        <table v-on="getAllAdminAccounts()" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Password</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in adminAccounts" :key="user.id">
-                    <td>{{user.username}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.password}}</td>
-                </tr>
-            </tbody>
+    <div>
+      <div class="container">
+        <h3 class="p-3 text-center">List of Garages</h3>
+        <table
+          v-on="getAllGarages()"
+          class="table table-striped table-bordered"
+        >
+          <thead>
+            <tr>
+              <th>GarageId</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="garage in garages" :key="garage.id">
+              <td>{{ garage.garageId }}</td>
+            </tr>
+          </tbody>
         </table>
-    </div>
-    <br><br/>
+      </div>
+      <div class="container">
+        <h3 class="p-3 text-center">List of Admin Accounts</h3>
+        <table
+          v-on="getAllAdminAccounts()"
+          class="table table-striped table-bordered"
+        >
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Password</th>
+              <th style="color: red">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in adminAccounts" :key="user.id">
+              <td>{{ user.username }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.password }}</td>
+              <td>
+                <button
+                  @click="deleteAdminAccount(user.username)"
+                  onclick=""
+                  type="button"
+                  style="border-color: red; color: red"
+                  class="btn"
+                >
+                  <font size="3"><b>Delete Account</b></font>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br /><br />
       <div class="container">
         <h3 class="p-3 text-center">List of Customer Accounts</h3>
-        <table v-on="getAllCustomerAccounts()" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Password</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in customerAccounts" :key="user.id">
-                    <td>{{user.username}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.password}}</td>
-                </tr>
-            </tbody>
+        <table
+          v-on="getAllCustomerAccounts()"
+          class="table table-striped table-bordered"
+        >
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Password</th>
+              <th style="color: red">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in customerAccounts" :key="user.id">
+              <td>{{ user.username }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.password }}</td>
+              <td>
+                <button
+                  @click="deleteCustomerAccount(user.username)"
+                  onclick=""
+                  type="button"
+                  style="border-color: red; color: red"
+                  class="btn"
+                >
+                  <font size="3"><b>Delete Account</b></font>
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
-    </div>
-    <br><br/>
+      </div>
+      <br /><br />
       <div class="container">
         <h3 class="p-3 text-center">List of Technician Accounts</h3>
-        <table v-on="getAllTechnicianAccounts()" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Password</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in technicianAccounts" :key="user.id">
-                    <td>{{user.username}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.password}}</td>
-                </tr>
-            </tbody>
+        <table
+          v-on="getAllTechnicianAccounts()"
+          class="table table-striped table-bordered"
+        >
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Password</th>
+              <th style="color: red">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in technicianAccounts" :key="user.id">
+              <td>{{ user.username }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.password }}</td>
+              <td>
+                <button
+                  @click="deleteTechnicianAccount(user.username)"
+                  onclick=""
+                  type="button"
+                  style="border-color: red; color: red"
+                  class="btn"
+                >
+                  <font size="3"><b>Delete Account</b></font>
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
+      </div>
     </div>
-</div>
 
     <br /><br />
   </div>
 </template>
 
 <script src="./adminHome.js">
-
-
 </script>
 
 <style>

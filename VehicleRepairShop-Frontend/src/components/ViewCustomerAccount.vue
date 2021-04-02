@@ -14,7 +14,7 @@
               <b-nav-item @click="goBack" style="color: white"
                 >Go Back</b-nav-item
               >
-              <b-nav-item href="#/app" color="white">Home</b-nav-item>
+              <b-nav-item href="#/calendarCustomer" color="white">Home</b-nav-item>
               <b-nav-item href="#/viewCustomerAccount" color="white"
                 >Profile</b-nav-item
               >
@@ -63,7 +63,7 @@
     </template>
 
     <br /><br />
-    <h1 style="color: #409eff">Your Profile</h1>
+    <h1 style="color: #409eff">Profile</h1>
 
     <br /><br />
 
