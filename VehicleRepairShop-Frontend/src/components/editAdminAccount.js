@@ -29,12 +29,42 @@ export default {
             errorAdminAccount: '',
             response: [],
             showPassword: false,
-            showConfirmPassword: false
+            showConfirmPassword: false,
+            searchInput: '',
 
         }
 
     },
     methods: {
+        // navigation bar
+        goBack() {
+            this.$router.go(-1);
+
+        },
+        searchButton(searchInput) {
+            this.searchInput = ''
+            if (searchInput === "Home" || searchInput || "home") {
+                this.$router.push("/adminHome");
+            }
+            else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+                this.$router.push("/offeredServiceTableAdmin");
+            }
+            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
+                this.$router.push("/viewAdminAccount");
+            }
+            else if (searchInput === "Calendar" || searchInput === "calendar") {
+                this.$router.push("/calendarAdmin")
+            }
+            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
+                this.$router.push("/editAdminAccount")
+            }
+            else {
+                this.searchInput = "";
+                console.log("Not Found");
+            }
+
+        },
+        // backend
         updateAdminAccount: function (newPassword, confirmPassword, newName) {
             if (newPassword === confirmPassword) {
                 AXIOS.put('/updateAdminAccount/' + this.$currentUsername.value + '/' + newPassword + '/' + newName).then(response => {

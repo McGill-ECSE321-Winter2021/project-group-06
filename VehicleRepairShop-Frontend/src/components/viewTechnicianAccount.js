@@ -38,23 +38,25 @@ export default {
             this.$router.go(-1);
 
         },
-        // Add all the pages
-        searchButton(searchInput){
-                this.searchInput = ''
-                if (searchInput === "Home"){
-                    this.$router.push("/app");
-                }
-                else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service"){
-                    this.$router.push("/offeredServiceTable");
-                }
-                else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account"){
-                    this.$router.push("/viewTechnicianAccount");
-                }
-                else{
-                    this.searchInput = "";
-                    console.log("Not Found");
-                }
-                
+        searchButton(searchInput) {
+            this.searchInput = ''
+            if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+                this.$router.push("/offeredServiceTableTechnician");
+            }
+            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
+                this.$router.push("/viewTechnicianAccount");
+            }
+            else if (searchInput === "Calendar" || searchInput === "calendar" || searchInput === "Home" || searchInput === "home") {
+                this.$router.push("/calendarTechnician")
+            }
+            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
+                this.$router.push("/editTechnicianAccount")
+            }
+            else {
+                this.searchInput = "";
+                console.log("Not Found");
+            }
+
         },
         deleteTechnicianAccount: function () {
             AXIOS.put('/deleteTechnicianAccount/' + this.$currentUsername.value).then(response => {
@@ -62,7 +64,7 @@ export default {
                 this.errorTechnicianAccount = ''
                 this.$currentUsername.value = ''
                 this.$currentName.value = ''
-                this.$router.push("/technicianAccountLogin");
+                this.$router.push("/");
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
@@ -77,7 +79,7 @@ export default {
                 this.errorTechnicianAccount = ''
                 this.$currentUsername.value = ''
                 this.$currentName.value = ''
-                this.$router.push("/technicianAccountLogin");
+                this.$router.push("/");
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message

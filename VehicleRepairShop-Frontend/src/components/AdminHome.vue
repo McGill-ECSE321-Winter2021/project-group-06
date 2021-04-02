@@ -3,8 +3,9 @@
     <template>
       <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
-          <b-navbar-brand href="#/app" style="color: black"
-            >VRSS</b-navbar-brand>
+          <b-navbar-brand href="#/adminHome" style="color: black"
+            >VRSS</b-navbar-brand
+          >
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -21,7 +22,7 @@
                 >Calendar</b-nav-item
               >
 
-              <b-nav-item href="#/offeredServiceTable"
+              <b-nav-item href="#/offeredServiceTableAdmin"
                 >Services and Pricing</b-nav-item
               >
             </b-navbar-nav>
@@ -32,11 +33,6 @@
                 <tr>
                   <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
                 </tr>
-                <!-- <b-form-input type="text" v-model="searchInput"
-                  size="sm"
-                  class="mr-sm-2"
-                  placeholder="Search"
-                ></b-form-input> -->
                 <b-button
                   @click="searchButton(searchInput)"
                   size="sm"
@@ -46,15 +42,6 @@
                   >Search</b-button
                 >
               </b-nav-form>
-
-              <!-- <b-nav-item-dropdown right> -->
-              <!-- Using 'button-content' slot -->
-              <!-- <template #button-content> -->
-              <!-- <em>User</em> -->
-              <!-- </template> -->
-              <!-- <b-dropdown-item href="#/viewAdminAccount" style="background-color: #909399">Profile</b-dropdown-item> -->
-              <!-- <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item> -->
-              <!-- </b-nav-item-dropdown>  -->
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -170,7 +157,7 @@ nav .navbar-nav li a {
     color: #409EFF; */
 }
 #t01 {
-  width: 20%;
+  width: 18%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;

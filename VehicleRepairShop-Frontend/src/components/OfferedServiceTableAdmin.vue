@@ -1,5 +1,51 @@
 <template>
-  <div style="width: 1000px">
+  <div>
+     <div>
+        <b-navbar toggleable="lg" type="dark" variant="dark">
+          <b-navbar-brand href="#/adminHome" style="color: black"
+            >VRSS</b-navbar-brand
+          >
+
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+          <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+              <b-nav-item @click="goBack" style="color: white"
+                >Go Back</b-nav-item
+              >
+              <b-nav-item href="#/adminHome" color="white">Home</b-nav-item>
+              <b-nav-item href="#/viewAdminAccount" color="white"
+                >Profile</b-nav-item
+              >
+              <b-nav-item href="#/calendarAdmin" color="white"
+                >Calendar</b-nav-item
+              >
+
+              <b-nav-item href="#/offeredServiceTableAdmin"
+                >Services and Pricing</b-nav-item
+              >
+            </b-navbar-nav>
+
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
+              <b-nav-form>
+                <tr>
+                  <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
+                </tr>
+                <b-button
+                  @click="searchButton(searchInput)"
+                  size="sm"
+                  class="my-2 my-sm-0"
+                  type="submit"
+                  style="background-color: #909399; color: white"
+                  >Search</b-button
+                >
+              </b-nav-form>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+      </div>
+      <br/><br/>
     <h3><center>Offered Service</center></h3>
     <tr>
       <center>
@@ -171,11 +217,17 @@
   </div>
 </template>
 
-<script src="./elementUITable.js">
+<script src="./elementUITableAdmin.js">
 </script>
 
 
 <style>
+.navbar.navbar-dark.bg-dark {
+  background-color: #409eff !important;
+}
+nav .navbar-nav li a {
+  color: white !important;
+}
 #ElementUITable {
   text-align: center;
 }

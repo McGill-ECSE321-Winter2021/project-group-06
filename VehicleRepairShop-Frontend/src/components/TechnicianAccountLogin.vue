@@ -68,7 +68,7 @@
 
 <style>
 #t01 {
-  width: 20%;
+  width: 18%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;

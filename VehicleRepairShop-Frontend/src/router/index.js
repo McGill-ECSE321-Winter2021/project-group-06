@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Modal from "@burhanahmeed/vue-modal-2"
-import Hello from '@/components/Hello'
 import CalendarAdminAccount from '@/components/CalendarAdminAccount.vue'
 import CalendarCustomerAccount from '@/components/CalendarCustomerAccount.vue'
 import CalendarTechnicianAccount from '@/components/CalendarTechnicianAccount.vue'
-import OfferedServiceTable from '@/components/OfferedServiceTable.vue'
-import MainMenu from '@/components/MainMenu.vue'
+import OfferedServiceTableAdmin from '@/components/OfferedServiceTableAdmin.vue'
 import SelectAccount from '@/components/SelectAccount.vue'
 import ViewAdminAccount from '@/components/ViewAdminAccount.vue'
 import ViewCustomerAccount from '@/components/ViewCustomerAccount.vue'
@@ -21,7 +19,6 @@ import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
 import CustomerAccountSignUp from '@/components/CustomerAccountSignUp.vue'
 import TechnicianAccountSignUp from '@/components/TechnicianAccountSignUp.vue'
 import AdminHome from '@/components/AdminHome.vue'
-import Test from '@/components/Test.vue'
 
 Vue.use(Router)
 Vue.use(Modal);
@@ -34,16 +31,10 @@ export default new Router({
       name: 'SelectAccount',
       component: SelectAccount
     },
-    // {
-
-    //   path: '/app',
-    //   name: 'FirstCompoent',
-    //   component: FirstCompoent
-    // },
     {
-      path:'/offeredServiceTable',
-      name:'OfferedServiceTable',
-      component: OfferedServiceTable
+      path:'/offeredServiceTableAdmin',
+      name:'OfferedServiceTableAdmin',
+      component: OfferedServiceTableAdmin
     },
     {
 
@@ -62,12 +53,6 @@ export default new Router({
       path: '/calendarCustomer',
       name: 'CalendarCustomerAccount',
       component: CalendarCustomerAccount
-    },
-    {
-    
-      path: '/app',
-      name: 'MainMenu',
-      component: MainMenu
     },
     {
     
@@ -143,12 +128,6 @@ export default new Router({
       path: '/viewTechnicianAccount',
       name: 'ViewTechnicianAccount',
       component: ViewTechnicianAccount
-    },
-    {
-      path: '/test',
-      name: 'Test',
-      component: Test
-
     }
   ]
 })

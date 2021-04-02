@@ -29,40 +29,47 @@ export default {
             },
             errorAdminAccount: '',
             response: [],
-            searchInput:'',
+            searchInput: '',
         }
 
     },
     methods: {
+        // navigation bar
         goBack() {
             this.$router.go(-1);
 
         },
-        // Add all the pages
-        searchButton(searchInput){
-                this.searchInput = ''
-                if (searchInput === "Home"){
-                    this.$router.push("/app");
-                }
-                else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service"){
-                    this.$router.push("/offeredServiceTable");
-                }
-                else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account"){
-                    this.$router.push("/viewAdminAccount");
-                }
-                else{
-                    this.searchInput = "";
-                    console.log("Not Found");
-                }
-                
+        searchButton(searchInput) {
+            this.searchInput = ''
+            if (searchInput === "Home" || searchInput || "home") {
+                this.$router.push("/adminHome");
+            }
+            else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+                this.$router.push("/offeredServiceTableAdmin");
+            }
+            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
+                this.$router.push("/viewAdminAccount");
+            }
+            else if (searchInput === "Calendar" || searchInput === "calendar") {
+                this.$router.push("/calendarAdmin")
+            }
+            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
+                this.$router.push("/editAdminAccount")
+            }
+            else {
+                this.searchInput = "";
+                console.log("Not Found");
+            }
+
         },
+        // backend
         deleteAdminAccount: function () {
             AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
                 this.adminAccounts = response.data
                 this.errorAdminAccount = ''
                 this.$currentUsername.value = ''
                 this.$currentName.value = ''
-                this.$router.push("/adminAccountLogin");
+                this.$router.push("/");
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
@@ -77,7 +84,7 @@ export default {
                 this.errorAdminAccount = ''
                 this.$currentUsername.value = ''
                 this.$currentName.value = ''
-                this.$router.push("/adminAccountLogin");
+                this.$router.push("/");
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message

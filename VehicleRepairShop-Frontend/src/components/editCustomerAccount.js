@@ -29,14 +29,41 @@ export default {
             errorCustomerAccount: '',
             response: [],
             showPassword: false,
-            showConfirmPassword: false
+            showConfirmPassword: false,
+            searchInput: '',
 
         }
 
     },
     methods: {
+        // navigation bar
+        goBack() {
+            this.$router.go(-1);
+
+        },
+        searchButton(searchInput) {
+            this.searchInput = ''
+            if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+                this.$router.push("/offeredServiceTableCustomer");
+            }
+            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
+                this.$router.push("/viewCustomerAccount");
+            }
+            else if (searchInput === "Calendar" || searchInput === "calendar" || searchInput === "Home" || searchInput === "home") {
+                this.$router.push("/calendarCustomer")
+            }
+            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
+                this.$router.push("/editCustomerAccount")
+            }
+            else {
+                this.searchInput = "";
+                console.log("Not Found");
+            }
+
+        },
+        // backend
         updateCustomerAccount: function (newPassword, confirmPassword, newName) {
-            if (newPassword === confirmPassword){
+            if (newPassword === confirmPassword) {
                 AXIOS.put('/updateCustomerAccount/' + this.$currentUsername.value + '/' + newPassword + '/' + newName).then(response => {
                     this.selectedCustomerAccount = response.data
                     this.$currentName.value = this.selectedCustomerAccount.name
@@ -65,9 +92,9 @@ export default {
                     this.errorCustomerAccount = e
                 })
         },
-        goToViewCustomerAccount(){
-              this.$router.push("/viewCustomerAccount")
-            }
+        goToViewCustomerAccount() {
+            this.$router.push("/viewCustomerAccount")
+        }
     }
 
 }

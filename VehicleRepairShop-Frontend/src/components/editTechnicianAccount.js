@@ -29,12 +29,39 @@ export default {
             errorTechnicianAccount: '',
             response: [],
             showPassword: false,
-            showConfirmPassword: false
+            showConfirmPassword: false,
+            searchInput: '',
 
         }
 
     },
     methods: {
+        // navigation bar
+        goBack() {
+            this.$router.go(-1);
+
+        },
+        searchButton(searchInput) {
+            this.searchInput = ''
+            if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+                this.$router.push("/offeredServiceTableTechnician");
+            }
+            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
+                this.$router.push("/viewTechnicianAccount");
+            }
+            else if (searchInput === "Calendar" || searchInput === "calendar" || searchInput === "Home" || searchInput === "home") {
+                this.$router.push("/calendarTechnician")
+            }
+            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
+                this.$router.push("/editTechnicianAccount")
+            }
+            else {
+                this.searchInput = "";
+                console.log("Not Found");
+            }
+
+        },
+        // backend
         updateTechnicianAccount: function (confirmPassword, newName) {
             if (newPassword === confirmPassword) {
                 AXIOS.put('/updateTechnicianAccount/' + this.$currentUsername.value + '/' + newPassword + '/' + newName).then(response => {

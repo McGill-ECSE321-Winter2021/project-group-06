@@ -3,7 +3,7 @@
     <template>
       <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
-          <b-navbar-brand href="#/app" style="color: black"
+          <b-navbar-brand href="#/calendarCustomer" style="color: black"
             >VRSS</b-navbar-brand
           >
 
@@ -22,7 +22,7 @@
                 >Calendar</b-nav-item
               >
 
-              <b-nav-item href="#/offeredServiceTable"
+              <b-nav-item href="#/offeredServiceTableAdmin"
                 >Services and Pricing</b-nav-item
               >
             </b-navbar-nav>
@@ -133,7 +133,7 @@ nav .navbar-nav li a {
     color: #409EFF; */
 }
 #t01 {
-  width: 20%;
+  width: 18%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;

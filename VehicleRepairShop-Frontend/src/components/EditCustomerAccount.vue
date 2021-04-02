@@ -1,6 +1,51 @@
 <template>
   <div class="editCustomerAccount">
-    <br /><br />
+     <div>
+        <b-navbar toggleable="lg" type="dark" variant="dark">
+          <b-navbar-brand href="#/calendarCustomer" style="color: black"
+            >VRSS</b-navbar-brand
+          >
+
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+          <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+              <b-nav-item @click="goBack" style="color: white"
+                >Go Back</b-nav-item
+              >
+              <b-nav-item href="#/viewCustomerAccount" color="white"
+                >Profile</b-nav-item
+              >
+              <b-nav-item href="#/calendarCustomer" color="white"
+                >Calendar</b-nav-item
+              >
+
+              <b-nav-item href="#/offeredServiceTableCustomer"
+                >Services and Pricing</b-nav-item
+              >
+            </b-navbar-nav>
+
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
+              <b-nav-form>
+                <tr>
+                  <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
+                </tr>
+                <b-button
+                  @click="searchButton(searchInput)"
+                  size="sm"
+                  class="my-2 my-sm-0"
+                  type="submit"
+                  style="background-color: #909399; color: white"
+                  >Search</b-button
+                >
+              </b-nav-form>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+      </div>
+      <br/><br/>
+
     <h1 style="color: #409eff">Manage Your Account</h1>
     <h4 style="color: #000000">Here you can change your name and password</h4>
     <!-- <br></br> -->
@@ -51,7 +96,7 @@
         <th>Confirm Password:</th>
         <td>
           <input
-            v-bind:type="[showConfirmassword ? 'text' : 'password']"
+            v-bind:type="[showConfirmPassword ? 'text' : 'password']"
             v-model="confirmPassword"
           />
           <i
@@ -108,8 +153,14 @@
 </script>
 
 <style>
+.navbar.navbar-dark.bg-dark {
+  background-color: #409eff !important;
+}
+nav .navbar-nav li a {
+  color: white !important;
+}
 #t01 {
-  width: 40%;
+  width: 18%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
