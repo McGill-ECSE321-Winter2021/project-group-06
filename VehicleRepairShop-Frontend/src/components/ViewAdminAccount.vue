@@ -49,7 +49,7 @@
     </template>
 
     <br /><br />
-    <h1 style="color: #409eff">Profile</h1>
+    <h1 style="color: #409eff">Your Profile</h1>
 
     <br /><br />
 

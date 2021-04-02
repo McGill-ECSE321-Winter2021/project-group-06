@@ -43,7 +43,8 @@ export default {
                 this.$currentName.value = this.selectedCustomerAccount.name
                 console.log(this.$currentUsername.value)
                 console.log(this.$currentName.value)
-                this.$router.push("/calendarCustomer")
+                //this.$router.push("/calendarCustomer")
+                this.$router.push("/viewCustomerAccount")
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message

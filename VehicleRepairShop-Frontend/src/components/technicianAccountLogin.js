@@ -43,7 +43,7 @@ export default {
                 this.$currentName.value = this.selectedTechnicianAccount.name
                 console.log(this.$currentUsername.value)
                 console.log(this.$currentName.value)
-                this.$router.push("/calendarTechnician")
+                this.$router.push("/viewTechnicianAccount")
             
             })
                 .catch(e => {
