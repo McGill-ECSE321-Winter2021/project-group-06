@@ -19,7 +19,7 @@ import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
 import CustomerAccountSignUp from '@/components/CustomerAccountSignUp.vue'
 import TechnicianAccountSignUp from '@/components/TechnicianAccountSignUp.vue'
 import AdminHome from '@/components/AdminHome.vue'
-import Car from '@/components/Car.vue'
+import Car from '@/components/CustomerCreateCar.vue'
 
 Vue.use(Router)
 Vue.use(Modal);

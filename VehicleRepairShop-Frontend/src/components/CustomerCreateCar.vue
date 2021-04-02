@@ -115,7 +115,7 @@
 
 <script src="./car.js">
 </script>
-<script src="./navBar.js">
+<script src="./navBarCustomer.js">
 </script>
 
 <style>
