@@ -5,13 +5,23 @@
     	<h1 style="color:#409EFF;">Welcome to our Vehicle Repair Shop App</h1>
     	<h4 style="color:#000000;">Log into your account</h4>
         <br><br/>
- 
+
+
       <table id="t01">
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
           <th>Username:</th>
           <td><input type="text" v-model="username"></td>
-        <tr>
+        <tr v-if="!showPassword">
           <th>Password:</th>
-          <td><input type="password" v-model="password"></td>
+          <td><input v-bind:type="[showPassword ? 'text' : 'password']" v-model="password">
+          <i @click="showPassword =!showPassword" class="fa fa-eye-slash fa_custom"></i>
+          </td>
+        </tr>
+        <tr v-if="showPassword">
+          <th>Password:</th>
+          <td><input v-bind:type="[showPassword ? 'text' : 'password']" v-model="password">
+          <i @click="showPassword =!showPassword" class="fa fa-eye fa_custom"></i>
+          </td>
         </tr>
       </table>
 
@@ -33,12 +43,14 @@
 <script src="./adminAccountLogin.js">
 </script>
 
-<style>
+<style type="text/css">
 #t01 {
   width: 20%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
 }
-
+.fa_custom {
+color: #409eff
+}
 </style>

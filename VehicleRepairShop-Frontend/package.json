@@ -26,6 +26,7 @@
     "bootstrap": "^5.0.0-beta3",
     "bootstrap-vue": "^2.21.2",
     "element-ui": "^2.15.1",
+    "font-awesome": "^4.7.0",
     "fs": "0.0.1-security",
     "jquery": "^3.6.0",
     "jquery-ui": "^1.12.1",

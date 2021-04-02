@@ -1,12 +1,16 @@
 <template>
   <div class="customerAccountSignUp">
-    <br><br/>
+    <br /><br />
 
-    <h1 style="color: #409EFF">Sign Up</h1>
+    <h1 style="color: #409eff">Sign Up</h1>
     <h4 style="color: #000000">Create your account</h4>
-    <br><br/>
+    <br /><br />
 
     <table id="t01">
+      <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+      />
       <tr>
         <th>Username:</th>
         <td><input type="text" v-model="username" /></td>
@@ -17,16 +21,66 @@
         <td><input type="text" v-model="name" /></td>
       </tr>
 
-      <tr>
+      <tr v-if="!showPassword">
         <th>Password:</th>
-        <td><input type="password" v-model="password" /></td>
+        <td>
+          <input
+            v-bind:type="[showPassword ? 'text' : 'password']"
+            v-model="password"
+          />
+          <i
+            @click="showPassword = !showPassword"
+            class="fa fa-eye-slash fa_custom"
+          ></i>
+        </td>
+      </tr>
+      <tr v-if="showPassword">
+        <th>Password:</th>
+        <td>
+          <input
+            v-bind:type="[showPassword ? 'text' : 'password']"
+            v-model="password"
+          />
+          <i
+            @click="showPassword = !showPassword"
+            class="fa fa-eye fa_custom"
+          ></i>
+        </td>
+      </tr>
+
+      <tr v-if="!showConfirmPassword">
+        <th>Confirm Password:</th>
+        <td>
+          <input
+            v-bind:type="[showConfirmPassword ? 'text' : 'password']"
+            v-model="confirmPassword"
+          />
+          <i
+            @click="showConfirmPassword = !showConfirmPassword"
+            class="fa fa-eye-slash fa_custom"
+          ></i>
+        </td>
+      </tr>
+      <tr v-if="showConfirmPassword">
+        <th>Confirm Password:</th>
+        <td>
+          <input
+            v-bind:type="[showConfirmPassword ? 'text' : 'password']"
+            v-model="confirmPassword"
+          />
+          <i
+            @click="showConfirmPassword = !showConfirmPassword"
+            class="fa fa-eye fa_custom"
+          ></i>
+        </td>
       </tr>
     </table>
 
-    <br><br/>
+    <br /><br />
     <p>
-      <span v-if="errorCustomerAccount" style="color: red">Error: {{ errorCustomerAccount }}
-    </span>
+      <span v-if="errorCustomerAccount" style="color: red"
+        >Error: {{ errorCustomerAccount }}
+      </span>
     </p>
 
     <button
@@ -38,15 +92,15 @@
       <font size="3"><b>Cancel</b></font>
     </button>
     <button
-      @click="createCustomerAccount(username, password, name)"
+      @click="createCustomerAccount(username, password, confirmPassword, name)"
       type="button"
-      style="background-color: #409EFF; color: white"
+      style="background-color: #409eff; color: white"
       class="btn"
     >
       <font size="3"><b>Sign Up</b></font>
     </button>
 
-    <br><br/>
+    <br /><br />
   </div>
 </template>
 
@@ -55,11 +109,13 @@
 </script>
 
 <style>
-
 #t01 {
   width: 20%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
+}
+.fa_custom {
+  color: #409eff;
 }
 </style>

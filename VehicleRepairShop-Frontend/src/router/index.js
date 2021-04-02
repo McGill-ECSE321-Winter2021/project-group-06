@@ -12,6 +12,8 @@ import ViewAdminAccount from '@/components/ViewAdminAccount.vue'
 import ViewCustomerAccount from '@/components/ViewCustomerAccount.vue'
 import ViewTechnicianAccount from '@/components/ViewTechnicianAccount.vue'
 import EditAdminAccount from '@/components/EditAdminAccount.vue'
+import EditCustomerAccount from '@/components/EditCustomerAccount.vue'
+import EditTechnicianAccount from '@/components/EditTechnicianAccount.vue'
 import AdminAccountLogin from '@/components/AdminAccountLogin.vue'
 import CustomerAccountLogin from '@/components/CustomerAccountLogin.vue'
 import TechnicianAccountLogin from '@/components/TechnicianAccountLogin.vue'
@@ -112,6 +114,20 @@ export default new Router({
       name: 'EditAdminAccount',
       component: EditAdminAccount
     },
+    {
+    
+      path: '/editCustomerAccount',
+      name: 'EditCustomerAccount',
+      component: EditCustomerAccount
+    },
+    {
+    
+      path: '/editTechnicianAccount',
+      name: 'EditTechnicianAccount',
+      component: EditTechnicianAccount
+    },
+
+
 
     {
       path: '/viewAdminAccount',

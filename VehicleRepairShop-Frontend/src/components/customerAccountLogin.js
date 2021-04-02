@@ -27,7 +27,8 @@ export default {
                 name: ''
             },
             errorCustomerAccount: '',
-            response: []
+            response: [],
+            showPassword: false
 
 
         }

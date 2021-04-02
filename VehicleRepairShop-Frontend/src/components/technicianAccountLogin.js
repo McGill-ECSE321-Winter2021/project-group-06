@@ -27,7 +27,8 @@ export default {
                 name: ''
             },
             errorTechnicianAccount: '',
-            response: []
+            response: [],
+            showPassword: false
 
 
         }

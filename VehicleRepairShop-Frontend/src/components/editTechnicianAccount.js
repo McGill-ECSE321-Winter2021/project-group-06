@@ -35,23 +35,14 @@ export default {
 
     },
     methods: {
-        createTechnicianAccount: function (username, password, confirmPassword, name) {
-            if (password === confirmPassword) {
-                AXIOS.post('/createTechnicianAccount/' + username + '/' + password + '/' + name).then(response => {
-                    // JSON responses are automatically parsed.
-                    this.technicianAccounts.push(response.data)
-                    this.newTechnicianAccount.username = ''
-                    this.newTechnicianAccount.password = ''
-                    this.newTechnicianAccount.name = ''
-                    this.errorTechnicianAccount = ''
-                    this.$currentUsername.value = username
-                    this.$currentName.value = name
-                    //this.$router.push("/calendarTechnician");
-                    this.$router.push("/viewTechnicianAccount");
-
-                    console.log(this.$currentUsername.value);
-                    console.log(this.$currentName.value);
-
+        updateTechnicianAccount: function (confirmPassword, newName) {
+            if (newPassword === confirmPassword) {
+                AXIOS.put('/updateTechnicianAccount/' + this.$currentUsername.value + '/' + newPassword + '/' + newName).then(response => {
+                    this.selectedTechnicianAccount = response.data
+                    this.$currentName.value = this.selectedTechnicianAccount.name
+                    console.log(this.$currentUsername.value)
+                    console.log(this.$currentName.value)
+                    this.$router.push("/viewTechnicianAccount")
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message
@@ -62,21 +53,20 @@ export default {
             else {
                 this.errorTechnicianAccount = "The passwords do not match."
             }
-
         },
         getAllTechnicianAccounts: function () {
             // Initializing persons from backend
             AXIOS.get('/getAllTechnicianAccounts')
                 .then(response => {
                     // JSON responses are automatically parsed.
-                    this.technicianAccounts = response.data
+                    this.TechnicianAccounts = response.data
                 })
                 .catch(e => {
                     this.errorTechnicianAccount = e
                 })
         },
-        goToTechnicianAccountLogin() {
-            this.$router.push("/technicianAccountLogin");
+        goToViewTechnicianAccount() {
+            this.$router.push("/viewTechnicianAccount")
         }
     }
 

@@ -35,23 +35,14 @@ export default {
 
     },
     methods: {
-        createCustomerAccount: function (username, password, confirmPassword, name) {
-            if (password === confirmPassword) {
-                AXIOS.post('/createCustomerAccount/' + username + '/' + password + '/' + name).then(response => {
-                    // JSON responses are automatically parsed.
-                    this.customerAccounts.push(response.data)
-                    this.newCustomerAccount.username = ''
-                    this.newCustomerAccount.password = ''
-                    this.newCustomerAccount.name = ''
-                    this.errorCustomerAccount = ''
-                    this.$currentUsername.value = username
-                    this.$currentName.value = name
-                    //this.$router.push("/calendarCustomer");
-                    this.$router.push("/viewCustomerAccount");
-
-                    console.log(this.$currentUsername.value);
-                    console.log(this.$currentName.value);
-
+        updateCustomerAccount: function (newPassword, confirmPassword, newName) {
+            if (newPassword === confirmPassword){
+                AXIOS.put('/updateCustomerAccount/' + this.$currentUsername.value + '/' + newPassword + '/' + newName).then(response => {
+                    this.selectedCustomerAccount = response.data
+                    this.$currentName.value = this.selectedCustomerAccount.name
+                    console.log(this.$currentUsername.value)
+                    console.log(this.$currentName.value)
+                    this.$router.push("/viewCustomerAccount")
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message
@@ -68,15 +59,15 @@ export default {
             AXIOS.get('/getAllCustomerAccounts')
                 .then(response => {
                     // JSON responses are automatically parsed.
-                    this.customerAccounts = response.data
+                    this.CustomerAccounts = response.data
                 })
                 .catch(e => {
                     this.errorCustomerAccount = e
                 })
         },
-        goToCustomerAccountLogin() {
-            this.$router.push("/customerAccountLogin");
-        }
+        goToViewCustomerAccount(){
+              this.$router.push("/viewCustomerAccount")
+            }
     }
 
 }

@@ -27,34 +27,41 @@ export default {
                 name: ''
             },
             errorAdminAccount: '',
-            response: []
+            response: [],
+            showPassword: false,
+            showConfirmPassword: false
 
         }
 
     },
     methods: {
-        createAdminAccount: function (username, password, name) {
-            AXIOS.post('/createAdminAccount/' + username + '/' + password + '/' + name).then(response => {
-                // JSON responses are automatically parsed.
-                this.adminAccounts.push(response.data)
-                this.newAdminAccount.username = ''
-                this.newAdminAccount.password = ''
-                this.newAdminAccount.name = ''
-                this.errorAdminAccount = ''
-                this.$currentUsername.value = username
-                this.$currentName.value = name
-                //this.$router.push("/calendarAdmin");
-                this.$router.push("/adminHome");
+        createAdminAccount: function (username, password, confirmPassword, name) {
+            if (password === confirmPassword) {
+                AXIOS.post('/createAdminAccount/' + username + '/' + password + '/' + name).then(response => {
+                    // JSON responses are automatically parsed.
+                    this.adminAccounts.push(response.data)
+                    this.newAdminAccount.username = ''
+                    this.newAdminAccount.password = ''
+                    this.newAdminAccount.name = ''
+                    this.errorAdminAccount = ''
+                    this.$currentUsername.value = username
+                    this.$currentName.value = name
+                    //this.$router.push("/calendarAdmin");
+                    this.$router.push("/adminHome");
 
-                console.log(this.$currentUsername.value);
-                console.log(this.$currentName.value);
-                
-            })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorAdminAccount = errorMsg
+                    console.log(this.$currentUsername.value);
+                    console.log(this.$currentName.value);
+
                 })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorAdminAccount = errorMsg
+                    })
+            }
+            else {
+                this.errorAdminAccount = "The passwords do not match."
+            }
         },
         getAllAdminAccounts: function () {
             // Initializing persons from backend
@@ -67,9 +74,9 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
-        goToAdminAccountLogin(){
-              this.$router.push("/adminAccountLogin");
-            }
+        goToAdminAccountLogin() {
+            this.$router.push("/adminAccountLogin");
+        }
     }
 
 }

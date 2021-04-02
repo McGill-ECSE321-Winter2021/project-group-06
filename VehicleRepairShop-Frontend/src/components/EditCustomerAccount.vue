@@ -1,10 +1,9 @@
 <template>
-  <div class="technicianAccountSignUp">
+  <div class="editCustomerAccount">
     <br /><br />
-
-    <h1 style="color: #409eff">Sign Up</h1>
-    <h4 style="color: #000000">Create your account</h4>
-    <br /><br />
+    <h1 style="color: #409eff">Manage Your Account</h1>
+    <h4 style="color: #000000">Here you can change your name and password</h4>
+    <!-- <br></br> -->
 
     <table id="t01">
       <link
@@ -13,20 +12,20 @@
       />
       <tr>
         <th>Username:</th>
-        <td><input type="text" v-model="username" /></td>
+        <td>{{ this.$currentUsername.value }}</td>
       </tr>
-
       <tr>
-        <th>Name:</th>
-        <td><input type="text" v-model="name" /></td>
+        <th>Current Name:</th>
+        <td>{{ this.$currentName.value }}</td>
       </tr>
-
+      <th>New Name:</th>
+      <td><input type="text" v-model="newName" /></td>
       <tr v-if="!showPassword">
-        <th>Password:</th>
+        <th>New Password:</th>
         <td>
           <input
             v-bind:type="[showPassword ? 'text' : 'password']"
-            v-model="password"
+            v-model="newPassword"
           />
           <i
             @click="showPassword = !showPassword"
@@ -35,11 +34,11 @@
         </td>
       </tr>
       <tr v-if="showPassword">
-        <th>Password:</th>
+        <th>New Password:</th>
         <td>
           <input
             v-bind:type="[showPassword ? 'text' : 'password']"
-            v-model="password"
+            v-model="newPassword"
           />
           <i
             @click="showPassword = !showPassword"
@@ -52,7 +51,7 @@
         <th>Confirm Password:</th>
         <td>
           <input
-            v-bind:type="[showConfirmPassword ? 'text' : 'password']"
+            v-bind:type="[showConfirmassword ? 'text' : 'password']"
             v-model="confirmPassword"
           />
           <i
@@ -61,6 +60,7 @@
           ></i>
         </td>
       </tr>
+
       <tr v-if="showConfirmPassword">
         <th>Confirm Password:</th>
         <td>
@@ -75,44 +75,41 @@
         </td>
       </tr>
     </table>
-
-    <br /><br />
+    <br />
+    <br />
     <p>
-      <span v-if="errorTechnicianAccount" style="color: red"
-        >Error: {{ errorTechnicianAccount }}
+      <span v-if="errorCustomerAccount" style="color: red"
+        >Error: {{ errorCustomerAccount }}
       </span>
     </p>
 
     <button
-      @click="goToTechnicianAccountLogin()"
+      @click="goToViewCustomerAccount()"
       type="button"
       style="border-color: #909399; color: #909399"
       class="btn"
     >
       <font size="3"><b>Cancel</b></font>
     </button>
+
     <button
-      @click="
-        createTechnicianAccount(username, password, confirmPassword, name)
-      "
+      @click="updateCustomerAccount(newPassword, confirmPassword, newName)"
       type="button"
       style="background-color: #409eff; color: white"
       class="btn"
     >
-      <font size="3"><b>Sign Up</b></font>
+      <font size="3"><b>Save</b></font>
     </button>
-
-    <br /><br />
   </div>
 </template>
 
 
-<script src="./technicianAccountSignUp.js">
+<script  src="./editCustomerAccount.js">
 </script>
 
 <style>
 #t01 {
-  width: 20%;
+  width: 40%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;

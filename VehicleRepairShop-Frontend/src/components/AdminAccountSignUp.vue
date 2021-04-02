@@ -1,12 +1,16 @@
 <template>
   <div class="adminAccountSignUp">
-    <br><br/>
+    <br /><br />
 
-    <h1 style="color: #409EFF">Sign Up</h1>
+    <h1 style="color: #409eff">Sign Up</h1>
     <h4 style="color: #000000">Create your account</h4>
-    <br><br/>
+    <br /><br />
 
     <table id="t01">
+      <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+      />
       <tr>
         <th>Username:</th>
         <td><input type="text" v-model="username" /></td>
@@ -16,26 +20,66 @@
         <th>Name:</th>
         <td><input type="text" v-model="name" /></td>
       </tr>
-
-      <tr>
+      <tr v-if="!showPassword">
         <th>Password:</th>
-        <td><input type="password" v-model="password" /></td>
+        <td>
+          <input
+            v-bind:type="[showPassword ? 'text' : 'password']"
+            v-model="password"
+          />
+          <i
+            @click="showPassword = !showPassword"
+            class="fa fa-eye-slash fa_custom"
+          ></i>
+        </td>
+      </tr>
+      <tr v-if="showPassword">
+        <th>Password:</th>
+        <td>
+          <input
+            v-bind:type="[showPassword ? 'text' : 'password']"
+            v-model="password"
+          />
+          <i
+            @click="showPassword = !showPassword"
+            class="fa fa-eye fa_custom"
+          ></i>
+        </td>
+      </tr>
+
+      <tr v-if="!showConfirmPassword">
+        <th>Confirm Password:</th>
+        <td>
+          <input
+            v-bind:type="[showConfirmPassword ? 'text' : 'password']"
+            v-model="confirmPassword"
+          />
+          <i
+            @click="showConfirmPassword = !showConfirmPassword"
+            class="fa fa-eye-slash fa_custom"
+          ></i>
+        </td>
+      </tr>
+      <tr v-if="showConfirmPassword">
+        <th>Confirm Password:</th>
+        <td>
+          <input
+            v-bind:type="[showConfirmPassword ? 'text' : 'password']"
+            v-model="confirmPassword"
+          />
+          <i
+            @click="showConfirmPassword = !showConfirmPassword"
+            class="fa fa-eye fa_custom"
+          ></i>
+        </td>
       </tr>
     </table>
 
-    <!-- <br /><br />
-    <h4>Select your account type</h4>
-    <select v-model="selected">
-      <option disabled value="">Select your account type</option>
-      <option>Admin Account</option>
-      <option>Customer Account</option>
-      <option>Technician Account</option>
-    </select> -->
-
-    <br><br/>
+    <br /><br />
     <p>
-      <span v-if="errorAdminAccount" style="color: red">Error: {{ errorAdminAccount }}
-    </span>
+      <span v-if="errorAdminAccount" style="color: red"
+        >Error: {{ errorAdminAccount }}
+      </span>
     </p>
 
     <button
@@ -47,63 +91,30 @@
       <font size="3"><b>Cancel</b></font>
     </button>
     <button
-      @click="createAdminAccount(username, password, name)"
+      @click="createAdminAccount(username, password, confirmPassword, name)"
       type="button"
-      style="background-color: #409EFF; color: white"
+      style="background-color: #409eff; color: white"
       class="btn"
     >
       <font size="3"><b>Sign Up</b></font>
     </button>
 
-    <br><br/>
+    <br /><br />
   </div>
 </template>
 
 
 <script src="./adminAccountSignUp.js">
-// import axios from 'axios'
-
-// var config = require('../../config')
-
-// var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-// var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-
-// var AXIOS = axios.create({
-//     baseURL: backendUrl,
-//     headers: { 'Access-Control-Allow-Origin': frontendUrl }
-//   })
-
-//        export default{
-
-//            methods:{
-//             goToMainMenu(){
-//               this.$router.push("/app");
-//             },
-//             goBack(){
-//               this.$router.go(-1);
-//             },
-//             goToLogin() {
-//               this.$router.push("/login");
-//             },
-//             checkPassword: function (password, confirmPassword){
-//               if (password == confirmPassword) {
-//                 console.log("the passwords match");
-//               }
-//               else {
-//                 console.log("they dont");
-//               }
-//             }
-//           }
-
-//        }
 </script>
 
 <style>
-
 #t01 {
   width: 20%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
+}
+.fa_custom {
+  color: #409eff;
 }
 </style>
