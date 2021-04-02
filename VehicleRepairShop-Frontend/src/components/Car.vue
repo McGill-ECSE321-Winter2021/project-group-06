@@ -1,0 +1,140 @@
+<template>
+  <div id="car">
+
+    <template>
+        <div>
+            <b-navbar toggleable="lg" type="dark" variant="dark">
+            <b-navbar-brand href="#/adminHome" style="color: black">VRSS</b-navbar-brand>
+
+            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+            <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav>
+                <b-nav-item @click="goBack" style="color: white">Go Back</b-nav-item>
+                <b-nav-item href="#/adminHome" color="white">Home</b-nav-item>
+                <b-nav-item href="#/viewAdminAccount" color="white"
+                    >Profile</b-nav-item
+                >
+                <b-nav-item href="#/calendarAdmin" color="white">Calendar</b-nav-item>
+
+                <b-nav-item href="#/offeredServiceTableAdmin"
+                    >Services and Pricing</b-nav-item
+                >
+                </b-navbar-nav>
+
+                <!-- Right aligned nav items -->
+                <b-navbar-nav class="ml-auto">
+                <b-nav-form>
+                    <tr>
+                    <td>
+                        <input type="text" v-model="searchInput" placeholder="Search" />
+                    </td>
+                    </tr>
+                    <b-button
+                    @click="searchButton(searchInput)"
+                    size="sm"
+                    class="my-2 my-sm-0"
+                    type="submit"
+                    style="background-color: #909399; color: white"
+                    >Search</b-button
+                    >
+                </b-nav-form>
+                </b-navbar-nav>
+            </b-collapse>
+            </b-navbar>
+            <br /><br />
+            <Fullcalendar ref="calendar" :options="calendarOptions" />
+
+            <modal-window
+            :visible="isShowModal"
+            :close-on-escape="true"
+            :close-on-outside-click="true"
+            :show-x-mark="true"
+            @close="isShowModal = false"
+            >
+            </modal-window>
+        </div>
+    </template>
+    <br /><br />
+    <h1 style="color: #409eff">Create New Car</h1>
+
+    <table id="t01">
+      <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+      />
+      <tr>
+        <th>License Plate Number:</th>
+        <td><input type="text" v-model="licensePlate" /></td>
+      </tr>
+
+      <tr>
+        <th>Model:</th>
+        <td><input type="text" v-model="model" /></td>
+      </tr>
+
+      <tr>
+        <th>Year:</th>
+        <td><input type="text" v-model="year" /></td>
+      </tr>
+       
+      <tr> 
+        <th>Motor Type:</th>
+        <td>
+            <select v-model="motorType">
+            <option disabled value="">Please select one</option>
+            <option>Electric</option>
+            <option>Hybrid</option>
+            <option>Gas</option>
+            <option>Diesel</option>
+            </select>
+        </td>
+      </tr>     
+    </table>
+    <br>
+    <button
+      @click="goToViewCustomerCar()"
+      type="button"
+      style="border-color: #909399; color: #909399"
+      class="btn"
+    >
+      <font size="3"><b>Cancel</b></font>
+    </button>
+
+    <button
+      @click="createCar(licensePlate, model, year, motorType,this.$currentUsername.value)"
+      type="button"
+      style="background-color: #409eff; color: white"
+      class="btn"
+    >
+        <font size="3"><b>Create</b></font>
+    </button>
+    
+    </div>
+</template>
+
+<script src="./car.js">
+</script>
+<script src="./navBar.js">
+</script>
+
+<style>
+.navbar.navbar-dark.bg-dark {
+  background-color: #409eff !important;
+}
+nav .navbar-nav li a {
+  color: white !important;
+}
+#customerAccountProfile {
+  margin-bottom: 0;
+  margin-top: 0;
+  /* background-color: #909399;
+    color: #409EFF; */
+}
+#t01 {
+  width: 18%;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

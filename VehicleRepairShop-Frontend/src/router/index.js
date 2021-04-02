@@ -19,6 +19,7 @@ import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
 import CustomerAccountSignUp from '@/components/CustomerAccountSignUp.vue'
 import TechnicianAccountSignUp from '@/components/TechnicianAccountSignUp.vue'
 import AdminHome from '@/components/AdminHome.vue'
+import Car from '@/components/Car.vue'
 
 Vue.use(Router)
 Vue.use(Modal);
@@ -128,6 +129,11 @@ export default new Router({
       path: '/viewTechnicianAccount',
       name: 'ViewTechnicianAccount',
       component: ViewTechnicianAccount
+    },
+    {
+      path: '/car',
+      name: 'car',
+      component: Car
     }
   ]
 })
