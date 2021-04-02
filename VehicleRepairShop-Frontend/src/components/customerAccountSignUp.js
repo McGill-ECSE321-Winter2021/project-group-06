@@ -46,12 +46,7 @@ export default {
                     this.errorCustomerAccount = ''
                     this.$currentUsername.value = username
                     this.$currentName.value = name
-                    //this.$router.push("/calendarCustomer");
-                    this.$router.push("/viewCustomerAccount");
-
-                    console.log(this.$currentUsername.value);
-                    console.log(this.$currentName.value);
-
+                    this.$router.push("/calendarCustomer")
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message
