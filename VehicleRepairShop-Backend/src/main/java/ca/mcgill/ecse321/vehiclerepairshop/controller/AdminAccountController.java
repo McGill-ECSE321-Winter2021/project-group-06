@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.AdminAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.model.BusinessInformation;
+import ca.mcgill.ecse321.vehiclerepairshop.model.CustomerAccount;
+import ca.mcgill.ecse321.vehiclerepairshop.model.TechnicianAccount;
 import ca.mcgill.ecse321.vehiclerepairshop.service.*;
 import ca.mcgill.ecse321.vehiclerepairshop.service.InvalidInputException;
 import ca.mcgill.ecse321.vehiclerepairshop.dto.*;
@@ -103,6 +104,45 @@ public class AdminAccountController {
 		System.out.println(username  + " deleted!");
 		return convertToDto(user);
 	}
+	
+	/**
+	 * Delete admin account from admin
+	 * @author aureliahaas
+	 * @param username
+	 * @return boolean if successful
+	 */
+	@PutMapping(value = { "/deleteAdminAccountFromAdmin/{username}", "/deleteAdminAccountFromAdmin/{username}/" })
+	public AdminAccountDto deleteAdminAccountFromAdmin(@PathVariable("username") String username) {
+		AdminAccount user = adminAccountService.deleteAdminAccountFromAdmin(username);
+		System.out.println(username  + " deleted!");
+		return convertToDto(user);
+	}
+	
+	/**
+	 * Delete customer account from admin
+	 * @author aureliahaas
+	 * @param username
+	 * @return boolean if successful
+	 */
+	@PutMapping(value = { "/deleteCustomerAccountFromAdmin/{username}", "/deleteCustomerAccountFromAdmin/{username}/" })
+	public CustomerAccountDto deleteCustomerAccountFromAdmin(@PathVariable("username") String username) {
+		CustomerAccount user = adminAccountService.deleteCustomerAccountFromAdmin(username);
+		System.out.println(username  + " deleted!");
+		return convertToDto(user);
+	}
+	
+	/**
+	 * Delete technician account from admin
+	 * @author aureliahaas
+	 * @param username
+	 * @return boolean if successful
+	 */
+	@PutMapping(value = { "/deleteTechnicianAccountFromAdmin/{username}", "/deleteTechnicianAccountFromAdmin/{username}/" })
+	public TechnicianAccountDto deleteTechnicianAccountFromAdmin(@PathVariable("username") String username) {
+		TechnicianAccount user = adminAccountService.deleteTechnicianAccountFromAdmin(username);
+		System.out.println(username  + " deleted!");
+		return convertToDto(user);
+	}
 
 	/**
 	 * Login and generate token
@@ -184,6 +224,36 @@ public class AdminAccountController {
 			adminAccountDto.setBusinessInformation(convertToDto(user.getBusinessInformation()));
 		}
 		return adminAccountDto;
+	}
+	
+	/**
+	 * Helper Method to convert a customer account to a Dto
+	 * @author aureliahaas
+	 * @param user
+	 * @return
+	 */
+	private CustomerAccountDto convertToDto(CustomerAccount user){
+		if (user == null) {
+			throw new InvalidInputException("This user does not exist");
+		}
+		CustomerAccountDto customerAccountDto = new CustomerAccountDto(user.getUsername(), user.getPassword(), user.getName());
+		customerAccountDto.setToken(user.getToken());
+		return customerAccountDto;
+	}
+	
+	/**
+	 * Helper Method to convert a technician account to a Dto
+	 * @author aureliahaas
+	 * @param user
+	 * @return
+	 */
+	private TechnicianAccountDto convertToDto(TechnicianAccount user){
+		if (user == null) {
+			throw new InvalidInputException("This user does not exist");
+		}
+		TechnicianAccountDto technicianAccountDto = new TechnicianAccountDto(user.getUsername(), user.getPassword(), user.getName());
+		technicianAccountDto.setToken(user.getToken());
+		return technicianAccountDto;
 	}
 
 	/**

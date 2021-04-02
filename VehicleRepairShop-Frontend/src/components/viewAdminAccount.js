@@ -35,9 +35,13 @@ export default {
     },
     methods: {
         // navigation bar
-        goBack() {
-            this.$router.go(-1);
+        goBack () {
+            console.log("here");
+            this.$router.push("/");
 
+        },
+        goToEditAdminAccount: function () {
+            this.$router.push("/editAdminAccount");
         },
         searchButton(searchInput) {
             this.searchInput = ''
@@ -62,21 +66,29 @@ export default {
             }
 
         },
+        toggleShowModal() {
+            this.isShowModal = true;
+            console.log(this.isShowModal);
+        },
         // backend
         deleteAdminAccount: function () {
-            AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
-                this.adminAccounts = response.data
-                this.errorAdminAccount = ''
-                this.$currentUsername.value = ''
-                this.$currentName.value = ''
-                this.$router.push("/");
-            })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorAdminAccount = errorMsg
-                })
+            if (confirm("Do you want to delete this account?\nYou cannot undo this action")) {
+                this.toggleShowModal();
+                AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
+                    this.adminAccounts = response.data
+                    this.errorAdminAccount = ''
+                    this.$currentUsername.value = ''
+                    this.$currentName.value = ''
+                    this.$router.push("/");
 
+                })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorAdminAccount = errorMsg
+                    })
+
+            }
         },
         logoutAdminAccount: function () {
             AXIOS.put('/logoutAdminAccount/' + this.$currentUsername.value).then(response => {
@@ -101,18 +113,6 @@ export default {
                     this.errorAdminAccount = e
                 })
         },
-        // getAdminAccountByUsername: function () {
-        //     AXIOS.get('/getAdminAccountByUsername/' + this.$currentUsername.value)
-        //         .then(response => {
-        //             this.selectedAdminAccount = response.data
-        //         })
-        //         .catch(e => {
-        //             this.errorAdminAccount = e
-        //         })
-        // },
-        goToEditAdminAccount: function () {
-            this.$router.push("/editAdminAccount");
-        }
     }
 
 }

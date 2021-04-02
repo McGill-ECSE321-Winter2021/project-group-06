@@ -29,28 +29,32 @@ export default {
             },
             errorTechnicianAccount: '',
             response: [],
-            searchInput:'',
+            searchInput: '',
         }
 
     },
     methods: {
+        // navigation bar
         goBack() {
             this.$router.go(-1);
 
         },
         searchButton(searchInput) {
             this.searchInput = ''
-            if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
-                this.$router.push("/offeredServiceTableTechnician");
+            if (searchInput === "Home" || searchInput || "home") {
+                this.$router.push("/adminHome");
+            }
+            else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+                this.$router.push("/offeredServiceTableAdmin");
             }
             else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
-                this.$router.push("/viewTechnicianAccount");
+                this.$router.push("/viewAdminAccount");
             }
-            else if (searchInput === "Calendar" || searchInput === "calendar" || searchInput === "Home" || searchInput === "home") {
-                this.$router.push("/calendarTechnician")
+            else if (searchInput === "Calendar" || searchInput === "calendar") {
+                this.$router.push("/calendarAdmin")
             }
             else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
-                this.$router.push("/editTechnicianAccount")
+                this.$router.push("/editAdminAccount")
             }
             else {
                 this.searchInput = "";
@@ -58,19 +62,27 @@ export default {
             }
 
         },
+        toggleShowModal() {
+            this.isShowModal = true;
+            console.log(this.isShowModal);
+        },
+        // backend
         deleteTechnicianAccount: function () {
-            AXIOS.put('/deleteTechnicianAccount/' + this.$currentUsername.value).then(response => {
-                this.technicianAccounts = response.data
-                this.errorTechnicianAccount = ''
-                this.$currentUsername.value = ''
-                this.$currentName.value = ''
-                this.$router.push("/");
-            })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorTechnicianAccount = errorMsg
+            if (confirm("Do you want to delete this account?\nYou cannot undo this action")) {
+                this.toggleShowModal();
+                AXIOS.put('/deleteTechnicianAccount/' + this.$currentUsername.value).then(response => {
+                    this.technicianAccounts = response.data
+                    this.errorTechnicianAccount = ''
+                    this.$currentUsername.value = ''
+                    this.$currentName.value = ''
+                    this.$router.push("/");
                 })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorTechnicianAccount = errorMsg
+                    })
+            }
 
         },
         logoutTechnicianAccount: function () {
