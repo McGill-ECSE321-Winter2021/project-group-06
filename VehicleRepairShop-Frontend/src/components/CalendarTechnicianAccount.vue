@@ -12,10 +12,6 @@
             >Profile</b-nav-item
           >
           <b-nav-item href="#/calendarTechnician" color="white">Calendar</b-nav-item>
-
-          <b-nav-item href="#/offeredServiceTableTechnician"
-            >Services and Pricing</b-nav-item
-          >
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -157,13 +153,6 @@ export default {
       if (searchInput === "Home") {
         this.$router.push("/calendarTechnician");
       } else if (
-        searchInput === "Services" ||
-        searchInput === "services" ||
-        searchInput === "Service" ||
-        searchInput === "service"
-      ) {
-        this.$router.push("/offeredServiceTableTechnician");
-      } else if (
         searchInput === "Profile" ||
         searchInput === "profile" ||
         searchInput === "Account" ||
@@ -172,6 +161,13 @@ export default {
         this.$router.push("/viewTechnicianAccount");
       } else if (searchInput === "Calendar" || searchInput === "calendar") {
         this.$router.push("/calendarTechnician");
+      } else if (
+        searchInput === "Edit" ||
+        searchInput === "edit" ||
+        searchInput === "Manage" ||
+        searchInput === "manage"
+      ) {
+        this.$router.push("/editTechnicianAccount");
       } else {
         this.searchInput = "";
         console.log("Not Found");

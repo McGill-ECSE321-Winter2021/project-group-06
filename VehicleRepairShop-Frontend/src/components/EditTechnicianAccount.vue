@@ -19,10 +19,6 @@
               <b-nav-item href="#/calendarCustomer" color="white"
                 >Calendar</b-nav-item
               >
-
-              <b-nav-item href="#/offeredServiceTableCustomer"
-                >Services and Pricing</b-nav-item
-              >
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->

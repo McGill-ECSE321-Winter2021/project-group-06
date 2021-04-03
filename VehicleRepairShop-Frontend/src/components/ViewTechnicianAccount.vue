@@ -21,10 +21,6 @@
               <b-nav-item href="#/calendarTechnician" color="white"
                 >Calendar</b-nav-item
               >
-
-              <b-nav-item href="#/offeredServiceTableAdmin"
-                >Services and Pricing</b-nav-item
-              >
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
