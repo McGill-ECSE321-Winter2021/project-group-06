@@ -25,7 +25,6 @@ function OfferedServiceDTO(offeredServiceId, price, name, duration, reminderTime
 
 export default {
     created: function () {
-
         AXIOS.get('/getAllOfferedServices').then(response => {
             //JSON responses are automatically parsed.
             this.OfferedServices = response.data

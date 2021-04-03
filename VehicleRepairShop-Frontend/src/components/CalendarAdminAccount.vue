@@ -52,7 +52,7 @@
          <el-form-item label="technicain" :label-width="formLabelWidth">
           <el-select v-model="value1" placeholder="select technicain">
             <el-option
-              v-for="item in TechAccountOptions"
+              v-for="item in techAccountOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -63,7 +63,7 @@
           <el-form-item label="OfferedService" :label-width="formLabelWidth">
             <el-select v-model="value2" placeholder="select OfferedService">
               <el-option
-                v-for="item in OfferedServiceOptions"
+                v-for="item in offeredServiceOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -74,7 +74,7 @@
           <el-form-item label="Car" :label-width="formLabelWidth">
             <el-select v-model="value3" placeholder="select Car">
               <el-option
-                v-for="item in CarOptions"
+                v-for="item in this.carOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -85,7 +85,7 @@
           <el-form-item label="Garage" :label-width="formLabelWidth">
             <el-select v-model="value4" placeholder="select Garage">
               <el-option
-                v-for="item in GarageOptions"
+                v-for="item in garageOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -114,6 +114,11 @@
           "
           >Comfirm</el-button
         >
+        <p>
+          <span v-if="errorService" style="color: red"
+            >Error: {{ errorService }}</span
+          >
+        </p>
       </div>
     </el-dialog>
 
@@ -167,14 +172,14 @@ export default {
   data() {
     return {
       isShowModal: false,
+      errorService = '',
 
-      TechAccountOptions: [],
-      OfferedServiceOptions: [],
-      CarOptions: [],
-      GarageOptions: [],
+      techAccountOptions: [],
+      offeredServiceOptions: [],
+      carOptions: [],
+      garageOptions: [],
       dialogFormVisible: false,
       
-      value: '',
 
 
       allTechnicianAccounts: [],
@@ -289,66 +294,31 @@ export default {
 
     refresh(){
       var i
-      var numTechAccounts = this.TechAccountOptions.length
-      var numOfferedServices = this.OfferedServiceOptions.length
-      var numCars = this.CarOptions.length
-      var numGarages = this.GarageOptions.length
+      var numTechAccounts = this.techAccountOptions.length
+      var numOfferedServices = this.offeredServiceOptions.length
+      var numCars = this.carOptions.length
+      var numGarages = this.garageOptions.length
 
       for (i=0;i<numTechAccounts;i++){
-        this.TechAccountOptions.splice(0, 1)
+        this.techAccountOptions.splice(0, 1)
       }
 
       for (i=0; i<numOfferedServices;i++){
-        this.OfferedServiceOptions.splce(0, 1)
+        this.offeredServiceOptions.splice(0, 1)
       }
 
       for (i=0; i<numCars;i++){
-        this.CarOptions.splce(0, 1)
+        this.carOptions.splice(0, 1)
       }
 
       for (i=0; i<numGarages;i++){
-        this.GarageOptions.splce(0, 1)
+        this.garageOptions.splice(0, 1)
       }
       
-      for (let ta in this.allTechnicianAccounts){
-        if (ta.username !== emptyStatement) {
-            var temp = {
-                value: ta.username,
-                label: ta.username,
-            }
-            this.techAccountOptions.push(temp)
-        }
-      }
-
-      for (let os in this.allOfferedServices){
-        if (os.Id !== emptyStatement) {
-            var temp = {
-                value: os.Id,
-                label: os.Id,
-            }
-            this.OfferedServiceOptions.push(temp)
-        }
-      }
-
-      for (let car in this.allCars){
-        if (car.licensePlate !== emptyStatement) {
-            var temp = {
-              value: car.licensePlate,
-              label: car.licensePlate,
-            }
-            this.CarOptions.push(temp)
-        }
-      }
-
-      for (let g in this.allGarages){
-        if (g.Id !== emptyStatement) {
-            var temp = {
-              value: g.Id,
-              label: g.Id,
-            }
-            this.GarageOptions.push(temp)
-        }
-      }
+      this.getAllTechnicianAccounts()
+      this.getAllOfferedServices()
+      this.getAllCars()
+      this.getAllGarages()
 
     },
 
@@ -406,54 +376,180 @@ export default {
       }
     },
 
-    toggleShowModal() {
-      this.isShowModal = true;
-      console.log(this.isShowModal);
+    // toggleShowModal() {
+    //   this.isShowModal = true;
+    //   console.log(this.isShowModal);
+    // },
+
+
+
+    getAllTechnicianAccounts: function(){
+      AXIOS.get("/getAllTechnicianAccounts").then(response => {
+        console.log("in getAllTechnicianAccounts")
+        // console.log(response.data)
+            for (let ta of response.data){
+              // console.log("car: ")
+              // console.log(car)
+              console.log("ta.username: ")
+              console.log(ta.username)
+              var temp = {
+                value: ta.username,
+                label: ta.username,
+              }
+              // console.log("all cars temp")
+              // console.log(temp)
+              // console.log("all cars: ")
+              // console.log(this.allCars)
+              this.techAccountOptions.push(temp)
+            }
+        })
+        .catch(e => {
+            var errorMsg = e.response.data.message
+            console.log(errorMsg)
+            this.errorService = errorMsg
+        })
     },
 
 
+    // async getAllTechnicianAccounts(){
+    //   try{
+    //     this.allTechnicianAccounts = await AXIOS.get("/getAllTechnicianAccounts");
+    //     for (let ta of this.allTechnicianAccounts){
+    //       if (ta.username !== emptyStatement) {
+    //           var temp = {
+    //               value: ta.username,
+    //               label: ta.username,
+    //           }
+    //           this.techAccountOptions.push(temp)
+    //       }
+    //     }
+    //   }catch (error) {
+    //     console.log(error);
+    //   }finally{
+    //     console.log("get all Technicain accounts");
+    //   }
+      
+    // },
 
+    getAllOfferedServices: function(){
+      AXIOS.get("/getAllOfferedServices").then(response => {
+        console.log("in getAllOfferedServices")
+        // console.log(response.data)
+            for (let os of response.data){
+              // console.log("car: ")
+              // console.log(car)
+              console.log("os.Id: ")
+              console.log(os.Id)
+              var temp = {
+                value: os.Id,
+                label: os.Id,
+              }
+              // console.log("all cars temp")
+              // console.log(temp)
+              // console.log("all cars: ")
+              // console.log(this.allCars)
+              this.offeredServiceOptions.push(temp)
+            }
+        })
+        .catch(e => {
+            var errorMsg = e.response.data.message
+            console.log(errorMsg)
+            this.errorService = errorMsg
+        })
+    },
 
-    async getAllTechnicianAccounts(){
-      try{
-        this.allTechnicianAccounts = await AXIOS.get("/getAllTechnicianAccounts");
-      }catch (error) {
-        console.error(error);
-      }finally{
-        console.log("get all Technicain accounts");
-      }
+    // async getAllOfferedServices(){
+    //   try{
+    //     this.allOfferdServices = await AXIOS.get("/getAllOfferedServices");
+    //     for (let os of this.allOfferedServices){
+    //     if (os.Id !== emptyStatement) {
+    //         var temp = {
+    //             value: os.Id,
+    //             label: os.Id,
+    //         }
+    //         this.offeredServiceOptions.push(temp)
+    //     }
+    //   }
+    //   }catch (error) {
+    //     console.log(error);
+    //   }finally{
+    //     console.log("get all OfferedServices");
+    //   }
+    // },
+
+    getAllCars: function(){
+      AXIOS.get("/getAllCars").then(response => {
+        console.log("in getAllCar")
+        console.log(response.data)
+            for (let car of response.data){
+              console.log("car: ")
+              console.log(car)
+              console.log("licensePlate: ")
+              console.log(car.licensePlate)
+              var temp = {
+                value: car.licensePlate,
+                label: car.licensePlate,
+              }
+              console.log("all cars temp")
+              console.log(temp)
+              console.log("all cars: ")
+              console.log(this.allCars)
+              this.carOptions.push(temp)
+            }
+        })
+        .catch(e => {
+            var errorMsg = e.response.data.message
+            console.log(errorMsg)
+            this.errorService = errorMsg
+        })
     },
 
 
-    async getAllOfferedService(){
-      try{
-        this.allOfferdServices = await AXIOS.get("/getAllOfferedServices");
-      }catch (error) {
-        console.error(error);
-      }finally{
-        console.log("get all OfferedServices");
-      }
+    getAllGarages: function(){
+      AXIOS.get("/getAllGarages").then(response => {
+        console.log("in getAllGarages")
+        // console.log(response.data)
+            for (let g of response.data){
+              // console.log("car: ")
+              // console.log(car)
+              console.log("ta.username: ")
+              console.log(g.Id)
+              var temp = {
+                value: g.Id,
+                label: g.Id,
+              }
+              // console.log("all cars temp")
+              // console.log(temp)
+              // console.log("all cars: ")
+              // console.log(this.allCars)
+              this.garageOptions.push(temp)
+            }
+        })
+        .catch(e => {
+            var errorMsg = e.response.data.message
+            console.log(errorMsg)
+            this.errorService = errorMsg
+        })
     },
 
-    async getAllgetAllCars(){
-      try{
-        this.allCars = await AXIOS.get("/getAllCars");
-      }catch (error) {
-        console.error(error);
-      }finally{
-        console.log("get all Cars");
-      }
-    },
-
-    async getAllGarages(){
-      try{
-        this.allGarages = await AXIOS.get("/getAllGarages");
-      }catch (error) {
-        console.error(error);
-      }finally{
-        console.log("get all garages");
-      }
-    },
+    // async getAllGarages(){
+    //   try{
+    //     this.allGarages = await AXIOS.get("/getAllGarages");
+    //     for (let g of this.allGarages){
+    //     if (g.Id !== emptyStatement) {
+    //         var temp = {
+    //           value: g.Id,
+    //           label: g.Id,
+    //         }
+    //         this.garageOptions.push(temp)
+    //     }
+    //   }
+    //   }catch (error) {
+    //     console.log(error);
+    //   }finally{
+    //     console.log("get all garages");
+    //   }
+    // },
 
 
     async timeSlotSelected(selectionInfo) {
