@@ -17,7 +17,7 @@
                 <li class="mb-1"><p class="text-muted">{{ this.$root.businessName }}</p></li>
                 <li class="mb-1"><p class="text-muted">{{ this.$root.businessAddress }}</p></li>
                 <li class="mb-1"><p class="text-muted">{{ this.$root.businessPhoneNumber }}</p></li>
-                <li class="mb-1"><p class="text-muted">{{ this.$root.businessEmail }}</p></li>
+                <li class="mb-1"><p class="text-muted">{{ this.$root.businessEmailAddress }}</p></li>
               </ul>
             </div>
           </div>

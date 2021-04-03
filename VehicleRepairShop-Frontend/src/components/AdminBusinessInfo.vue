@@ -100,16 +100,19 @@
               <th>Address</th>
               <th>PhoneNumber</th>
               <th>Email</th>
+              <th>a</th>
               <th style="color: red">Delete</th>
               <th style="color: #409eff">Active</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="businessInformation in businessInfos" :key="businessInformation.id">
+              
               <td>{{ businessInformation.name }}</td>
               <td>{{ businessInformation.address }}</td>
               <td>{{ businessInformation.phoneNumber }}</td>
-              <td>{{ businessInformation.email }}</td>
+              <td>{{ businessInformation.emailAddress }}</td>
+              <td>a</td>
               <td>
                 <button
                   @click="deleteBusinessInformation(businessInformation.name)"
@@ -122,7 +125,7 @@
               </td>
               <td>
                 <button
-                  @click="activateBusinessInformation(businessInformation.name, businessInformation.address, businessInformation.phoneNumber, businessInformation.email)"
+                  @click="activateBusinessInformation(businessInformation.name, businessInformation.address, businessInformation.phoneNumber, businessInformation.emailAddress)"
                   type="button"
                   style="border-color: #409eff; color: #409eff"
                   class="btn"

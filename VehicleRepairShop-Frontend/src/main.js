@@ -33,6 +33,6 @@ new Vue({
     businessName: 'Business Name',
     businessAddress: 'Business Address',
     businessPhoneNumber: 'Business Phone Number',
-    businessEmail: 'Business Email1'
+    businessEmailAddress: 'Business Email1'
   }
 })

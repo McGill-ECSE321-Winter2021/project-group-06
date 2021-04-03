@@ -10,13 +10,6 @@ var AXIOS = axios.create({
     headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function businessInformationDTO(name, address, phoneNumber, email) {
-
-    this.name = name
-    this.address = address
-    this.phoneNumber = phoneNumber
-    this.email = email
-}
 
 export default {
     data() {
@@ -26,13 +19,13 @@ export default {
                 name: '',
                 address: '',
                 phoneNumber: '',
-                email: ''
+                emailAddressAddress: ''
             },
             selectedBusinessInfo: {
                 name: '',
                 address: '',
                 phoneNumber: '',
-                email: ''
+                emailAddressAddress: ''
             },
             errorBusinessInfo: '',
             response: [],
@@ -93,8 +86,8 @@ export default {
                     this.$root.businessAddress = 'Business Address'
                     this.newBusinessInfo.phoneNumber = ''
                     this.$root.businessPhoneNumber = 'Business Phone Number'
-                    this.newBusinessInfo.email = ''
-                    this.$root.businessEmail = 'Business Emails'
+                    this.newBusinessInfo.emailAddressAddress = ''
+                    this.$root.businessemailAddressAddress = 'Business emailAddressAddresss'
                     this.errorBusinessInfo = ''
 
                     console.log(this.$currentUsername.value)*/
@@ -115,9 +108,9 @@ export default {
             }
         },
 
-        createBusinessInformation: function (name, address, phoneNumber, email) {
+        createBusinessInformation: function (name, address, phoneNumber, emailAddressAddress) {
 
-            AXIOS.post('/createBusinessInformation/'.concat(name).concat('/').concat(address).concat('/').concat(phoneNumber).concat('/').concat(email)).then(response => {
+            AXIOS.post('/createBusinessInformation/'.concat(name).concat('/').concat(address).concat('/').concat(phoneNumber).concat('/').concat(emailAddressAddress)).then(response => {
             // JSON responses are automatically parsed.
                 this.businessInfos.push(response.data)
                 this.newBusinessInfo.name = ''
@@ -128,8 +121,8 @@ export default {
                 this.$root.businessAddress = address
                 this.newBusinessInfo.phoneNumber = ''
                 this.$root.businessPhoneNumber = phoneNumber
-                this.newBusinessInfo.email = ''
-                this.$root.businessEmail = email
+                this.newBusinessInfo.emailAddress = ''
+                this.$root.businessEmailAddress = emailAddress
                 this.errorBusinessInfo = ''
 
                 this.getAllBusinessInformation()
@@ -152,11 +145,11 @@ export default {
                 })
 
         },
-        activateBusinessInformation: function (name, address, phoneNumber, email){
+        activateBusinessInformation: function (name, address, phoneNumber, emailAddress){
             this.$root.businessName = name
             this.$root.businessAddress = address
             this.$root.businessPhoneNumber = phoneNumber
-            this.$root.businessEmail = email
+            this.$root.businessEmailAddress = emailAddress
         },
         toggleShowModal() {
             this.isShowModal = true;
