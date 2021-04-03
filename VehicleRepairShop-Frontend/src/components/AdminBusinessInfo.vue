@@ -122,7 +122,7 @@
               </td>
               <td>
                 <button
-                  @click="activateBusinessInformation(businessInformation.name)"
+                  @click="activateBusinessInformation(businessInformation.name, businessInformation.address, businessInformation.phoneNumber, businessInformation.email)"
                   type="button"
                   style="border-color: #409eff; color: #409eff"
                   class="btn"

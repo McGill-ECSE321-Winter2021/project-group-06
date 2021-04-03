@@ -152,8 +152,11 @@ export default {
                 })
 
         },
-        activateBusinessInformation: function (){
-
+        activateBusinessInformation: function (name, address, phoneNumber, email){
+            this.$root.businessName = name
+            this.$root.businessAddress = address
+            this.$root.businessPhoneNumber = phoneNumber
+            this.$root.businessEmail = email
         },
         toggleShowModal() {
             this.isShowModal = true;
