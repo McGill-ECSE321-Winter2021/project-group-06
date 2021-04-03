@@ -41,35 +41,35 @@ export default {
         searchButton(searchInput) {
             this.searchInput = "";
             if (searchInput === "Home") {
-              this.$router.push("/calendarCustomer");
+                this.$router.push("/calendarCustomer");
             } else if (
-              searchInput === "Profile" ||
-              searchInput === "profile" ||
-              searchInput === "Account" ||
-              searchInput === "account"
+                searchInput === "Profile" ||
+                searchInput === "profile" ||
+                searchInput === "Account" ||
+                searchInput === "account"
             ) {
-              this.$router.push("/viewCustomerAccount");
+                this.$router.push("/viewCustomerAccount");
             } else if (searchInput === "Calendar" || searchInput === "calendar") {
-              this.$router.push("/calendarCustomer");
+                this.$router.push("/calendarCustomer");
             } else if (
-              searchInput === "Edit" ||
-              searchInput === "edit" ||
-              searchInput === "Manage" ||
-              searchInput === "manage"
+                searchInput === "Edit" ||
+                searchInput === "edit" ||
+                searchInput === "Manage" ||
+                searchInput === "manage"
             ) {
-              this.$router.push("/editCustomerAccount");
+                this.$router.push("/editCustomerAccount");
             } else if (
-              searchInput === "Car" ||
-              searchInput === "car" ||
-              searchInput == "Cars" ||
-              search === "cars"
+                searchInput === "Car" ||
+                searchInput === "car" ||
+                searchInput == "Cars" ||
+                search === "cars"
             ) {
-              this.$router.push("/customerCreateCar");
+                this.$router.push("/customerCreateCar");
             } else {
-              this.searchInput = "";
-              console.log("Not Found");
+                this.searchInput = "";
+                console.log("Not Found");
             }
-          },
+        },
         toggleShowModal() {
             this.isShowModal = true;
             console.log(this.isShowModal);

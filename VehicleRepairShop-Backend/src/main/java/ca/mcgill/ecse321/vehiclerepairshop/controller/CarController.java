@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,7 +50,6 @@ public class CarController {
 	 */
 	@GetMapping(value = { "/getCarsByOwner/{username}", "/getCarsByOwner/{username}/" })
 	public List<CarDto> getCarsByOwner(@PathVariable("username") String username) {	
-		System.out.print(username);
 		return carService.findCarByCustomerAccount(username).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
@@ -83,7 +81,6 @@ public class CarController {
 
 	@PutMapping(value = {"/deleteCar/{licensePlate}", "/deleteCar/{licensePlate}/"})
 	public CarDto deleteCar(@PathVariable("licensePlate") String licensePlate) {
-		System.out.println(licensePlate);
 		Car car = carService.deleteCar(licensePlate);
 		return convertToDto(car);
 	}

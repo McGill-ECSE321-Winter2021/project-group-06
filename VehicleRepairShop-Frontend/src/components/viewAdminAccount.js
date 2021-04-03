@@ -1,6 +1,4 @@
 import axios from 'axios'
-import main from '../main'
-// import { response } from 'express'
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -35,7 +33,7 @@ export default {
     },
     methods: {
         // navigation bar
-        goBack () {
+        goBack() {
             this.$router.push("/");
 
         },
@@ -45,38 +43,38 @@ export default {
         searchButton(searchInput) {
             this.searchInput = "";
             if (searchInput === "Home") {
-              this.$router.push("/adminHome");
+                this.$router.push("/adminHome");
             } else if (
-              searchInput === "Profile" ||
-              searchInput === "profile" ||
-              searchInput === "Account" ||
-              searchInput === "account"
+                searchInput === "Profile" ||
+                searchInput === "profile" ||
+                searchInput === "Account" ||
+                searchInput === "account"
             ) {
-              this.$router.push("/viewAdminAccount");
+                this.$router.push("/viewAdminAccount");
             } else if (searchInput === "Calendar" || searchInput === "calendar") {
-              this.$router.push("/calendarAdmin");
+                this.$router.push("/calendarAdmin");
             } else if (
-              searchInput === "Edit" ||
-              searchInput === "edit" ||
-              searchInput === "Manage" ||
-              searchInput === "manage"
+                searchInput === "Edit" ||
+                searchInput === "edit" ||
+                searchInput === "Manage" ||
+                searchInput === "manage"
             ) {
-              this.$router.push("/editAdminAccount");
-            }             else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+                this.$router.push("/editAdminAccount");
+            } else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
                 this.$router.push("/offeredServiceTableAdmin");
             }
             else if (
-              searchInput === "Business" ||
-              searchInput === "business" ||
-              searchInput === "Info" ||
-              search === "info"
+                searchInput === "Business" ||
+                searchInput === "business" ||
+                searchInput === "Info" ||
+                search === "info"
             ) {
-              this.$router.push("/adminBusinessInfo");
+                this.$router.push("/adminBusinessInfo");
             } else {
-              this.searchInput = "";
-              console.log("Not Found");
+                this.searchInput = "";
+                console.log("Not Found");
             }
-          },
+        },
         toggleShowModal() {
             this.isShowModal = true;
             console.log(this.isShowModal);

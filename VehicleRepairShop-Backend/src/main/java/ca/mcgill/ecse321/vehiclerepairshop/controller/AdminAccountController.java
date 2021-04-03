@@ -70,7 +70,6 @@ public class AdminAccountController {
 	@PostMapping(value = { "/createAdminAccount/{username}/{password}/{name}", "/createAdminAccount/{username}/{password}/{name}/" })
 	public AdminAccountDto createAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("name") String name)  {
 		AdminAccount user = adminAccountService.createAdminAccount(username, password, name);
-		System.out.println(username + password + name + " created");
 		return convertToDto(user);
 	}
 
@@ -88,7 +87,6 @@ public class AdminAccountController {
 	@PutMapping(value = {"/updateAdminAccount/{username}/{newPassword}/{newName}", "/updateAdminAccount/{currentUsername}/{newUsername}/{newPassword}/{newName}/" })
 	public AdminAccountDto updateAdminAccount(@PathVariable("username") String username, @PathVariable("newPassword") String newPassword, @PathVariable("newName") String newName) {
 		AdminAccount user = adminAccountService.updateAdminAccount(username, newPassword, newName);
-		System.out.println(username + newPassword + newName + " updated");
 		return convertToDto(user);
 	}
 
@@ -101,7 +99,6 @@ public class AdminAccountController {
 	@PutMapping(value = { "/deleteAdminAccount/{username}", "/deleteAdminAccount/{username}/" })
 	public AdminAccountDto deleteAdminAccount(@PathVariable("username") String username) {
 		AdminAccount user = adminAccountService.deleteAdminAccount(username);
-		System.out.println(username  + " deleted!");
 		return convertToDto(user);
 	}
 	
@@ -114,7 +111,6 @@ public class AdminAccountController {
 	@PutMapping(value = { "/deleteAdminAccountFromAdmin/{username}", "/deleteAdminAccountFromAdmin/{username}/" })
 	public AdminAccountDto deleteAdminAccountFromAdmin(@PathVariable("username") String username) {
 		AdminAccount user = adminAccountService.deleteAdminAccountFromAdmin(username);
-		System.out.println(username  + " deleted!");
 		return convertToDto(user);
 	}
 	
@@ -127,7 +123,6 @@ public class AdminAccountController {
 	@PutMapping(value = { "/deleteCustomerAccountFromAdmin/{username}", "/deleteCustomerAccountFromAdmin/{username}/" })
 	public CustomerAccountDto deleteCustomerAccountFromAdmin(@PathVariable("username") String username) {
 		CustomerAccount user = adminAccountService.deleteCustomerAccountFromAdmin(username);
-		System.out.println(username  + " deleted!");
 		return convertToDto(user);
 	}
 	
@@ -140,7 +135,6 @@ public class AdminAccountController {
 	@PutMapping(value = { "/deleteTechnicianAccountFromAdmin/{username}", "/deleteTechnicianAccountFromAdmin/{username}/" })
 	public TechnicianAccountDto deleteTechnicianAccountFromAdmin(@PathVariable("username") String username) {
 		TechnicianAccount user = adminAccountService.deleteTechnicianAccountFromAdmin(username);
-		System.out.println(username  + " deleted!");
 		return convertToDto(user);
 	}
 
@@ -154,7 +148,6 @@ public class AdminAccountController {
 	@PutMapping(value = {"/loginAdminAccount/{username}/{password}", "/loginAdminAccount/{username}/{password}" })
 	public AdminAccountDto loginAdminAccount(@PathVariable("username") String username, @PathVariable("password") String password) {
 		AdminAccount user = adminAccountService.loginAdminAccount(username, password);
-		System.out.println(username + password + " logged in");
 		return convertToDto(user);
 	}
 

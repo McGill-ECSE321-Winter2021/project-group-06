@@ -301,7 +301,6 @@ public class AdminAccountService {
 				throw new InvalidInputException("You do not have permission to access this account.");
 			}
 			else {
-				System.out.println("log out " + username);
 				user.setToken(0);
 				adminAccountRepository.save(user);
 				return user;

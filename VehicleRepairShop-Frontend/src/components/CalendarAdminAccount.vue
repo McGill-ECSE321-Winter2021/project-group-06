@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#/adminHome" style="color: black">VRSS</b-navbar-brand>
+      <b-navbar-brand href="#/adminHome" style="color: black"
+        >VRSS</b-navbar-brand
+      >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -128,8 +130,7 @@ export default {
       selectedInfo: {},
       appointmentIdToDelete: 1,
 
-      searchInput:'',
-
+      searchInput: "",
     };
   },
   mounted() {
@@ -220,7 +221,6 @@ export default {
             "/" +
             endDate
         );
-        // console.log(response.data)
         this.updateAppointmentTimeslot(appointmentId, response.data.timeslotId);
       }
     },
@@ -403,9 +403,6 @@ export default {
             this.currentSelectedTechnicianUsername
         );
         this.currentSelectedAppointmentId = response.data.appointmentId;
-        // console.log(this.currentSelectedAppointmentId);
-        // this.newlyAddedAppointment = response.data
-        // console.log(this.newlyAddedAppointment)
         let calendarApi = this.selectedInfo.view.calendar;
         calendarApi.unselect();
         calendarApi.addEvent({

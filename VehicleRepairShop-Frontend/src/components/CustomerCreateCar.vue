@@ -89,14 +89,6 @@
     <p>
       <span v-if="errorCar" style="color: red">Error: {{ errorCar }} </span>
     </p>
-    <!-- <button
-      @click="goToViewCustomerCar()"
-      type="button"
-      style="border-color: #909399; color: #909399"
-      class="btn"
-    >
-      <font size="3"><b>Cancel</b></font>
-    </button> -->
 
     <button
       @click="createCar(licensePlate, model, year, motorType)"

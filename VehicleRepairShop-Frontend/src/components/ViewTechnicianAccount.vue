@@ -14,7 +14,9 @@
               <b-nav-item @click="goBack" style="color: white"
                 >Go Back</b-nav-item
               >
-              <b-nav-item href="#/calendarTechnician" color="white">Home</b-nav-item>
+              <b-nav-item href="#/calendarTechnician" color="white"
+                >Home</b-nav-item
+              >
               <b-nav-item href="#/viewTechnicianAccount" color="white"
                 >Profile</b-nav-item
               >
@@ -27,13 +29,14 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-form>
                 <tr>
-                  <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
+                  <td>
+                    <input
+                      type="text"
+                      v-model="searchInput"
+                      placeholder="Search"
+                    />
+                  </td>
                 </tr>
-                <!-- <b-form-input type="text" v-model="searchInput"
-                  size="sm"
-                  class="mr-sm-2"
-                  placeholder="Search"
-                ></b-form-input> -->
                 <b-button
                   @click="searchButton(searchInput)"
                   size="sm"
@@ -43,15 +46,6 @@
                   >Search</b-button
                 >
               </b-nav-form>
-
-              <!-- <b-nav-item-dropdown right> -->
-              <!-- Using 'button-content' slot -->
-              <!-- <template #button-content> -->
-              <!-- <em>User</em> -->
-              <!-- </template> -->
-              <!-- <b-dropdown-item href="#/viewTechnicianAccount" style="background-color: #909399">Profile</b-dropdown-item> -->
-              <!-- <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item> -->
-              <!-- </b-nav-item-dropdown>  -->
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>

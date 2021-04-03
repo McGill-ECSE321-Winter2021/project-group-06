@@ -40,11 +40,6 @@
                     />
                   </td>
                 </tr>
-                <!-- <b-form-input type="text" v-model="searchInput"
-                  size="sm"
-                  class="mr-sm-2"
-                  placeholder="Search"
-                ></b-form-input> -->
                 <b-button
                   @click="searchButton(searchInput)"
                   size="sm"
@@ -54,15 +49,6 @@
                   >Search</b-button
                 >
               </b-nav-form>
-
-              <!-- <b-nav-item-dropdown right> -->
-              <!-- Using 'button-content' slot -->
-              <!-- <template #button-content> -->
-              <!-- <em>User</em> -->
-              <!-- </template> -->
-              <!-- <b-dropdown-item href="#/viewCustomerAccount" style="background-color: #909399">Profile</b-dropdown-item> -->
-              <!-- <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item> -->
-              <!-- </b-nav-item-dropdown>  -->
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -136,8 +122,6 @@ nav .navbar-nav li a {
 #customerAccountProfile {
   margin-bottom: 0;
   margin-top: 0;
-  /* background-color: #909399;
-    color: #409EFF; */
 }
 #t01 {
   width: 20%;

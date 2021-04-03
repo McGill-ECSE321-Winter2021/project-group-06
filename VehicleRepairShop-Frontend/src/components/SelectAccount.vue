@@ -7,8 +7,7 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-          </b-navbar-nav>
+          <b-navbar-nav> </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     </div>
@@ -53,7 +52,7 @@ export default {
     },
     goToTechnicianAccountLogin() {
       this.$router.push("/technicianAccountLogin");
-    }
+    },
   },
 };
 </script>

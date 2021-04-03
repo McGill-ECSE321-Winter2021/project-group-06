@@ -1,51 +1,57 @@
 <template>
   <div>
-     <div>
-        <b-navbar toggleable="lg" type="dark" variant="dark">
-          <b-navbar-brand href="#/adminHome" style="color: black"
-            >VRSS</b-navbar-brand
-          >
+    <div>
+      <b-navbar toggleable="lg" type="dark" variant="dark">
+        <b-navbar-brand href="#/adminHome" style="color: black"
+          >VRSS</b-navbar-brand
+        >
 
-          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-          <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav>
-              <b-nav-item @click="goBack" style="color: white"
-                >Go Back</b-nav-item
-              >
-              <b-nav-item href="#/adminHome" color="white">Home</b-nav-item>
-              <b-nav-item href="#/viewAdminAccount" color="white"
-                >Profile</b-nav-item
-              >
-              <b-nav-item href="#/calendarAdmin" color="white"
-                >Calendar</b-nav-item
-              >
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item @click="goBack" style="color: white"
+              >Go Back</b-nav-item
+            >
+            <b-nav-item href="#/adminHome" color="white">Home</b-nav-item>
+            <b-nav-item href="#/viewAdminAccount" color="white"
+              >Profile</b-nav-item
+            >
+            <b-nav-item href="#/calendarAdmin" color="white"
+              >Calendar</b-nav-item
+            >
 
-              <b-nav-item href="#/offeredServiceTableAdmin"
-                >Services and Pricing</b-nav-item
-              >
-            </b-navbar-nav>
+            <b-nav-item href="#/offeredServiceTableAdmin"
+              >Services and Pricing</b-nav-item
+            >
+          </b-navbar-nav>
 
-            <!-- Right aligned nav items -->
-            <b-navbar-nav class="ml-auto">
-              <b-nav-form>
-                <tr>
-                  <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
-                </tr>
-                <b-button
-                  @click="searchButton(searchInput)"
-                  size="sm"
-                  class="my-2 my-sm-0"
-                  type="submit"
-                  style="background-color: #909399; color: white"
-                  >Search</b-button
-                >
-              </b-nav-form>
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
-      </div>
-      <br/><br/>
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+            <b-nav-form>
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    v-model="searchInput"
+                    placeholder="Search"
+                  />
+                </td>
+              </tr>
+              <b-button
+                @click="searchButton(searchInput)"
+                size="sm"
+                class="my-2 my-sm-0"
+                type="submit"
+                style="background-color: #909399; color: white"
+                >Search</b-button
+              >
+            </b-nav-form>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
+    <br /><br />
     <h3><center>Offered Service</center></h3>
     <tr>
       <center>
@@ -60,15 +66,6 @@
             v-model="reminderDate"
             placeholder="ReminderDate"
           />
-          <!-- <el-time-picker
-            v-model="reminderTime"
-            :picker-options="{
-              selectableRange: '00:00:00 - 23:59:59',
-              format: 'HH:mm:ss'
-            }"
-            placeholder="24-7"
-          >
-          </el-time-picker> -->
           <el-time-select
             v-model="reminderTime"
             :picker-options="{ start: '08:30', end: '18:30' }"
@@ -87,7 +84,7 @@
                 price,
                 name,
                 duration,
-                reminderTime+ ':00',
+                reminderTime + ':00',
                 reminderDate,
                 comments
               )
@@ -152,7 +149,11 @@
     <el-dialog title="EIDTING" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="Id" :label-width="formLabelWidth">
-          <el-input v-model="form.Id" autocomplete="off" readonly = "true"></el-input>
+          <el-input
+            v-model="form.Id"
+            autocomplete="off"
+            readonly="true"
+          ></el-input>
         </el-form-item>
 
         <el-form-item label="name" :label-width="formLabelWidth">
@@ -175,9 +176,6 @@
           <el-input v-model="form.reminderDate" autocomplete="off"></el-input>
         </el-form-item>
 
-        <!-- <el-form-item label="reminderTime" :label-width="formLabelWidth">
-                    <el-input v-model="form.reminderTime" autocomplete="off"></el-input>
-                </el-form-item> -->
         <el-form-item label="reminderTime" :label-width="formLabelWidth">
           <el-time-select
             v-model="form.reminderTime"
@@ -187,12 +185,6 @@
           >
           </el-time-select>
         </el-form-item>
-        <!-- <el-form-item label="name" :label-width="formLabelWidth">
-                    <el-select v-model="form.name" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -207,7 +199,7 @@
                 form.price,
                 form.comments,
                 form.reminderDate,
-                form.reminderTime+':00'
+                form.reminderTime + ':00'
               )
           "
           >Comfirm</el-button

@@ -53,7 +53,6 @@
 
     <h1 style="color: #409eff">Manage Your Account</h1>
     <h4 style="color: #000000">Here you can change your name and password</h4>
-    <!-- <br></br> -->
 
     <table id="t01">
       <link

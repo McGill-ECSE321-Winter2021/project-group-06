@@ -1,6 +1,4 @@
 import axios from 'axios'
-// import main from '../main'
-// import { response } from 'express'
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -46,7 +44,6 @@ export default {
                     this.errorAdminAccount = ''
                     this.$currentUsername.value = username
                     this.$currentName.value = name
-                    //this.$router.push("/calendarAdmin");
                     this.$router.push("/adminHome");
 
                     console.log(this.$currentUsername.value);

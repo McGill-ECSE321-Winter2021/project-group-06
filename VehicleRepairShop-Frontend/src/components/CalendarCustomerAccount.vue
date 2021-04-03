@@ -83,13 +83,10 @@ export default {
         selectable: true,
         selectMirror: true,
         dayMaxEvents: true,
-        //   droppable: true,
         eventOverlap: false,
         weekends: true,
         eventStartEditable: false,
         select: this.timeSlotSelected,
-        //   eventClick: this.deleteOrUpdateAppointment,
-        //   eventDrop: this.createTimeslot,
         allDaySlot: false,
         businessHours: [
           {
@@ -351,7 +348,6 @@ export default {
             this.currentSelectedOwnerUsername
         );
         this.currentSelectedCarLicensePlate = response.data.licensePlate;
-        // console.log(this.currentSelectedCarLicensePlate);
         this.createAppointment();
       } catch (error) {
         console.error(error);
