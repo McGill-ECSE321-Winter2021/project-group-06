@@ -77,7 +77,7 @@ export default {
         },
         searchButton(searchInput) {
             this.searchInput = "";
-            if (searchInput === "Home") {
+            if (searchInput === "Home" || searchInput === "home") {
               this.$router.push("/adminHome");
             } else if (
               searchInput === "Profile" ||
@@ -146,7 +146,6 @@ export default {
             console.log("msg.Id: " + this.msg.Id)
             this.form.Id = this.msg.Id
         },
-
 
         Edit(Id, name, duration, price, description, reminderDate, reminderTime) {
             AXIOS.put('/updateOfferedService/'.concat(Id).concat('/')

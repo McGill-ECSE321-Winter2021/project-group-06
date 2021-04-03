@@ -46,7 +46,8 @@
         </b-navbar>
       </div>
       <br/><br/>
-    <h3><center>Offered Service</center></h3>
+    <h1 style="color: #409eff">Offered Service</h1>
+    <br/>
     <tr>
       <center>
         <td>
@@ -77,7 +78,13 @@
           </el-time-select>
         </td>
         <td>
-          <button @click="initializeTable()">Initialize OfferedService</button>
+          <button @click="initializeTable()"
+            type="button"
+            style="border-color: #909399; color: #909399"
+            class="btn"
+          >
+            <font size="3"><b>Initialize OfferedService</b></font>
+          </button>
         </td>
         <td>
           <button
@@ -92,9 +99,13 @@
                 comments
               )
             "
-          >
-            Create OfferedService
+            type="button"
+                  style="background-color: #409eff; color: white"
+                  class="btn"
+                >
+                  <font size="3"><b>Create OfferedService</b></font>
           </button>
+         
         </td>
       </center>
     </tr>
@@ -104,27 +115,28 @@
       >
     </p>
     <center>
-      <el-table :data="tableData" border style="width: 100%">
-        <el-table-column fixed prop="Id" label="Id" sortable width="120">
+      <el-table :data="tableData" border >
+        <el-table-column prop="Id" label="Id" sortable style="width:12%" >
         </el-table-column>
-        <el-table-column prop="name" label="name" width="80"> </el-table-column>
-        <el-table-column prop="duration" label="duration" width="80">
+        <el-table-column prop="name" label="Name" style="width:12%">  
         </el-table-column>
-        <el-table-column prop="price" label="price" width="80">
+        <el-table-column prop="duration" label="Duration" style="width:12%">
         </el-table-column>
-        <el-table-column prop="comments" label="comments" width="300">
+        <el-table-column prop="price" label="Price" style="width:12%">
         </el-table-column>
-        <el-table-column prop="reminderDate" label="reminderDate" width="120">
+        <el-table-column prop="comments" label="Comments" style="width:12%">
         </el-table-column>
-        <el-table-column prop="reminderTime" label="reminderTime" width="120">
+        <el-table-column prop="reminderDate" label="Reminder Date" style="width:12%">
         </el-table-column>
-        <el-table-column fixed="right" label="operation" width="100">
+        <el-table-column prop="reminderTime" label="Reminder Time" style="width:12%">
+        </el-table-column>
+        <el-table-column label="Operation" style="width:12%">
           <template slot-scope="scope">
             <el-button
               @click="handleDelete(scope.$index, scope.row)"
-              type="danger"
               size="small"
-              >delete</el-button
+              style="border-color: red; color: red"
+              >Delete</el-button
             >
             <el-button
               @click="
@@ -132,53 +144,61 @@
               "
               type="text"
               size="small"
-              >edit</el-button
+              >Edit</el-button
             >
           </template>
         </el-table-column>
       </el-table>
+      <p>
+        <span v-if="errorOfferedService" style="color: red"
+          >Error: {{ errorOfferedService }}
+        </span>
+      </p>
     </center>
     <!-- delete dialogue -->
     <el-dialog title="CAUTION" :visible.sync="delVisible" width="295px" center>
       <div class="del-dialog-cnt">
-        <center>Are you sure you want to delete this OfferedService?</center>
+        <center>Are you sure you want to <br>delete this OfferedService?</center>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="delVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="deleteRow()">Comfirm</el-button>
+        <el-button type="primary" @click="deleteRow()">Confirm</el-button>
       </span>
     </el-dialog>
-    <!-- eidting dialogue-->
-    <el-dialog title="EIDTING" :visible.sync="dialogFormVisible">
+    <!-- editing dialogue-->
+    <el-dialog  :visible.sync="dialogFormVisible">
+      <h3>Editing:</h3>
+      <h6 style="color: red">Please fill every box!</h6>
+      <br>
       <el-form :model="form">
         <el-form-item label="Id" :label-width="formLabelWidth">
           <el-input v-model="form.Id" autocomplete="off" readonly = "true"></el-input>
         </el-form-item>
 
-        <el-form-item label="name" :label-width="formLabelWidth">
+        <el-form-item label="Name" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="duration" :label-width="formLabelWidth">
+        <el-form-item label="Duration" :label-width="formLabelWidth">
           <el-input v-model="form.duration" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="price" :label-width="formLabelWidth">
+        <el-form-item label="Price" :label-width="formLabelWidth">
           <el-input v-model="form.price" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="comments" :label-width="formLabelWidth">
+        <el-form-item label="Comments" :label-width="formLabelWidth">
           <el-input v-model="form.comments" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="reminderDate" :label-width="formLabelWidth">
+        <el-form-item label="Reminder Date" :label-width="formLabelWidth">
           <el-input v-model="form.reminderDate" autocomplete="off"></el-input>
         </el-form-item>
 
         <!-- <el-form-item label="reminderTime" :label-width="formLabelWidth">
                     <el-input v-model="form.reminderTime" autocomplete="off"></el-input>
                 </el-form-item> -->
-        <el-form-item label="reminderTime" :label-width="formLabelWidth">
+        <el-form-item label="Reminder Time" :label-width="formLabelWidth">
           <el-time-select
             v-model="form.reminderTime"
             :picker-options="{ start: '08:30', end: '18:30' }"
@@ -194,6 +214,7 @@
                     </el-select>
                 </el-form-item> -->
       </el-form>
+      
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
         <el-button
@@ -210,7 +231,7 @@
                 form.reminderTime+':00'
               )
           "
-          >Comfirm</el-button
+          >Confirm</el-button
         >
       </div>
     </el-dialog>

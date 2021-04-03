@@ -43,7 +43,7 @@ export default {
         },
         searchButton(searchInput) {
             this.searchInput = "";
-            if (searchInput === "Home") {
+            if (searchInput === "Home"|| searchInput === "home") {
               this.$router.push("/adminHome");
             } else if (
               searchInput === "Profile" ||

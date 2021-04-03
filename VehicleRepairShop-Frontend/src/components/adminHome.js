@@ -45,7 +45,7 @@ export default {
         },
         searchButton(searchInput) {
             this.searchInput = "";
-            if (searchInput === "Home") {
+            if (searchInput === "Home"|| searchInput === "home") {
               this.$router.push("/adminHome");
             } else if (
               searchInput === "Profile" ||
@@ -90,6 +90,7 @@ export default {
         // backend
         deleteAdminAccount: function () {
             if (confirm("Do you want to delete this account?\nYou cannot undo this action")) {
+                
                 this.toggleShowModal();
                 AXIOS.put('/deleteAdminAccount/' + this.$currentUsername.value).then(response => {
                     this.adminAccounts = response.data
@@ -107,6 +108,7 @@ export default {
                     })
 
             }
+            
 
         },
         getAllAdminAccounts: function () {
@@ -149,6 +151,9 @@ export default {
                         console.log(errorMsg)
                         this.errorAdminAccount = errorMsg
                     })
+            }
+            if(username === this.$currentUsername.value){
+                this.$router.push("/")
             }
         },
         deleteCustomerAccount: function (username) {
