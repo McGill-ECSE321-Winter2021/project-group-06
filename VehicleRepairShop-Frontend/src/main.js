@@ -28,5 +28,11 @@ new Vue({
   el: '#app',
   router, 
   template: '<App/>',
-  components: { App }
+  components: { App },
+  data: {
+    businessName: 'Business Name',
+    businessAddress: 'Business Address',
+    businessPhoneNumber: 'Business Phone Number',
+    businessEmail: 'Business Email'
+  }
 })

@@ -56,7 +56,7 @@
         </div>
     </template>
     <br /><br />
-    <h1 style="color: #409eff">Modify/Create Business Info</h1>
+    <h1 style="color: #409eff">Manage Your Business Information</h1>
 
     <table id="t01">
       <link
@@ -94,12 +94,12 @@
     </button>
 
     <button
-      @click="createBusinessInfo(businessName, address, phoneNumber, email)"
+      @click="createBusinessInformation(businessName, address, phoneNumber, email)"
       type="button"
       style="background-color: #409eff; color: white"
       class="btn"
     >
-        <font size="3"><b>Create</b></font>
+        <font size="3"><b>Save</b></font>
     </button>
     
     </div>
@@ -107,8 +107,7 @@
 
 <script src="./adminBusinessInfo.js">
 </script>
-<script src="./navBarAdmin.js">
-</script>
+
 
 <style>
 .navbar.navbar-dark.bg-dark {

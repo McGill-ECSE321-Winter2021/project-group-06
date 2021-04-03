@@ -107,8 +107,6 @@
 
 <script src="./customerViewCars.js">
 </script>
-<script src="./navBarCustomer.js">
-</script>
 
 <style>
 .navbar.navbar-dark.bg-dark {
