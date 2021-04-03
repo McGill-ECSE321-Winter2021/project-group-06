@@ -22,7 +22,6 @@ Vue.config.productionTip = false
 
 Vue.prototype.$currentUsername = {value: ""};
 Vue.prototype.$currentName = {value: ""};
-Vue.prototype.$bName = {value: "B Name"};
 
 /* eslint-disable no-new */
 new Vue({

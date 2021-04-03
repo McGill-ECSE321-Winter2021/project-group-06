@@ -21,7 +21,14 @@ function businessInformationDTO(name, address, phoneNumber, email) {
 export default {
     data() {
         return {
-            businessInfo: {
+            businessInfos: [],
+            newBusinessInfo: {
+                name: '',
+                address: '',
+                phoneNumber: '',
+                email: ''
+            },
+            selectedBusinessInfo: {
                 name: '',
                 address: '',
                 phoneNumber: '',
@@ -32,18 +39,17 @@ export default {
             searchInput: ''         
         }
     },
-    created: function () {
-        // Initializing persons from backend
+    /*created: function () {
         AXIOS.get('/getAllBusinessInformation')
         .then(response => {
         // JSON responses are automatically parsed.
-            this.businessInfo = response.data[response.data.length-1]
+            this.businessInfos = response.data
         })
         .catch(e => {
             this.errorBusinessInfo = e
         })
 
-      },
+      },*/
     methods: {
         // navigation bar
         goBack() {
@@ -75,39 +81,47 @@ export default {
         },
         //backend
         deleteBusinessInformation: function (name){
-            AXIOS.post('/deleteBusinessInformation/'.concat(name)).then(response => {
-                // JSON responses are automatically parsed.
-                this.businessInfo.push(response.data)
-                this.newBusinessInfo.name = ''
-                this.$root.businessName = 'Business Name2'
-                this.newBusinessInfo.address = ''
-                this.$root.businessAddress = 'Business Address'
-                this.newBusinessInfo.phoneNumber = ''
-                this.$root.businessPhoneNumber = 'Business Phone Number'
-                this.newBusinessInfo.email = ''
-                this.$root.businessEmail = 'Business Emails'
-                this.errorBusinessInfo = ''
+            if (confirm("Do you want to delete this Business Information?\nYou cannot undo this action")) {
+                this.toggleShowModal();
+                console.log("THERE")
+                AXIOS.put('/deleteBusinessInformation/'.concat(name)).then(response => {
+                    // JSON responses are automatically parsed.
+                    /*this.businessInfo.push(response.data)
+                    this.newBusinessInfo.name = ''
+                    this.$root.businessName = 'Business Name2'
+                    this.newBusinessInfo.address = ''
+                    this.$root.businessAddress = 'Business Address'
+                    this.newBusinessInfo.phoneNumber = ''
+                    this.$root.businessPhoneNumber = 'Business Phone Number'
+                    this.newBusinessInfo.email = ''
+                    this.$root.businessEmail = 'Business Emails'
+                    this.errorBusinessInfo = ''
 
-                console.log(this.$currentUsername.value)
+                    console.log(this.$currentUsername.value)*/
+                    console.log("HERE")
+                    this.selectedBusinessInfo = response.data
+                    this.errorBusinessInfo = ''
+                    this.getAllBusinessInformation()
 
-            })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorBusinessInfo = errorMsg
                 })
-            confirmButton.disabled=false
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorBusinessInfo = errorMsg
+                    })
+                //confirmButton.disabled=false
+            }else{
+                console.log("else")
+            }
         },
 
         createBusinessInformation: function (name, address, phoneNumber, email) {
 
             AXIOS.post('/createBusinessInformation/'.concat(name).concat('/').concat(address).concat('/').concat(phoneNumber).concat('/').concat(email)).then(response => {
             // JSON responses are automatically parsed.
-                this.businessInfo = response.data
+                this.businessInfos.push(response.data)
                 this.newBusinessInfo.name = ''
                 this.$root.businessName = name
-
-                $root.bName = name
                 
 
                 this.newBusinessInfo.address = ''
@@ -117,16 +131,33 @@ export default {
                 this.newBusinessInfo.email = ''
                 this.$root.businessEmail = email
                 this.errorBusinessInfo = ''
+
+                this.getAllBusinessInformation()
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
                     this.errorBusinessInfo = errorMsg
                 })
-            confirmButton.disabled=true
+            //confirmButton.disabled=true
         },
-        goToAdminHome() {
-            this.$router.push("/adminHome")
+        getAllBusinessInformation: function (){
+            console.log("OK")
+            AXIOS.get('/getAllBusinessInformation/').then(response => {
+                // JSON responses are automatically parsed.
+                    this.businessInfos = response.data
+                })
+                .catch(e => {
+                    this.errorCar = e
+                })
+
+        },
+        activateBusinessInformation: function (){
+
+        },
+        toggleShowModal() {
+            this.isShowModal = true;
+            console.log(this.isShowModal);
         }
     }
 }

@@ -15,7 +15,6 @@
               <h6 class="text-uppercase font-weight-bold mb-4 ">Business Information</h6>
               <ul class="list-unstyled mb-0">
                 <li class="mb-1"><p class="text-muted">{{ this.$root.businessName }}</p></li>
-                <li class="mb-1"><p class="text-muted">{{ this.$bName.value }}</p></li>
                 <li class="mb-1"><p class="text-muted">{{ this.$root.businessAddress }}</p></li>
                 <li class="mb-1"><p class="text-muted">{{ this.$root.businessPhoneNumber }}</p></li>
                 <li class="mb-1"><p class="text-muted">{{ this.$root.businessEmail }}</p></li>
