@@ -22,6 +22,10 @@
                 >Calendar</b-nav-item
               >
 
+              <b-nav-item href="#/adminBusinessInfo" color="white"
+                >Business Information</b-nav-item
+              >
+
               <b-nav-item href="#/offeredServiceTableAdmin"
                 >Services and Pricing</b-nav-item
               >
@@ -55,32 +59,21 @@
     </template>
 
     <br /><br />
-    <h1 style="color: #409eff">Manage Business</h1>
+    <h1 style="color: #409eff">Manage Accounts</h1>
 
     <br /><br />
+                                <button
+                  @click="refreshTables()"
+                  type="button"
+                  style="background-color: #409eff; color: white"
+                  class="btn"
+                > 
+                  <font size="3"><b>Refresh Tables</b></font>
+                </button>
     <div>
-      <div class="container">
-        <h3 class="p-3 text-center">List of Garages</h3>
-        <table
-          v-on="getAllGarages()"
-          class="table table-striped table-bordered"
-        >
-          <thead>
-            <tr>
-              <th>GarageId</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="garage in garages" :key="garage.id">
-              <td>{{ garage.garageId }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
       <div class="container">
         <h3 class="p-3 text-center">List of Admin Accounts</h3>
         <table
-          v-on="getAllAdminAccounts()"
           class="table table-striped table-bordered"
         >
           <thead>
@@ -115,7 +108,6 @@
       <div class="container">
         <h3 class="p-3 text-center">List of Customer Accounts</h3>
         <table
-          v-on="getAllCustomerAccounts()"
           class="table table-striped table-bordered"
         >
           <thead>
@@ -150,7 +142,6 @@
       <div class="container">
         <h3 class="p-3 text-center">List of Technician Accounts</h3>
         <table
-          v-on="getAllTechnicianAccounts()"
           class="table table-striped table-bordered"
         >
           <thead>

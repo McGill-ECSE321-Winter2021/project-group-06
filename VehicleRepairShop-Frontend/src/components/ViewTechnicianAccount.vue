@@ -131,7 +131,7 @@ nav .navbar-nav li a {
   margin-top: 0;
 }
 #t01 {
-  width: 18%;
+  width: 20%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;

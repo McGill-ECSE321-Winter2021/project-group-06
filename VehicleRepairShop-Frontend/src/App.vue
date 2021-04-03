@@ -14,10 +14,11 @@
             <div class="col-lg-5 col-md-5 mb-2 mb-lg-0 textLeft">
               <h6 class="text-uppercase font-weight-bold mb-4 ">Business Information</h6>
               <ul class="list-unstyled mb-0">
-                <li class="mb-1"><p class="text-muted">Name</p></li>
-                <li class="mb-1"><p class="text-muted">Address</p></li>
-                <li class="mb-1"><p class="text-muted">Phone Number</p></li>
-                <li class="mb-1"><p class="text-muted">Email</p></li>
+                <li class="mb-1"><p class="text-muted">{{ this.$root.businessName }}</p></li>
+                <li class="mb-1"><p class="text-muted">{{ this.$bName.value }}</p></li>
+                <li class="mb-1"><p class="text-muted">{{ this.$root.businessAddress }}</p></li>
+                <li class="mb-1"><p class="text-muted">{{ this.$root.businessPhoneNumber }}</p></li>
+                <li class="mb-1"><p class="text-muted">{{ this.$root.businessEmail }}</p></li>
               </ul>
             </div>
           </div>
@@ -38,15 +39,14 @@
 </template>
 
 <script>
-import ViewAdminAccount from './components/ViewAdminAccount.vue';
-import AdminAccountLogin from './components/AdminAccountLogin.vue';
 export default {
+
   name: "app",
   components: {},
   methods: {
     goBack() {
       this.$router.go(-1);
-    },
+    }
   },
 };
 </script>

@@ -19,6 +19,8 @@ import AdminAccountSignUp from '@/components/AdminAccountSignUp.vue'
 import CustomerAccountSignUp from '@/components/CustomerAccountSignUp.vue'
 import TechnicianAccountSignUp from '@/components/TechnicianAccountSignUp.vue'
 import AdminHome from '@/components/AdminHome.vue'
+import AdminBusinessInfo from '@/components/AdminBusinessInfo.vue'
+import CustomerCreateCar from '@/components/CustomerCreateCar.vue'
 
 Vue.use(Router)
 Vue.use(Modal);
@@ -128,6 +130,16 @@ export default new Router({
       path: '/viewTechnicianAccount',
       name: 'ViewTechnicianAccount',
       component: ViewTechnicianAccount
+    },
+    {
+      path: '/adminBusinessInfo',
+      name: 'AdminBusinessInfo',
+      component: AdminBusinessInfo
+    },
+    {
+      path: '/customerCreateCar',
+      name: 'CustomerCreateCar',
+      component: CustomerCreateCar
     }
   ]
 })

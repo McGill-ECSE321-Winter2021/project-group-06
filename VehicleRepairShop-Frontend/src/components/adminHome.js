@@ -70,6 +70,11 @@ export default {
             this.isShowModal = true;
             console.log(this.isShowModal);
         },
+        refreshTables(){
+            this.getAllAdminAccounts()
+            this.getAllCustomerAccounts()
+            this.getAllTechnicianAccounts()
+        },
         // backend
         deleteAdminAccount: function () {
             if (confirm("Do you want to delete this account?\nYou cannot undo this action")) {
@@ -89,15 +94,6 @@ export default {
                     })
             }
 
-        },
-        getAllGarages: function () {
-            AXIOS.get('/getAllGarages')
-                .then(response => {
-                    this.garages = response.data
-                })
-                .catch(e => {
-                    this.errorGarage = e
-                })
         },
         getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')
