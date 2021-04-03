@@ -43,16 +43,7 @@
             </b-collapse>
             </b-navbar>
             <br /><br />
-            <Fullcalendar ref="calendar" :options="calendarOptions" />
-
-            <modal-window
-            :visible="isShowModal"
-            :close-on-escape="true"
-            :close-on-outside-click="true"
-            :show-x-mark="true"
-            @close="isShowModal = false"
-            >
-            </modal-window>
+            
         </div>
     </template>
     <br /><br />
@@ -94,41 +85,7 @@
         </table>
       </div>
     <h1 style="color: #409eff">Your Cars</h1>
-
-    <table id="t01">
-      <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
-      />
-      <tr>
-        <th>License Plate Number:</th>
-        <td>Plate num</td>
-      </tr>
-
-      <tr>
-        <th>Model:</th>
-        <td>model</td>
-      </tr>
-
-      <tr>
-        <th>Year:</th>
-        <td>year</td>
-      </tr>
-       
-      <tr> 
-        <th>Motor Type:</th>
-        <td>some type</td>
-      </tr>     
-    </table>
-    <br>
-    <button
-      @click="deleteCar(plateNum)"
-      type="button"
-      style="border-color: #909399; color: #909399"
-      class="btn"
-    >
-      <font size="3"><b>Delete Car</b></font>
-    </button>
+    <br><br/>
 
     <button
       @click="goToCustomerCreateCar()"
@@ -159,7 +116,7 @@ nav .navbar-nav li a {
     color: #409EFF; */
 }
 #t01 {
-  width: 18%;
+  width: 40%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;

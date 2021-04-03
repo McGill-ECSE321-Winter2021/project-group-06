@@ -11,15 +11,11 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                 <b-nav-item @click="goBack" style="color: white">Go Back</b-nav-item>
-                <b-nav-item href="#/adminHome" color="white">Home</b-nav-item>
-                <b-nav-item href="#/viewAdminAccount" color="white"
+                <b-nav-item href="#/viewCustomerAccount" color="white"
                     >Profile</b-nav-item
                 >
-                <b-nav-item href="#/calendarAdmin" color="white">Calendar</b-nav-item>
+                <b-nav-item href="#/calendarCustomer" color="white">Calendar</b-nav-item>
 
-                <b-nav-item href="#/offeredServiceTableAdmin"
-                    >Services and Pricing</b-nav-item
-                >
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
@@ -43,7 +39,7 @@
             </b-collapse>
             </b-navbar>
             <br /><br />
-            <Fullcalendar ref="calendar" :options="calendarOptions" />
+            <!-- <Fullcalendar ref="calendar" :options="calendarOptions" />
 
             <modal-window
             :visible="isShowModal"
@@ -52,17 +48,14 @@
             :show-x-mark="true"
             @close="isShowModal = false"
             >
-            </modal-window>
+            </modal-window> -->
         </div>
     </template>
-    <br /><br />
+
+    <br><br />
     <h1 style="color: #409eff">Create New Car</h1>
 
     <table id="t01">
-      <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
-      />
       <tr>
         <th>License Plate Number:</th>
         <td><input type="text" v-model="licensePlate" /></td>
@@ -91,18 +84,23 @@
         </td>
       </tr>     
     </table>
-    <br>
-    <button
+    <br><br/>
+        <p>
+      <span v-if="errorCar" style="color: red"
+        >Error: {{ errorCar }}
+      </span>
+    </p>
+    <!-- <button
       @click="goToViewCustomerCar()"
       type="button"
       style="border-color: #909399; color: #909399"
       class="btn"
     >
       <font size="3"><b>Cancel</b></font>
-    </button>
+    </button> -->
 
     <button
-      @click="createCar(licensePlate, model, year, motorType, this.$currentUsername.value)"
+      @click="createCar(licensePlate, model, year, motorType)"
       type="button"
       style="background-color: #409eff; color: white"
       class="btn"
@@ -110,29 +108,57 @@
         <font size="3"><b>Create</b></font>
     </button>
     
+    <div class="container">
+        <h3 class="p-3 text-center">Your Cars</h3>
+        <table
+          v-on="getAllCars()"
+          class="table table-striped table-bordered"
+        >
+          <thead>
+            <tr>
+              <th>License Plate</th>
+              <th>Model</th>
+              <th>Year</th>
+              <th>Motor Type</th>
+              <th style="color: red">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="car in cars" :key="car.id">
+              <td>{{ car.licensePlate }}</td>
+              <td>{{ car.model }}</td>
+              <td>{{ car.year }}</td>
+              <td>{{ car.motorType }}</td>
+              <td>
+                <button
+                  @click="deleteCar(car.licensePlate)"
+                  onclick=""
+                  type="button"
+                  style="border-color: red; color: red"
+                  class="btn"
+                >
+                  <font size="3"><b>Delete Car</b></font>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+
+    
     </div>
 </template>
 
 <script src="./customerCreateCar.js">
-</script>
-<script src="./navBarCustomer.js">
 </script>
 
 <style>
 .navbar.navbar-dark.bg-dark {
   background-color: #409eff !important;
 }
-nav .navbar-nav li a {
-  color: white !important;
-}
-#customerAccountProfile {
-  margin-bottom: 0;
-  margin-top: 0;
-  /* background-color: #909399;
-    color: #409EFF; */
-}
-#t01 {
-  width: 18%;
+t01 {
+  width: 25%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
