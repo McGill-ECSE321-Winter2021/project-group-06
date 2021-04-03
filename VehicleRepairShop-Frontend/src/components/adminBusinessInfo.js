@@ -19,13 +19,13 @@ export default {
                 name: '',
                 address: '',
                 phoneNumber: '',
-                emailAddressAddress: ''
+                emailAddress: ''
             },
             selectedBusinessInfo: {
                 name: '',
                 address: '',
                 phoneNumber: '',
-                emailAddressAddress: ''
+                emailAddress: ''
             },
             errorBusinessInfo: '',
             response: [],
@@ -50,47 +50,46 @@ export default {
 
         },
         searchButton(searchInput) {
-            this.searchInput = ''
-            if (searchInput === "Home" || searchInput === "home") {
-                this.$router.push("/adminHome");
-            }
-            else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+            this.searchInput = "";
+            if (searchInput === "Home") {
+              this.$router.push("/adminHome");
+            } else if (
+              searchInput === "Profile" ||
+              searchInput === "profile" ||
+              searchInput === "Account" ||
+              searchInput === "account"
+            ) {
+              this.$router.push("/viewAdminAccount");
+            } else if (searchInput === "Calendar" || searchInput === "calendar") {
+              this.$router.push("/calendarAdmin");
+            } else if (
+              searchInput === "Edit" ||
+              searchInput === "edit" ||
+              searchInput === "Manage" ||
+              searchInput === "manage"
+            ) {
+              this.$router.push("/editAdminAccount");
+            }             else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
                 this.$router.push("/offeredServiceTableAdmin");
             }
-            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
-                this.$router.push("/viewAdminAccount");
+            else if (
+              searchInput === "Business" ||
+              searchInput === "business" ||
+              searchInput === "Info" ||
+              search === "info"
+            ) {
+              this.$router.push("/adminBusinessInfo");
+            } else {
+              this.searchInput = "";
+              console.log("Not Found");
             }
-            else if (searchInput === "Calendar" || searchInput === "calendar") {
-                this.$router.push("/calendarAdmin")
-            }
-            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
-                this.$router.push("/editAdminAccount")
-            }
-            else {
-                this.searchInput = "";
-                console.log("Not Found");
-            }
-
-        },
+          },
         //backend
         deleteBusinessInformation: function (name){
             if (confirm("Do you want to delete this Business Information?\nYou cannot undo this action")) {
                 this.toggleShowModal();
-                console.log("THERE")
-                AXIOS.put('/deleteBusinessInformation/'.concat(name)).then(response => {
-                    // JSON responses are automatically parsed.
-                    /*this.businessInfo.push(response.data)
-                    this.newBusinessInfo.name = ''
-                    this.$root.businessName = 'Business Name2'
-                    this.newBusinessInfo.address = ''
-                    this.$root.businessAddress = 'Business Address'
-                    this.newBusinessInfo.phoneNumber = ''
-                    this.$root.businessPhoneNumber = 'Business Phone Number'
-                    this.newBusinessInfo.emailAddressAddress = ''
-                    this.$root.businessemailAddressAddress = 'Business emailAddressAddresss'
-                    this.errorBusinessInfo = ''
-
-                    console.log(this.$currentUsername.value)*/
+                console.log("THERE" + name + "a")
+                AXIOS.put('/deleteBusinessInformation/' + name).then(response => {
                     console.log("HERE")
                     this.selectedBusinessInfo = response.data
                     this.errorBusinessInfo = ''
@@ -108,9 +107,9 @@ export default {
             }
         },
 
-        createBusinessInformation: function (name, address, phoneNumber, emailAddressAddress) {
+        createBusinessInformation: function (name, address, phoneNumber, emailAddress) {
 
-            AXIOS.post('/createBusinessInformation/'.concat(name).concat('/').concat(address).concat('/').concat(phoneNumber).concat('/').concat(emailAddressAddress)).then(response => {
+            AXIOS.post('/createBusinessInformation/'.concat(name).concat('/').concat(address).concat('/').concat(phoneNumber).concat('/').concat(emailAddress)).then(response => {
             // JSON responses are automatically parsed.
                 this.businessInfos.push(response.data)
                 this.newBusinessInfo.name = ''

@@ -98,12 +98,14 @@ export default {
                     this.$currentUsername.value = ''
                     this.$currentName.value = ''
                     this.$router.push("/adminAccountLogin");
+                    
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message
                         console.log(errorMsg)
                         this.errorAdminAccount = errorMsg
                     })
+
             }
 
         },
@@ -140,6 +142,7 @@ export default {
                 AXIOS.put('/deleteAdminAccountFromAdmin/' + username).then(response => {
                     this.adminAccounts = response.data
                     this.errorAdminAccount = ''
+                    this.refreshTables();
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message
@@ -154,6 +157,7 @@ export default {
                 AXIOS.put('/deleteCustomerAccountFromAdmin/' + username).then(response => {
                     this.customerAccounts = response.data
                     this.errorCustomerAccount = ''
+                    this.refreshTables();
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message
