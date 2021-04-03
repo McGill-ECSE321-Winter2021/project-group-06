@@ -14,7 +14,9 @@
           <b-nav-item href="#/calendarCustomer" color="white"
             >Calendar</b-nav-item
           >
-
+          <b-nav-item href="#/customerCreateCar" color="white"
+            >Create Car</b-nav-item
+          >
           <b-nav-item href="#/offeredServiceTableCustomer"
             >Services and Pricing</b-nav-item
           >
@@ -190,7 +192,10 @@ export default {
         this.$router.push("/viewCustomerAccount");
       } else if (searchInput === "Calendar" || searchInput === "calendar") {
         this.$router.push("/calendarCustomer");
-      } else {
+      } else if (searchInput === "Car" || searchInput === "car" || searchInput == "Cars" || search || "cars") {
+        this.$router.push("/customerCreateCar");
+      } 
+      else {
         this.searchInput = "";
         console.log("Not Found");
       }

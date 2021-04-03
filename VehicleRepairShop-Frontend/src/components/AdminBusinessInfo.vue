@@ -43,20 +43,10 @@
             </b-collapse>
             </b-navbar>
             <br /><br />
-            <Fullcalendar ref="calendar" :options="calendarOptions" />
-
-            <modal-window
-            :visible="isShowModal"
-            :close-on-escape="true"
-            :close-on-outside-click="true"
-            :show-x-mark="true"
-            @close="isShowModal = false"
-            >
-            </modal-window>
         </div>
     </template>
     <br /><br />
-    <h1 style="color: #409eff">Modify/Create Business Info</h1>
+    <h1 style="color: #409eff">Manage Your Business Information</h1>
 
     <table id="t01">
       <link
@@ -66,21 +56,25 @@
       <tr>
         <th>Business Name:</th>
         <td><input type="text" v-model="businessName" /></td>
+        <p>{{businessInfo.name}} aa</p>
       </tr>
 
       <tr>
         <th>Business Address:</th>
         <td><input type="text" v-model="address" /></td>
+        <p>{{businessInfo.address}} aa</p>
       </tr>
 
       <tr>
         <th>Phone Number:</th>
         <td><input type="text" v-model="phoneNumber" /></td>
+        <p>{{businessInfo.phoneNumber}} aa</p>
       </tr>
        
       <tr> 
         <th>Email:</th>
         <td><input type="text" v-model="email" /></td>
+        <p>{{businessInfo.email}} aa</p>
       </tr>     
     </table>
     <br>
@@ -94,12 +88,23 @@
     </button>
 
     <button
-      @click="createBusinessInfo(businessName, address, phoneNumber, email)"
+      @click="deleteBusinessInformation(businessName)"
       type="button"
       style="background-color: #409eff; color: white"
       class="btn"
     >
-        <font size="3"><b>Create</b></font>
+        <font size="3"><b>Save</b></font>
+    </button>
+
+    <button
+      @click="createBusinessInformation(businessName, address, phoneNumber, email)"
+      type="button"
+      style="background-color: #409eff; color: white"
+      class="btn"
+      disabled='isDisabled'
+      id=confirmButton
+    >
+        <font size="3"><b>Confirm</b></font>
     </button>
     
     </div>
@@ -107,8 +112,7 @@
 
 <script src="./adminBusinessInfo.js">
 </script>
-<script src="./navBarAdmin.js">
-</script>
+
 
 <style>
 .navbar.navbar-dark.bg-dark {
