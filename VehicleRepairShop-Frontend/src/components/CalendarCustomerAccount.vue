@@ -52,7 +52,6 @@ import DayGridPlugin from "@fullcalendar/daygrid";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
-
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -66,11 +65,9 @@ export default {
     Fullcalendar,
   },
   computed: {},
-
   data() {
     return {
       isShowModal: false,
-
       calendarOptions: {
         plugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
         initialView: "timeGridWeek",
@@ -79,7 +76,6 @@ export default {
           center: "title",
           right: "timeGridWeek,timeGridDay",
         },
-
         editable: true,
         selectable: true,
         selectMirror: true,
@@ -111,7 +107,6 @@ export default {
       currentSelectedAppointmentId: 1,
       selectedInfo: {},
       appointmentIdToDelete: 1,
-
       searchInput: "",
     };
   },
@@ -121,7 +116,6 @@ export default {
     let currentCustomerAppointment = [];
     AXIOS.get("/getAppointmentByCustomer/username1").then((response) => {
       console.log(response.data);
-
       for (var i = 0; i < response.data.length; i++) {
         let startStr =
           response.data[i].timeSlot.startDate +
@@ -143,7 +137,6 @@ export default {
       }
       AXIOS.get("/getAllAppointment").then((response) => {
         console.log(response.data);
-
         for (var i = 0; i < response.data.length; i++) {
           let startStr =
             response.data[0].timeSlot.startDate +
@@ -202,7 +195,6 @@ export default {
         console.log("Not Found");
       }
     },
-
     // backend
     async createTimeslot(info) {
       let startTime = info.event.startStr.substring(11, 19);
@@ -228,7 +220,6 @@ export default {
         this.updateAppointmentTimeslot(appointmentId, response.data.timeslotId);
       }
     },
-
     async deleteOrUpdateAppointment(selectionInfo) {
       var choice = prompt("do you want to update or delete appointment?");
       var c = confirm("are you sure you want to delete this appointment?");
@@ -257,7 +248,6 @@ export default {
     async timeSlotSelected(selectionInfo) {
       this.selectedInfo = selectionInfo;
       console.log(selectionInfo.view.calendar);
-
       try {
         let startTime =
           selectionInfo.start.getHours().toString() +

@@ -41,6 +41,88 @@
     </b-navbar>
     <br /><br />
     <Fullcalendar ref="calendar" :options="calendarOptions" />
+    
+    <!-- eidting dialogue-->
+    <el-dialog title="EIDTING" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+         <el-form-item label="technicain" :label-width="formLabelWidth">
+          <el-select v-model="value1" placeholder="select technicain">
+            <el-option
+              v-for="item in TechAccountOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+          <el-form-item label="OfferedService" :label-width="formLabelWidth">
+            <el-select v-model="value2" placeholder="select OfferedService">
+              <el-option
+                v-for="item in OfferedServiceOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="Car" :label-width="formLabelWidth">
+            <el-select v-model="value3" placeholder="select Car">
+              <el-option
+                v-for="item in CarOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="Garage" :label-width="formLabelWidth">
+            <el-select v-model="value4" placeholder="select Garage">
+              <el-option
+                v-for="item in GarageOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="comments" :label-width="formLabelWidth">
+            <el-input v-model="value5" autocomplete="off"></el-input>
+          </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button
+          type="primary"
+          @click="
+            (dialogFormVisible = false),
+              createAppointment(
+                value5, 
+                this.currentSelectedTimeslotId, 
+                value3, 
+                value4, 
+                value2, 
+                value1
+              )
+          "
+          >Comfirm</el-button
+        >
+      </div>
+    </el-dialog>
+
+    <!-- delete dialogue -->
+    <el-dialog title="CAUTION" :visible.sync="createAppointmentVisible" width="295px" center>
+      <div class="del-dialog-cnt">
+        <center>Are you sure you want to delete this OfferedService?</center>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="delVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="deleteRow()">Comfirm</el-button>
+      </span>
+    </el-dialog>
 
     <modal-window
       :visible="isShowModal"
@@ -63,7 +145,6 @@ import InteractionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
 import DropdownMenu from "@innologica/vue-dropdown-menu";
 import ModalWindow from "@vuesence/modal-window";
-
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -79,10 +160,25 @@ export default {
     DropdownMenu,
   },
   computed: {},
-
   data() {
     return {
       isShowModal: false,
+
+      TechAccountOptions: [],
+      OfferedServiceOptions: [],
+      CarOptions: [],
+      GarageOptions: [],
+      dialogFormVisible: false,
+      
+      value: '',
+
+
+      allTechnicianAccounts: [],
+      allOfferedServices: [],
+      allCars: [],
+      allGarages: [],
+
+
 
       calendarOptions: {
         plugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
@@ -92,7 +188,6 @@ export default {
           center: "title",
           right: "timeGridWeek,timeGridDay",
         },
-
         editable: true,
         selectable: true,
         selectMirror: true,
@@ -114,26 +209,26 @@ export default {
         selectConstraint: "businessHours",
         eventConstraint: "businessHours",
       },
-      currentSelectedTimeslotId: 1,
-      currentSelectedOwnerUsername: 1,
-      currentSelectedCarLicensePlate: 1,
-      curreantSelectedServiceId: 1,
-      currentSelectedGarageId: 1,
-      currentSelectedTechnicianUsername: 1,
-      currentSelectedAppointmentId: 1,
+      
+
+      currentSelectedTimeslotId: "",
+      // currentSelectedOwnerUsername: 1,
+      // currentSelectedCarLicensePlate: 1,
+      // curreantSelectedServiceId: 1,
+      // currentSelectedGarageId: 1,
+      // currentSelectedTechnicianUsername: 1,
+      // currentSelectedAppointmentId: 1,
       selectedInfo: {},
       appointmentIdToDelete: 1,
-
       searchInput:'',
-
     };
   },
+
+  // auto show existing appointments
   mounted() {
     let calendarApi = this.$refs.calendar.getApi();
-
     AXIOS.get("/getAllAppointment").then((response) => {
       console.log(response.data);
-
       for (var i = 0; i < response.data.length; i++) {
         let startStr =
           response.data[0].timeSlot.startDate +
@@ -154,6 +249,8 @@ export default {
       }
     });
   },
+
+
   methods: {
     // navigation bar
     goBack() {
@@ -184,6 +281,73 @@ export default {
         console.log("Not Found");
       }
     },
+
+
+    refresh(){
+      var i
+      var numTechAccounts = this.TechAccountOptions.length
+      var numOfferedServices = this.OfferedServiceOptions.length
+      var numCars = this.CarOptions.length
+      var numGarages = this.GarageOptions.length
+
+      for (i=0;i<numTechAccounts;i++){
+        this.TechAccountOptions.splice(0, 1)
+      }
+
+      for (i=0; i<numOfferedServices;i++){
+        this.OfferedServiceOptions.splce(0, 1)
+      }
+
+      for (i=0; i<numCars;i++){
+        this.CarOptions.splce(0, 1)
+      }
+
+      for (i=0; i<numGarages;i++){
+        this.GarageOptions.splce(0, 1)
+      }
+      
+      for (let ta in this.allTechnicianAccounts){
+        if (ta.username !== emptyStatement) {
+            var temp = {
+                value: ta.username,
+                label: ta.username,
+            }
+            this.techAccountOptions.push(temp)
+        }
+      }
+
+      for (let os in this.allOfferedServices){
+        if (os.Id !== emptyStatement) {
+            var temp = {
+                value: os.Id,
+                label: os.Id,
+            }
+            this.OfferedServiceOptions.push(temp)
+        }
+      }
+
+      for (let car in this.allCars){
+        if (car.licensePlate !== emptyStatement) {
+            var temp = {
+              value: car.licensePlate,
+              label: car.licensePlate,
+            }
+            this.CarOptions.push(temp)
+        }
+      }
+
+      for (let g in this.allGarages){
+        if (g.Id !== emptyStatement) {
+            var temp = {
+              value: g.Id,
+              label: g.Id,
+            }
+            this.GarageOptions.push(temp)
+        }
+      }
+
+    },
+
     // backend
     async updateAppointmentTimeslot(appointmentId, timeslotId) {
       console.log("update timeslot");
@@ -221,6 +385,7 @@ export default {
       }
     },
 
+
     async deleteOrUpdateAppointment(selectionInfo) {
       var choice = prompt("do you want to update or delete appointment?");
       var c = confirm("are you sure you want to delete this appointment?");
@@ -241,20 +406,55 @@ export default {
       this.isShowModal = true;
       console.log(this.isShowModal);
     },
-    async getAllTimeSlot() {
-      try {
-        const response = await AXIOS.get("/getAllTimeSlots");
-        console.log(response);
-      } catch (error) {
+
+
+
+
+    async getAllTechnicianAccounts(){
+      try{
+        this.allTechnicianAccounts = await AXIOS.get("/getAllTechnicianAccounts");
+      }catch (error) {
         console.error(error);
-      } finally {
-        console.log("get all timeslot");
+      }finally{
+        console.log("get all Technicain accounts");
       }
     },
+
+
+    async getAllOfferedService(){
+      try{
+        this.allOfferdServices = await AXIOS.get("/getAllOfferedServices");
+      }catch (error) {
+        console.error(error);
+      }finally{
+        console.log("get all OfferedServices");
+      }
+    },
+
+    async getAllgetAllCars(){
+      try{
+        this.allCars = await AXIOS.get("/getAllCars");
+      }catch (error) {
+        console.error(error);
+      }finally{
+        console.log("get all Cars");
+      }
+    },
+
+    async getAllGarages(){
+      try{
+        this.allGarages = await AXIOS.get("/getAllGarages");
+      }catch (error) {
+        console.error(error);
+      }finally{
+        console.log("get all garages");
+      }
+    },
+
+
     async timeSlotSelected(selectionInfo) {
       this.selectedInfo = selectionInfo;
       console.log(selectionInfo.view.calendar);
-
       try {
         let startTime =
           selectionInfo.start.getHours().toString() +
@@ -280,9 +480,13 @@ export default {
           (selectionInfo.end.getMonth() + 1).toString() +
           "-" +
           selectionInfo.end.getDate().toString();
-        if (confirm("Do you want to make an appointment?")) {
+        var appCreate = confirm("Do you want to make an appointment?")
+        if (appCreate == true) {
+          console.log("1");
           // once selected a timeslot, show modal
-          this.toggleShowModal();
+          // this.toggleShowModal();
+          this.refresh()
+          this.dialogFormVisible = true
           const response = await AXIOS.post(
             "/createTimeSlot/" +
               startTime +
@@ -292,87 +496,19 @@ export default {
               startDate +
               "/" +
               endDate
-          );
+          )
           this.currentSelectedTimeslotId = response.data.timeslotId;
           console.log(this.currentSelectedTimeslotId);
-          this.createService();
+          //this.createService();
         }
       } catch (error) {
         console.error(error);
       } finally {
         console.log("get all timeslot");
       }
+      
     },
-    async createOwner() {
-      try {
-        const response = await AXIOS.post(
-          "/createCustomerAccount/username1/password/name1"
-        );
-        this.currentSelectedOwnerUsername = response.data.username;
-        console.log(response.data.username);
-        this.createGarage();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        console.log("create owner: " + this.currentSelectedOwnerUsername);
-      }
-    },
-    async createTechnician() {
-      try {
-        const response = await AXIOS.post(
-          "/createTechnicianAccount/technician1/password/name1"
-        );
-        this.currentSelectedTechnicianUsername = response.data.username;
-        console.log(response.data.username);
-        this.createCar();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        console.log(
-          "create technician: " + this.currentSelectedTechnicianUsername
-        );
-      }
-    },
-    async createCar() {
-      try {
-        const response = await AXIOS.post(
-          "/createCar/licensePlate1/model1/" +
-            2019 +
-            "/Electric/" +
-            this.currentSelectedOwnerUsername
-        );
-        this.currentSelectedCarLicensePlate = response.data.licensePlate;
-        // console.log(this.currentSelectedCarLicensePlate);
-        this.createAppointment();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        console.log("create car: " + this.currentSelectedCarLicensePlate);
-      }
-    },
-    async createService() {
-      try {
-        const response = await AXIOS.post(
-          "/createOfferedService/offeredServiceId1" +
-            "/" +
-            20.0 +
-            "/" +
-            "name1/" +
-            30 +
-            "/10:00:00/" +
-            30 +
-            "/description1"
-        );
-        this.curreantSelectedServiceId = response.data.offeredServiceId;
-        this.createOwner();
-        this.createTechnician();
-        // console.log(this.curreantSelectedServiceId );
-      } catch (error) {
-        console.error(error);
-      } finally {
-        console.log("create service: " + this.curreantSelectedServiceId);
-      }
-    },
+
     async createGarage() {
       try {
         const response = await AXIOS.post("/createGarage/garageId1");
@@ -384,29 +520,31 @@ export default {
         console.log("create garage: " + this.currentSelectedGarageId);
       }
     },
-    async createAppointment() {
+
+
+    async createAppointment(comment, timeslotId, licensePlate, garageId, offeredServiceId, technicianUsername) {
       try {
         const response = await AXIOS.post(
-          "/createAppointment/comment1/" +
-            this.currentSelectedTimeslotId +
+          "/createAppointment/" +
+            comment + 
             "/" +
-            this.currentSelectedCarLicensePlate +
+            timeslotId +
             "/" +
-            this.currentSelectedGarageId +
+            licensePlate +
             "/" +
-            this.curreantSelectedServiceId +
+            garageId +
             "/" +
-            this.currentSelectedTechnicianUsername
+            offeredServiceId +
+            "/" +
+            technicianUsername
         );
+
         this.currentSelectedAppointmentId = response.data.appointmentId;
-        // console.log(this.currentSelectedAppointmentId);
-        // this.newlyAddedAppointment = response.data
-        // console.log(this.newlyAddedAppointment)
         let calendarApi = this.selectedInfo.view.calendar;
         calendarApi.unselect();
         calendarApi.addEvent({
           id: response.data.appointmentId,
-          title: response.data.offeredService.name,
+          title: "service: " + response.data.offeredService.name + "licensePlate: " + response.data.car.licensePlate,
           start: this.selectedInfo.startStr,
           end: this.selectedInfo.endStr,
           allDay: this.selectedInfo.allDay,
@@ -417,6 +555,42 @@ export default {
         console.log("create appointment: " + this.currentSelectedAppointmentId);
       }
     },
+
+
+
+    // async createAppointment() {
+    //   try {
+    //     const response = await AXIOS.post(
+    //       "/createAppointment/comment1/" +
+    //         this.currentSelectedTimeslotId +
+    //         "/" +
+    //         this.currentSelectedCarLicensePlate +
+    //         "/" +
+    //         this.currentSelectedGarageId +
+    //         "/" +
+    //         this.curreantSelectedServiceId +
+    //         "/" +
+    //         this.currentSelectedTechnicianUsername
+    //     );
+    //     this.currentSelectedAppointmentId = response.data.appointmentId;
+    //     // console.log(this.currentSelectedAppointmentId);
+    //     // this.newlyAddedAppointment = response.data
+    //     // console.log(this.newlyAddedAppointment)
+    //     let calendarApi = this.selectedInfo.view.calendar;
+    //     calendarApi.unselect();
+    //     calendarApi.addEvent({
+    //       id: response.data.appointmentId,
+    //       title: response.data.offeredService.name,
+    //       start: this.selectedInfo.startStr,
+    //       end: this.selectedInfo.endStr,
+    //       allDay: this.selectedInfo.allDay,
+    //     });
+    //   } catch (error) {
+    //     console.error(error);
+    //   } finally {
+    //     console.log("create appointment: " + this.currentSelectedAppointmentId);
+    //   }
+    // },
   },
 };
 </script>
