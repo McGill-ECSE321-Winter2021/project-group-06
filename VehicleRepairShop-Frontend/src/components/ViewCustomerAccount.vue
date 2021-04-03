@@ -14,16 +14,17 @@
               <b-nav-item @click="goBack" style="color: white"
                 >Go Back</b-nav-item
               >
-              <b-nav-item href="#/calendarCustomer" color="white">Home</b-nav-item>
+              <b-nav-item href="#/calendarCustomer" color="white"
+                >Home</b-nav-item
+              >
               <b-nav-item href="#/viewCustomerAccount" color="white"
                 >Profile</b-nav-item
               >
+              <b-nav-item href="#/customerCreateCar" color="white"
+                >Cars</b-nav-item
+              >
               <b-nav-item href="#/calendarCustomer" color="white"
                 >Calendar</b-nav-item
-              >
-
-              <b-nav-item href="#/offeredServiceTableAdmin"
-                >Services and Pricing</b-nav-item
               >
             </b-navbar-nav>
 
@@ -31,7 +32,13 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-form>
                 <tr>
-                  <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
+                  <td>
+                    <input
+                      type="text"
+                      v-model="searchInput"
+                      placeholder="Search"
+                    />
+                  </td>
                 </tr>
                 <!-- <b-form-input type="text" v-model="searchInput"
                   size="sm"

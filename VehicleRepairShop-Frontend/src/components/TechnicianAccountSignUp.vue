@@ -10,7 +10,7 @@
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item href="#/technicianAccountLogin" style="color: white"
+              <b-nav-item href="#/" style="color: white"
                 >Go Back</b-nav-item
               >
             </b-navbar-nav>

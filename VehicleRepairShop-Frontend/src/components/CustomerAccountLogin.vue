@@ -40,7 +40,8 @@
           </td>
         </tr>
       </table>
-
+      <br/>
+      
       <p>
         <span v-if="errorCustomerAccount" style="color: red">Error: {{ errorCustomerAccount }}
         </span>

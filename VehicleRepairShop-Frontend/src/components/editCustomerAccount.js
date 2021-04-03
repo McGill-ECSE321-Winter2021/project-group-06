@@ -42,24 +42,36 @@ export default {
 
         },
         searchButton(searchInput) {
-            this.searchInput = ''
-            if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
-                this.$router.push("/offeredServiceTableCustomer");
-            }
-            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
-                this.$router.push("/viewCustomerAccount");
-            }
-            else if (searchInput === "Calendar" || searchInput === "calendar" || searchInput === "Home" || searchInput === "home") {
-                this.$router.push("/calendarCustomer")
-            }
-            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
-                this.$router.push("/editCustomerAccount")
-            }
-            else {
-                this.searchInput = "";
-                console.log("Not Found");
-            }
-
+          this.searchInput = "";
+          if (searchInput === "Home") {
+            this.$router.push("/calendarCustomer");
+          } else if (
+            searchInput === "Profile" ||
+            searchInput === "profile" ||
+            searchInput === "Account" ||
+            searchInput === "account"
+          ) {
+            this.$router.push("/viewCustomerAccount");
+          } else if (searchInput === "Calendar" || searchInput === "calendar") {
+            this.$router.push("/calendarCustomer");
+          } else if (
+            searchInput === "Edit" ||
+            searchInput === "edit" ||
+            searchInput === "Manage" ||
+            searchInput === "manage"
+          ) {
+            this.$router.push("/editCustomerAccount");
+          } else if (
+            searchInput === "Car" ||
+            searchInput === "car" ||
+            searchInput == "Cars" ||
+            search === "cars"
+          ) {
+            this.$router.push("/customerCreateCar");
+          } else {
+            this.searchInput = "";
+            console.log("Not Found");
+          }
         },
         // backend
         updateCustomerAccount: function (newPassword, confirmPassword, newName) {
