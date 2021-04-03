@@ -56,6 +56,43 @@
         </div>
     </template>
     <br /><br />
+
+    <div class="container">
+        <h3 class="p-3 text-center">Your Cars</h3>
+        <table
+          v-on="getAllCars()"
+          class="table table-striped table-bordered"
+        >
+          <thead>
+            <tr>
+              <th>License Plate</th>
+              <th>Model</th>
+              <th>Year</th>
+              <th>Motor Type</th>
+              <th style="color: red">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="car in cars" :key="car.id">
+              <td>{{ car.licensePlate }}</td>
+              <td>{{ car.model }}</td>
+              <td>{{ car.year }}</td>
+              <td>{{ car.motorType }}</td>
+              <td>
+                <button
+                  @click="deleteCar(car.licensePlate)"
+                  onclick=""
+                  type="button"
+                  style="border-color: red; color: red"
+                  class="btn"
+                >
+                  <font size="3"><b>Delete Car</b></font>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     <h1 style="color: #409eff">Your Cars</h1>
 
     <table id="t01">
