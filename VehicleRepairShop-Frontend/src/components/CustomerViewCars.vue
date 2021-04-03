@@ -1,5 +1,5 @@
 <template>
-  <div id="customerCreateCar">
+  <div id="customerViewCars">
 
     <template>
         <div>
@@ -56,7 +56,7 @@
         </div>
     </template>
     <br /><br />
-    <h1 style="color: #409eff">Create New Car</h1>
+    <h1 style="color: #409eff">Your Cars</h1>
 
     <table id="t01">
       <link
@@ -65,55 +65,47 @@
       />
       <tr>
         <th>License Plate Number:</th>
-        <td><input type="text" v-model="licensePlate" /></td>
+        <td>Plate num</td>
       </tr>
 
       <tr>
         <th>Model:</th>
-        <td><input type="text" v-model="model" /></td>
+        <td>model</td>
       </tr>
 
       <tr>
         <th>Year:</th>
-        <td><input type="text" v-model="year" /></td>
+        <td>year</td>
       </tr>
        
       <tr> 
         <th>Motor Type:</th>
-        <td>
-            <select v-model="motorType">
-            <option disabled value="">Please select one</option>
-            <option>Electric</option>
-            <option>Hybrid</option>
-            <option>Gas</option>
-            <option>Diesel</option>
-            </select>
-        </td>
+        <td>some type</td>
       </tr>     
     </table>
     <br>
     <button
-      @click="goToViewCustomerCar()"
+      @click="deleteCar(plateNum)"
       type="button"
       style="border-color: #909399; color: #909399"
       class="btn"
     >
-      <font size="3"><b>Cancel</b></font>
+      <font size="3"><b>Delete Car</b></font>
     </button>
 
     <button
-      @click="createCar(licensePlate, model, year, motorType, this.$currentUsername.value)"
+      @click="goToCustomerCreateCar()"
       type="button"
       style="background-color: #409eff; color: white"
       class="btn"
     >
-        <font size="3"><b>Create</b></font>
+        <font size="3"><b>Add Car</b></font>
     </button>
     
     </div>
 </template>
 
-<script src="./customerCreateCar.js">
+<script src="./customerViewCars.js">
 </script>
 <script src="./navBarCustomer.js">
 </script>
