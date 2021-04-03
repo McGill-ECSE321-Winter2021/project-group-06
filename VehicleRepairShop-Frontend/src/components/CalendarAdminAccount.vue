@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#/adminHome" style="color: black">VRSS</b-navbar-brand>
+      <b-navbar-brand href="#/adminHome" style="color: black"
+        >VRSS</b-navbar-brand
+      >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -229,7 +231,8 @@ export default {
       // currentSelectedAppointmentId: 1,
       selectedInfo: {},
       appointmentIdToDelete: 1,
-      searchInput:'',
+
+      searchInput: '',
     };
   },
 
@@ -353,8 +356,7 @@ export default {
             startDate +
             "/" +
             endDate
-        );
-        // console.log(response.data)
+        )
         this.updateAppointmentTimeslot(appointmentId, response.data.timeslotId);
       }
     },

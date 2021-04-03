@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#/calendarCustomer" style="color: black">VRSS</b-navbar-brand>
+      <b-navbar-brand href="#/calendarCustomer" style="color: black"
+        >VRSS</b-navbar-brand
+      >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -11,14 +13,9 @@
           <b-nav-item href="#/viewCustomerAccount" color="white"
             >Profile</b-nav-item
           >
+          <b-nav-item href="#/customerCreateCar" color="white">Cars</b-nav-item>
           <b-nav-item href="#/calendarCustomer" color="white"
             >Calendar</b-nav-item
-          >
-          <b-nav-item href="#/customerCreateCar" color="white"
-            >Create Car</b-nav-item
-          >
-          <b-nav-item href="#/offeredServiceTableCustomer"
-            >Services and Pricing</b-nav-item
           >
         </b-navbar-nav>
 
@@ -82,13 +79,10 @@ export default {
         selectable: true,
         selectMirror: true,
         dayMaxEvents: true,
-        //   droppable: true,
         eventOverlap: false,
         weekends: true,
         eventStartEditable: false,
         select: this.timeSlotSelected,
-        //   eventClick: this.deleteOrUpdateAppointment,
-        //   eventDrop: this.createTimeslot,
         allDaySlot: false,
         businessHours: [
           {
@@ -177,13 +171,6 @@ export default {
       if (searchInput === "Home") {
         this.$router.push("/calendarCustomer");
       } else if (
-        searchInput === "Services" ||
-        searchInput === "services" ||
-        searchInput === "Service" ||
-        searchInput === "service"
-      ) {
-        this.$router.push("/offeredServiceTableCustomer");
-      } else if (
         searchInput === "Profile" ||
         searchInput === "profile" ||
         searchInput === "Account" ||
@@ -192,10 +179,21 @@ export default {
         this.$router.push("/viewCustomerAccount");
       } else if (searchInput === "Calendar" || searchInput === "calendar") {
         this.$router.push("/calendarCustomer");
-      } else if (searchInput === "Car" || searchInput === "car" || searchInput == "Cars" || search || "cars") {
+      } else if (
+        searchInput === "Edit" ||
+        searchInput === "edit" ||
+        searchInput === "Manage" ||
+        searchInput === "manage"
+      ) {
+        this.$router.push("/editCustomerAccount");
+      } else if (
+        searchInput === "Car" ||
+        searchInput === "car" ||
+        searchInput == "Cars" ||
+        search === "cars"
+      ) {
         this.$router.push("/customerCreateCar");
-      } 
-      else {
+      } else {
         this.searchInput = "";
         console.log("Not Found");
       }
@@ -340,7 +338,6 @@ export default {
             this.currentSelectedOwnerUsername
         );
         this.currentSelectedCarLicensePlate = response.data.licensePlate;
-        // console.log(this.currentSelectedCarLicensePlate);
         this.createAppointment();
       } catch (error) {
         console.error(error);

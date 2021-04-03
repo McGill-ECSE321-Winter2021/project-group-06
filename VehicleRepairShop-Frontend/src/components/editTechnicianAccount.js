@@ -1,6 +1,4 @@
 import axios from 'axios'
-// import main from '../main'
-// import { response } from 'express'
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -42,24 +40,29 @@ export default {
 
         },
         searchButton(searchInput) {
-            this.searchInput = ''
-            if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
-                this.$router.push("/offeredServiceTableTechnician");
-            }
-            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
+            this.searchInput = "";
+            if (searchInput === "Home") {
+                this.$router.push("/calendarTechnician");
+            } else if (
+                searchInput === "Profile" ||
+                searchInput === "profile" ||
+                searchInput === "Account" ||
+                searchInput === "account"
+            ) {
                 this.$router.push("/viewTechnicianAccount");
-            }
-            else if (searchInput === "Calendar" || searchInput === "calendar" || searchInput === "Home" || searchInput === "home") {
-                this.$router.push("/calendarTechnician")
-            }
-            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
-                this.$router.push("/editTechnicianAccount")
-            }
-            else {
+            } else if (searchInput === "Calendar" || searchInput === "calendar") {
+                this.$router.push("/calendarTechnician");
+            } else if (
+                searchInput === "Edit" ||
+                searchInput === "edit" ||
+                searchInput === "Manage" ||
+                searchInput === "manage"
+            ) {
+                this.$router.push("/editTechnicianAccount");
+            } else {
                 this.searchInput = "";
                 console.log("Not Found");
             }
-
         },
         // backend
         updateTechnicianAccount: function (confirmPassword, newName) {

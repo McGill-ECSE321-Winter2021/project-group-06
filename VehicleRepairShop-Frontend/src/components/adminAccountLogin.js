@@ -1,6 +1,4 @@
 import axios from 'axios'
-// import main from '../main'
-// import { response } from 'express'
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -52,7 +50,7 @@ export default {
                     console.log(errorMsg)
                     this.errorAdminAccount = errorMsg
                 })
-                
+
         },
         getAllAdminAccounts: function () {
             AXIOS.get('/getAllAdminAccounts')

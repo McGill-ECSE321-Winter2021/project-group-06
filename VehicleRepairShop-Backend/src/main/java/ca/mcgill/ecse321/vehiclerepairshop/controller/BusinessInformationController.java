@@ -91,7 +91,7 @@ public class BusinessInformationController {
 	 * @param name
 	 * @return
 	 */
-	@DeleteMapping(value = {"/deleteBusinessInformation/{name}","/deleteBusinessInformation/{name}/"})
+	@PutMapping(value = {"/deleteBusinessInformation/{name}","/deleteBusinessInformation/{name}/"})
 	public BusinessInformationDto deleteBusinessInformation(@PathVariable("name") String name) {
 		BusinessInformation businessInformation = businessInformationRepository.findBusinessInformationByName(name);
 		businessInformationService.deleteBusinessInformation(name);
@@ -102,7 +102,7 @@ public class BusinessInformationController {
 	 * Delete all the business information
 	 * @return
 	 */
-	@DeleteMapping(value = {"/deleteAllBusinessInformation","/deleteAllBusinessInformation/"})
+	@PutMapping(value = {"/deleteAllBusinessInformation","/deleteAllBusinessInformation/"})
 	public List<BusinessInformationDto> deleteBusinessInformation() {
 		List<BusinessInformation> businessesInformation = businessInformationService.deleteAllBusinessInformation();
 		List<BusinessInformationDto> businessInformationDtos = new ArrayList<BusinessInformationDto>();

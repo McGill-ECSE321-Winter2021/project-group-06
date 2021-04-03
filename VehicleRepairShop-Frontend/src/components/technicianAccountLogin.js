@@ -1,6 +1,4 @@
 import axios from 'axios'
-// import main from '../main'
-// import { response } from 'express'
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -44,14 +42,14 @@ export default {
                 console.log(this.$currentUsername.value)
                 console.log(this.$currentName.value)
                 this.$router.push("/calendarTechnician")
-            
+
             })
                 .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
                     this.errorTechnicianAccount = errorMsg
                 })
-                
+
         },
         getAllTechnicianAccounts: function () {
             AXIOS.get('/getAllTechnicianAccounts')

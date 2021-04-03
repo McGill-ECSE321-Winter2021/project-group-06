@@ -1,6 +1,4 @@
 import axios from 'axios'
-import main from '../main'
-// import { response } from 'express'
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -40,31 +38,43 @@ export default {
 
         },
         searchButton(searchInput) {
-            this.searchInput = ''
-            if (searchInput === "Home" || searchInput === "home") {
-                this.$router.push("/adminHome");
-            }
-            else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
-                this.$router.push("/offeredServiceTableAdmin");
-            }
-            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
-                this.$router.push("/viewAdminAccount");
-            }
-            else if (searchInput === "Calendar" || searchInput === "calendar") {
-                this.$router.push("/calendarAdmin")
-            }
-            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
-                this.$router.push("/editAdminAccount")
-            }
-            else {
+            this.searchInput = "";
+            if (searchInput === "Home") {
+                this.$router.push("/calendarCustomer");
+            } else if (
+                searchInput === "Profile" ||
+                searchInput === "profile" ||
+                searchInput === "Account" ||
+                searchInput === "account"
+            ) {
+                this.$router.push("/viewCustomerAccount");
+            } else if (searchInput === "Calendar" || searchInput === "calendar") {
+                this.$router.push("/calendarCustomer");
+            } else if (
+                searchInput === "Edit" ||
+                searchInput === "edit" ||
+                searchInput === "Manage" ||
+                searchInput === "manage"
+            ) {
+                this.$router.push("/editCustomerAccount");
+            } else if (
+                searchInput === "Car" ||
+                searchInput === "car" ||
+                searchInput == "Cars" ||
+                search === "cars"
+            ) {
+                this.$router.push("/customerCreateCar");
+            } else {
                 this.searchInput = "";
                 console.log("Not Found");
             }
-
         },
         toggleShowModal() {
             this.isShowModal = true;
             console.log(this.isShowModal);
+        },
+        goToEditCustomerAccount: function () {
+            this.$router.push("/editCustomerAccount");
         },
         // backend
         deleteCustomerAccount: function () {
@@ -107,18 +117,6 @@ export default {
                 .catch(e => {
                     this.errorCustomerAccount = e
                 })
-        },
-        // getCustomerAccountByUsername: function () {
-        //     AXIOS.get('/getCustomerAccountByUsername/' + this.$currentUsername.value)
-        //         .then(response => {
-        //             this.selectedCustomerAccount = response.data
-        //         })
-        //         .catch(e => {
-        //             this.errorCustomerAccount = e
-        //         })
-        // },
-        goToEditCustomerAccount: function () {
-            this.$router.push("/editCustomerAccount");
         }
     }
 

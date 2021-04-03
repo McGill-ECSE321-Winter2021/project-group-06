@@ -14,16 +14,17 @@
               <b-nav-item @click="goBack" style="color: white"
                 >Go Back</b-nav-item
               >
-              <b-nav-item href="#/calendarCustomer" color="white">Home</b-nav-item>
+              <b-nav-item href="#/calendarCustomer" color="white"
+                >Home</b-nav-item
+              >
               <b-nav-item href="#/viewCustomerAccount" color="white"
                 >Profile</b-nav-item
               >
+              <b-nav-item href="#/customerCreateCar" color="white"
+                >Cars</b-nav-item
+              >
               <b-nav-item href="#/calendarCustomer" color="white"
                 >Calendar</b-nav-item
-              >
-
-              <b-nav-item href="#/offeredServiceTableAdmin"
-                >Services and Pricing</b-nav-item
               >
             </b-navbar-nav>
 
@@ -31,13 +32,14 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-form>
                 <tr>
-                  <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
+                  <td>
+                    <input
+                      type="text"
+                      v-model="searchInput"
+                      placeholder="Search"
+                    />
+                  </td>
                 </tr>
-                <!-- <b-form-input type="text" v-model="searchInput"
-                  size="sm"
-                  class="mr-sm-2"
-                  placeholder="Search"
-                ></b-form-input> -->
                 <b-button
                   @click="searchButton(searchInput)"
                   size="sm"
@@ -47,15 +49,6 @@
                   >Search</b-button
                 >
               </b-nav-form>
-
-              <!-- <b-nav-item-dropdown right> -->
-              <!-- Using 'button-content' slot -->
-              <!-- <template #button-content> -->
-              <!-- <em>User</em> -->
-              <!-- </template> -->
-              <!-- <b-dropdown-item href="#/viewCustomerAccount" style="background-color: #909399">Profile</b-dropdown-item> -->
-              <!-- <b-dropdown-item href="#" style="background-color: #909399">>Sign Out</b-dropdown-item> -->
-              <!-- </b-nav-item-dropdown>  -->
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -129,8 +122,6 @@ nav .navbar-nav li a {
 #customerAccountProfile {
   margin-bottom: 0;
   margin-top: 0;
-  /* background-color: #909399;
-    color: #409EFF; */
 }
 #t01 {
   width: 20%;

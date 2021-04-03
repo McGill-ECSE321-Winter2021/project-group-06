@@ -44,33 +44,45 @@ export default {
 
         },
         searchButton(searchInput) {
-            this.searchInput = ''
-            if (searchInput === "Home" || searchInput === "home") {
+            this.searchInput = "";
+            if (searchInput === "Home") {
                 this.$router.push("/adminHome");
-            }
-            else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+            } else if (
+                searchInput === "Profile" ||
+                searchInput === "profile" ||
+                searchInput === "Account" ||
+                searchInput === "account"
+            ) {
+                this.$router.push("/viewAdminAccount");
+            } else if (searchInput === "Calendar" || searchInput === "calendar") {
+                this.$router.push("/calendarAdmin");
+            } else if (
+                searchInput === "Edit" ||
+                searchInput === "edit" ||
+                searchInput === "Manage" ||
+                searchInput === "manage"
+            ) {
+                this.$router.push("/editAdminAccount");
+            } else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
                 this.$router.push("/offeredServiceTableAdmin");
             }
-            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
-                this.$router.push("/viewAdminAccount");
-            }
-            else if (searchInput === "Calendar" || searchInput === "calendar") {
-                this.$router.push("/calendarAdmin")
-            }
-            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
-                this.$router.push("/editAdminAccount")
-            }
-            else {
+            else if (
+                searchInput === "Business" ||
+                searchInput === "business" ||
+                searchInput === "Info" ||
+                search === "info"
+            ) {
+                this.$router.push("/adminBusinessInfo");
+            } else {
                 this.searchInput = "";
-                console.log("Not Found!");
+                console.log("Not Found");
             }
-
         },
         toggleShowModal() {
             this.isShowModal = true;
             console.log(this.isShowModal);
         },
-        refreshTables(){
+        refreshTables() {
             this.getAllAdminAccounts()
             this.getAllCustomerAccounts()
             this.getAllTechnicianAccounts()
@@ -86,12 +98,14 @@ export default {
                     this.$currentUsername.value = ''
                     this.$currentName.value = ''
                     this.$router.push("/adminAccountLogin");
+
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message
                         console.log(errorMsg)
                         this.errorAdminAccount = errorMsg
                     })
+
             }
 
         },
@@ -128,6 +142,7 @@ export default {
                 AXIOS.put('/deleteAdminAccountFromAdmin/' + username).then(response => {
                     this.adminAccounts = response.data
                     this.errorAdminAccount = ''
+                    this.refreshTables();
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message
@@ -142,6 +157,7 @@ export default {
                 AXIOS.put('/deleteCustomerAccountFromAdmin/' + username).then(response => {
                     this.customerAccounts = response.data
                     this.errorCustomerAccount = ''
+                    this.refreshTables();
                 })
                     .catch(e => {
                         var errorMsg = e.response.data.message

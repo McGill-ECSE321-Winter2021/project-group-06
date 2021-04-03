@@ -31,7 +31,13 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-form>
                 <tr>
-                  <td><input type="text" v-model="searchInput" placeholder="Search"/></td>
+                  <td>
+                    <input
+                      type="text"
+                      v-model="searchInput"
+                      placeholder="Search"
+                    />
+                  </td>
                 </tr>
                 <b-button
                   @click="searchButton(searchInput)"
@@ -115,8 +121,6 @@ nav .navbar-nav li a {
 #adminAccountProfile {
   margin-bottom: 0;
   margin-top: 0;
-  /* background-color: #909399;
-    color: #409EFF; */
 }
 #t01 {
   width: 20%;

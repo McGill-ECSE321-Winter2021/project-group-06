@@ -62,20 +62,18 @@
     <h1 style="color: #409eff">Manage Accounts</h1>
 
     <br /><br />
-                                <button
-                  @click="refreshTables()"
-                  type="button"
-                  style="background-color: #409eff; color: white"
-                  class="btn"
-                > 
-                  <font size="3"><b>Refresh Tables</b></font>
-                </button>
+    <button
+      @click="refreshTables()"
+      type="button"
+      style="background-color: #409eff; color: white"
+      class="btn"
+    >
+      <font size="3"><b>Refresh Tables</b></font>
+    </button>
     <div>
       <div class="container">
         <h3 class="p-3 text-center">List of Admin Accounts</h3>
-        <table
-          class="table table-striped table-bordered"
-        >
+        <table class="table table-striped table-bordered">
           <thead>
             <tr>
               <th>Username</th>
@@ -107,9 +105,7 @@
       <br /><br />
       <div class="container">
         <h3 class="p-3 text-center">List of Customer Accounts</h3>
-        <table
-          class="table table-striped table-bordered"
-        >
+        <table class="table table-striped table-bordered">
           <thead>
             <tr>
               <th>Username</th>
@@ -141,9 +137,7 @@
       <br /><br />
       <div class="container">
         <h3 class="p-3 text-center">List of Technician Accounts</h3>
-        <table
-          class="table table-striped table-bordered"
-        >
+        <table class="table table-striped table-bordered">
           <thead>
             <tr>
               <th>Username</th>
@@ -191,11 +185,9 @@ nav .navbar-nav li a {
 #adminAccountProfile {
   margin-bottom: 0;
   margin-top: 0;
-  /* background-color: #909399;
-    color: #409EFF; */
 }
 #t01 {
-  width: 18%;
+  width: 20%;
   text-align: left;
   margin-left: auto;
   margin-right: auto;

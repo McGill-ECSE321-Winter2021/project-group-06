@@ -22,7 +22,6 @@ Vue.config.productionTip = false
 
 Vue.prototype.$currentUsername = {value: ""};
 Vue.prototype.$currentName = {value: ""};
-Vue.prototype.$bName = {value: "B Name"};
 
 /* eslint-disable no-new */
 new Vue({
@@ -34,6 +33,6 @@ new Vue({
     businessName: 'Business Name',
     businessAddress: 'Business Address',
     businessPhoneNumber: 'Business Phone Number',
-    businessEmail: 'Business Email1'
+    businessEmailAddress: 'Business Email'
   }
 })

@@ -1,6 +1,4 @@
 import axios from 'axios'
-import main from '../main'
-// import { response } from 'express'
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -40,31 +38,36 @@ export default {
 
         },
         searchButton(searchInput) {
-            this.searchInput = ''
-            if (searchInput === "Home" || searchInput === "home") {
-                this.$router.push("/adminHome");
-            }
-            else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
-                this.$router.push("/offeredServiceTableAdmin");
-            }
-            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
-                this.$router.push("/viewAdminAccount");
-            }
-            else if (searchInput === "Calendar" || searchInput === "calendar") {
-                this.$router.push("/calendarAdmin")
-            }
-            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
-                this.$router.push("/editAdminAccount")
-            }
-            else {
+            this.searchInput = "";
+            if (searchInput === "Home") {
+                this.$router.push("/calendarTechnician");
+            } else if (
+                searchInput === "Profile" ||
+                searchInput === "profile" ||
+                searchInput === "Account" ||
+                searchInput === "account"
+            ) {
+                this.$router.push("/viewTechnicianAccount");
+            } else if (searchInput === "Calendar" || searchInput === "calendar") {
+                this.$router.push("/calendarTechnician");
+            } else if (
+                searchInput === "Edit" ||
+                searchInput === "edit" ||
+                searchInput === "Manage" ||
+                searchInput === "manage"
+            ) {
+                this.$router.push("/editTechnicianAccount");
+            } else {
                 this.searchInput = "";
                 console.log("Not Found");
             }
-
         },
         toggleShowModal() {
             this.isShowModal = true;
             console.log(this.isShowModal);
+        },
+        goToEditTechnicianAccount: function () {
+            this.$router.push("/editTechnicianAccount");
         },
         // backend
         deleteTechnicianAccount: function () {
@@ -108,18 +111,6 @@ export default {
                     this.errorTechnicianAccount = e
                 })
         },
-        // getTechnicianAccountByUsername: function () {
-        //     AXIOS.get('/getTechnicianAccountByUsername/' + this.$currentUsername.value)
-        //         .then(response => {
-        //             this.selectedTechnicianAccount = response.data
-        //         })
-        //         .catch(e => {
-        //             this.errorTechnicianAccount = e
-        //         })
-        // },
-        goToEditTechnicianAccount: function () {
-            this.$router.push("/editTechnicianAccount");
-        }
     }
 
 }

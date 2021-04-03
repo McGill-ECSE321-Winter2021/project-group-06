@@ -75,27 +75,39 @@ export default {
 
         },
         searchButton(searchInput) {
-            this.searchInput = ''
-            if (searchInput === "Home"|| searchInput === "home") {
+            this.searchInput = "";
+            if (searchInput === "Home") {
                 this.$router.push("/adminHome");
-            }
-            else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
+            } else if (
+                searchInput === "Profile" ||
+                searchInput === "profile" ||
+                searchInput === "Account" ||
+                searchInput === "account"
+            ) {
+                this.$router.push("/viewAdminAccount");
+            } else if (searchInput === "Calendar" || searchInput === "calendar") {
+                this.$router.push("/calendarAdmin");
+            } else if (
+                searchInput === "Edit" ||
+                searchInput === "edit" ||
+                searchInput === "Manage" ||
+                searchInput === "manage"
+            ) {
+                this.$router.push("/editAdminAccount");
+            } else if (searchInput === "Services" || searchInput === "services" || searchInput === "Service" || searchInput === "service") {
                 this.$router.push("/offeredServiceTableAdmin");
             }
-            else if (searchInput === "Profile" || searchInput === "profile" || searchInput === "Account" || searchInput === "account") {
-                this.$router.push("/viewAdminAccount");
-            }
-            else if (searchInput === "Calendar" || searchInput === "calendar") {
-                this.$router.push("/calendarAdmin")
-            }
-            else if (searchInput === "Edit" || searchInput === "edit" || searchInput === "Manage" || searchInput === "manage") {
-                this.$router.push("/editAdminAccount")
-            }
-            else {
+            else if (
+                searchInput === "Business" ||
+                searchInput === "business" ||
+                searchInput === "Info" ||
+                search === "info"
+            ) {
+                this.$router.push("/adminBusinessInfo");
+            } else {
                 this.searchInput = "";
                 console.log("Not Found");
             }
-
         },
 
 

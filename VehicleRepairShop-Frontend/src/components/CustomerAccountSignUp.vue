@@ -1,22 +1,18 @@
 <template>
   <div class="customerAccountSignUp">
-            <div>
-        <b-navbar toggleable="lg" type="dark" variant="dark">
-          <b-navbar-brand href="#/" style="color: black"
-            >VRSS</b-navbar-brand
-          >
+    <div>
+      <b-navbar toggleable="lg" type="dark" variant="dark">
+        <b-navbar-brand href="#/" style="color: black">VRSS</b-navbar-brand>
 
-          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-          <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav>
-              <b-nav-item href="#/customerAccountLogin" style="color: white"
-                >Go Back</b-nav-item
-              >
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
-      </div>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item href="#/" style="color: white">Go Back</b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
     <br /><br />
 
     <h1 style="color: #409eff">Sign Up</h1>
