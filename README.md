@@ -35,3 +35,45 @@ For more details on any design decisions, please explore the wiki pages.
 * **Key Task Accomplished:** an error in the project prevented integration tests from being written or run. As a team, we chose to rebuild the project from scratch. We copied files slowly to find the error and in the end replaced the old project with the new one since it worked with Springboot and Postman.
 * **Key Project Change:** in order to run service and integration tests, you must import spring-data-rest-core-3.0.7.RELEASE.jar into your library in the build path.
 * **Key Project Change:** we added a Blocked column to our project to keep track of issues that are dependent on other issues before they can be completed. 
+
+***
+## Sprint 3
+### Running the website
+* Heroku Credentials: 
+> Host: ec2-3-213-85-90.compute-1.amazonaws.com <br/>
+> Database: d5c0lp280rnr23 <br/>
+> User: fafwfyfrjfnhgc <br/>
+> Port: 5432 <br/>
+> Password: 4d426e83bc615cec96f331fcac95821b92300121157528f4c33ed13d42df5f44 <br/>
+> URI: postgres://fafwfyfrjfnhgc:4d426e83bc615cec96f331fcac95821b92300121157528f4c33ed13d42df5f44@ec2-3-213-85-90.compute-1.amazonaws.com:5432/d5c0lp280rnr23 <br/>
+> Heroku CLI: heroku pg:psql postgresql-closed-55802 --app vehiclerepairshop-backend-g06 <br/>
+* Run the backend:
+Right click on the VehicleRepairShopApplication.java and Run as on SpringBoot App
+* Run the frontend:
+Open the command line / terminal, cd to the VehicleRepairShop-Frontend and run "npm run dev". <br/>
+You might need to install npm plugins. Follow the instructions in the command line to install the necessary plugins.
+
+
+### Team
+This table shows an overview of the team members and their roles for Sprint 3. The work done in group and more design decisions can be found on the [Meeting Minutes - Sprint 3](https://github.com/McGill-ECSE321-Winter2021/project-group-06/wiki/Meeting-Minutes---Sprint-3).
+|Deliverables|Aurelia Haas|Catherine Caron|Cheng Chen|James Darby|Mike Wang|
+|:----------:|:----------:|:-------------:|:--------:|:---------:|:-------:|
+|Deliverable 3 - Roles and Activities|Group activities - Architecture Design and Documentation, Peer Programming and Debugging, UI colors and component design decisions, Overall documentation <br/>Individual - Frontend for All Accounts (with Catherine), Frontend for Navigation Bar, Frontend for Car, Frontend for Business Information, Frontend for Home page, Meeting Minutes |Group activities - Architecture Design and Documentation, Peer Programming and Debugging, UI colors and component design decisions, Overall documentation <br/>Individual - Frontend for All Accounts (with Aurelia), Frontend for Car, Frontend for Business Information, Frontend for Home page  |Group activities - Architecture Design and Documentation, Peer Programming and Debugging, UI colors and component design decisions, Overall documentation<br/>Individual - Frontend for Appointment (with Mike), Frontend for Garage (with Mike), Frontend for Car, Frontend for Timeslot (with Mike) | Group activities - Architecture Design and Documentation, Peer Programming and Debugging, UI colors and component design decisions, Overall documentation <br/>Individual - Frontend for Car, Frontend for Business Info  | Group activities - Architecture Design and Documentation, Peer Programming and Debugging, UI colors and component design decisions, Overall documentation <br/>Individual - Frontend for Appointment (with Cheng), Frontend for Garage (with Cheng), Frontend for Offered Service, Frontend for Timeslot (with Cheng)|
+|Deliverable 3 - Efforts in hours| 32 hours| 32 hours| 32 hours| 32 hours| 32 hours|
+
+### Key Design Decisions
+For more details on any design decisions, please explore the wiki pages.
+ 
+* As a team, we agreed on specific colors and UI elements to keep our app cohesive. 
+* We chose to represent our project with a layered architecture because we can split it into four distinct layers that interact with each other in order. 
+* This architecture was chosen because it is easy to add layers during the development process. We built our project from the bottom up, and the clearly defined layers made this a simple process. 
+* The distinction between the layers makes it easier for the team to understand how the code works. We know which layer deals with what functionalities, so we can easily navigate the project.
+* When we started testing our frontend error handling, we realized some errors did not have error messages, so we made modifications to our service classes to capture these errors instead of relying on the browser's error messages.
+* We chose to have different vue files for each account type. This was simpler to implement, but it means we have a lot of files. We chose to continue with it despite the extra files because we could easily locate specific functions and because the views are quite different for each account anyway. 
+* We agreed to have many web pages to represent the different business functionalities of our app, rather than grouping them into fewer pages. This makes our app cleaner and easier to use. The navigation bar is available to the user to jump to specific pages based on what they need to accomplish.  
+* We added methods to the admin account to allow the admin to delete any user without them having to be logged in. 
+* We changed our design to only allow for one garage instance to exist. This made the appointment booking process simpler because it means appointments can never overlap. 
+* Since only one instance of garage can ever exist, we chose to create one for the user and only allow them to edit it. This way, we didn't need to implement creating or deleting features for the user, which would almost never be used anyway. This use case is so rare that we felt it was not detrimental to eliminate it. 
+* When we started implementing the frontend, we realized there were many methods in our backend that were not useful for what we agreed to do in the frontend. We decided not to use these methods, but we kept them because, in a production setting, they could be used for future features the client may want to implement. These methods were tested using unit and integration tests, so we agreed it was safe enough to leave in the code without it generating bugs in the user experience. 
+
+
