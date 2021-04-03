@@ -43,16 +43,6 @@
             </b-collapse>
             </b-navbar>
             <br /><br />
-            <Fullcalendar ref="calendar" :options="calendarOptions" />
-
-            <modal-window
-            :visible="isShowModal"
-            :close-on-escape="true"
-            :close-on-outside-click="true"
-            :show-x-mark="true"
-            @close="isShowModal = false"
-            >
-            </modal-window>
         </div>
     </template>
     <br /><br />

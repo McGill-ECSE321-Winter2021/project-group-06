@@ -111,7 +111,6 @@
     <div class="container">
         <h3 class="p-3 text-center">Your Cars</h3>
         <table
-          v-on="getAllCars()"
           class="table table-striped table-bordered"
         >
           <thead>
@@ -132,7 +131,6 @@
               <td>
                 <button
                   @click="deleteCar(car.licensePlate)"
-                  onclick=""
                   type="button"
                   style="border-color: red; color: red"
                   class="btn"
@@ -144,6 +142,14 @@
           </tbody>
         </table>
       </div>
+                      <button
+                  @click="getAllCars()"
+                  type="button"
+                  style="background-color: #409eff; color: white"
+                  class="btn"
+                > 
+                  <font size="3"><b>Refresh Table</b></font>
+                </button>
   
 
     

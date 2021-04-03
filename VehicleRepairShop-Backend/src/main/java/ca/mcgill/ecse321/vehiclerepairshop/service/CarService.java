@@ -139,11 +139,15 @@ public class CarService {
 		
 		CustomerAccount user = customerAccountService.getCustomerAccountWithCar(licensePlate);
 		List <Car> cars = user.getCar();
+//		List <Car> cars2 = cars;
+		Car carToDelete = new Car();
 		for (Car car: cars) {
 			if (car.getLicensePlate().equals(licensePlate)) {
-				cars.remove(car);
+				carToDelete = car;
+				break;
 			}
 		}
+		cars.remove(carToDelete);
 		user.setCar(cars);
 		customerAccountRepository.save(user);
 		Car car = carRepository.findByLicensePlate(licensePlate);

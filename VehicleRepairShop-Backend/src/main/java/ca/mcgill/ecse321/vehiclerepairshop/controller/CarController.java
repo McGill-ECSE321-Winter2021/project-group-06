@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.vehiclerepairshop.model.Car;
@@ -50,6 +51,7 @@ public class CarController {
 	 */
 	@GetMapping(value = { "/getCarsByOwner/{username}", "/getCarsByOwner/{username}/" })
 	public List<CarDto> getCarsByOwner(@PathVariable("username") String username) {	
+		System.out.print(username);
 		return carService.findCarByCustomerAccount(username).stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
@@ -79,8 +81,9 @@ public class CarController {
 
 
 
-	@DeleteMapping(value = {"/deleteCar/{licensePlate}"})
+	@PutMapping(value = {"/deleteCar/{licensePlate}", "/deleteCar/{licensePlate}/"})
 	public CarDto deleteCar(@PathVariable("licensePlate") String licensePlate) {
+		System.out.println(licensePlate);
 		Car car = carService.deleteCar(licensePlate);
 		return convertToDto(car);
 	}

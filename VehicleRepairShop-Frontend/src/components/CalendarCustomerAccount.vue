@@ -199,7 +199,10 @@ export default {
         this.$router.push("/viewCustomerAccount");
       } else if (searchInput === "Calendar" || searchInput === "calendar") {
         this.$router.push("/calendarCustomer");
-      } else {
+      } else if (searchInput === "Car" || searchInput === "car" || searchInput == "Cars" || search || "cars") {
+        this.$router.push("/customerCreateCar");
+      } 
+      else {
         this.searchInput = "";
         console.log("Not Found");
       }

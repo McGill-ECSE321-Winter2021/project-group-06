@@ -29,7 +29,7 @@ export default {
             },
             errorCar: '',
             response: [],
-            searchInput: ''
+            searchInput: '',
 
         }
     },
@@ -63,6 +63,10 @@ export default {
         console.log("Not Found");
       }
     },
+    toggleShowModal() {
+        this.isShowModal = true;
+        console.log(this.isShowModal);
+    },
 
         createCar: function (licensePlate, model, year, motorType) {
             AXIOS.post('/createCar/' + licensePlate + '/' + model + '/' + year + '/' + motorType + '/' + this.$currentUsername.value).then(response => {
@@ -73,6 +77,7 @@ export default {
                 this.newCar.year = ''
                 this.newCar.motorType = ''
                 this.errorCar = ''
+                this.getAllCars()
 
 
             })
@@ -86,7 +91,8 @@ export default {
             this.$router.push("/customerViewCars");
         },
         getAllCars: function (){
-            AXIOS.post('/getCarsByOwner/' + this.$currentUsername.value).then(response => {
+            console.log("OK")
+            AXIOS.get('/getCarsByOwner/' + this.$currentUsername.value).then(response => {
                 // JSON responses are automatically parsed.
                     this.cars = response.data
                 })
@@ -96,18 +102,28 @@ export default {
 
         },
         deleteCar: function (licensePlate) {
+
             if (confirm("Do you want to delete this car?\nYou cannot undo this action")) {
-                AXIOS.post('/deleteCar/' + licensePlate).then(response => {
+                console.log(licensePlate)
+                this.toggleShowModal();
+                console.log("SHOW1")
+                AXIOS.put('/deleteCar/' + licensePlate).then(response => {
                     // JSON responses are automatically parsed.
-                    this.cars.push(response.data)
+                    console.log("HERE")
+                    this.selectedCar = response.data
                     this.errorCar = ''
+                    this.getAllCars()
 
                 })
                     .catch(e => {
+                        console.log(e)
                         var errorMsg = e.response.data.message
                         console.log(errorMsg)
                         this.errorCar = errorMsg
                     })
+            }
+            else{
+                console.log("else")
             }
 
         },
