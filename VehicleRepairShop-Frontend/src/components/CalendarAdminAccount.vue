@@ -50,7 +50,7 @@
     <el-dialog title="EIDTING" :visible.sync="dialogFormVisible">
       <el-form :model="form">
          <el-form-item label="technicain" :label-width="formLabelWidth">
-          <el-select v-model="value1" placeholder="select technicain">
+          <el-select v-model="form.value1" placeholder="select technicain">
             <el-option
               v-for="item in this.techAccountOptions"
               :key="item.value"
@@ -61,7 +61,7 @@
         </el-form-item>
 
           <el-form-item label="OfferedService" :label-width="formLabelWidth">
-            <el-select v-model="value2" placeholder="select OfferedService">
+            <el-select v-model="form.value2" placeholder="select OfferedService">
               <el-option
                 v-for="item in this.offeredServiceOptions"
                 :key="item.value"
@@ -72,7 +72,7 @@
           </el-form-item>
 
           <el-form-item label="Car" :label-width="formLabelWidth">
-            <el-select v-model="value3" placeholder="select Car">
+            <el-select v-model="form.value3" placeholder="select Car">
               <el-option
                 v-for="item in this.carOptions"
                 :key="item.value"
@@ -83,7 +83,7 @@
           </el-form-item>
 
           <el-form-item label="Garage" :label-width="formLabelWidth">
-            <el-select v-model="value4" placeholder="select Garage">
+            <el-select v-model="form.value4" placeholder="select Garage">
               <el-option
                 v-for="item in this.garageOptions"
                 :key="item.value"
@@ -94,7 +94,7 @@
           </el-form-item>
 
           <el-form-item label="comments" :label-width="formLabelWidth">
-            <el-input v-model="value5" autocomplete="off"></el-input>
+            <el-input v-model="form.value5" type="text"></el-input>
           </el-form-item>
 
       </el-form>
@@ -105,12 +105,12 @@
           @click="
             (dialogFormVisible = false),
               createAppointment(
-                value5, 
-                this.currentSelectedTimeslotId, 
-                value3, 
-                value4, 
-                value2, 
-                value1,
+                form.value5, 
+                currentSelectedTimeslotId, 
+                form.value3, 
+                form.value4, 
+                form.value2, 
+                form.value1,
               )
           "
           >Comfirm</el-button
@@ -123,25 +123,9 @@
       </div>
     </el-dialog>
 
-    <!-- delete dialogue -->
-    <el-dialog title="CAUTION" :visible.sync="createAppointmentVisible" width="295px" center>
-      <div class="del-dialog-cnt">
-        <center>Are you sure you want to delete this OfferedService?</center>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="delVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="deleteRow()">Comfirm</el-button>
-      </span>
-    </el-dialog>
+    
 
-    <modal-window
-      :visible="isShowModal"
-      :close-on-escape="true"
-      :close-on-outside-click="true"
-      :show-x-mark="true"
-      @close="isShowModal = false"
-    >
-    </modal-window>
+
   </div>
 </template>
 
@@ -182,14 +166,21 @@ export default {
       carOptions: [],
       garageOptions: [],
       dialogFormVisible: false,
+      form:{
+          value1:"",
+          value2:"",
+          value3:"",
+          value4:"",
+          value5:"",
+
+      },
       
-
-
       allTechnicianAccounts: [],
       allOfferedServices: [],
       allCars: [],
       allGarages: [],
 
+      formLabelWidth: '120px',
 
 
       calendarOptions: {
@@ -243,16 +234,16 @@ export default {
       console.log(response.data);
       for (var i = 0; i < response.data.length; i++) {
         let startStr =
-          response.data[0].timeSlot.startDate +
+          response.data[i].timeSlot.startDate +
           "T" +
-          response.data[0].timeSlot.startTime;
+          response.data[i].timeSlot.startTime;
         let endStr =
-          response.data[0].timeSlot.endDate +
+          response.data[i].timeSlot.endDate +
           "T" +
-          response.data[0].timeSlot.endTime;
+          response.data[i].timeSlot.endTime;
         let event = {
-          id: response.data[0].appointmentId,
-          title: response.data[0].offeredService.name,
+          id: response.data[i].appointmentId,
+          title: "service: " + response.data[i].offeredService.name + "licensePlate: " + response.data[i].car.licensePlate,
           start: startStr,
           end: endStr,
         };
@@ -325,17 +316,17 @@ export default {
 
     },
 
-    // backend
-    async updateAppointmentTimeslot(appointmentId, timeslotId) {
-      console.log("update timeslot");
-      const response = await AXIOS.put(
-        "/updateAppointmentTimeSlot/" +
-          parseInt(appointmentId) +
-          "/" +
-          parseInt(timeslotId)
-      );
-      console.log(response.data);
-    },
+    // // backend
+    // async updateAppointmentTimeslot(appointmentId, timeslotId) {
+    //   console.log("update timeslot");
+    //   const response = await AXIOS.put(
+    //     "/updateAppointmentTimeSlot/" +
+    //       parseInt(appointmentId) +
+    //       "/" +
+    //       parseInt(timeslotId)
+    //   );
+    //   console.log(response.data);
+    // },
 
     async createTimeslot(info) {
       let startTime = info.event.startStr.substring(11, 19);
@@ -364,7 +355,6 @@ export default {
 
 
     async deleteOrUpdateAppointment(selectionInfo) {
-      var choice = prompt("do you want to update or delete appointment?");
       var c = confirm("are you sure you want to delete this appointment?");
       if (c == true) {
         let appointment = selectionInfo.event;
@@ -588,8 +578,6 @@ export default {
           console.log("1");
           // once selected a timeslot, show modal
           // this.toggleShowModal();
-          this.refresh()
-          this.dialogFormVisible = true
           const response = await AXIOS.post(
             "/createTimeSlot/" +
               startTime +
@@ -601,11 +589,14 @@ export default {
               endDate
           )
           this.currentSelectedTimeslotId = response.data.timeslotId;
-          console.log(this.currentSelectedTimeslotId);
+          console.log("timeId: " + this.currentSelectedTimeslotId);
+
+          this.refresh()
+          this.dialogFormVisible = true
           //this.createService();
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       } finally {
         console.log("get all timeslot");
       }
@@ -641,7 +632,9 @@ export default {
             "/" +
             technicianUsername
         );
-
+        console.log("comment: ")
+        console.log(comment)
+        console.log("timeslotId: " + timeslotId)
         this.currentSelectedAppointmentId = response.data.appointmentId;
         let calendarApi = this.selectedInfo.view.calendar;
         calendarApi.unselect();

@@ -51,6 +51,7 @@ import DayGridPlugin from "@fullcalendar/daygrid";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
+import TechnicianAccountLoginVue from './TechnicianAccountLogin.vue';
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -110,21 +111,21 @@ export default {
   mounted() {
     let calendarApi = this.$refs.calendarTechnician.getApi();
 
-    AXIOS.get("/getAppointmentByWorker/technician1").then((response) => {
+    AXIOS.get("/getAppointmentByWorker/" +this.$currentUsername.value).then((response) => {
       console.log(response.data);
 
       for (var i = 0; i < response.data.length; i++) {
         let startStr =
-          response.data[0].timeSlot.startDate +
+          response.data[i].timeSlot.startDate +
           "T" +
-          response.data[0].timeSlot.startTime;
+          response.data[i].timeSlot.startTime;
         let endStr =
-          response.data[0].timeSlot.endDate +
+          response.data[i].timeSlot.endDate +
           "T" +
-          response.data[0].timeSlot.endTime;
+          response.data[i].timeSlot.endTime;
         let event = {
-          id: response.data[0].appointmentId,
-          title: response.data[0].offeredService.name,
+          id: response.data[i].appointmentId,
+          title: "service: " + response.data[i].offeredService.name + "licensePlate: " + response.data[i].car.licensePlate,
           start: startStr,
           end: endStr,
         };
