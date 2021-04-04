@@ -1,25 +1,21 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#/adminHome" style="color: black">VRSS</b-navbar-brand>
+      <b-navbar-brand href="#/calendarCustomer" style="color: black"
+        >VRSS</b-navbar-brand
+      >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item @click="goBack" style="color: white">Go Back</b-nav-item>
-          <b-nav-item href="#/adminHome" color="white">Home</b-nav-item>
-          <b-nav-item href="#/viewAdminAccount" color="white"
+          <b-nav-item href="#/viewCustomerAccount" color="white"
             >Profile</b-nav-item
           >
-          <b-nav-item href="#/calendarAdmin" color="white">Calendar</b-nav-item>
-
-          <b-nav-item href="#/adminBusinessInfo" color="white"
-            >Business Information</b-nav-item
-          >
-
-          <b-nav-item href="#/offeredServiceTableAdmin"
-            >Services and Pricing</b-nav-item
+          <b-nav-item href="#/customerCreateCar" color="white">Cars</b-nav-item>
+          <b-nav-item href="#/calendarCustomer" color="white"
+            >Calendar</b-nav-item
           >
         </b-navbar-nav>
 
@@ -306,28 +302,36 @@ export default {
     searchButton(searchInput) {
       this.searchInput = "";
       if (searchInput === "Home") {
-        this.$router.push("/adminHome");
-      } else if (
-        searchInput === "Services" ||
-        searchInput === "services" ||
-        searchInput === "Service" ||
-        searchInput === "service"
-      ) {
-        this.$router.push("/offeredServiceTableAdmin");
+        this.$router.push("/calendarCustomer");
       } else if (
         searchInput === "Profile" ||
         searchInput === "profile" ||
         searchInput === "Account" ||
         searchInput === "account"
       ) {
-        this.$router.push("/viewAdminAccount");
+        this.$router.push("/viewCustomerAccount");
       } else if (searchInput === "Calendar" || searchInput === "calendar") {
-        this.$router.push("/calendarAdmin");
+        this.$router.push("/calendarCustomer");
+      } else if (
+        searchInput === "Edit" ||
+        searchInput === "edit" ||
+        searchInput === "Manage" ||
+        searchInput === "manage"
+      ) {
+        this.$router.push("/editCustomerAccount");
+      } else if (
+        searchInput === "Car" ||
+        searchInput === "car" ||
+        searchInput == "Cars" ||
+        search === "cars"
+      ) {
+        this.$router.push("/customerCreateCar");
       } else {
         this.searchInput = "";
         console.log("Not Found");
       }
     },
+
 
 
     refresh(){
@@ -434,6 +438,8 @@ export default {
         })
     },
 
+    
+
 
     // async getAllTechnicianAccounts(){
     //   try{
@@ -501,8 +507,11 @@ export default {
     //   }
     // },
 
+    
+    
+
     getAllCars: function(){
-      AXIOS.get("/getAllCars").then(response => {
+      AXIOS.get("/getCarsByOwner/" + this.$currentUsername.value).then(response => {
         console.log("in getAllCar")
         console.log(response.data)
             for (let car of response.data){
