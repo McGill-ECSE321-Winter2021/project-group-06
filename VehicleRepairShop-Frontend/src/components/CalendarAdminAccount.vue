@@ -1,9 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#/adminHome" style="color: black"
-        >VRSS</b-navbar-brand
-      >
+      <b-navbar-brand href="#/adminHome" style="color: black">VRSS</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -54,7 +52,7 @@
          <el-form-item label="technicain" :label-width="formLabelWidth">
           <el-select v-model="value1" placeholder="select technicain">
             <el-option
-              v-for="item in techAccountOptions"
+              v-for="item in this.techAccountOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -65,7 +63,7 @@
           <el-form-item label="OfferedService" :label-width="formLabelWidth">
             <el-select v-model="value2" placeholder="select OfferedService">
               <el-option
-                v-for="item in offeredServiceOptions"
+                v-for="item in this.offeredServiceOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -87,7 +85,7 @@
           <el-form-item label="Garage" :label-width="formLabelWidth">
             <el-select v-model="value4" placeholder="select Garage">
               <el-option
-                v-for="item in garageOptions"
+                v-for="item in this.garageOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -98,6 +96,7 @@
           <el-form-item label="comments" :label-width="formLabelWidth">
             <el-input v-model="value5" autocomplete="off"></el-input>
           </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -111,7 +110,7 @@
                 value3, 
                 value4, 
                 value2, 
-                value1
+                value1,
               )
           "
           >Comfirm</el-button
@@ -156,6 +155,8 @@ import InteractionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
 import DropdownMenu from "@innologica/vue-dropdown-menu";
 import ModalWindow from "@vuesence/modal-window";
+// import { emptyStatement } from "babel-types";
+
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -174,7 +175,7 @@ export default {
   data() {
     return {
       isShowModal: false,
-      errorService = '',
+      errorService: '',
 
       techAccountOptions: [],
       offeredServiceOptions: [],
@@ -192,7 +193,7 @@ export default {
 
 
       calendarOptions: {
-        plugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
+        plugins: [DayGridPlugin , TimeGridPlugin , InteractionPlugin],
         initialView: "timeGridWeek",
         headerToolbar: {
           left: "prev,next today",
@@ -231,8 +232,7 @@ export default {
       // currentSelectedAppointmentId: 1,
       selectedInfo: {},
       appointmentIdToDelete: 1,
-
-      searchInput: '',
+      searchInput:'',
     };
   },
 
@@ -356,7 +356,8 @@ export default {
             startDate +
             "/" +
             endDate
-        )
+        );
+        // console.log(response.data)
         this.updateAppointmentTimeslot(appointmentId, response.data.timeslotId);
       }
     },
@@ -441,10 +442,10 @@ export default {
               // console.log("car: ")
               // console.log(car)
               console.log("os.Id: ")
-              console.log(os.Id)
+              console.log(os.offeredServiceId)
               var temp = {
-                value: os.Id,
-                label: os.Id,
+                value: os.offeredServiceId,
+                label: os.offeredServiceId,
               }
               // console.log("all cars temp")
               // console.log(temp)
@@ -515,10 +516,10 @@ export default {
               // console.log("car: ")
               // console.log(car)
               console.log("ta.username: ")
-              console.log(g.Id)
+              console.log(g.garageId)
               var temp = {
-                value: g.Id,
-                label: g.Id,
+                value: g.garageId,
+                label: g.garageId,
               }
               // console.log("all cars temp")
               // console.log(temp)
