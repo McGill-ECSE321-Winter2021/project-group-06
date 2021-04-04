@@ -16,6 +16,7 @@
     <br /><br />
 
     <h1 style="color: #409eff">Welcome to our Vehicle Repair Shop App</h1>
+    <br/>
     <h4 style="color: #000000">Log into your account</h4>
     <br /><br />
 

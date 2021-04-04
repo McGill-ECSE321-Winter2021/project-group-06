@@ -10,6 +10,9 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item @click="goBack" style="color: white">Go Back</b-nav-item>
+          <b-nav-item href="#/calendarTechnician" color="white"
+            >Home</b-nav-item
+          >
           <b-nav-item href="#/viewTechnicianAccount" color="white"
             >Profile</b-nav-item
           >
@@ -38,7 +41,9 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <br /><br />
+    <br />
+    <h1 style="color: #409eff">Calendar</h1>
+    <br />
 
     <Fullcalendar ref="calendarTechnician" :options="calendarOptions" />
   </div>
@@ -51,7 +56,7 @@ import DayGridPlugin from "@fullcalendar/daygrid";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
-import TechnicianAccountLoginVue from './TechnicianAccountLogin.vue';
+import TechnicianAccountLoginVue from "./TechnicianAccountLogin.vue";
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -111,28 +116,34 @@ export default {
   mounted() {
     let calendarApi = this.$refs.calendarTechnician.getApi();
 
-    AXIOS.get("/getAppointmentByWorker/" +this.$currentUsername.value).then((response) => {
-      console.log(response.data);
+    AXIOS.get("/getAppointmentByWorker/" + this.$currentUsername.value).then(
+      (response) => {
+        console.log(response.data);
 
-      for (var i = 0; i < response.data.length; i++) {
-        let startStr =
-          response.data[i].timeSlot.startDate +
-          "T" +
-          response.data[i].timeSlot.startTime;
-        let endStr =
-          response.data[i].timeSlot.endDate +
-          "T" +
-          response.data[i].timeSlot.endTime;
-        let event = {
-          id: response.data[i].appointmentId,
-          title: "service: " + response.data[i].offeredService.name + "licensePlate: " + response.data[i].car.licensePlate,
-          start: startStr,
-          end: endStr,
-        };
-        console.log(event);
-        calendarApi.addEvent(event);
+        for (var i = 0; i < response.data.length; i++) {
+          let startStr =
+            response.data[i].timeSlot.startDate +
+            "T" +
+            response.data[i].timeSlot.startTime;
+          let endStr =
+            response.data[i].timeSlot.endDate +
+            "T" +
+            response.data[i].timeSlot.endTime;
+          let event = {
+            id: response.data[i].appointmentId,
+            title:
+              "service: " +
+              response.data[i].offeredService.name +
+              "licensePlate: " +
+              response.data[i].car.licensePlate,
+            start: startStr,
+            end: endStr,
+          };
+          console.log(event);
+          calendarApi.addEvent(event);
+        }
       }
-    });
+    );
   },
   methods: {
     // navigation bar
@@ -141,7 +152,12 @@ export default {
     },
     searchButton(searchInput) {
       this.searchInput = "";
-      if (searchInput === "Home") {
+      if (
+        searchInput === "Home" ||
+        searchInput === "home" ||
+        searchInput === "Main" ||
+        searchInput === "main"
+      ) {
         this.$router.push("/calendarTechnician");
       } else if (
         searchInput === "Profile" ||

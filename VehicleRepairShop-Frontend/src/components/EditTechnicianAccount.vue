@@ -13,10 +13,13 @@
             <b-nav-item @click="goBack" style="color: white"
               >Go Back</b-nav-item
             >
-            <b-nav-item href="#/viewCustomerAccount" color="white"
+            <b-nav-item href="#/calendarTechnician" color="white"
+              >Home</b-nav-item
+            >
+            <b-nav-item href="#/viewTechnicianAccount" color="white"
               >Profile</b-nav-item
             >
-            <b-nav-item href="#/calendarCustomer" color="white"
+            <b-nav-item href="#/calendarTechnician" color="white"
               >Calendar</b-nav-item
             >
           </b-navbar-nav>

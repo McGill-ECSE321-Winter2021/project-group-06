@@ -3,7 +3,7 @@
     <template>
       <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
-          <b-navbar-brand href="#/adminHome" style="color: black"
+          <b-navbar-brand href="#/calendarCustomer" style="color: black"
             >VRSS</b-navbar-brand
           >
 
@@ -13,6 +13,9 @@
             <b-navbar-nav>
               <b-nav-item @click="goBack" style="color: white"
                 >Go Back</b-nav-item
+              >
+              <b-nav-item href="#/calendarCustomer" color="white"
+                >Home</b-nav-item
               >
               <b-nav-item href="#/viewCustomerAccount" color="white"
                 >Profile</b-nav-item
@@ -49,7 +52,6 @@
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
-        <br /><br />
       </div>
     </template>
 

@@ -21,6 +21,10 @@
               >Calendar</b-nav-item
             >
 
+            <b-nav-item href="#/adminBusinessInfo" color="white"
+              >Business Information</b-nav-item
+            >
+
             <b-nav-item href="#/offeredServiceTableAdmin"
               >Services and Pricing</b-nav-item
             >
@@ -52,7 +56,7 @@
       </b-navbar>
     </div>
     <br /><br />
-    <h3><center>Offered Service</center></h3>
+    <h1><center style="color: #409eff">Offered Service</center></h1>
     <tr>
       <center>
         <td>
@@ -74,7 +78,14 @@
           </el-time-select>
         </td>
         <td>
-          <button @click="initializeTable()">Initialize OfferedService</button>
+          <button
+            @click="initializeTable()"
+            type="button"
+            style="border-color: #909399; color: #909399; font-size: 10%"
+            class="btn"
+          >
+            <font size="3"><b>Initialize OfferedService</b></font>
+          </button>
         </td>
         <td>
           <button
@@ -89,8 +100,11 @@
                 comments
               )
             "
+            type="button"
+            style="background-color: #409eff; color: white"
+            class="btn"
           >
-            Create OfferedService
+            <font size="3"><b> Create OfferedService</b></font>
           </button>
         </td>
       </center>
@@ -102,26 +116,38 @@
     </p>
     <center>
       <el-table :data="tableData" border style="width: 100%">
-        <el-table-column fixed prop="Id" label="Id" sortable width="120">
+        <el-table-column fixed prop="Id" label="Id" sortable style="width: 12%">
         </el-table-column>
-        <el-table-column prop="name" label="name" width="80"> </el-table-column>
-        <el-table-column prop="duration" label="duration" width="80">
+        <el-table-column prop="name" label="Name" style="width: 12%">
         </el-table-column>
-        <el-table-column prop="price" label="price" width="80">
+        <el-table-column prop="duration" label="Duration" style="width: 12%">
         </el-table-column>
-        <el-table-column prop="comments" label="comments" width="300">
+        <el-table-column prop="price" label="Price" style="width: 12%">
         </el-table-column>
-        <el-table-column prop="reminderDate" label="reminderDate" width="120">
+        <el-table-column prop="comments" label="Comments" style="width: 12%">
         </el-table-column>
-        <el-table-column prop="reminderTime" label="reminderTime" width="120">
+        <el-table-column
+          prop="reminderDate"
+          label="Reminder Date"
+          style="width: 12%"
+        >
         </el-table-column>
-        <el-table-column fixed="right" label="operation" width="100">
+        <el-table-column
+          prop="reminderTime"
+          label="Reminder Time"
+          style="width: 12%"
+        >
+        </el-table-column>
+        <el-table-column fixed="right" label="Operation" style="width: 12%">
           <template slot-scope="scope">
             <el-button
               @click="handleDelete(scope.$index, scope.row)"
-              type="danger"
-              size="small"
-              >delete</el-button
+              onclick=""
+              type="button"
+              style="border-color: red; color: red"
+              class="btn"
+            >
+              <font size="3"><b>Delete</b></font></el-button
             >
             <el-button
               @click="
@@ -146,7 +172,10 @@
       </span>
     </el-dialog>
     <!-- eidting dialogue-->
-    <el-dialog title="EIDTING" :visible.sync="dialogFormVisible">
+    <el-dialog :visible.sync="dialogFormVisible">
+      <h4>Editing</h4>
+      <h6 style="color: red">Please, fill all the boxes!</h6>
+      <br />
       <el-form :model="form">
         <el-form-item label="Id" :label-width="formLabelWidth">
           <el-input
@@ -156,27 +185,27 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="name" :label-width="formLabelWidth">
+        <el-form-item label="Name" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="duration" :label-width="formLabelWidth">
+        <el-form-item label="Duration" :label-width="formLabelWidth">
           <el-input v-model="form.duration" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="price" :label-width="formLabelWidth">
+        <el-form-item label="Price" :label-width="formLabelWidth">
           <el-input v-model="form.price" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="comments" :label-width="formLabelWidth">
+        <el-form-item label="Comments" :label-width="formLabelWidth">
           <el-input v-model="form.comments" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="reminderDate" :label-width="formLabelWidth">
+        <el-form-item label="Reminder Date" :label-width="formLabelWidth">
           <el-input v-model="form.reminderDate" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="reminderTime" :label-width="formLabelWidth">
+        <el-form-item label="Reminder Time" :label-width="formLabelWidth">
           <el-time-select
             v-model="form.reminderTime"
             :picker-options="{ start: '08:30', end: '18:30' }"

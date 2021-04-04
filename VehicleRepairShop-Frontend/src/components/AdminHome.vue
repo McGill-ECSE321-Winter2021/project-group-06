@@ -62,27 +62,25 @@
     <h1 style="color: #409eff">Manage Accounts</h1>
 
     <br /><br />
-      <button
-        @click="refreshTables()"
-        type="button"
-        style="background-color: #409eff; color: white"
-        class="btn"
-      > 
-        <font size="3"><b>Refresh Tables</b></font>
-      </button>
-      <br/><br/>
-     
+    <button
+      @click="refreshTables()"
+      type="button"
+      style="background-color: #409eff; color: white"
+      class="btn"
+    >
+      <font size="3"><b>Refresh Tables</b></font>
+    </button>
+    <br /><br />
+
     <div>
       <div class="container">
         <h3 class="p-3 text-center">List of Admin Accounts</h3>
-         <p>
-        <span v-if="errorAdminAccount" style="color: red"
-          >Error: Cannot delete this account at this time
-        </span>
-      </p>
-        <table
-          class="table table-striped table-bordered"
-        >
+        <p>
+          <span v-if="errorAdminAccount" style="color: red"
+            >Error: Cannot delete this account at this time
+          </span>
+        </p>
+        <table class="table table-striped table-bordered">
           <thead>
             <tr>
               <th>Username</th>
@@ -111,18 +109,16 @@
           </tbody>
         </table>
       </div>
-      <br/><br/>
-      
+      <br /><br />
+
       <div class="container">
         <h3 class="p-3 text-center">List of Customer Accounts</h3>
         <p>
-        <span v-if="errorCustomerAccount" style="color: red"
-          >Error: Cannot delete this account at this time
-        </span>
-      </p>
-        <table
-          class="table table-striped table-bordered"
-        >
+          <span v-if="errorCustomerAccount" style="color: red"
+            >Error: Cannot delete this account at this time
+          </span>
+        </p>
+        <table class="table table-striped table-bordered">
           <thead>
             <tr>
               <th>Username</th>
@@ -152,17 +148,15 @@
         </table>
       </div>
       <br /><br />
-      
+
       <div class="container">
         <h3 class="p-3 text-center">List of Technician Accounts</h3>
         <p>
-        <span v-if="errorTechnicianAccount" style="color: red"
-          >Error: Cannot delete this account at this time
-        </span>
-      </p>
-        <table
-          class="table table-striped table-bordered"
-        >
+          <span v-if="errorTechnicianAccount" style="color: red"
+            >Error: Cannot delete this account at this time
+          </span>
+        </p>
+        <table class="table table-striped table-bordered">
           <thead>
             <tr>
               <th>Username</th>

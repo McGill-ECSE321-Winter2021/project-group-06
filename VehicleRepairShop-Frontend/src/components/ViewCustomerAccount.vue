@@ -82,7 +82,7 @@
       @click="deleteCustomerAccount()"
       onclick=""
       type="button"
-      style="border-color: #909399; color: #909399"
+      style="border-color: red; color: red"
       class="btn"
     >
       <font size="3"><b>Delete Account</b></font>

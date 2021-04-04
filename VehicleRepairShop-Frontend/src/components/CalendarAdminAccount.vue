@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#/adminHome" style="color: black">VRSS</b-navbar-brand>
+      <b-navbar-brand href="#/adminHome" style="color: black"
+        >VRSS</b-navbar-brand
+      >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -43,60 +45,64 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <br /><br />
+    <br/>
+    <h1 style="color: #409eff">Calendar</h1>
+    <br/>
     <Fullcalendar ref="calendar" :options="calendarOptions" />
-    
-    <!-- eidting dialogue-->
-    <el-dialog title="EIDTING" :visible.sync="dialogFormVisible">
+
+    <el-dialog title="EDITING" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-         <el-form-item label="technicain" :label-width="formLabelWidth">
+        <el-form-item label="technicain" :label-width="formLabelWidth">
           <el-select v-model="form.value1" placeholder="select technicain">
             <el-option
               v-for="item in this.techAccountOptions"
               :key="item.value"
               :label="item.label"
-              :value="item.value">
+              :value="item.value"
+            >
             </el-option>
           </el-select>
         </el-form-item>
 
-          <el-form-item label="OfferedService" :label-width="formLabelWidth">
-            <el-select v-model="form.value2" placeholder="select OfferedService">
-              <el-option
-                v-for="item in this.offeredServiceOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
+        <el-form-item label="OfferedService" :label-width="formLabelWidth">
+          <el-select v-model="form.value2" placeholder="select OfferedService">
+            <el-option
+              v-for="item in this.offeredServiceOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-          <el-form-item label="Car" :label-width="formLabelWidth">
-            <el-select v-model="form.value3" placeholder="select Car">
-              <el-option
-                v-for="item in this.carOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
+        <el-form-item label="Car" :label-width="formLabelWidth">
+          <el-select v-model="form.value3" placeholder="select Car">
+            <el-option
+              v-for="item in this.carOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-          <el-form-item label="Garage" :label-width="formLabelWidth">
-            <el-select v-model="form.value4" placeholder="select Garage">
-              <el-option
-                v-for="item in this.garageOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
+        <el-form-item label="Garage" :label-width="formLabelWidth">
+          <el-select v-model="form.value4" placeholder="select Garage">
+            <el-option
+              v-for="item in this.garageOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-          <el-form-item label="comments" :label-width="formLabelWidth">
-            <el-input v-model="form.value5" type="text"></el-input>
-          </el-form-item>
-
+        <el-form-item label="comments" :label-width="formLabelWidth">
+          <el-input v-model="form.value5" type="text"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -105,15 +111,15 @@
           @click="
             (dialogFormVisible = false),
               createAppointment(
-                form.value5, 
-                currentSelectedTimeslotId, 
-                form.value3, 
-                form.value4, 
-                form.value2, 
-                form.value1,
+                form.value5,
+                currentSelectedTimeslotId,
+                form.value3,
+                form.value4,
+                form.value2,
+                form.value1
               )
           "
-          >Comfirm</el-button
+          >Confirm</el-button
         >
         <p>
           <span v-if="errorService" style="color: red"
@@ -122,10 +128,6 @@
         </p>
       </div>
     </el-dialog>
-
-    
-
-
   </div>
 </template>
 
@@ -139,7 +141,6 @@ import InteractionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
 import DropdownMenu from "@innologica/vue-dropdown-menu";
 import ModalWindow from "@vuesence/modal-window";
-// import { emptyStatement } from "babel-types";
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -159,32 +160,30 @@ export default {
   data() {
     return {
       isShowModal: false,
-      errorService: '',
+      errorService: "",
 
       techAccountOptions: [],
       offeredServiceOptions: [],
       carOptions: [],
       garageOptions: [],
       dialogFormVisible: false,
-      form:{
-          value1:"",
-          value2:"",
-          value3:"",
-          value4:"",
-          value5:"",
-
+      form: {
+        value1: "",
+        value2: "",
+        value3: "",
+        value4: "",
+        value5: "",
       },
-      
+
       allTechnicianAccounts: [],
       allOfferedServices: [],
       allCars: [],
       allGarages: [],
 
-      formLabelWidth: '120px',
-
+      formLabelWidth: "120px",
 
       calendarOptions: {
-        plugins: [DayGridPlugin , TimeGridPlugin , InteractionPlugin],
+        plugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
         initialView: "timeGridWeek",
         headerToolbar: {
           left: "prev,next today",
@@ -212,18 +211,11 @@ export default {
         selectConstraint: "businessHours",
         eventConstraint: "businessHours",
       },
-      
 
       currentSelectedTimeslotId: "",
-      // currentSelectedOwnerUsername: 1,
-      // currentSelectedCarLicensePlate: 1,
-      // curreantSelectedServiceId: 1,
-      // currentSelectedGarageId: 1,
-      // currentSelectedTechnicianUsername: 1,
-      // currentSelectedAppointmentId: 1,
       selectedInfo: {},
       appointmentIdToDelete: 1,
-      searchInput:'',
+      searchInput: "",
     };
   },
 
@@ -243,7 +235,11 @@ export default {
           response.data[i].timeSlot.endTime;
         let event = {
           id: response.data[i].appointmentId,
-          title: "service: " + response.data[i].offeredService.name + "licensePlate: " + response.data[i].car.licensePlate,
+          title:
+            "service: " +
+            response.data[i].offeredService.name +
+            "licensePlate: " +
+            response.data[i].car.licensePlate,
           start: startStr,
           end: endStr,
         };
@@ -253,7 +249,6 @@ export default {
     });
   },
 
-
   methods: {
     // navigation bar
     goBack() {
@@ -261,15 +256,13 @@ export default {
     },
     searchButton(searchInput) {
       this.searchInput = "";
-      if (searchInput === "Home") {
-        this.$router.push("/adminHome");
-      } else if (
-        searchInput === "Services" ||
-        searchInput === "services" ||
-        searchInput === "Service" ||
-        searchInput === "service"
+      if (
+        searchInput === "Home" ||
+        searchInput === "home" ||
+        searchInput === "Main" ||
+        searchInput === "main"
       ) {
-        this.$router.push("/offeredServiceTableAdmin");
+        this.$router.push("/adminHome");
       } else if (
         searchInput === "Profile" ||
         searchInput === "profile" ||
@@ -279,54 +272,61 @@ export default {
         this.$router.push("/viewAdminAccount");
       } else if (searchInput === "Calendar" || searchInput === "calendar") {
         this.$router.push("/calendarAdmin");
+      } else if (
+        searchInput === "Edit" ||
+        searchInput === "edit" ||
+        searchInput === "Manage" ||
+        searchInput === "manage"
+      ) {
+        this.$router.push("/editAdminAccount");
+      } else if (
+        searchInput === "Services" ||
+        searchInput === "services" ||
+        searchInput === "Service" ||
+        searchInput === "service"
+      ) {
+        this.$router.push("/offeredServiceTableAdmin");
+      } else if (
+        searchInput === "Business" ||
+        searchInput === "business" ||
+        searchInput === "Info" ||
+        search === "info"
+      ) {
+        this.$router.push("/adminBusinessInfo");
       } else {
         this.searchInput = "";
         console.log("Not Found");
       }
     },
 
+    refresh() {
+      var i;
+      var numTechAccounts = this.techAccountOptions.length;
+      var numOfferedServices = this.offeredServiceOptions.length;
+      var numCars = this.carOptions.length;
+      var numGarages = this.garageOptions.length;
 
-    refresh(){
-      var i
-      var numTechAccounts = this.techAccountOptions.length
-      var numOfferedServices = this.offeredServiceOptions.length
-      var numCars = this.carOptions.length
-      var numGarages = this.garageOptions.length
-
-      for (i=0;i<numTechAccounts;i++){
-        this.techAccountOptions.splice(0, 1)
+      for (i = 0; i < numTechAccounts; i++) {
+        this.techAccountOptions.splice(0, 1);
       }
 
-      for (i=0; i<numOfferedServices;i++){
-        this.offeredServiceOptions.splice(0, 1)
+      for (i = 0; i < numOfferedServices; i++) {
+        this.offeredServiceOptions.splice(0, 1);
       }
 
-      for (i=0; i<numCars;i++){
-        this.carOptions.splice(0, 1)
+      for (i = 0; i < numCars; i++) {
+        this.carOptions.splice(0, 1);
       }
 
-      for (i=0; i<numGarages;i++){
-        this.garageOptions.splice(0, 1)
+      for (i = 0; i < numGarages; i++) {
+        this.garageOptions.splice(0, 1);
       }
-      
-      this.getAllTechnicianAccounts()
-      this.getAllOfferedServices()
-      this.getAllCars()
-      this.getAllGarages()
 
+      this.getAllTechnicianAccounts();
+      this.getAllOfferedServices();
+      this.getAllCars();
+      this.getAllGarages();
     },
-
-    // // backend
-    // async updateAppointmentTimeslot(appointmentId, timeslotId) {
-    //   console.log("update timeslot");
-    //   const response = await AXIOS.put(
-    //     "/updateAppointmentTimeSlot/" +
-    //       parseInt(appointmentId) +
-    //       "/" +
-    //       parseInt(timeslotId)
-    //   );
-    //   console.log(response.data);
-    // },
 
     async createTimeslot(info) {
       let startTime = info.event.startStr.substring(11, 19);
@@ -348,11 +348,9 @@ export default {
             "/" +
             endDate
         );
-        // console.log(response.data)
         this.updateAppointmentTimeslot(appointmentId, response.data.timeslotId);
       }
     },
-
 
     async deleteOrUpdateAppointment(selectionInfo) {
       var c = confirm("are you sure you want to delete this appointment?");
@@ -369,181 +367,95 @@ export default {
       }
     },
 
-    // toggleShowModal() {
-    //   this.isShowModal = true;
-    //   console.log(this.isShowModal);
-    // },
-
-
-
-    getAllTechnicianAccounts: function(){
-      AXIOS.get("/getAllTechnicianAccounts").then(response => {
-        console.log("in getAllTechnicianAccounts")
-        // console.log(response.data)
-            for (let ta of response.data){
-              // console.log("car: ")
-              // console.log(car)
-              console.log("ta.username: ")
-              console.log(ta.username)
-              var temp = {
-                value: ta.username,
-                label: ta.username,
-              }
-              // console.log("all cars temp")
-              // console.log(temp)
-              // console.log("all cars: ")
-              // console.log(this.allCars)
-              this.techAccountOptions.push(temp)
-            }
+    getAllTechnicianAccounts: function () {
+      AXIOS.get("/getAllTechnicianAccounts")
+        .then((response) => {
+          for (let ta of response.data) {
+            console.log("ta.username: ");
+            console.log(ta.username);
+            var temp = {
+              value: ta.username,
+              label: ta.username,
+            };
+            this.techAccountOptions.push(temp);
+          }
         })
-        .catch(e => {
-            var errorMsg = e.response.data.message
-            console.log(errorMsg)
-            this.errorService = errorMsg
-        })
+        .catch((e) => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorService = errorMsg;
+        });
     },
 
-
-    // async getAllTechnicianAccounts(){
-    //   try{
-    //     this.allTechnicianAccounts = await AXIOS.get("/getAllTechnicianAccounts");
-    //     for (let ta of this.allTechnicianAccounts){
-    //       if (ta.username !== emptyStatement) {
-    //           var temp = {
-    //               value: ta.username,
-    //               label: ta.username,
-    //           }
-    //           this.techAccountOptions.push(temp)
-    //       }
-    //     }
-    //   }catch (error) {
-    //     console.log(error);
-    //   }finally{
-    //     console.log("get all Technicain accounts");
-    //   }
-      
-    // },
-
-    getAllOfferedServices: function(){
-      AXIOS.get("/getAllOfferedServices").then(response => {
-        console.log("in getAllOfferedServices")
-        // console.log(response.data)
-            for (let os of response.data){
-              // console.log("car: ")
-              // console.log(car)
-              console.log("os.Id: ")
-              console.log(os.offeredServiceId)
-              var temp = {
-                value: os.offeredServiceId,
-                label: os.offeredServiceId,
-              }
-              // console.log("all cars temp")
-              // console.log(temp)
-              // console.log("all cars: ")
-              // console.log(this.allCars)
-              this.offeredServiceOptions.push(temp)
-            }
+    getAllOfferedServices: function () {
+      AXIOS.get("/getAllOfferedServices")
+        .then((response) => {
+          console.log("in getAllOfferedServices");
+          for (let os of response.data) {
+            console.log("os.Id: ");
+            console.log(os.offeredServiceId);
+            var temp = {
+              value: os.offeredServiceId,
+              label: os.offeredServiceId,
+            };
+            this.offeredServiceOptions.push(temp);
+          }
         })
-        .catch(e => {
-            var errorMsg = e.response.data.message
-            console.log(errorMsg)
-            this.errorService = errorMsg
-        })
+        .catch((e) => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorService = errorMsg;
+        });
     },
 
-    // async getAllOfferedServices(){
-    //   try{
-    //     this.allOfferdServices = await AXIOS.get("/getAllOfferedServices");
-    //     for (let os of this.allOfferedServices){
-    //     if (os.Id !== emptyStatement) {
-    //         var temp = {
-    //             value: os.Id,
-    //             label: os.Id,
-    //         }
-    //         this.offeredServiceOptions.push(temp)
-    //     }
-    //   }
-    //   }catch (error) {
-    //     console.log(error);
-    //   }finally{
-    //     console.log("get all OfferedServices");
-    //   }
-    // },
-
-    getAllCars: function(){
-      AXIOS.get("/getAllCars").then(response => {
-        console.log("in getAllCar")
-        console.log(response.data)
-            for (let car of response.data){
-              console.log("car: ")
-              console.log(car)
-              console.log("licensePlate: ")
-              console.log(car.licensePlate)
-              var temp = {
-                value: car.licensePlate,
-                label: car.licensePlate,
-              }
-              console.log("all cars temp")
-              console.log(temp)
-              console.log("all cars: ")
-              console.log(this.allCars)
-              this.carOptions.push(temp)
-            }
+    getAllCars: function () {
+      AXIOS.get("/getAllCars")
+        .then((response) => {
+          console.log("in getAllCar");
+          console.log(response.data);
+          for (let car of response.data) {
+            console.log("car: ");
+            console.log(car);
+            console.log("licensePlate: ");
+            console.log(car.licensePlate);
+            var temp = {
+              value: car.licensePlate,
+              label: car.licensePlate,
+            };
+            console.log("all cars temp");
+            console.log(temp);
+            console.log("all cars: ");
+            console.log(this.allCars);
+            this.carOptions.push(temp);
+          }
         })
-        .catch(e => {
-            var errorMsg = e.response.data.message
-            console.log(errorMsg)
-            this.errorService = errorMsg
-        })
+        .catch((e) => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorService = errorMsg;
+        });
     },
 
-
-    getAllGarages: function(){
-      AXIOS.get("/getAllGarages").then(response => {
-        console.log("in getAllGarages")
-        // console.log(response.data)
-            for (let g of response.data){
-              // console.log("car: ")
-              // console.log(car)
-              console.log("ta.username: ")
-              console.log(g.garageId)
-              var temp = {
-                value: g.garageId,
-                label: g.garageId,
-              }
-              // console.log("all cars temp")
-              // console.log(temp)
-              // console.log("all cars: ")
-              // console.log(this.allCars)
-              this.garageOptions.push(temp)
-            }
+    getAllGarages: function () {
+      AXIOS.get("/getAllGarages")
+        .then((response) => {
+          console.log("in getAllGarages");
+          for (let g of response.data) {
+            console.log("ta.username: ");
+            console.log(g.garageId);
+            var temp = {
+              value: g.garageId,
+              label: g.garageId,
+            };
+            this.garageOptions.push(temp);
+          }
         })
-        .catch(e => {
-            var errorMsg = e.response.data.message
-            console.log(errorMsg)
-            this.errorService = errorMsg
-        })
+        .catch((e) => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorService = errorMsg;
+        });
     },
-
-    // async getAllGarages(){
-    //   try{
-    //     this.allGarages = await AXIOS.get("/getAllGarages");
-    //     for (let g of this.allGarages){
-    //     if (g.Id !== emptyStatement) {
-    //         var temp = {
-    //           value: g.Id,
-    //           label: g.Id,
-    //         }
-    //         this.garageOptions.push(temp)
-    //     }
-    //   }
-    //   }catch (error) {
-    //     console.log(error);
-    //   }finally{
-    //     console.log("get all garages");
-    //   }
-    // },
-
 
     async timeSlotSelected(selectionInfo) {
       this.selectedInfo = selectionInfo;
@@ -573,11 +485,9 @@ export default {
           (selectionInfo.end.getMonth() + 1).toString() +
           "-" +
           selectionInfo.end.getDate().toString();
-        var appCreate = confirm("Do you want to make an appointment?")
+        var appCreate = confirm("Do you want to make an appointment?");
         if (appCreate == true) {
           console.log("1");
-          // once selected a timeslot, show modal
-          // this.toggleShowModal();
           const response = await AXIOS.post(
             "/createTimeSlot/" +
               startTime +
@@ -587,12 +497,12 @@ export default {
               startDate +
               "/" +
               endDate
-          )
+          );
           this.currentSelectedTimeslotId = response.data.timeslotId;
           console.log("timeId: " + this.currentSelectedTimeslotId);
 
-          this.refresh()
-          this.dialogFormVisible = true
+          this.refresh();
+          this.dialogFormVisible = true;
           //this.createService();
         }
       } catch (error) {
@@ -600,7 +510,6 @@ export default {
       } finally {
         console.log("get all timeslot");
       }
-      
     },
 
     async createGarage() {
@@ -615,12 +524,18 @@ export default {
       }
     },
 
-
-    async createAppointment(comment, timeslotId, licensePlate, garageId, offeredServiceId, technicianUsername) {
+    async createAppointment(
+      comment,
+      timeslotId,
+      licensePlate,
+      garageId,
+      offeredServiceId,
+      technicianUsername
+    ) {
       try {
         const response = await AXIOS.post(
           "/createAppointment/" +
-            comment + 
+            comment +
             "/" +
             timeslotId +
             "/" +
@@ -632,15 +547,19 @@ export default {
             "/" +
             technicianUsername
         );
-        console.log("comment: ")
-        console.log(comment)
-        console.log("timeslotId: " + timeslotId)
+        console.log("comment: ");
+        console.log(comment);
+        console.log("timeslotId: " + timeslotId);
         this.currentSelectedAppointmentId = response.data.appointmentId;
         let calendarApi = this.selectedInfo.view.calendar;
         calendarApi.unselect();
         calendarApi.addEvent({
           id: response.data.appointmentId,
-          title: "service: " + response.data.offeredService.name + "licensePlate: " + response.data.car.licensePlate,
+          title:
+            "service: " +
+            response.data.offeredService.name +
+            "licensePlate: " +
+            response.data.car.licensePlate,
           start: this.selectedInfo.startStr,
           end: this.selectedInfo.endStr,
           allDay: this.selectedInfo.allDay,
@@ -651,42 +570,6 @@ export default {
         console.log("create appointment: " + this.currentSelectedAppointmentId);
       }
     },
-
-
-
-    // async createAppointment() {
-    //   try {
-    //     const response = await AXIOS.post(
-    //       "/createAppointment/comment1/" +
-    //         this.currentSelectedTimeslotId +
-    //         "/" +
-    //         this.currentSelectedCarLicensePlate +
-    //         "/" +
-    //         this.currentSelectedGarageId +
-    //         "/" +
-    //         this.curreantSelectedServiceId +
-    //         "/" +
-    //         this.currentSelectedTechnicianUsername
-    //     );
-    //     this.currentSelectedAppointmentId = response.data.appointmentId;
-    //     // console.log(this.currentSelectedAppointmentId);
-    //     // this.newlyAddedAppointment = response.data
-    //     // console.log(this.newlyAddedAppointment)
-    //     let calendarApi = this.selectedInfo.view.calendar;
-    //     calendarApi.unselect();
-    //     calendarApi.addEvent({
-    //       id: response.data.appointmentId,
-    //       title: response.data.offeredService.name,
-    //       start: this.selectedInfo.startStr,
-    //       end: this.selectedInfo.endStr,
-    //       allDay: this.selectedInfo.allDay,
-    //     });
-    //   } catch (error) {
-    //     console.error(error);
-    //   } finally {
-    //     console.log("create appointment: " + this.currentSelectedAppointmentId);
-    //   }
-    // },
   },
 };
 </script>

@@ -59,6 +59,7 @@
     </template>
     <br /><br />
     <h1 style="color: #409eff">Manage Your Business Information</h1>
+    <br/>
 
     <table id="t01">
       <tr>

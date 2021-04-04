@@ -41,29 +41,29 @@ export default {
         },
         searchButton(searchInput) {
             this.searchInput = "";
-            if (searchInput === "Home") {
-                this.$router.push("/calendarTechnician");
+            if (searchInput === "Home" || searchInput === "home" || searchInput === "Main" || searchInput === "main" ) {
+              this.$router.push("/calendarTechnician");
             } else if (
-                searchInput === "Profile" ||
-                searchInput === "profile" ||
-                searchInput === "Account" ||
-                searchInput === "account"
+              searchInput === "Profile" ||
+              searchInput === "profile" ||
+              searchInput === "Account" ||
+              searchInput === "account"
             ) {
-                this.$router.push("/viewTechnicianAccount");
+              this.$router.push("/viewTechnicianAccount");
             } else if (searchInput === "Calendar" || searchInput === "calendar") {
-                this.$router.push("/calendarTechnician");
+              this.$router.push("/calendarTechnician");
             } else if (
-                searchInput === "Edit" ||
-                searchInput === "edit" ||
-                searchInput === "Manage" ||
-                searchInput === "manage"
+              searchInput === "Edit" ||
+              searchInput === "edit" ||
+              searchInput === "Manage" ||
+              searchInput === "manage"
             ) {
-                this.$router.push("/editTechnicianAccount");
+              this.$router.push("/editTechnicianAccount");
             } else {
-                this.searchInput = "";
-                console.log("Not Found");
+              this.searchInput = "";
+              console.log("Not Found");
             }
-        },
+          },
         // backend
         updateTechnicianAccount: function (confirmPassword, newName) {
             if (newPassword === confirmPassword) {

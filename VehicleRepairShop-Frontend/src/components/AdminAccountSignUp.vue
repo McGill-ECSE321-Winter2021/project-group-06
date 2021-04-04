@@ -16,6 +16,7 @@
     <br /><br />
 
     <h1 style="color: #409eff">Sign Up</h1>
+    <br/>
     <h4 style="color: #000000">Create your account</h4>
     <br /><br />
 

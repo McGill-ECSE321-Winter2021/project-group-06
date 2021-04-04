@@ -21,6 +21,10 @@
               >Calendar</b-nav-item
             >
 
+            <b-nav-item href="#/adminBusinessInfo" color="white"
+              >Business Information</b-nav-item
+            >
+
             <b-nav-item href="#/offeredServiceTableAdmin"
               >Services and Pricing</b-nav-item
             >

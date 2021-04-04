@@ -13,6 +13,9 @@
             <b-nav-item @click="goBack" style="color: white"
               >Go Back</b-nav-item
             >
+            <b-nav-item href="#/calendarCustomer" color="white"
+              >Home</b-nav-item
+            >
             <b-nav-item href="#/viewCustomerAccount" color="white"
               >Profile</b-nav-item
             >
