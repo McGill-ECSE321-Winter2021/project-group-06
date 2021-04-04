@@ -10,9 +10,16 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item @click="goBack" style="color: white">Go Back</b-nav-item>
+          <b-nav-item href="#/calenderCustomer" color="white"
+            >Home</b-nav-item
+          >
+
           <b-nav-item href="#/viewCustomerAccount" color="white"
             >Profile</b-nav-item
           >
+
+
+
           <b-nav-item href="#/customerCreateCar" color="white">Cars</b-nav-item>
           <b-nav-item href="#/calendarCustomer" color="white"
             >Calendar</b-nav-item
