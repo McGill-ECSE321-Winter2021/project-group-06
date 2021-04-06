@@ -136,6 +136,43 @@
         </p>
       </div>
     </el-dialog>
+    <div class="container">
+          <br /><br />
+    <button
+      @click="getAllOfferedServicesList()"
+      type="button"
+      style="background-color: #409eff; color: white"
+      class="btn"
+    >
+      <font size="3"><b>Refresh Table</b></font>
+    </button>
+    <br /><br />
+        <h3 class="p-3 text-center">List of Offered Services</h3>
+        <p>
+          <span v-if="errorService" style="color: red"
+            >Error
+          </span>
+        </p>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Offered Service Id</th>
+              <th>Offered Service Name</th>
+              <th>Duration</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="service in offeredServices" :key="service.id">
+              <td>{{ service.offeredServiceId}}</td>
+              <td>{{ service.name }}</td>
+              <td>{{ service.duration }} min</td>
+              <td>{{ service.price}} $</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br /><br />
   </div>
 </template>
 
@@ -171,6 +208,7 @@ export default {
       isShowModal: false,
       errorService: "",
 
+      offeredServices: [],
       techAccountOptions: [],
       offeredServiceOptions: [],
       carOptions: [],
@@ -502,6 +540,15 @@ export default {
           this.errorService = errorMsg;
         });
     },
+      getAllOfferedServicesList: function () {
+            AXIOS.get('/getAllOfferedServices')
+                .then(response => {
+                    this.offeredServices = response.data
+                })
+                .catch(e => {
+                    this.errorService = e
+                })
+        },
 
     // async getAllOfferedServices(){
     //   try{
