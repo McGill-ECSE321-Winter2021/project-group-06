@@ -132,9 +132,9 @@ export default {
           let event = {
             id: response.data[i].appointmentId,
             title:
-              "service: " +
-              response.data[i].offeredService.name +
-              "licensePlate: " +
+              "Service: " +
+              response.data[i].offeredService.name +'\n'+
+            "|| License Plate: " +
               response.data[i].car.licensePlate,
             start: startStr,
             end: endStr,

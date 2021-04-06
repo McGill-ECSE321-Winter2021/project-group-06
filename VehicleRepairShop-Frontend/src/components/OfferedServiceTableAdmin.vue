@@ -168,7 +168,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="delVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="deleteRow()">Comfirm</el-button>
+        <el-button type="primary" @click="deleteRow()">Confirm</el-button>
       </span>
     </el-dialog>
     <!-- eidting dialogue-->
@@ -231,7 +231,7 @@
                 form.reminderTime + ':00'
               )
           "
-          >Comfirm</el-button
+          >Confirm</el-button
         >
       </div>
     </el-dialog>

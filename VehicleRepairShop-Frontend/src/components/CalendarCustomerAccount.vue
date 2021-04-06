@@ -58,10 +58,10 @@
     <Fullcalendar ref="calendarCustomer" :options="calendarOptions" />
 
     <!-- eidting dialogue-->
-    <el-dialog title="EIDTING" :visible.sync="dialogFormVisible">
+    <el-dialog title="Create Appointment" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="technicain" :label-width="formLabelWidth">
-          <el-select v-model="form.value1" placeholder="select technicain">
+        <el-form-item label="Technician" :label-width="formLabelWidth">
+          <el-select v-model="form.value1" placeholder="Select Technician">
             <el-option
               v-for="item in this.techAccountOptions"
               :key="item.value"
@@ -72,8 +72,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="OfferedService" :label-width="formLabelWidth">
-          <el-select v-model="form.value2" placeholder="select OfferedService">
+        <el-form-item label="Offered Service" :label-width="formLabelWidth">
+          <el-select v-model="form.value2" placeholder="Select Offered Service">
             <el-option
               v-for="item in this.offeredServiceOptions"
               :key="item.value"
@@ -85,7 +85,7 @@
         </el-form-item>
 
         <el-form-item label="Car" :label-width="formLabelWidth">
-          <el-select v-model="form.value3" placeholder="select Car">
+          <el-select v-model="form.value3" placeholder="Select Car">
             <el-option
               v-for="item in this.carOptions"
               :key="item.value"
@@ -97,7 +97,7 @@
         </el-form-item>
 
         <el-form-item label="Garage" :label-width="formLabelWidth">
-          <el-select v-model="form.value4" placeholder="select Garage">
+          <el-select v-model="form.value4" placeholder="Select Garage">
             <el-option
               v-for="item in this.garageOptions"
               :key="item.value"
@@ -108,7 +108,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="comments" :label-width="formLabelWidth">
+        <el-form-item label="Comments" :label-width="formLabelWidth">
           <el-input v-model="form.value5" type="text"></el-input>
         </el-form-item>
       </el-form>
@@ -698,9 +698,9 @@ export default {
         calendarApi.addEvent({
           id: response.data.appointmentId,
           title:
-            "service: " +
-            response.data.offeredService.name +
-            "licensePlate: " +
+            "Service: " +
+            response.data.offeredService.name + '\n'+
+            "|| License Plate: " +
             response.data.car.licensePlate,
           start: this.selectedInfo.startStr,
           end: this.selectedInfo.endStr,
