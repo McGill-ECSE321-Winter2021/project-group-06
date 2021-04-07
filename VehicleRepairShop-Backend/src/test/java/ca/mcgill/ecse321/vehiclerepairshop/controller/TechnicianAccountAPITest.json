@@ -1,0 +1,1261 @@
+{
+	"info": {
+		"_postman_id": "c9aebdd5-be72-4fbf-a0ad-cf7f5018b84b",
+		"name": "Technician Account Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create OfferedService1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Offered Service test 1\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.offeredServiceId).to.include(\"test1\");",
+							"    pm.expect(jsonData.price).to.equal(10.5);",
+							"    pm.expect(jsonData.name).to.include(\"carWashing\");",
+							"    pm.expect(jsonData.duration).to.equal(10);",
+							"    pm.expect(jsonData.reminderTime).to.include(\"09:00:00\");",
+							"    pm.expect(jsonData.reminderDate).to.equal(10);",
+							"    pm.expect(jsonData.description).to.include(\"thisIsATest\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createOfferedService/test1/10.5/carWashing/10/09:00:00/10/thisIsATest ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createOfferedService",
+						"test1",
+						"10.5",
+						"carWashing",
+						"10",
+						"09:00:00",
+						"10",
+						"thisIsATest "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create TimeSlot 1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create timeslot 1\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.startTime).to.include(\"10:00:00\");",
+							"  pm.expect(jsonData.endTime).to.include(\"11:00:00\");",
+							"  pm.expect(jsonData.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.endDate).to.include(\"2021-03-01\");",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTimeSlot/10:00:00/11:00:00/2021-03-01/2021-03-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTimeSlot",
+						"10:00:00",
+						"11:00:00",
+						"2021-03-01",
+						"2021-03-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Customer Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"customer1\");",
+							"    pm.expect(jsonData.password).to.equal(\"password1\");",
+							"    pm.expect(jsonData.name).to.include(\"name1\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/customer1/password1/name1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"customer1",
+						"password1",
+						"name1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Car 1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.licensePlate).to.include(\"licensePlate1\");",
+							"  pm.expect(jsonData.model).to.include(\"model1\");",
+							"  pm.expect(jsonData.year).to.equal(1990);",
+							"  pm.expect(jsonData.motorType).to.include(\"Hybrid\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/licensePlate1/model1/1990/Hybrid/customer1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCar",
+						"licensePlate1",
+						"model1",
+						"1990",
+						"Hybrid",
+						"customer1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/user42/123/Catherine Caron",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"user42",
+						"123",
+						"Catherine Caron"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Garage 1 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create garage\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.garageId).to.include(\"garage 1\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createGarage/garage 1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createGarage",
+						"garage 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Appointment 1 - Linked to Technician Account Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create appointment\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"10:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"11:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"licensePlate1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"model1\");",
+							"  pm.expect(jsonData.car.year).to.equal(1990);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"garage 1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"test1\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAppointment/comment1/-317900160/licensePlate1/garage 1/test1/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAppointment",
+						"comment1",
+						"-317900160",
+						"licensePlate1",
+						"garage 1",
+						"test1",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Technician Accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get all admin accounts\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllTechnicianAccounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllTechnicianAccounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Technician Account by Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get Admin Account by Username\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getTechnicianAccountByUsername/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getTechnicianAccountByUsername",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Technician Accounts by Appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Admin Accounts by Name\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine Caron\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getTechniciansAccountByAppointment/-602415694",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getTechniciansAccountByAppointment",
+						"-602415694"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Update Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateTechnicianAccount/user42/12345/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateTechnicianAccount",
+						"user42",
+						"12345",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Technician Accounts by Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Admin Accounts by Name\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getTechnicianAccountsByName/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getTechnicianAccountsByName",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateTechnicianAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateTechnicianAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutTechnicianAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutTechnicianAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Technician Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutTechnicianAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutTechnicianAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Technician Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteTechnicianAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteTechnicianAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Technician Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Admin Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateTechnicianAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateTechnicianAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Technician Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateTechnicianAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateTechnicianAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Technician Account Empty Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/  /123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"  ",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Technician Account Spaces in Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Spaces in Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/user name 1/123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"user name 1",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Technician Account Taken Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Taken Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/user42/123/Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"user42",
+						"123",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Technician Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/user2/ /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"user2",
+						" ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Technician Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/user2/1 2 3 /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"user2",
+						"1 2 3 ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Technician Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Admin Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/user2/123/ /",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"user2",
+						"123",
+						" ",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Technician Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateTechnicianAccount/user42/1234/Cathy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateTechnicianAccount",
+						"user42",
+						"1234",
+						"Cathy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Technician Account Invalid Credentials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Admin Account Invalid Credentials\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginTechnicianAccount/user42/321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginTechnicianAccount",
+						"user42",
+						"321"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Admin Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginTechnicianAccount/user42/12345",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginTechnicianAccount",
+						"user42",
+						"12345"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Technician Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateTechnicianAccount/user42/ /Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateTechnicianAccount",
+						"user42",
+						" ",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Technician Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateTechnicianAccount/user42/1 2 3/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateTechnicianAccount",
+						"user42",
+						"1 2 3",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Technician Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Admin Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateTechnicianAccount/user42/123/ ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateTechnicianAccount",
+						"user42",
+						"123",
+						" "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Technician Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteTechnicianAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteTechnicianAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Appointments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"delete all app\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAllAppointment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAllAppointment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Technician Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Admin Account\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"12345\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteTechnicianAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteTechnicianAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Technician Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Admin Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginTechnicianAccount/user42/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginTechnicianAccount",
+						"user42",
+						"123"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

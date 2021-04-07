@@ -1,0 +1,1405 @@
+{
+	"info": {
+		"_postman_id": "34f1a69a-6a63-4475-9552-8c38394bcce4",
+		"name": "Appointment tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create a service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create service\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createOfferedService/1/1.0/repair/60/11:00:00/30/service",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createOfferedService",
+						"1",
+						"1.0",
+						"repair",
+						"60",
+						"11:00:00",
+						"30",
+						"service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a garage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create garage\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createGarage/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createGarage",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a timeslot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create timeslot\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTimeSlot/12:00:00/13:00:00/2021-03-01/2021-03-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTimeSlot",
+						"12:00:00",
+						"13:00:00",
+						"2021-03-01",
+						"2021-03-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create owner 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.username).to.include(\"1\");",
+							"  pm.expect(jsonData.password).to.include(\"1\");",
+							"  pm.expect(jsonData.name).to.include(\"owner\");",
+							"",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/1/1/owner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"1",
+						"1",
+						"owner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/1/Tesla/2021/Electric/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCar",
+						"1",
+						"Tesla",
+						"2021",
+						"Electric",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create worker",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create worker\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTechnicianAccount/worker1/123/worker",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTechnicianAccount",
+						"worker1",
+						"123",
+						"worker"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create an appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create appointment\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAppointment/this/-360286848/1/1/1/worker1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAppointment",
+						"this",
+						"-360286848",
+						"1",
+						"1",
+						"1",
+						"worker1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get an appointment by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get appointment\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAppointmentById/3559070",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAppointmentById",
+						"3559070"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get appointment\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json()[0];",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllAppointment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllAppointment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get appointment by non existent id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get appointment non existent id\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAppointmentById/-123674",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAppointmentById",
+						"-123674"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get appointment by car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get appointment by car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json()[0];",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAppointmentByCar/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAppointmentByCar",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get appointment by garage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get appointment by garage\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json()[0];",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAppointmentByGarage/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAppointmentByGarage",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get appointment by worker",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get appointment by worker\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json()[0];",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"1\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAppointmentByWorker/worker1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAppointmentByWorker",
+						"worker1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get appointment by non existant car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get appointment non existent car\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAppointmentByCar/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAppointmentByCar",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get appointment by non existant garage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get appointment non existent garage\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAppointmentByGarage/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAppointmentByGarage",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a garage 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create garage\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createGarage/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createGarage",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a car 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create garage\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/2/Tesla/2021/Electric/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCar",
+						"2",
+						"Tesla",
+						"2021",
+						"Electric",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a timeslot 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create timeslot\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTimeSlot/11:00:00/12:00:00/2021-03-01/2021-03-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTimeSlot",
+						"11:00:00",
+						"12:00:00",
+						"2021-03-01",
+						"2021-03-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a service 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create garage\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createOfferedService/2/1.0/repair/60/11:00:00/30/service",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createOfferedService",
+						"2",
+						"1.0",
+						"repair",
+						"60",
+						"11:00:00",
+						"30",
+						"service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment by garage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment garage\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"2\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentGarage/3559070/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentGarage",
+						"3559070",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment by car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"2\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"2\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentCar/3559070/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentCar",
+						"3559070",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment by timeslot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment timeslot\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"2\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"2\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"1\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentTimeSlot/3559070/-360286848",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentTimeSlot",
+						"3559070",
+						"-360286848"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment by service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment service\", function () {",
+							"  pm.response.to.have.status(200);",
+							"",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"12:00:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"13:00:00\");",
+							"  pm.expect(jsonData.timeSlot.startDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.timeSlot.endDate).to.include(\"2021-03-01\");",
+							"  pm.expect(jsonData.car.licensePlate).to.include(\"2\");",
+							"  pm.expect(jsonData.car.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.car.year).to.equal(2021);",
+							"  pm.expect(jsonData.garage.garageId).to.include(\"2\");",
+							"  pm.expect(jsonData.offeredService.offeredServiceId).to.include(\"2\");",
+							"  ",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentOfferedService/3559070/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentOfferedService",
+						"3559070",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment by non existent garage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment non existent garage\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentGarage/3559070/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentGarage",
+						"3559070",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment by non existent car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment non existent car\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentCar/3559070/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentCar",
+						"3559070",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment by non existent timeslot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment non existent timeslot\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentTimeSlot/3559070/2777478",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentTimeSlot",
+						"3559070",
+						"2777478"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment by non existent service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment non existent service\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentOfferedService/3559070/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentOfferedService",
+						"3559070",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create timeslot 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create timeslot\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createTimeSlot/14:20:00/15:20:00/2021-03-01/2021-03-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createTimeSlot",
+						"14:20:00",
+						"15:20:00",
+						"2021-03-01",
+						"2021-03-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create appointment 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment non existent service\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAppointment/conmment2/-409737984/1/1/1/worker1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAppointment",
+						"conmment2",
+						"-409737984",
+						"1",
+						"1",
+						"1",
+						"worker1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create service 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create saervice 3\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createOfferedService/3/1.0/repair/360/11:00:00/90/service",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createOfferedService",
+						"3",
+						"1.0",
+						"repair",
+						"360",
+						"11:00:00",
+						"90",
+						"service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update appointment service leads to conflict timeslot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"update appointment non existent service\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAppointmentOfferedService/3559070/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAppointmentOfferedService",
+						"3559070",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create appointment service leads to conflict timeslot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create appointment conflicit\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createAppointment/conmment4/1540793728/1/1/1/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createAppointment",
+						"conmment4",
+						"1540793728",
+						"1",
+						"1",
+						"1",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete appointment by invalid id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"delete appointment invalid\", function () {",
+							"  pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAppointmentById/109",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAppointmentById",
+						"109"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"delete appointment conflicit\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.timeSlot.startTime).to.include(\"14:20:00\");",
+							"  pm.expect(jsonData.timeSlot.endTime).to.include(\"15:20:00\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAppointmentById/-600397239",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAppointmentById",
+						"-600397239"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all appointment 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get all appointment\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllAppointment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllAppointment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete all appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"delete all app\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteAllAppointment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteAllAppointment"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

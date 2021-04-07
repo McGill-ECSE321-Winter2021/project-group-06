@@ -1,0 +1,1015 @@
+{
+	"info": {
+		"_postman_id": "e169d0a2-218b-4a52-acf1-e54f04588cb8",
+		"name": "Customer Account Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Customer Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create Customer Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.equal(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user42/123/Catherine",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user42",
+						"123",
+						"Catherine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"create car\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  const jsonData = pm.response.json();",
+							"  pm.expect(jsonData.licensePlate).to.include(\"1\");",
+							"  pm.expect(jsonData.model).to.include(\"Tesla\");",
+							"  pm.expect(jsonData.year).to.equal(2020);",
+							"  pm.expect(jsonData.motorType).to.include(\"Electric\");",
+							"  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCar/1/Tesla/2020/Electric/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCar",
+						"1",
+						"Tesla",
+						"2020",
+						"Electric",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Customer Accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get All Customer Accounts\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getAllCustomerAccounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getAllCustomerAccounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer Account by Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Customer Account by Username\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCustomerAccountByUsername/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCustomerAccountByUsername",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer Account by Car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Customer Account by Username\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"123\");",
+							"    pm.expect(jsonData.name).to.include(\"Catherine\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCustomerAccountByCar/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCustomerAccountByCar",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Customer Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/12345/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						"12345",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer Accounts by Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Customer Accounts by Name\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json()[0];",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getCustomerAccountsByName/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getCustomerAccountsByName",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Customer Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Customer Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Customer Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Customer Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Customer Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout Customer Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutCustomerAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutCustomerAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Customer Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Customer Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Customer Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Customer Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Authenticate Customer Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticateCustomerAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticateCustomerAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Empty Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Customer Account Empty Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/  /123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"  ",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Spaces in Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Customer Account Spaces in Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user name 1/123/Catherine Caron/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user name 1",
+						"123",
+						"Catherine Caron",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Taken Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Customer Account Taken Username\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user42/123/Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user42",
+						"123",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Customer Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user2/ /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user2",
+						" ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Customer Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user2/1 2 3 /Carmen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user2",
+						"1 2 3 ",
+						"Carmen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer Account Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Customer Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createCustomerAccount/user2/123/ /",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createCustomerAccount",
+						"user2",
+						"123",
+						" ",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account Invalid Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Customer Account Invalid Token\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/1234/Cathy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						"1234",
+						"Cathy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Customer Account Invalid Credentials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Customer Account Invalid Credentials\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginCustomerAccount/user42/321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginCustomerAccount",
+						"user42",
+						"321"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Customer Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Customer Account\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginCustomerAccount/user42/12345",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginCustomerAccount",
+						"user42",
+						"12345"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Customer Account Empty Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/ /Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						" ",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account Spaces in Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Customer Account Spaces in Password\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/1 2 3/Cat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						"1 2 3",
+						"Cat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer Account Empty Name Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update Customer Account Empty Name\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateCustomerAccount/user42/123/ ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateCustomerAccount",
+						"user42",
+						"123",
+						" "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Customer Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteCustomerAccount/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteCustomerAccount",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Customer Account\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.include(\"user42\");",
+							"    pm.expect(jsonData.password).to.include(\"1234\");",
+							"    pm.expect(jsonData.name).to.include(\"Cat\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteCustomerAccount/user42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteCustomerAccount",
+						"user42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Customer Account Non Existing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Customer Account Non Existing User\", function() {",
+							"    pm.response.to.have.status(409);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/loginCustomerAccount/user42/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginCustomerAccount",
+						"user42",
+						"123"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
