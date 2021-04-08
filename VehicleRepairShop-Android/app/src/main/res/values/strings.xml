@@ -11,4 +11,10 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="newperson_hint">Who?</string>
     <string name="newperson_button">Add Person</string>
+
+    <string name="login">Login</string>
+    <string name="manage">Manage</string>
+    <string name="logout">Logout</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 </resources>
