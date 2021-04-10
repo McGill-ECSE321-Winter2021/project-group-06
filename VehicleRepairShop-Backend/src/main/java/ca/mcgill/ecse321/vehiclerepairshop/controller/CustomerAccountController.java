@@ -106,7 +106,9 @@ public class CustomerAccountController {
 	@PutMapping(value = {"/loginCustomerAccount/{username}/{password}", "/loginCustomerAccount/{username}/{password}/" })
 	public CustomerAccountDto loginCustomerAccount(@PathVariable("username") String username, @PathVariable("password") String password)   {
 		CustomerAccount user = customerAccountService.loginCustomerAccount(username, password);
+		System.out.println("Success! WOOHOO " + username + password);
 		return convertToDto(user);
+		
 	}
 
 	/**

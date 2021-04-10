@@ -1,10 +1,8 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
-import android.content.Context;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import cz.msebera.android.httpclient.HttpEntity;
 
 public class HttpUtils {
     public static final String DEFAULT_BASE_URL = "https://vehiclerepairshop-backend-g06.herokuapp.com/";
@@ -24,16 +22,16 @@ public class HttpUtils {
         HttpUtils.baseUrl = baseUrl;
     }
 
-    public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        client.get(getAbsoluteUrl(url), params, responseHandler);
+    public static void get(String url,  AsyncHttpResponseHandler responseHandler) {
+        client.get(getAbsoluteUrl(url),  responseHandler);
     }
 
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 
-    public static void put(String url,  AsyncHttpResponseHandler responseHandler) {
-        client.put(getAbsoluteUrl(url), responseHandler);
+    public static void put(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.put(url, params, responseHandler);
     }
 
 //    public static void put(Context context, String url, HttpEntity entity, String contentType, String token, AsyncHttpResponseHandler responseHandler) {

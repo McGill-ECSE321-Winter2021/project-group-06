@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button_login;
     private EditText usernameLogin;
     private EditText passwordLogin;
+    private TextView name_test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +36,27 @@ public class MainActivity extends AppCompatActivity {
         button_login = (Button)findViewById(R.id.button_login);
         usernameLogin   = (EditText)findViewById(R.id.usernameLogin);
         passwordLogin   = (EditText)findViewById(R.id.passwordLogin);
+        name_test = (TextView)findViewById(R.id.name_test);
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
         button_login.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
+                        Log.v("catherine", usernameLogin.getText().toString());
                         error = "";
-                        HttpUtils.put("loginCustomerAccount/" + usernameLogin.getText().toString() + "/" + passwordLogin.getText().toString(), new JsonHttpResponseHandler() {
+                        HttpUtils.get("getCustomerAccountByUsername/" + usernameLogin.getText().toString(), new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                try {
+                                    JSONObject customer = new JSONObject(response.toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 refreshErrorMessage();
                                 usernameLogin.setText("");
                                 passwordLogin.setText("");
+                                name_test.setText("");
+                                Log.v("shown", usernameLogin.getText().toString());
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -54,9 +65,29 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     error += e.getMessage();
                                 }
+                                Log.v("unsuck", usernameLogin.getText().toString());
                                 refreshErrorMessage();
                             }
                         });
+//                        HttpUtils.putByUrl("loginCustomerAccount/" + usernameLogin.getText().toString() + "/" + passwordLogin.getText().toString(), new JsonHttpResponseHandler() {
+//                            @Override
+//                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                                refreshErrorMessage();
+//                                usernameLogin.setText("");
+//                                passwordLogin.setText("");
+//                                Log.v("suck", usernameLogin.getText().toString());
+//                            }
+//                            @Override
+//                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                                try {
+//                                    error += errorResponse.get("message").toString();
+//                                } catch (JSONException e) {
+//                                    error += e.getMessage();
+//                                }
+//                                Log.v("unsuck", usernameLogin.getText().toString());
+//                                refreshErrorMessage();
+//                            }
+//                        });
                     }
         });
 
