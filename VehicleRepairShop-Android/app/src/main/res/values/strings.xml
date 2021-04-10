@@ -12,6 +12,14 @@
     <string name="newperson_hint">Who?</string>
     <string name="newperson_button">Add Person</string>
 
+    <string name="welcome">Welcome</string>
+    <string name="username">Username:</string>
+    <string name="name">Name:</string>
+    <string name="password">Password:</string>
+    <string name="confirm_password">Confirm Password:</string>
+    <string name="new_name">New Name:</string>
+    <string name="current_name">Current Name:</string>
+    <string name="new_password">New Password:</string>
     <string name="login">Login</string>
     <string name="manage">Manage</string>
     <string name="logout">Logout</string>
