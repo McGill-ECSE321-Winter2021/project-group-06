@@ -9,6 +9,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="newperson_hint">Who?</string>
-    <string name="newperson_button">Add Person</string>
+    <string name="business_name">Business Name</string>
+    <string name="business_address">Business Address</string>
+    <string name="business_phone_number">Business Phone Number</string>
+    <string name="business_email">Business Email</string>
+    <string name="BI_title">Business Information</string>
+    <string name="go_back">Back</string>
 </resources>
