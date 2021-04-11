@@ -4,15 +4,17 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="service_fragment_label">Service Fragment</string>
-
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="service">Service</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
     <string name="newperson_hint">Who?</string>
     <string name="newperson_button">Add Person</string>
+
+    <string name="login">Login</string>
+    <string name="manage">Manage</string>
+    <string name="logout">Logout</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 </resources>

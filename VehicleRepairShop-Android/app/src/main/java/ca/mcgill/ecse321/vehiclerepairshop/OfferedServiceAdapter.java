@@ -27,7 +27,7 @@ public class OfferedServiceAdapter extends ArrayAdapter<OfferedService>{
 
     public OfferedServiceAdapter(@NonNull Context context, int resource, @NonNull ArrayList<OfferedService> objects) {
         super(context, resource, objects);
-        this.mContext = mContext;
+        this.mContext = context;
         this.mResource = resource;
     }
 

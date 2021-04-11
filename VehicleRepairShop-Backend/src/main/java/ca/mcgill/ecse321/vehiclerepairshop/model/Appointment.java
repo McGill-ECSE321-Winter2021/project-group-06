@@ -5,8 +5,8 @@ import java.util.*;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
 
 
@@ -39,7 +39,7 @@ public class Appointment
   @Id
   public int getAppointmentId()
   {
-    return appointmentId;
+    return this.appointmentId;
   }
 
   public String getComment()
@@ -69,7 +69,7 @@ public class Appointment
     return this.timeSlot;
   }
 
-  @ManyToMany(cascade= {CascadeType.ALL})
+  @ManyToMany(fetch = FetchType.EAGER)
   public List<TechnicianAccount> getWorker()
 
   {
