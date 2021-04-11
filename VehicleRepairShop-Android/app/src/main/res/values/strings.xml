@@ -17,4 +17,11 @@
     <string name="logout">Logout</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+
+    <string name="business_name">Business Name</string>
+    <string name="business_address">Business Address</string>
+    <string name="business_phone_number">Business Phone Number</string>
+    <string name="business_email">Business Email</string>
+    <string name="BI_title">Business Information</string>
+    <string name="go_back">Back To Main Page</string>
 </resources>
