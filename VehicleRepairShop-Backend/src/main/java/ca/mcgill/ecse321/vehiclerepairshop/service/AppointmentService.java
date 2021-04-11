@@ -148,7 +148,7 @@ public class AppointmentService {
 			throw new InvalidInputException(error);
 		}
 		List<Appointment> appointments = new ArrayList<Appointment>();
-		appointments.add(appointmentRepository.findByCar(car).get(0));
+		appointments.addAll(appointmentRepository.findByCar(car));
 		return appointments;
 	}
 
