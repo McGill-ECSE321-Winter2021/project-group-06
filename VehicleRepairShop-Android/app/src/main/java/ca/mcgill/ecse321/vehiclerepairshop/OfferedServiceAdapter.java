@@ -51,8 +51,8 @@ public class OfferedServiceAdapter extends ArrayAdapter<OfferedService>{
 
         tvId.setText(Id);
         tvName.setText(name);
-        tvDuration.setText(String.valueOf(duration));
-        tvPrice.setText(String.valueOf(price));
+        tvDuration.setText("duration: " + String.valueOf(duration));
+        tvPrice.setText("price: " + String.valueOf(price));
 
         return convertView;
 

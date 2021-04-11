@@ -49,7 +49,7 @@ public class OfferedServiceAction extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Started.");
         ListView mListView = (ListView) findViewById(R.id.listView);
-        String URL = "https://10.0.2.2:8080/getAllOfferedServices";
+        String URL = "http://10.0.2.2:8080/getAllOfferedServices";
         final JSONArray[] allOfferedServices = {new JSONArray()};
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -63,23 +63,23 @@ public class OfferedServiceAction extends AppCompatActivity {
                         allOfferedServices[0] = response;
                         ArrayList<OfferedService> offeredServiceArrayList = new ArrayList<OfferedService>();
                         android.util.Log.e("offeredService1", allOfferedServices[0].toString());
-//                        for (int n = 0; n < allOfferedServices[0].length(); n++) {
-//                            try {
-//                                android.util.Log.e("n", String.valueOf(n));
-//                                JSONObject object = allOfferedServices[0].getJSONObject(n);
-//                                String id = object.getString("offeredServiceId");
-//                                String name = object.getString("name");
-//                                int duration = object.getInt("duration");
-//                                double price = object.getDouble("price");
-//                                OfferedService offeredService = new OfferedService(id, name, duration, price);
-//                                offeredServiceArrayList.add(offeredService);
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        OfferedServiceAdapter serviceAdapter = new OfferedServiceAdapter(context, R.layout.activity_offered_service, offeredServiceArrayList);
-//                        mListView.setAdapter(serviceAdapter);
+                        for (int n = 0; n < allOfferedServices[0].length(); n++) {
+                            try {
+                                android.util.Log.e("n", String.valueOf(n));
+                                JSONObject object = allOfferedServices[0].getJSONObject(n);
+                                String id = object.getString("offeredServiceId");
+                                String name = object.getString("name");
+                                int duration = object.getInt("duration");
+                                double price = object.getDouble("price");
+                                OfferedService offeredService = new OfferedService(id, name, duration, price);
+                                offeredServiceArrayList.add(offeredService);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        OfferedServiceAdapter serviceAdapter = new OfferedServiceAdapter(context, R.layout.activity_offered_service, offeredServiceArrayList);
+                        mListView.setAdapter(serviceAdapter);
                     }
                 },
 

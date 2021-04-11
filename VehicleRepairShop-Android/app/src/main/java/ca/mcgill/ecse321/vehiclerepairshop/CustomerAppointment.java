@@ -30,7 +30,7 @@ public class CustomerAppointment extends AppCompatActivity {
         setContentView(R.layout.activity_customer_appointment);
 
         appointmentLV = (ListView) findViewById(R.id.appointmentList);
-        String URL = "https://10.0.2.2:8080/getAppointmentByCustomer/cust1";
+        String URL = "http://10.0.2.2:8080/getAppointmentByCustomer/cust1";
         final JSONArray[] allAppointments = {new JSONArray()};
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
