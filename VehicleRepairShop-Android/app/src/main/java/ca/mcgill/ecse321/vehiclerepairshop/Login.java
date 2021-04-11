@@ -1,35 +1,104 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
-public class Login extends Fragment {
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+
+
+public class Login extends AppCompatActivity {
+
+    private String error = null;
+    private Button button_login;
+    private EditText usernameLogin;
+    private EditText passwordLogin;
+
+
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.login, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        Context context = getApplicationContext();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login);
+
+        ListView customerLV;
+        button_login = (Button) findViewById(R.id.button_login);
+        usernameLogin = (EditText) findViewById(R.id.usernameLogin);
+        passwordLogin = (EditText) findViewById(R.id.passwordLogin);
+
+        String URL = "http://10.0.2.2:8080/loginCustomerAccount";
+
+
+        button_login.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        android.util.Log.e("clicked", usernameLogin.getText().toString());
+                        setContentView(R.layout.activity_customer_appointment);
+//                        RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
+//                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+//                                Request.Method.PUT,
+//                                URL + "/" + usernameLogin.getText().toString() + "/" + passwordLogin.getText().toString(),
+//                                null,
+//                                new Response.Listener<JSONObject>() {
+//                                    @Override
+//                                    public void onResponse(JSONObject response) {
+//                                        SingletonClass.getInstance().setCurrentUsername(usernameLogin.getText().toString());
+//                                        android.util.Log.e("LOGIN PAGE", usernameLogin.getText().toString());
+//
+//                                        //for (int n = 0; n < allAppointments[0].length(); n++) {
+////                                        try {
+////                                            android.util.Log.e("here", "String.valueOf(n)");
+////                                            JSONObject object = response;
+////
+////                                        } catch (JSONException e) {
+////                                            e.printStackTrace();
+////                                        }
+//
+//                                    }
+//                                },
+//
+//
+//                                new Response.ErrorListener() {
+//                                    @Override
+//                                    public void onErrorResponse(VolleyError error) {
+//                                        android.util.Log.e("ERROR", error.toString());
+//                                    }
+//                                }
+//                        );
+//
+//                        requestQueue.add(jsonObjectRequest);
+                    }
+                }
+        );
+
+
+
     }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        view.findViewById(R.id.button_login).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(Login.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
-            }
-        });
+    public void parseVolleyError(VolleyError error) {
+        try {
+            String responseBody = new String(error.networkResponse.data, "utf-8");
+            JSONObject data = new JSONObject(responseBody);
+            JSONArray errors = data.getJSONArray("errors");
+            JSONObject jsonMessage = errors.getJSONObject(0);
+            String message = jsonMessage.getString("message");
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+        } catch (UnsupportedEncodingException errorr) {
+        }
     }
+
 
 }
