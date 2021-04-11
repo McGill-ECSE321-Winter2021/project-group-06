@@ -228,6 +228,7 @@ public class AppointmentController {
 	@GetMapping(value = {"/getAppointmentByCustomer/{username}","/getAppointmentByCustomer/{username}/"})
 	public List<AppointmentDto> getAppointmentByCustomer(@PathVariable("username") String username){
 		List<Appointment> appointments = appointmentService.getAppointmentByCustomer(username);
+		System.out.println("getAppointmentByCustomer " + username);
 		return convertToDtoApplointmentList(appointments);
 	}
 

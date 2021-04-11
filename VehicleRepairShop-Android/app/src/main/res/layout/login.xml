@@ -10,74 +10,100 @@
         android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="396dp"
+        android:layout_marginTop="50dp"
         android:text="@string/login"
         android:textColorHighlight="#409eff"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLogin" />
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="128dp"
-        android:text="Welcome"
+        android:layout_marginStart="177dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/welcome"
         android:textColor="#409eff"
         android:textColorHighlight="#409eff"
         android:textColorLink="#409eff"
         android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/usernameLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="109dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username:"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="199dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="208dp"
+        android:text="@string/username"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password: "
-        tools:layout_editor_absoluteX="63dp"
-        tools:layout_editor_absoluteY="239dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="211dp"
-        tools:layout_editor_absoluteY="214dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/password"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
         android:id="@+id/usernameLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Username"
-        tools:layout_editor_absoluteX="143dp"
-        tools:layout_editor_absoluteY="173dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
     <EditText
         android:id="@+id/passwordLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="textPassword"
-        tools:layout_editor_absoluteX="143dp"
-        tools:layout_editor_absoluteY="227dp" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameLogin" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="284dp"
-        android:layout_height="175dp"
-        android:src="@mipmap/newLogo"
-        tools:layout_editor_absoluteX="63dp"
-        tools:layout_editor_absoluteY="408dp" />
+        android:layout_width="0dp"
+        android:layout_height="108dp"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_login" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="100dp"
+        android:text=""
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
