@@ -76,7 +76,7 @@
         android:id="@+id/imageView"
         android:layout_width="284dp"
         android:layout_height="175dp"
-        android:src="@mipmap/newLogo"
+        android:src="@mipmap/new_logo"
         tools:layout_editor_absoluteX="63dp"
         tools:layout_editor_absoluteY="408dp" />
 
