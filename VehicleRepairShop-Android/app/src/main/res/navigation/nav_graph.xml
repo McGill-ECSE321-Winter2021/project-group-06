@@ -24,16 +24,16 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="ca.mcgill.ecse321.vehiclerepairshop.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_SecondFragment_to_ServiceFragment"
+            app:destination="@id/ServiceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ServiceFragment"
+        android:name="ca.mcgill.ecse321.vehiclerepairshop.ServiceFragment"
+        android:label="@string/service_fragment_label"
+        tools:layout="@layout/fragment_service">
     </fragment>
 
 

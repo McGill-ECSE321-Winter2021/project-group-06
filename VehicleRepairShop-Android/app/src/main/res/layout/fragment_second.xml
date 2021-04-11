@@ -30,7 +30,7 @@
         android:id="@+id/button_service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Service"
+        android:text="@string/service"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
