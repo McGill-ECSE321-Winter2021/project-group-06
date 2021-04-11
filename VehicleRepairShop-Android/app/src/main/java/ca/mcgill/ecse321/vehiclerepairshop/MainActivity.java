@@ -1,105 +1,48 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
+import android.view.View;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String error = null;
-    private Button button_login;
-    private EditText usernameLogin;
-    private EditText passwordLogin;
-    private TextView name_test;
+        private String error = null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
 
-        button_login = (Button)findViewById(R.id.button_login);
-        usernameLogin   = (EditText)findViewById(R.id.usernameLogin);
-        passwordLogin   = (EditText)findViewById(R.id.passwordLogin);
-        name_test = (TextView)findViewById(R.id.name_test);
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-        button_login.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View view) {
-                        Log.v("catherine", usernameLogin.getText().toString());
-                        error = "";
-                        HttpUtils.get("getCustomerAccountByUsername/" + usernameLogin.getText().toString(), new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                try {
-                                    JSONObject customer = new JSONObject(response.toString());
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                refreshErrorMessage();
-                                usernameLogin.setText("");
-                                passwordLogin.setText("");
-                                name_test.setText("");
-                                Log.v("shown", usernameLogin.getText().toString());
-                            }
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                try {
-                                    error += errorResponse.get("message").toString();
-                                } catch (JSONException e) {
-                                    error += e.getMessage();
-                                }
-                                Log.v("unsuck", usernameLogin.getText().toString());
-                                refreshErrorMessage();
-                            }
-                        });
-//                        HttpUtils.putByUrl("loginCustomerAccount/" + usernameLogin.getText().toString() + "/" + passwordLogin.getText().toString(), new JsonHttpResponseHandler() {
-//                            @Override
-//                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                                refreshErrorMessage();
-//                                usernameLogin.setText("");
-//                                passwordLogin.setText("");
-//                                Log.v("suck", usernameLogin.getText().toString());
-//                            }
-//                            @Override
-//                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                                try {
-//                                    error += errorResponse.get("message").toString();
-//                                } catch (JSONException e) {
-//                                    error += e.getMessage();
-//                                }
-//                                Log.v("unsuck", usernameLogin.getText().toString());
-//                                refreshErrorMessage();
-//                            }
-//                        });
-                    }
+            FloatingActionButton fab = findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
         });
 
         refreshErrorMessage();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -115,27 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    public void loginCustomer(View v) {
-//        error = "";
-//        HttpUtils.put("loginCustomerAccount/" + usernameLogin.getText().toString() + "/" + passwordLogin.getText().toString(), new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                refreshErrorMessage();
-//                usernameLogin.setText("");
-//                passwordLogin.setText("");
-//            }
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                try {
-//                    error += errorResponse.get("message").toString();
-//                } catch (JSONException e) {
-//                    error += e.getMessage();
-//                }
-//                refreshErrorMessage();
-//            }
-//        });
-//    }
 
     private void refreshErrorMessage() {
         // set the error message
