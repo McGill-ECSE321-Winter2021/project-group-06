@@ -12,11 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VehicleRepairShopAndroid">
         <activity android:name=".CustomerAppointment">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".BusinessInfoRequestObject">
             <intent-filter>
@@ -26,11 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CarRequestObject">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"

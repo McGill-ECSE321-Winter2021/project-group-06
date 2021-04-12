@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -47,12 +48,15 @@ public class BusinessInfoListAdapter extends ArrayAdapter<BusinessInfo> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-//        TextView tvService = (TextView) convertView.findViewById(R.id.serviceTextView1);
+          TextView tvName = (TextView) convertView.findViewById(R.id.business_name);
+          TextView tvAddress = (TextView) convertView.findViewById(R.id.business_address);
 //        TextView tvTime = (TextView) convertView.findViewById(R.id.timeTextView2);
 //        TextView tvDate = (TextView) convertView.findViewById(R.id.dateTextView3);
 //
 //
-//        tvService.setText(name);
+
+          tvName.setText(name);
+          tvName.setText(address);
 //        tvTime.setText("startTime: " + startTime + "\n endTime: " + endTime);
 //        tvDate.setText("startDate: " + startDate + "\n endDate " + endDate);
 
