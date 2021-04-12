@@ -6,94 +6,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/saveAccountButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="460dp"
-        android:text="@string/manage"
-        android:textColorHighlight="#409eff"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="108dp"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.654"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_cancel" />
 
     <Button
-        android:id="@+id/cancelAccountButton"
+        android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="460dp"
+        android:layout_marginTop="120dp"
+        android:text="@string/manage"
+        android:textColorHighlight="#409eff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourProfileView" />
+
+    <Button
+        android:id="@+id/button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/grey_app"
         android:text="@string/logout"
         android:textColorHighlight="@color/grey_app"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.317"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_save" />
 
     <TextView
         android:id="@+id/yourProfileView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="108dp"
+        android:layout_marginTop="20dp"
         android:text="Your Profile!"
         android:textColor="#409eff"
         android:textColorHighlight="#409eff"
         android:textColorLink="#409eff"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="67dp" />
-
-    <TextView
-        android:id="@+id/carsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="124dp"
-        android:text="Your Cars"
-        android:textColor="#409eff"
-        android:textColorHighlight="#409eff"
-        android:textColorLink="#409eff"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="307dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/currentNameManage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"
         android:text="Name:"
-        tools:layout_editor_absoluteX="101dp"
-        tools:layout_editor_absoluteY="189dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameView2" />
 
     <TextView
         android:id="@+id/usernameView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"
         android:text="Username:"
-        tools:layout_editor_absoluteX="89dp"
-        tools:layout_editor_absoluteY="153dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/carsList"
-        android:layout_width="138dp"
-        android:layout_height="352dp"
-        tools:layout_editor_absoluteX="125dp"
-        tools:layout_editor_absoluteY="379dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourProfileView" />
 
     <TextView
         android:id="@+id/usernameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="100dp"
         android:text="username"
-        tools:layout_editor_absoluteX="200dp"
-        tools:layout_editor_absoluteY="153dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/usernameView2"
+        app:layout_constraintTop_toBottomOf="@+id/yourProfileView" />
 
     <TextView
         android:id="@+id/nameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="100dp"
         android:text="name"
-        tools:layout_editor_absoluteX="200dp"
-        tools:layout_editor_absoluteY="189dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/currentNameManage"
+        app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

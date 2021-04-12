@@ -10,22 +10,30 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.VehicleRepairShopAndroid">
         <activity android:name=".CustomerAppointment">
         </activity>
-        <activity android:name=".Login">
+        <activity android:name=".Login" android:label="Vehicle Repair Shop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.VehicleRepairShopAndroid.NoActionBar">
 
+        <activity android:name=".ViewAccount" android:label="Profile">
         </activity>
+
+        <activity android:name=".ManageAccount" android:label="Manage Account">
+        </activity>
+
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:theme="@style/Theme.VehicleRepairShopAndroid.NoActionBar">-->
+
+<!--        </activity>-->
     </application>
 
 </manifest>
