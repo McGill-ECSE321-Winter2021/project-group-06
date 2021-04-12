@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-public class BusinessInfoListAdapter extends ArrayAdapter<BusinessInfo> {
+public class CarListAdapter extends ArrayAdapter<Car> {
 
     private static final String TAG = "BusinessInfoListAdapter";
 
@@ -26,7 +26,7 @@ public class BusinessInfoListAdapter extends ArrayAdapter<BusinessInfo> {
      * @param resource
      * @param objects
      */
-    public BusinessInfoListAdapter (Context context, int resource, ArrayList<BusinessInfo> objects) {
+    public CarListAdapter (Context context, int resource, ArrayList<Car> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -36,13 +36,13 @@ public class BusinessInfoListAdapter extends ArrayAdapter<BusinessInfo> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        String name = getItem(position).getBusinessName();
-        String address = getItem(position).getBusinessAddress();
-        String phoneNumber = getItem(position).getBusinessPhoneNumber();
-        String email = getItem(position).getBusinessEmail();
+        String name = getItem(position).getLicensePlate();
+        String address = getItem(position).getOwner();
+        String phoneNumber = getItem(position).getYear();
+        String email = getItem(position).getMotorType();
 
 
-        BusinessInfo businessInfo = new BusinessInfo(name,address,phoneNumber,email);
+        Car car = new Car(name,address,phoneNumber,email);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
