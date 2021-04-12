@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_FirstFragment_to_BusinessInfo"
+            app:destination="@id/BI_title" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -23,6 +23,16 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/BI_title"
+        android:name="ca.mcgill.ecse321.vehiclerepairshop.BusinessInfo"
+        android:label="@string/BI_title"
+        tools:layout="@layout/business_info">
+
+        <action
+            android:id="@+id/action_BusinessInfo_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
