@@ -72,7 +72,7 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        android.util.Log.e("Busienss Info ERROR",error.toString());
+                        android.util.Log.e("Business Info ERROR",error.toString());
                     }
                 }
         );
@@ -81,6 +81,10 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
 
 
     }
+    public void returnToMain(View view) {
+        // Do something in response to button click
+    }
+
 
 
 }
