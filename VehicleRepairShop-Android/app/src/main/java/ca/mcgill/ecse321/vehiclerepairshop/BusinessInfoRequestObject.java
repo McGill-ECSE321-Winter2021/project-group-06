@@ -3,7 +3,9 @@ package ca.mcgill.ecse321.vehiclerepairshop;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -82,9 +84,11 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
 
 
     }
-   // public void returnToMain(View view) {
-        // Do something in response to button click
-   // }
+    public void returnToMain(View view) {
+         //starts a new activity
+        Intent intent = new Intent(this, CarRequestObject.class);
+        startActivity(intent);
+    }
 
 
 
