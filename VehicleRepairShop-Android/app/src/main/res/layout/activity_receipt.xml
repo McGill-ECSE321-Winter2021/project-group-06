@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Receipt"
+    android:id="@+id/receiptList">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="33.3">
+
+        <TextView
+            android:gravity="center"
+            android:textAlignment="center"
+            android:text="textReceiptView1"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:id="@+id/textReceiptView1"
+            android:layout_weight="50"/>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="50">
+
+            <TextView
+                android:gravity="center"
+                android:text="textReceiptView2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/textReceiptView2"/>
+            <TextView
+                android:gravity="center"
+                android:text="textReceiptView3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/textReceiptView3"/>
+            <TextView
+                android:gravity="center"
+                android:text="textReceiptView4"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/textReceiptView4"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="66.6">
+
+        <TextView
+            android:gravity="center"
+            android:text="textReceiptView5"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/textReceiptView5"/>
+
+        <TextView
+            android:gravity="center"
+            android:text="textReceiptView6"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/textReceiptView6"
+            android:layout_below="@+id/textReceiptView6"/>
+        <TextView
+            android:gravity="center"
+            android:text="textReceiptView7"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/textReceiptView7"
+            android:layout_below="@+id/textReceiptView7"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
