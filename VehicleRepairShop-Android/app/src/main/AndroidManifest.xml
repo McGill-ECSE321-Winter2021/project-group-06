@@ -14,31 +14,38 @@
         android:theme="@style/Theme.VehicleRepairShopAndroid">
         <activity android:name=".CustomerAppointment">
         </activity>
-
-        <activity android:name=".BusinessInfoRequestObject">
-        </activity>
-
-        <activity android:name=".CarRequestObject">
-        </activity>
-
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.VehicleRepairShopAndroid.NoActionBar">
-        </activity>
-
-        <activity  android:name=".OfferedServiceAction">
-
-        </activity>
-
-
-        <activity android:name=".ReceiptAction">
+        <activity android:name=".Login" android:label="Vehicle Repair Shop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity android:name=".BusinessInfoRequestObject" android:label ="Business Information">
+        </activity>
+
+        <activity android:name=".CarRequestObject" android:label ="Cars">
+        </activity>
+
+        <activity  android:name=".OfferedServiceAction" android:label ="Offered Service">
+        </activity>
+
+        <activity android:name=".ViewAccount" android:label="Profile">
+        </activity>
+
+
+        <activity android:name=".ReceiptAction" android:label ="Receipt">
+        </activity>
+
+        <activity android:name=".ManageAccount" android:label="Manage Account">
+        </activity>
+
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:theme="@style/Theme.VehicleRepairShopAndroid.NoActionBar">-->
+
+<!--        </activity>-->
     </application>
 
 </manifest>

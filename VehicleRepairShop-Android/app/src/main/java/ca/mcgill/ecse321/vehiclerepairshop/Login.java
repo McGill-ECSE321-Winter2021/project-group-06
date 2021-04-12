@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -70,6 +71,7 @@ public class Login extends AppCompatActivity {
                                         }
                                         android.util.Log.e("here", "String.valueOf(n)");
                                         JSONObject object = response;
+                                        startActivity(new Intent(Login.this, ViewAccount.class));
 
                                     }
                                 },
@@ -85,6 +87,7 @@ public class Login extends AppCompatActivity {
                         );
 
                         requestQueue.add(jsonObjectRequest);
+                        //startActivity(new Intent(Login.this, ViewAccount.class));
                     }
                 }
         );
