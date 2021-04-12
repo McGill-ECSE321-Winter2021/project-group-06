@@ -1,17 +1,15 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.JsonArrayRequest;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 
 
 public class Login extends AppCompatActivity {
@@ -52,41 +49,41 @@ public class Login extends AppCompatActivity {
         button_login.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        android.util.Log.e("clickkkkkkkkk", usernameLogin.getText().toString());
-                        setContentView(R.layout.activity_customer_appointment);
-//                        RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
-//                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-//                                Request.Method.PUT,
-//                                URL + "/" + usernameLogin.getText().toString() + "/" + passwordLogin.getText().toString(),
-//                                null,
-//                                new Response.Listener<JSONObject>() {
-//                                    @Override
-//                                    public void onResponse(JSONObject response) {
-//                                        SingletonClass.getInstance().setCurrentUsername(usernameLogin.getText().toString());
-//                                        android.util.Log.e("LOGIN PAGE", usernameLogin.getText().toString());
+                        android.util.Log.e("click", usernameLogin.getText().toString());
+
+                        RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                Request.Method.PUT,
+                                URL + "/" + usernameLogin.getText().toString() + "/" + passwordLogin.getText().toString(),
+                                null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        SingletonClass.getInstance().setCurrentUsername(usernameLogin.getText().toString());
+                                        android.util.Log.e("LOGIN PAGE", usernameLogin.getText().toString());
+                                        setContentView(R.layout.activity_customer_appointment);
+                                        
+//                                        try {
+//                                            android.util.Log.e("here", "String.valueOf(n)");
+//                                            JSONObject object = response;
 //
-//                                        //for (int n = 0; n < allAppointments[0].length(); n++) {
-////                                        try {
-////                                            android.util.Log.e("here", "String.valueOf(n)");
-////                                            JSONObject object = response;
-////
-////                                        } catch (JSONException e) {
-////                                            e.printStackTrace();
-////                                        }
-//
-//                                    }
-//                                },
-//
-//
-//                                new Response.ErrorListener() {
-//                                    @Override
-//                                    public void onErrorResponse(VolleyError error) {
-//                                        android.util.Log.e("ERROR", error.toString());
-//                                    }
-//                                }
-//                        );
-//
-//                        requestQueue.add(jsonObjectRequest);
+//                                        } catch (JSONException e) {
+//                                            e.printStackTrace();
+//                                        }
+
+                                    }
+                                },
+
+
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        android.util.Log.e("ERROR", error.toString());
+                                    }
+                                }
+                        );
+
+                        requestQueue.add(jsonObjectRequest);
                     }
                 }
         );
