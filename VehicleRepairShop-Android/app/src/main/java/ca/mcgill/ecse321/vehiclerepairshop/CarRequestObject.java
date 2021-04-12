@@ -27,10 +27,10 @@ public class CarRequestObject extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.car);
+        setContentView(R.layout.activity_car);
 
         CarLV = (ListView) findViewById(R.id.carList);
-        String URL = "http://10.0.2.2:8080/getAllBusinessInformation/";
+        String URL = "http://10.0.2.2:8080/getAllCars/";//if username var works, getCarsByOwner/username instead
         final JSONArray[] allCars = {new JSONArray()};
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -47,14 +47,14 @@ public class CarRequestObject extends AppCompatActivity {
                         for (int n = 0; n < allCars[0].length(); n++){
                             try {
                                 android.util.Log.e("n",String.valueOf(n));
-                                JSONObject object = allCars[0].getJSONObject(n);
+                                JSONObject aCar = allCars[0].getJSONObject(n);
 
                                 //check the string values, written blindly
-                                String licensePlate = object.getJSONObject("car").getString("licensePlate");
-                                String owner = object.getJSONObject("car").getString("owner");
-                                String year = object.getJSONObject("car").getString("year");
-                                String motorType = object.getJSONObject("car").getString("motorType");
-                                Car car = new Car(licensePlate,owner,year,motorType);
+                                String licensePlate = aCar.getJSONObject("car").getString("licensePlate");
+                                String owner = aCar.getJSONObject("car").getString("owner");
+                                String year = aCar.getJSONObject("car").getString("year");
+                                String model = aCar.getJSONObject("car").getString("model");
+                                Car car = new Car(licensePlate,owner,year,model);
                                 carList.add(car);
 
                             } catch (JSONException e) {
@@ -63,7 +63,7 @@ public class CarRequestObject extends AppCompatActivity {
 
                         }
 
-                        CarListAdapter carListAdapter = new CarListAdapter(context, R.layout.adapter_appointment_layout, carList);
+                        CarListAdapter carListAdapter = new CarListAdapter(context, R.layout.adapter_car_layout, carList);
                         CarLV.setAdapter(carListAdapter);
 
                     }

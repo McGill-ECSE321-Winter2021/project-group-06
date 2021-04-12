@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -36,25 +37,25 @@ public class CarListAdapter extends ArrayAdapter<Car> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        String name = getItem(position).getLicensePlate();
-        String address = getItem(position).getOwner();
-        String phoneNumber = getItem(position).getYear();
-        String email = getItem(position).getMotorType();
-
-
-        Car car = new Car(name,address,phoneNumber,email);
+        String licensePlate = getItem(position).getLicensePlate();
+        String owner = getItem(position).getOwner();
+        String year = getItem(position).getYear();
+        String model = getItem(position).getModel();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-//        TextView tvService = (TextView) convertView.findViewById(R.id.serviceTextView1);
-//        TextView tvTime = (TextView) convertView.findViewById(R.id.timeTextView2);
-//        TextView tvDate = (TextView) convertView.findViewById(R.id.dateTextView3);
-//
-//
-//        tvService.setText(name);
-//        tvTime.setText("startTime: " + startTime + "\n endTime: " + endTime);
-//        tvDate.setText("startDate: " + startDate + "\n endDate " + endDate);
+        TextView tvLicensePlate = (TextView) convertView.findViewById(R.id.licensePlateText);
+        TextView tvModel = (TextView) convertView.findViewById(R.id.modelText);
+        TextView tvYear = (TextView) convertView.findViewById(R.id.yearText);
+        TextView tvOwner = (TextView) convertView.findViewById(R.id.ownerText);
+
+
+        tvLicensePlate.setText(licensePlate);
+        tvModel.setText(model);
+        tvYear.setText(year);
+        tvOwner.setText(owner);
+
 
 
         return convertView;

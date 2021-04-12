@@ -48,12 +48,10 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
                             try {
                                 JSONObject object = allBusinessInfo[0].getJSONObject(0);
 
-                                //check the string values, written blindly
                                 String businessName = object.getString("name");
                                 String businessAddress = object.getString("address");
                                 String businessPhoneNumber = object.getString("phoneNumber");
                                 String businessEmail = object.getString("emailAddress");
-//                                BusinessInfo businessInfo = new BusinessInfo(businessName,businessAddress,businessPhoneNumber,businessEmail);
 
                                 TextView tvName = (TextView) findViewById(R.id.business_name);
                                 TextView tvAddress = (TextView) findViewById(R.id.business_address);

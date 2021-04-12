@@ -5,14 +5,14 @@ Car {
     private String licensePlate;
     private String owner;
     private String year;
-    private String motorType;
+    private String model;
 
 
-    public Car(String licensePlate, String owner, String year, String motorType) {
+    public Car(String licensePlate, String owner, String year, String model) {
         this.licensePlate = licensePlate;
         this.owner = owner;
         this.year = year;
-        this.motorType = motorType;
+        this.model = model;
     }
 
     public String getLicensePlate() {
@@ -27,8 +27,8 @@ Car {
         return year;
     }
 
-    public String getMotorType() {
-        return motorType;
+    public String getModel() {
+        return model;
     }
 
     public void setLicensePlate(String licensePlate) {
