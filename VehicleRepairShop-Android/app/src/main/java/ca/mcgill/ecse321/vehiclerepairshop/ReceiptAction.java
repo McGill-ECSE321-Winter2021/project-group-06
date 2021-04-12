@@ -40,7 +40,7 @@ public class ReceiptAction extends AppCompatActivity {
         setContentView(R.layout.receipt_view);
 
         ListView receiptLV = (ListView) findViewById(R.id.receiptListView);
-        String URL = "http://10.0.2.2:8080/getAppointmentByCustomer/1";
+        String URL = "http://10.0.2.2:8080/getAppointmentByCustomer/1"; // @TODO: once the login is done, change this part to the login customer
         final JSONArray[] allAppointments = {new JSONArray()};
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
