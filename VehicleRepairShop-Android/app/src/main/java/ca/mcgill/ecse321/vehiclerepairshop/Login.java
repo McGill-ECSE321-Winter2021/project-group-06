@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -62,17 +63,17 @@ public class Login extends AppCompatActivity {
                                         SingletonClass.getInstance().setCurrentUsername(usernameLogin.getText().toString());
                                         android.util.Log.e("LOGIN PAGE", usernameLogin.getText().toString());
                                         setContentView(R.layout.activity_customer_appointment);
-                                        
-//                                        try {
-//                                            android.util.Log.e("here", "String.valueOf(n)");
-//                                            JSONObject object = response;
-//
-//                                        } catch (JSONException e) {
-//                                            e.printStackTrace();
-//                                        }
+                                        try {
+                                            android.util.Log.e("data",response.getString("name"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        android.util.Log.e("here", "String.valueOf(n)");
+                                        JSONObject object = response;
 
                                     }
                                 },
+
 
 
                                 new Response.ErrorListener() {
