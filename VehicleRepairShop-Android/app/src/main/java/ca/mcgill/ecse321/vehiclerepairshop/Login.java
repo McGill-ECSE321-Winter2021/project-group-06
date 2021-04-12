@@ -87,7 +87,7 @@ public class Login extends AppCompatActivity {
                         );
 
                         requestQueue.add(jsonObjectRequest);
-                        //startActivity(new Intent(Login.this, ViewAccount.class));
+                        startActivity(new Intent(Login.this, ViewAccount.class));
                     }
                 }
         );
