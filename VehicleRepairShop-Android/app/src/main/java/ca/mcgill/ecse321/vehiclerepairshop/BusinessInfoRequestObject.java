@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,7 +32,6 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.business_info);
 
-        businessInfoLV = (ListView) findViewById(R.id.businessInfoList);
         String URL = "http://10.0.2.2:8080/getAllBusinessInformation/";
         final JSONArray[] allBusinessInfo = {new JSONArray()};
 
@@ -43,29 +44,30 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         allBusinessInfo[0] = response;
-                        ArrayList<BusinessInfo> businessInfoList = new ArrayList<BusinessInfo>();
                         android.util.Log.e("businessInfo1",allBusinessInfo[0].toString());
-                        for (int n = 0; n < allBusinessInfo[0].length(); n++){
                             try {
-                                android.util.Log.e("n",String.valueOf(n));
-                                JSONObject object = allBusinessInfo[0].getJSONObject(n);
+                                JSONObject object = allBusinessInfo[0].getJSONObject(0);
 
                                 //check the string values, written blindly
-                                String businessName = object.getJSONObject("businessInformation").getString("name");
-                                String businessAddress = object.getJSONObject("businessInformation").getString("address");
-                                String businessPhoneNumber = object.getJSONObject("businessInformation").getString("phoneNumber");
-                                String businessEmail = object.getJSONObject("businessInformation").getString("email");
-                                BusinessInfo businessInfo = new BusinessInfo(businessName,businessAddress,businessPhoneNumber,businessEmail);
-                                businessInfoList.add(businessInfo);
+                                String businessName = object.getString("name");
+                                String businessAddress = object.getString("address");
+                                String businessPhoneNumber = object.getString("phoneNumber");
+                                String businessEmail = object.getString("emailAddress");
+//                                BusinessInfo businessInfo = new BusinessInfo(businessName,businessAddress,businessPhoneNumber,businessEmail);
+
+                                TextView tvName = (TextView) findViewById(R.id.business_name);
+                                TextView tvAddress = (TextView) findViewById(R.id.business_address);
+                                TextView tvEmail = (TextView) findViewById(R.id.business_email);
+                                TextView tvPhone = (TextView) findViewById(R.id.business_phone_number);
+                                tvName.setText(businessName);
+                                tvAddress.setText(businessAddress);
+                                tvPhone.setText(businessPhoneNumber);
+                                tvEmail.setText(businessEmail);
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
-                        }
-
-                        BusinessInfoListAdapter businessInfoListAdapter = new BusinessInfoListAdapter(context, R.layout.adapter_appointment_layout, businessInfoList);
-                        businessInfoLV.setAdapter(businessInfoListAdapter);
 
                     }
                 },
