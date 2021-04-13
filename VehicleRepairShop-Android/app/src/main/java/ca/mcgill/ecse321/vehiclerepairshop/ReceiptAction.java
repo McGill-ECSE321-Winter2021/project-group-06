@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -108,5 +110,10 @@ public class ReceiptAction extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
 
 
+    }
+    public void returnToMain(View view) {
+        //starts a new activity
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
     }
 }
