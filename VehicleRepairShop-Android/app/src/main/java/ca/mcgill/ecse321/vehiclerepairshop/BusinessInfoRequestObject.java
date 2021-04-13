@@ -29,7 +29,6 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        android.util.Log.e("i", "in OnCreate ---------------------------------------------------------------------------------------------------------------------");
         Context context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.business_info);

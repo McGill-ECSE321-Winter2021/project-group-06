@@ -48,7 +48,6 @@ public class CarRequestObject extends AppCompatActivity {
                         android.util.Log.e("car1",allCars[0].toString());
                         for (int n = 0; n < allCars[0].length(); n++){
                             try {
-                                android.util.Log.e("n",String.valueOf(n));
                                 JSONObject aCar = allCars[0].getJSONObject(n);
 
                                 String licensePlate = aCar.getString("licensePlate");
