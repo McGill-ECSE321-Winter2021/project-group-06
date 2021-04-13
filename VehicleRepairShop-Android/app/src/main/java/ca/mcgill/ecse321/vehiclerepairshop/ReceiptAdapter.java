@@ -32,8 +32,6 @@ public class ReceiptAdapter extends ArrayAdapter<Receipt> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //get the receipt Info
         int appointmentId = getItem(position).getAppointmentId();
-        android.util.Log.e("i", "appointmentId ---------------------------------------------------------------------------------------------------------------------: " + appointmentId);
-        android.util.Log.e("i", "appointmentId ---------------------------------------------------------------------------------------------------------------------: " + String.valueOf(appointmentId));
         String startTime = getItem(position).getStartTime();
         String endTime = getItem(position).getEndTime();
         String startDate = getItem(position).getStartDate();
@@ -46,8 +44,6 @@ public class ReceiptAdapter extends ArrayAdapter<Receipt> {
         convertView = inflater.inflate(mResource, parent, false);
 
         TextView tvAppointmentId = (TextView) convertView.findViewById(R.id.textReceiptView1);
-        android.util.Log.e("i", "appointmentId ---------------------------------------------------------------------------------------------------------------------: " + R.id.textReceiptView1);
-        android.util.Log.e("i", "appointmentId ---------------------------------------------------------------------------------------------------------------------: " + tvAppointmentId);
         TextView tvService = (TextView) convertView.findViewById(R.id.textReceiptView2);
         TextView tvStartDate = (TextView) convertView.findViewById(R.id.textReceiptView3);
         TextView tvStartTime = (TextView) convertView.findViewById(R.id.textReceiptView4);
