@@ -139,7 +139,7 @@ public class Login extends AppCompatActivity {
                                     String service = object.getJSONObject("offeredService").getString("name");
                                     int reminderDate = object.getJSONObject("offeredService").getInt("reminderDate");
                                     c.add(Calendar.DATE, reminderDate);
-                                    c1.add(Calendar.DATE, reminderDate + 100);
+                                    c1.add(Calendar.DATE, reminderDate + 5);
 
 
 
