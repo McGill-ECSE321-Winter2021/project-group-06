@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.vehiclerepairshop;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.time.LocalDate;
+import java.util.Calendar;
 
 
 public class Login extends AppCompatActivity {
@@ -32,6 +40,12 @@ public class Login extends AppCompatActivity {
     private Button button_login;
     private EditText usernameLogin;
     private EditText passwordLogin;
+
+
+    private static final String TAG = "Login";
+    long millis=System.currentTimeMillis();
+    java.sql.Date today=new java.sql.Date(millis);
+    java.sql.Time nowTime = new java.sql.Time(millis);
 
 
     @Override
@@ -65,17 +79,15 @@ public class Login extends AppCompatActivity {
                                         android.util.Log.e("LOGIN PAGE", usernameLogin.getText().toString());
                                         setContentView(R.layout.activity_customer_appointment);
                                         try {
-                                            android.util.Log.e("data",response.getString("name"));
+                                            android.util.Log.e("data", response.getString("name"));
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
                                         android.util.Log.e("here", "String.valueOf(n)");
                                         JSONObject object = response;
-                                        startActivity(new Intent(Login.this, MainMenu.class));
-
+                                        activateReminder();
                                     }
                                 },
-
 
 
                                 new Response.ErrorListener() {
@@ -87,26 +99,78 @@ public class Login extends AppCompatActivity {
                         );
 
                         requestQueue.add(jsonObjectRequest);
-                        startActivity(new Intent(Login.this, MainMenu.class));
                     }
                 }
         );
 
 
-
     }
+    public void activateReminder(){
 
-    public void parseVolleyError(VolleyError error) {
-        try {
-            String responseBody = new String(error.networkResponse.data, "utf-8");
-            JSONObject data = new JSONObject(responseBody);
-            JSONArray errors = data.getJSONArray("errors");
-            JSONObject jsonMessage = errors.getJSONObject(0);
-            String message = jsonMessage.getString("message");
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-        } catch (JSONException e) {
-        } catch (UnsupportedEncodingException errorr) {
-        }
+        String URL_GET_APT = "http://10.0.2.2:8080/getAppointmentByCustomer/" + usernameLogin.getText().toString();
+        final JSONArray[] allAppointments = {new JSONArray()};
+
+        RequestQueue requestQueueAPT = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                URL_GET_APT,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        allAppointments[0] = response;
+                        ArrayList<Receipt> receiptList = new ArrayList<Receipt>();
+                        Log.e("appointment1",allAppointments[0].toString());
+                        for (int n = 0; n < allAppointments[0].length(); n++){
+                            try {
+                                Log.e("n",String.valueOf(n));
+                                JSONObject object = allAppointments[0].getJSONObject(n);
+
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                                Calendar c = Calendar.getInstance();
+                                Calendar c1 = Calendar.getInstance();
+                                try {
+                                    java.util.Date tempDate = sdf.parse(object.getJSONObject("timeSlot").getString("endDate"));
+                                    java.sql.Date appEndDate = new java.sql.Date(tempDate.getTime());
+                                    Time appEndTime = Time.valueOf(object.getJSONObject("timeSlot").getString("endTime"));
+
+                                    c.setTime(sdf.parse(appEndDate.toString()));
+
+                                    String service = object.getJSONObject("offeredService").getString("name");
+                                    int reminderDate = object.getJSONObject("offeredService").getInt("reminderDate");
+                                    c.add(Calendar.DATE, reminderDate);
+                                    c1.add(Calendar.DATE, reminderDate + 5);
+
+
+
+                                    if (today.after(c.getTime()) && today.before(c1.getTime())) {
+                                        startActivity(new Intent(Login.this, Reminder.class));
+                                    }
+                                    else {
+                                        startActivity(new Intent(Login.this, MainMenu.class));
+                                    }
+                                }catch (ParseException excpt){
+                                    excpt.printStackTrace();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        android.util.Log.e("ERROR",error.toString());
+                    }
+                }
+        );
+
+        requestQueueAPT.add(jsonArrayRequest);
+
     }
 
 

@@ -26,6 +26,10 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
 
+    <string name="ok">Ok</string>
+    <string name="reminderTitle">You are due for an appointment!</string>
+    <string name="reminder">Please book an appointment using our website.</string>
+
     <string name="business_name">Business Name</string>
     <string name="business_address">Business Address</string>
     <string name="business_phone_number">Business Phone Number</string>
