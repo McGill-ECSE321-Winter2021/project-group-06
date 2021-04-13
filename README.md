@@ -76,7 +76,8 @@ For more details on any design decisions, please explore the wiki pages.
 * Since only one instance of garage can ever exist, we chose to create one for the user and only allow them to edit it. This way, we didn't need to implement creating or deleting features for the user, which would almost never be used anyway. This use case is so rare that we felt it was not detrimental to eliminate it. 
 * When we started implementing the frontend, we realized there were many methods in our backend that were not useful for what we agreed to do in the frontend. We decided not to use these methods, but we kept them because, in a production setting, they could be used for future features the client may want to implement. These methods were tested using unit and integration tests, so we agreed it was safe enough to leave in the code without it generating bugs in the user experience. 
 
-
+***
+## Sprint 4
 ### Running the app
 * Heroku Credentials: 
 > Host: ec2-3-213-85-90.compute-1.amazonaws.com <br/>
