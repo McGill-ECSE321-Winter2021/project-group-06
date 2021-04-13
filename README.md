@@ -95,3 +95,22 @@ Right-click on the VehicleRepairShopApplication.java and Run as on SpringBoot Ap
 3. Verify that you can see your device before running (you might need to put your device in developer mode)
 4. Launch the code 
 5. Check your emulator/android device and then follow the [User Documentation Android](https://github.com/McGill-ECSE321-Winter2021/project-group-06/wiki/User-Documentation---Android) while using the app
+
+
+
+
+
+### Team
+This table shows an overview of the team members and their roles for Sprint 4. The work done in group and more design decisions can be found on the [Meeting Minutes - Sprint 4](https://github.com/McGill-ECSE321-Winter2021/project-group-06/wiki/Meeting-Minutes-Sprint-4).
+|Deliverables|Aurelia Haas|Catherine Caron|Cheng Chen|James Darby|Mike Wang|
+|:----------:|:----------:|:-------------:|:--------:|:---------:|:-------:|
+|Deliverable 4 - Roles and Activities|Group activities - Peer Programming and Debugging, UI colors and component design decisions, Overall documentation <br/>Individual - Login, Reminders, View Account, Manage Account, Navigation (all with Catherine), Report, Meeting Minutes|Group activities - Peer Programming and Debugging, UI colors and component design decisions, Overall documentation <br/>Individual - Login, Reminders, View Account, Manage Account, Navigation (all with Aurelia), Report, Meeting Minutes|Group activities - Peer Programming and Debugging, UI colors and component design decisions <br/>Individual - Appointment, Offered Service, Receipts (all with Mike)| Group activities - Peer Programming and Debugging, UI colors and component design decisions, Navigation around app <br/>Individual - Business Information page, View Car page | Group activities - Peer Programming and Debugging, UI colors and component design decisions <br/>Individual - Appointment, Offered Service, Receipts (all with Cheng) |
+|Deliverable 4 - Efforts in hours| 23 hours| 23 hours| 23 hours| 23 hours| 23 hours|
+
+### Key Design Decisions
+For more details on any design decisions, please explore the wiki pages.
+* We decided to only have the customer account available for the application. We imagined the customer would find the app the most useful.
+* We chose the features to implement for the app. Since the customer will be using it, we decided most of the features should be view only. This allows them to view the business information, their cars, the offered services, and their upcoming appointments much more easily than if they had to use the website. This decision also simplified our work by not having to implement the appointment booking feature in the app, which is a very complicated method to do. We did decide to have the customer log in, and we let them modify their account. This was a simpler feature to implement, especially once login was implemented. 
+* We chose features such that we would have more time to implement two new features: view receipts and get reminders. We implemented the feature to view the receipts for past appointments, and we added a reminder that appears when the customer is due for another appointment for a specific offered service. 
+* When implementing the android frontend, we decided to use the Volley library instead of AsyncHttpClient. This was more straightforward for the team, had more documentation available online, and offered more features that we could take advantage of. 
+* As a team, we decided to keep the UI colors from our webpage and use them for our app as well. We also only tested on light mode, which as a team we thought was acceptable. 
