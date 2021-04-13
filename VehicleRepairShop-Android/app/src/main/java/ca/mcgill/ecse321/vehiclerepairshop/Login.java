@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,16 +24,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 
 public class Login extends AppCompatActivity {
 
-
+    private String error = null;
     private Button button_login;
     private EditText usernameLogin;
     private EditText passwordLogin;
@@ -61,6 +65,7 @@ public class Login extends AppCompatActivity {
         button_login.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
+                        android.util.Log.e("click", usernameLogin.getText().toString());
 
                         RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
                         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -71,12 +76,14 @@ public class Login extends AppCompatActivity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         SingletonClass.getInstance().setCurrentUsername(usernameLogin.getText().toString());
+                                        android.util.Log.e("LOGIN PAGE", usernameLogin.getText().toString());
                                         setContentView(R.layout.activity_customer_appointment);
                                         try {
                                             android.util.Log.e("data", response.getString("name"));
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
+                                        android.util.Log.e("here", "String.valueOf(n)");
                                         JSONObject object = response;
                                         activateReminder();
                                     }
@@ -113,6 +120,7 @@ public class Login extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         allAppointments[0] = response;
                         ArrayList<Receipt> receiptList = new ArrayList<Receipt>();
+                        Log.e("appointment1",allAppointments[0].toString());
                         for (int n = 0; n < allAppointments[0].length(); n++){
                             try {
                                 Log.e("n",String.valueOf(n));
@@ -156,7 +164,7 @@ public class Login extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        android.util.Log.e("ERROR", error.toString());
+                        android.util.Log.e("ERROR",error.toString());
                     }
                 }
         );

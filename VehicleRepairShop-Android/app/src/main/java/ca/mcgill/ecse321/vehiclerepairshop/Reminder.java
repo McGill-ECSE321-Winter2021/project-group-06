@@ -1,13 +1,19 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,8 +33,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Reminder extends AppCompatActivity {
+    private static final String TAG = "Reminder";
     long millis = System.currentTimeMillis();
     java.sql.Date today = new java.sql.Date(millis);
+    java.sql.Time nowTime = new java.sql.Time(millis);
     private TextView offeredService_reminder;
     private Button button_ok;
 
@@ -54,8 +62,10 @@ public class Reminder extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         allAppointments[0] = response;
                         ArrayList<Receipt> receiptList = new ArrayList<Receipt>();
+                        Log.e("appointment1", allAppointments[0].toString());
                         for (int n = 0; n < allAppointments[0].length(); n++) {
                             try {
+                                Log.e("n", String.valueOf(n));
                                 JSONObject object = allAppointments[0].getJSONObject(n);
 
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
@@ -78,8 +88,8 @@ public class Reminder extends AppCompatActivity {
                                         offeredService_reminder.setText(service);
                                         return;
                                     }
-                                } catch (ParseException except) {
-                                    except.printStackTrace();
+                                } catch (ParseException excpt) {
+                                    excpt.printStackTrace();
                                 }
 
                             } catch (JSONException e) {

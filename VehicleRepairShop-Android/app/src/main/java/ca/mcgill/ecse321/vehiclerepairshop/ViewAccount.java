@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 
 public class ViewAccount extends AppCompatActivity {
 
+    private String error = null;
     private Button button_logout;
     private Button button_manage;
     private TextView usernameInput;
@@ -46,6 +48,7 @@ public class ViewAccount extends AppCompatActivity {
         String URL_LOGOUT = "http://10.0.2.2:8080/logoutCustomerAccount";
 
         RequestQueue requestQueue = Volley.newRequestQueue(ViewAccount.this);
+        android.util.Log.e("getCurrentUser", "--------------------------------------" + SingletonClass.getInstance().getCurrentUsername());
         JsonObjectRequest jsonObjectRequestGet = new JsonObjectRequest(
                 Request.Method.GET,
                 URL_GET_CUSTOMER + "/" + SingletonClass.getInstance().getCurrentUsername(),
@@ -53,13 +56,17 @@ public class ViewAccount extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        android.util.Log.e("GET  PAGE", usernameInput.getText().toString());
                         try {
+                            android.util.Log.e("data", response.getString("name"));
                             usernameInput.setText(response.getString("username"));
                             nameInput.setText(response.getString("name"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        android.util.Log.e("here", "String.valueOf(n)");
                         JSONObject object = response;
+                        //change page
                     }
                 },
                 new Response.ErrorListener() {
@@ -74,6 +81,7 @@ public class ViewAccount extends AppCompatActivity {
         button_logout.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
+                        android.util.Log.e("click", usernameInput.getText().toString());
 
                         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                                 Request.Method.PUT,
@@ -83,6 +91,13 @@ public class ViewAccount extends AppCompatActivity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         SingletonClass.getInstance().setCurrentUsername("");
+                                        android.util.Log.e("LOGOUT  PAGE", usernameInput.getText().toString());
+                                        try {
+                                            android.util.Log.e("data", response.getString("name"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        android.util.Log.e("here", "String.valueOf(n)");
                                         JSONObject object = response;
                                         startActivity(new Intent(ViewAccount.this, Login.class));
                                     }

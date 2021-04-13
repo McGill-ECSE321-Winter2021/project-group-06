@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,11 +18,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 public class ManageAccount extends AppCompatActivity {
 
+    private String error = null;
     private Button button_save;
     private Button button_cancel;
     private TextView usernameInput;
@@ -57,13 +62,17 @@ public class ManageAccount extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        android.util.Log.e("GET  PAGE", usernameInput.getText().toString());
                         try {
+                            android.util.Log.e("data", response.getString("name"));
                             usernameInput.setText(response.getString("username"));
                             nameInput.setText(response.getString("name"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        android.util.Log.e("here", "String.valueOf(n)");
                         JSONObject object = response;
+                        //change page
                     }
                 },
                 new Response.ErrorListener() {
@@ -78,6 +87,7 @@ public class ManageAccount extends AppCompatActivity {
         button_save.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
+                        android.util.Log.e("click", usernameInput.getText().toString());
                         if (newPasswordInput.getText().toString().equals(confirmPasswordInput.getText().toString())) {
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                                     Request.Method.PUT,
@@ -86,13 +96,16 @@ public class ManageAccount extends AppCompatActivity {
                                     new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(JSONObject response) {
+                                            android.util.Log.e("LOGOUT  PAGE", usernameInput.getText().toString());
                                             try {
                                                 android.util.Log.e("data", response.getString("name"));
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
+                                            android.util.Log.e("here", "String.valueOf(n)");
                                             JSONObject object = response;
                                             startActivity(new Intent(ManageAccount.this, MainMenu.class));
+                                            //change page
                                         }
                                     },
 
@@ -107,7 +120,7 @@ public class ManageAccount extends AppCompatActivity {
 
                             requestQueue.add(jsonObjectRequest);
                         } else {
-                            android.util.Log.e("Passwords do not match", usernameInput.getText().toString());
+                            android.util.Log.e("NOT THE SAME PASSWORDS", usernameInput.getText().toString());
                         }
                     }
                 }
@@ -122,6 +135,19 @@ public class ManageAccount extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    public void parseVolleyError(VolleyError error) {
+        try {
+            String responseBody = new String(error.networkResponse.data, "utf-8");
+            JSONObject data = new JSONObject(responseBody);
+            JSONArray errors = data.getJSONArray("errors");
+            JSONObject jsonMessage = errors.getJSONObject(0);
+            String message = jsonMessage.getString("message");
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+        } catch (UnsupportedEncodingException errorr) {
+        }
     }
 
 }
