@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -115,5 +116,10 @@ public class OfferedServiceAction extends AppCompatActivity {
 //        OfferedServiceAdapter serviceAdapter = new OfferedServiceAdapter(this, R.layout.activity_offered_service, offeredServiceArrayList);
 //        mListView.setAdapter(serviceAdapter);
 
+    }
+    public void returnToMain(View view) {
+        //starts a new activity
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
     }
 }
