@@ -93,28 +93,6 @@ public class OfferedServiceAction extends AppCompatActivity {
         );
         requestQueue.add(jsonArrayRequest);
 
-//                //Create the offeredService Objects
-//                OfferedService service1 = new OfferedService("service1", "wash", 10, 9.99);
-//        OfferedService service2 = new OfferedService("service2", "wash2", 10, 9.99);
-//        OfferedService service3 = new OfferedService("service3", "wash3", 10, 9.99);
-//        OfferedService service4 = new OfferedService("service4", "wash4", 10, 9.99);
-//        OfferedService service5 = new OfferedService("service5", "wash5", 10, 9.99);
-//        OfferedService service6 = new OfferedService("service6", "wash6", 10, 9.99);
-//
-//
-//        //Add the offeredService objects to an ArrayList
-//        ArrayList<OfferedService> offeredServiceArrayList = new ArrayList<>();
-//        offeredServiceArrayList.add(service1);
-//        offeredServiceArrayList.add(service2);
-//        offeredServiceArrayList.add(service3);
-//        offeredServiceArrayList.add(service4);
-//        offeredServiceArrayList.add(service5);
-//        offeredServiceArrayList.add(service6);
-//
-//        System.out.println(offeredServiceArrayList);
-//
-//        OfferedServiceAdapter serviceAdapter = new OfferedServiceAdapter(this, R.layout.activity_offered_service, offeredServiceArrayList);
-//        mListView.setAdapter(serviceAdapter);
 
     }
     public void returnToMain(View view) {
