@@ -48,10 +48,8 @@ public class CarRequestObject extends AppCompatActivity {
                         android.util.Log.e("car1",allCars[0].toString());
                         for (int n = 0; n < allCars[0].length(); n++){
                             try {
-                                android.util.Log.e("n",String.valueOf(n));
                                 JSONObject aCar = allCars[0].getJSONObject(n);
 
-                                //check the string values, written blindly
                                 String licensePlate = aCar.getString("licensePlate");
                                 String motorType = aCar.getString("motorType");
                                 int year = aCar.getInt("year");

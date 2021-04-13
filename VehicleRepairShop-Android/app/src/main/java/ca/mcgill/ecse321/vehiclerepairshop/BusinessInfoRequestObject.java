@@ -18,18 +18,12 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
 
 
 public class BusinessInfoRequestObject extends AppCompatActivity {
 
-    ListView businessInfoLV;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        android.util.Log.e("i", "in OnCreate ---------------------------------------------------------------------------------------------------------------------");
         Context context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.business_info);
