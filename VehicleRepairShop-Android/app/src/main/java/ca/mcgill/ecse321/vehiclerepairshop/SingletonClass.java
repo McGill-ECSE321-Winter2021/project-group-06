@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
-// This contains the current username, call it: String s = SingletonClass.getInstance().getCurrentUsername();
+// This contains the current username
+// To call it: String s = SingletonClass.getInstance().getCurrentUsername();
 public class SingletonClass {
 
     private static SingletonClass instance;
