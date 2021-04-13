@@ -129,7 +129,7 @@ public class ManageAccount extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(ManageAccount.this, ViewAccount.class));
+                        startActivity(new Intent(ManageAccount.this, MainMenu.class));
 
                     }
                 }

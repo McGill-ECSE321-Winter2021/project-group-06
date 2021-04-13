@@ -3,7 +3,9 @@ package ca.mcgill.ecse321.vehiclerepairshop;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.Request;
@@ -79,6 +81,11 @@ public class CustomerAppointment extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
 
 
+    }
+    public void returnToMain(View view) {
+        //starts a new activity
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
     }
 
 
