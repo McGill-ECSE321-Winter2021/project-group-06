@@ -32,7 +32,7 @@ public class CarRequestObject extends AppCompatActivity {
         setContentView(R.layout.activity_car);
 
         CarLV = (ListView) findViewById(R.id.carList);
-        String URL = "http://10.0.2.2:8080/getAllCars/";//if username var works, getCarsByOwner/username instead
+        String URL = "http://10.0.2.2:8080/getAllCars/";//@TODO: if username var works, getCarsByOwner/username instead
         final JSONArray[] allCars = {new JSONArray()};
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -52,11 +52,11 @@ public class CarRequestObject extends AppCompatActivity {
                                 JSONObject aCar = allCars[0].getJSONObject(n);
 
                                 //check the string values, written blindly
-                                String licensePlate = aCar.getJSONObject("car").getString("licensePlate");
-                                String owner = aCar.getJSONObject("car").getString("owner");
-                                String year = aCar.getJSONObject("car").getString("year");
-                                String model = aCar.getJSONObject("car").getString("model");
-                                Car car = new Car(licensePlate,owner,year,model);
+                                String licensePlate = aCar.getString("licensePlate");
+                                String motorType = aCar.getString("motorType");
+                                int year = aCar.getInt("year");
+                                String model = aCar.getString("model");
+                                Car car = new Car(licensePlate,motorType,year,model);
                                 carList.add(car);
 
                             } catch (JSONException e) {

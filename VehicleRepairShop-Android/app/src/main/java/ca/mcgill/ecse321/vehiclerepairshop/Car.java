@@ -3,14 +3,14 @@ package ca.mcgill.ecse321.vehiclerepairshop;
 public class
 Car {
     private String licensePlate;
-    private String owner;
-    private String year;
+    private String motorType;
+    private int year;
     private String model;
 
 
-    public Car(String licensePlate, String owner, String year, String model) {
+    public Car(String licensePlate, String motorType, int year, String model) {
         this.licensePlate = licensePlate;
-        this.owner = owner;
+        this.motorType = motorType;
         this.year = year;
         this.model = model;
     }
@@ -19,11 +19,11 @@ Car {
         return licensePlate;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getMotorType() {
+        return motorType;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
@@ -35,11 +35,11 @@ Car {
         this.licensePlate = licensePlate;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setMotorType(String motorType) {
+        this.motorType = motorType;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

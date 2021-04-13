@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class CarListAdapter extends ArrayAdapter<Car> {
 
-    private static final String TAG = "BusinessInfoListAdapter";
+    private static final String TAG = "CarListAdapter";
 
     private Context mContext;
     int mResource;
@@ -38,8 +38,8 @@ public class CarListAdapter extends ArrayAdapter<Car> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         String licensePlate = getItem(position).getLicensePlate();
-        String owner = getItem(position).getOwner();
-        String year = getItem(position).getYear();
+        String owner = getItem(position).getMotorType();
+        int year = getItem(position).getYear();
         String model = getItem(position).getModel();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -53,7 +53,7 @@ public class CarListAdapter extends ArrayAdapter<Car> {
 
         tvLicensePlate.setText(licensePlate);
         tvModel.setText(model);
-        tvYear.setText(year);
+        tvYear.setText(String.valueOf(year));
         tvOwner.setText(owner);
 
 
