@@ -5,7 +5,7 @@
       <div>
         <footer class="bg-white">
           <div class="container py-5">
-            <img src="./assets/logo.png" alt="" width="180" class="mb-3" />
+            <!-- <img src="./assets/newLogo.png" alt="" width="180" class="mb-3" /> -->
             <div class="row py-4">
               <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
                 <h6 class="text-uppercase font-weight-bold mb-4">About Us</h6>
