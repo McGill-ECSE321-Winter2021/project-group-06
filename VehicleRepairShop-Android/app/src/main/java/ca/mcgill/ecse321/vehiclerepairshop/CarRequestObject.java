@@ -86,7 +86,7 @@ public class CarRequestObject extends AppCompatActivity {
 
     public void returnToMain(View view) {
         //starts a new activity
-        Intent intent = new Intent(this, BusinessInfoRequestObject.class);
+        Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
     }
 

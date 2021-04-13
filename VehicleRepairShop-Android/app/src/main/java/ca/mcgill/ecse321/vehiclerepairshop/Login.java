@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
                                         }
                                         android.util.Log.e("here", "String.valueOf(n)");
                                         JSONObject object = response;
-                                        startActivity(new Intent(Login.this, ViewAccount.class));
+                                        startActivity(new Intent(Login.this, MainMenu.class));
 
                                     }
                                 },
@@ -87,7 +87,7 @@ public class Login extends AppCompatActivity {
                         );
 
                         requestQueue.add(jsonObjectRequest);
-                        startActivity(new Intent(Login.this, ViewAccount.class));
+                        startActivity(new Intent(Login.this, MainMenu.class));
                     }
                 }
         );

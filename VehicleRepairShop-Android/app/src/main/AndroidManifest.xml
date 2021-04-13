@@ -33,6 +33,8 @@
         <activity android:name=".ViewAccount" android:label="Profile">
         </activity>
 
+        <activity android:name=".MainMenu" android:label ="Main Menu">
+        </activity>
 
         <activity android:name=".ReceiptAction" android:label ="Receipt">
         </activity>
