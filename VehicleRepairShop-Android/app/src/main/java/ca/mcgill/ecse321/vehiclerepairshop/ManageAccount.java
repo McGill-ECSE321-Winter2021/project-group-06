@@ -104,6 +104,7 @@ public class ManageAccount extends AppCompatActivity {
                                             }
                                             android.util.Log.e("here", "String.valueOf(n)");
                                             JSONObject object = response;
+                                            startActivity(new Intent(ManageAccount.this, MainMenu.class));
                                             //change page
                                         }
                                     },

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ public class Reminder extends AppCompatActivity {
     java.sql.Date today = new java.sql.Date(millis);
     java.sql.Time nowTime = new java.sql.Time(millis);
     private TextView offeredService_reminder;
+    private Button button_ok;
 
 
     @Override
@@ -44,9 +47,9 @@ public class Reminder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reminder);
         offeredService_reminder = (TextView) findViewById(R.id.offeredService_reminder);
+        button_ok = (Button) findViewById(R.id.button_ok);
 
-
-        String URL_GET_APT = "http://10.0.2.2:8080/getAppointmentByCustomer/1" ; // TODO: add username
+        String URL_GET_APT = "http://10.0.2.2:8080/getAppointmentByCustomer/" + SingletonClass.getInstance().getCurrentUsername() ;
         final JSONArray[] allAppointments = {new JSONArray()};
 
         RequestQueue requestQueueAPT = Volley.newRequestQueue(this);
@@ -78,7 +81,7 @@ public class Reminder extends AppCompatActivity {
                                     String service = object.getJSONObject("offeredService").getString("name");
                                     int reminderDate = object.getJSONObject("offeredService").getInt("reminderDate");
                                     c.add(Calendar.DATE, reminderDate);
-                                    c1.add(Calendar.DATE, reminderDate + 5);
+                                    c1.add(Calendar.DATE, reminderDate + 100);
 
 
                                     if (today.after(c.getTime()) && today.before(c1.getTime())) {
@@ -106,8 +109,18 @@ public class Reminder extends AppCompatActivity {
         );
 
         requestQueueAPT.add(jsonArrayRequest);
+        button_ok.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(Reminder.this, MainMenu.class));
+
+                    }
+                }
+        );
 
     }
+
 }
 
 

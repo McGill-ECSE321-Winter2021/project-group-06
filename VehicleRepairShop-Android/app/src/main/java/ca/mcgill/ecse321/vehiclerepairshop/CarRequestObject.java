@@ -32,7 +32,7 @@ public class CarRequestObject extends AppCompatActivity {
         setContentView(R.layout.activity_car);
 
         CarLV = (ListView) findViewById(R.id.carList);
-        String URL = "http://10.0.2.2:8080/getAllCars/";//@TODO: if username var works, getCarsByOwner/username instead
+        String URL = "http://10.0.2.2:8080/getCarsByOwner/" + SingletonClass.getInstance().getCurrentUsername();
         final JSONArray[] allCars = {new JSONArray()};
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);

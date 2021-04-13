@@ -27,9 +27,9 @@ public class MainMenu  extends AppCompatActivity{
 
     }
 
-    public void toManageAccount(View view) {
+    public void toViewAccount(View view) {
         //starts a new activity
-        Intent intent = new Intent(this, ManageAccount.class);
+        Intent intent = new Intent(this, ViewAccount.class);
         startActivity(intent);
     }
 
