@@ -4,6 +4,7 @@ package ca.mcgill.ecse321.vehiclerepairshop;
 public class SingletonClass {
 
     private static SingletonClass instance;
+    private String currentUsername;
 
     public static SingletonClass getInstance() {
         if (instance == null)
@@ -14,10 +15,8 @@ public class SingletonClass {
     private SingletonClass() {
     }
 
-    private String currentUsername;
-
     public String getCurrentUsername() {
-        return currentUsername;
+        return this.currentUsername;
     }
 
     public void setCurrentUsername(String value) {
