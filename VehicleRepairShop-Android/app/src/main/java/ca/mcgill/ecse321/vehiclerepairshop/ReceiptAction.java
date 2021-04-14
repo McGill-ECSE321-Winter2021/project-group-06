@@ -23,18 +23,19 @@ import org.json.JSONObject;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ReceiptAction extends AppCompatActivity {
     private static final String TAG = "Receipt";
-    long millis=System.currentTimeMillis();
-    java.sql.Date today=new java.sql.Date(millis);
+    long millis = System.currentTimeMillis();
+    java.sql.Date today = new java.sql.Date(millis);
     java.sql.Time nowTime = new java.sql.Time(millis);
 
-
+    /**
+     * create an instance in order to call the backend
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
@@ -42,7 +43,7 @@ public class ReceiptAction extends AppCompatActivity {
         setContentView(R.layout.receipt_view);
 
         ListView receiptLV = (ListView) findViewById(R.id.receiptListView);
-        String URL = "http://10.0.2.2:8080/getAppointmentByCustomer/" + SingletonClass.getInstance().getCurrentUsername(); 
+        String URL = "http://10.0.2.2:8080/getAppointmentByCustomer/" + SingletonClass.getInstance().getCurrentUsername();
         final JSONArray[] allAppointments = {new JSONArray()};
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -51,14 +52,18 @@ public class ReceiptAction extends AppCompatActivity {
                 URL,
                 null,
                 new Response.Listener<JSONArray>() {
+                    /**
+                     * correct response
+                     * @param response
+                     */
                     @Override
                     public void onResponse(JSONArray response) {
                         allAppointments[0] = response;
                         ArrayList<Receipt> receiptList = new ArrayList<Receipt>();
-                        Log.e("appointment1",allAppointments[0].toString());
-                        for (int n = 0; n < allAppointments[0].length(); n++){
+                        Log.e("appointment1", allAppointments[0].toString());
+                        for (int n = 0; n < allAppointments[0].length(); n++) {
                             try {
-                                Log.e("n",String.valueOf(n));
+                                Log.e("n", String.valueOf(n));
                                 JSONObject object = allAppointments[0].getJSONObject(n);
 
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
@@ -67,7 +72,7 @@ public class ReceiptAction extends AppCompatActivity {
                                     java.sql.Date appEndDate = new java.sql.Date(tempDate.getTime());
                                     Time appEndTime = Time.valueOf(object.getJSONObject("timeSlot").getString("endTime"));
 
-                                    if (today.after(appEndDate) || (today.equals(appEndDate) && nowTime.after(appEndTime))){
+                                    if (today.after(appEndDate) || (today.equals(appEndDate) && nowTime.after(appEndTime))) {
                                         int id = object.getInt("appointmentId");
 
                                         String service = object.getJSONObject("offeredService").getString("name");
@@ -77,14 +82,12 @@ public class ReceiptAction extends AppCompatActivity {
                                         String startDate = object.getJSONObject("timeSlot").getString("startDate");
                                         String endDate = object.getJSONObject("timeSlot").getString("endDate");
 
-                                        Receipt receipt = new Receipt(id,startTime,endTime,startDate,endDate,service,price);
+                                        Receipt receipt = new Receipt(id, startTime, endTime, startDate, endDate, service, price);
                                         receiptList.add(receipt);
                                     }
-                                }catch (ParseException excpt){
+                                } catch (ParseException excpt) {
                                     excpt.printStackTrace();
                                 }
-
-
 
 
                             } catch (JSONException e) {
@@ -100,9 +103,13 @@ public class ReceiptAction extends AppCompatActivity {
                 },
 
                 new Response.ErrorListener() {
+                    /**
+                     * error response
+                     * @param error
+                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        android.util.Log.e("ERROR",error.toString());
+                        android.util.Log.e("ERROR", error.toString());
                     }
                 }
         );
@@ -111,6 +118,12 @@ public class ReceiptAction extends AppCompatActivity {
 
 
     }
+
+    /**
+     * go back to main menu page
+     *
+     * @param view
+     */
     public void returnToMain(View view) {
         //starts a new activity
         Intent intent = new Intent(this, MainMenu.class);

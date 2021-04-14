@@ -20,19 +20,27 @@ public class CarListAdapter extends ArrayAdapter<Car> {
     int mResource;
 
 
-
     /**
      * Default constructor for the BusinessInfoListAdapter
+     *
      * @param context
      * @param resource
      * @param objects
      */
-    public CarListAdapter (Context context, int resource, ArrayList<Car> objects) {
+    public CarListAdapter(Context context, int resource, ArrayList<Car> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
     }
 
+    /**
+     * get current page view
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -55,7 +63,6 @@ public class CarListAdapter extends ArrayAdapter<Car> {
         tvModel.setText(model);
         tvYear.setText(String.valueOf(year));
         tvOwner.setText(owner);
-
 
 
         return convertView;

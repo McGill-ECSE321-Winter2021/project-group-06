@@ -2,35 +2,43 @@ package ca.mcgill.ecse321.vehiclerepairshop;
 
 
 import android.content.Context;
-//import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
-public class OfferedServiceAdapter extends ArrayAdapter<OfferedService>{
+
+public class OfferedServiceAdapter extends ArrayAdapter<OfferedService> {
     private static final String TAG = "OfferedServiceListAdapter";
 
     private Context mContext;
     int mResource;
 
+    /**
+     * @param context
+     * @param resource
+     * @param objects
+     */
     public OfferedServiceAdapter(@NonNull Context context, int resource, @NonNull ArrayList<OfferedService> objects) {
         super(context, resource, objects);
         this.mContext = context;
         this.mResource = resource;
     }
 
+    /**
+     * view page offered service page with attributes
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -42,7 +50,7 @@ public class OfferedServiceAdapter extends ArrayAdapter<OfferedService>{
 
         OfferedService service = new OfferedService(Id, name, duration, price);
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource,parent,false);
+        convertView = inflater.inflate(mResource, parent, false);
 
         TextView tvId = (TextView) convertView.findViewById(R.id.textView1);
         TextView tvName = (TextView) convertView.findViewById(R.id.textView2);
@@ -55,9 +63,6 @@ public class OfferedServiceAdapter extends ArrayAdapter<OfferedService>{
         tvPrice.setText("price: " + String.valueOf(price));
 
         return convertView;
-
-
-
-
+        
     }
 }

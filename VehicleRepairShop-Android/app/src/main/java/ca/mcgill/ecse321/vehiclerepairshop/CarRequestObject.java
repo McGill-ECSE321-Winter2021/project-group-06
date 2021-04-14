@@ -7,15 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -23,8 +26,11 @@ public class CarRequestObject extends AppCompatActivity {
 
     ListView CarLV;
 
-
-
+    /**
+     * create an instance in order to call the backend
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
@@ -41,12 +47,16 @@ public class CarRequestObject extends AppCompatActivity {
                 URL,
                 null,
                 new Response.Listener<JSONArray>() {
+                    /**
+                     * correct response
+                     * @param response
+                     */
                     @Override
                     public void onResponse(JSONArray response) {
                         allCars[0] = response;
                         ArrayList<Car> carList = new ArrayList<Car>();
-                        android.util.Log.e("car1",allCars[0].toString());
-                        for (int n = 0; n < allCars[0].length(); n++){
+                        android.util.Log.e("car1", allCars[0].toString());
+                        for (int n = 0; n < allCars[0].length(); n++) {
                             try {
                                 JSONObject aCar = allCars[0].getJSONObject(n);
 
@@ -54,7 +64,7 @@ public class CarRequestObject extends AppCompatActivity {
                                 String motorType = aCar.getString("motorType");
                                 int year = aCar.getInt("year");
                                 String model = aCar.getString("model");
-                                Car car = new Car(licensePlate,motorType,year,model);
+                                Car car = new Car(licensePlate, motorType, year, model);
                                 carList.add(car);
 
                             } catch (JSONException e) {
@@ -70,9 +80,13 @@ public class CarRequestObject extends AppCompatActivity {
                 },
 
                 new Response.ErrorListener() {
+                    /**
+                     * error response
+                     * @param error
+                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        android.util.Log.e("Car ERROR",error.toString());
+                        android.util.Log.e("Car ERROR", error.toString());
                     }
                 }
         );
@@ -82,6 +96,11 @@ public class CarRequestObject extends AppCompatActivity {
 
     }
 
+    /**
+     * go back to main menu page
+     *
+     * @param view
+     */
     public void returnToMain(View view) {
         //starts a new activity
         Intent intent = new Intent(this, MainMenu.class);

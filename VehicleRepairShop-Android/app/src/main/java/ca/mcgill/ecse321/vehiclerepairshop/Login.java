@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,13 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.time.LocalDate;
 import java.util.Calendar;
 
 
@@ -43,11 +39,15 @@ public class Login extends AppCompatActivity {
 
 
     private static final String TAG = "Login";
-    long millis=System.currentTimeMillis();
-    java.sql.Date today=new java.sql.Date(millis);
-    java.sql.Time nowTime = new java.sql.Time(millis);
+    long millis = System.currentTimeMillis();
+    java.sql.Date today = new java.sql.Date(millis);
 
 
+    /**
+     * create an instance to link to the backend
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
@@ -64,6 +64,10 @@ public class Login extends AppCompatActivity {
 
         button_login.setOnClickListener(
                 new View.OnClickListener() {
+                    /**
+                     * login
+                     * @param view
+                     */
                     public void onClick(View view) {
                         android.util.Log.e("click", usernameLogin.getText().toString());
 
@@ -73,6 +77,10 @@ public class Login extends AppCompatActivity {
                                 URL + "/" + usernameLogin.getText().toString() + "/" + passwordLogin.getText().toString(),
                                 null,
                                 new Response.Listener<JSONObject>() {
+                                    /**
+                                     * correct response
+                                     * @param response
+                                     */
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         SingletonClass.getInstance().setCurrentUsername(usernameLogin.getText().toString());
@@ -91,6 +99,10 @@ public class Login extends AppCompatActivity {
 
 
                                 new Response.ErrorListener() {
+                                    /**
+                                     * error response
+                                     * @param error
+                                     */
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         android.util.Log.e("ERROR", error.toString());
@@ -105,7 +117,11 @@ public class Login extends AppCompatActivity {
 
 
     }
-    public void activateReminder(){
+
+    /**
+     * see reminder if there should be one
+     */
+    public void activateReminder() {
 
         String URL_GET_APT = "http://10.0.2.2:8080/getAppointmentByCustomer/" + usernameLogin.getText().toString();
         final JSONArray[] allAppointments = {new JSONArray()};
@@ -116,14 +132,18 @@ public class Login extends AppCompatActivity {
                 URL_GET_APT,
                 null,
                 new Response.Listener<JSONArray>() {
+                    /**
+                     * correct response
+                     * @param response
+                     */
                     @Override
                     public void onResponse(JSONArray response) {
                         allAppointments[0] = response;
                         ArrayList<Receipt> receiptList = new ArrayList<Receipt>();
-                        Log.e("appointment1",allAppointments[0].toString());
-                        for (int n = 0; n < allAppointments[0].length(); n++){
+                        Log.e("appointment1", allAppointments[0].toString());
+                        for (int n = 0; n < allAppointments[0].length(); n++) {
                             try {
-                                Log.e("n",String.valueOf(n));
+                                Log.e("n", String.valueOf(n));
                                 JSONObject object = allAppointments[0].getJSONObject(n);
 
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
@@ -142,14 +162,12 @@ public class Login extends AppCompatActivity {
                                     c1.add(Calendar.DATE, reminderDate + 5);
 
 
-
                                     if (today.after(c.getTime()) && today.before(c1.getTime())) {
                                         startActivity(new Intent(Login.this, Reminder.class));
-                                    }
-                                    else {
+                                    } else {
                                         startActivity(new Intent(Login.this, MainMenu.class));
                                     }
-                                }catch (ParseException excpt){
+                                } catch (ParseException excpt) {
                                     excpt.printStackTrace();
                                 }
 
@@ -162,9 +180,13 @@ public class Login extends AppCompatActivity {
                 },
 
                 new Response.ErrorListener() {
+                    /**
+                     * error response
+                     * @param error
+                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        android.util.Log.e("ERROR",error.toString());
+                        android.util.Log.e("ERROR", error.toString());
                     }
                 }
         );

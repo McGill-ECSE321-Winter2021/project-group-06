@@ -1,19 +1,14 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,7 +35,11 @@ public class Reminder extends AppCompatActivity {
     private TextView offeredService_reminder;
     private Button button_ok;
 
-
+    /**
+     * create an instance in order to call the backend
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
@@ -49,7 +48,7 @@ public class Reminder extends AppCompatActivity {
         offeredService_reminder = (TextView) findViewById(R.id.offeredService_reminder);
         button_ok = (Button) findViewById(R.id.button_ok);
 
-        String URL_GET_APT = "http://10.0.2.2:8080/getAppointmentByCustomer/" + SingletonClass.getInstance().getCurrentUsername() ;
+        String URL_GET_APT = "http://10.0.2.2:8080/getAppointmentByCustomer/" + SingletonClass.getInstance().getCurrentUsername();
         final JSONArray[] allAppointments = {new JSONArray()};
 
         RequestQueue requestQueueAPT = Volley.newRequestQueue(this);
@@ -58,6 +57,10 @@ public class Reminder extends AppCompatActivity {
                 URL_GET_APT,
                 null,
                 new Response.Listener<JSONArray>() {
+                    /**
+                     * correct response
+                     * @param response
+                     */
                     @Override
                     public void onResponse(JSONArray response) {
                         allAppointments[0] = response;
@@ -101,6 +104,10 @@ public class Reminder extends AppCompatActivity {
                 },
 
                 new Response.ErrorListener() {
+                    /**
+                     * error response
+                     * @param error
+                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         android.util.Log.e("ERROR", error.toString());
@@ -109,8 +116,13 @@ public class Reminder extends AppCompatActivity {
         );
 
         requestQueueAPT.add(jsonArrayRequest);
+
         button_ok.setOnClickListener(
                 new View.OnClickListener() {
+                    /**
+                     * go back to main menu page
+                     * @param view
+                     */
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(Reminder.this, MainMenu.class));

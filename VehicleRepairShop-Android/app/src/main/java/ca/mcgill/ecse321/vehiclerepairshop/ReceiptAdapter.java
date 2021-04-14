@@ -19,6 +19,11 @@ public class ReceiptAdapter extends ArrayAdapter<Receipt> {
     int mResource;
 
 
+    /**
+     * @param context
+     * @param resource
+     * @param objects
+     */
     public ReceiptAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Receipt> objects) {
         super(context, resource, objects);
         this.mContext = context;
@@ -26,7 +31,14 @@ public class ReceiptAdapter extends ArrayAdapter<Receipt> {
     }
 
 
-
+    /**
+     * go to receipt view with correct attributes
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -53,7 +65,7 @@ public class ReceiptAdapter extends ArrayAdapter<Receipt> {
 
 
         tvAppointmentId.setText("appId: " + String.valueOf(appointmentId));
-        tvService.setText("service: "+ service);
+        tvService.setText("service: " + service);
         tvStartDate.setText("startDate: " + startDate);
         tvStartTime.setText("startTime: " + startTime);
         tvPrice.setText("price: $" + String.valueOf(price));

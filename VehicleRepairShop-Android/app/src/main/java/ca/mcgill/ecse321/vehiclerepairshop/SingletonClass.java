@@ -6,6 +6,11 @@ public class SingletonClass {
     private static SingletonClass instance;
     private String currentUsername;
 
+    /**
+     * get global instance
+     *
+     * @return
+     */
     public static SingletonClass getInstance() {
         if (instance == null)
             instance = new SingletonClass();
@@ -15,10 +20,20 @@ public class SingletonClass {
     private SingletonClass() {
     }
 
+    /**
+     * get global current username
+     *
+     * @return
+     */
     public String getCurrentUsername() {
         return this.currentUsername;
     }
 
+    /**
+     * set global current username
+     *
+     * @param value
+     */
     public void setCurrentUsername(String value) {
         this.currentUsername = value;
     }

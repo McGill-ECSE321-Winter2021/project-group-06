@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.vehiclerepairshop;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,18 +28,25 @@ public class ViewAccount extends AppCompatActivity {
     private String error = null;
     private Button button_logout;
     private Button button_manage;
+    private Button button_back;
     private TextView usernameInput;
     private TextView nameInput;
 
 
+    /**
+     * create an instance in order to call the backend
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_account);
 
-        button_logout = (Button) findViewById(R.id.button_cancel);
-        button_manage = (Button) findViewById(R.id.button_save);
+        button_back = (Button) findViewById(R.id.button_back);
+        button_logout = (Button) findViewById(R.id.button_logout);
+        button_manage = (Button) findViewById(R.id.button_manage);
         usernameInput = (TextView) findViewById(R.id.usernameInput);
         nameInput = (TextView) findViewById(R.id.nameInput);
 
@@ -54,6 +60,10 @@ public class ViewAccount extends AppCompatActivity {
                 URL_GET_CUSTOMER + "/" + SingletonClass.getInstance().getCurrentUsername(),
                 null,
                 new Response.Listener<JSONObject>() {
+                    /**
+                     * correct response
+                     * @param response
+                     */
                     @Override
                     public void onResponse(JSONObject response) {
                         android.util.Log.e("GET  PAGE", usernameInput.getText().toString());
@@ -66,10 +76,13 @@ public class ViewAccount extends AppCompatActivity {
                         }
                         android.util.Log.e("here", "String.valueOf(n)");
                         JSONObject object = response;
-                        //change page
                     }
                 },
                 new Response.ErrorListener() {
+                    /**
+                     * error response
+                     * @param error
+                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         android.util.Log.e("ERROR", error.toString());
@@ -78,8 +91,13 @@ public class ViewAccount extends AppCompatActivity {
         );
         requestQueue.add(jsonObjectRequestGet);
 
+
         button_logout.setOnClickListener(
                 new View.OnClickListener() {
+                    /**
+                     * view login page after logout
+                     * @param view
+                     */
                     public void onClick(View view) {
                         android.util.Log.e("click", usernameInput.getText().toString());
 
@@ -88,6 +106,10 @@ public class ViewAccount extends AppCompatActivity {
                                 URL_LOGOUT + "/" + SingletonClass.getInstance().getCurrentUsername(),
                                 null,
                                 new Response.Listener<JSONObject>() {
+                                    /**
+                                     * correct response
+                                     * @param response
+                                     */
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         SingletonClass.getInstance().setCurrentUsername("");
@@ -105,6 +127,10 @@ public class ViewAccount extends AppCompatActivity {
 
 
                                 new Response.ErrorListener() {
+                                    /**
+                                     * error response
+                                     * @param error
+                                     */
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         android.util.Log.e("ERROR", error.toString());
@@ -119,6 +145,10 @@ public class ViewAccount extends AppCompatActivity {
 
         button_manage.setOnClickListener(
                 new View.OnClickListener() {
+                    /**
+                     * go to manage account page
+                     * @param view
+                     */
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(ViewAccount.this, ManageAccount.class));
@@ -128,8 +158,26 @@ public class ViewAccount extends AppCompatActivity {
         );
 
 
+        button_back.setOnClickListener(
+                new View.OnClickListener() {
+                    /**
+                     * go back to main menu page
+                     * @param view
+                     */
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(ViewAccount.this, MainMenu.class));
+
+                    }
+                }
+        );
+
+
     }
 
+    /**
+     * @param error
+     */
     public void parseVolleyError(VolleyError error) {
         try {
             String responseBody = new String(error.networkResponse.data, "utf-8");

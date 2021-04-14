@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -15,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +22,11 @@ import org.json.JSONObject;
 
 public class BusinessInfoRequestObject extends AppCompatActivity {
 
+    /**
+     * create an instance in order to call the backend
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
@@ -37,39 +42,47 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
                 URL,
                 null,
                 new Response.Listener<JSONArray>() {
+                    /**
+                     * correct response
+                     * @param response
+                     */
                     @Override
                     public void onResponse(JSONArray response) {
                         allBusinessInfo[0] = response;
-                        android.util.Log.e("businessInfo1",allBusinessInfo[0].toString());
-                            try {
-                                JSONObject object = allBusinessInfo[0].getJSONObject(0);
+                        android.util.Log.e("businessInfo1", allBusinessInfo[0].toString());
+                        try {
+                            JSONObject object = allBusinessInfo[0].getJSONObject(0);
 
-                                String businessName = object.getString("name");
-                                String businessAddress = object.getString("address");
-                                String businessPhoneNumber = object.getString("phoneNumber");
-                                String businessEmail = object.getString("emailAddress");
+                            String businessName = object.getString("name");
+                            String businessAddress = object.getString("address");
+                            String businessPhoneNumber = object.getString("phoneNumber");
+                            String businessEmail = object.getString("emailAddress");
 
-                                TextView tvName = (TextView) findViewById(R.id.business_name);
-                                TextView tvAddress = (TextView) findViewById(R.id.business_address);
-                                TextView tvEmail = (TextView) findViewById(R.id.business_email);
-                                TextView tvPhone = (TextView) findViewById(R.id.business_phone_number);
-                                tvName.setText(businessName);
-                                tvAddress.setText(businessAddress);
-                                tvPhone.setText(businessPhoneNumber);
-                                tvEmail.setText(businessEmail);
+                            TextView tvName = (TextView) findViewById(R.id.business_name);
+                            TextView tvAddress = (TextView) findViewById(R.id.business_address);
+                            TextView tvEmail = (TextView) findViewById(R.id.business_email);
+                            TextView tvPhone = (TextView) findViewById(R.id.business_phone_number);
+                            tvName.setText(businessName);
+                            tvAddress.setText(businessAddress);
+                            tvPhone.setText(businessPhoneNumber);
+                            tvEmail.setText(businessEmail);
 
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 },
 
                 new Response.ErrorListener() {
+                    /**
+                     * error response
+                     * @param error
+                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        android.util.Log.e("Business Info ERROR",error.toString());
+                        android.util.Log.e("Business Info ERROR", error.toString());
                     }
                 }
         );
@@ -78,12 +91,17 @@ public class BusinessInfoRequestObject extends AppCompatActivity {
 
 
     }
+
+    /**
+     * return to main menu page
+     *
+     * @param view
+     */
     public void returnToMain(View view) {
-         //starts a new activity
+        //starts a new activity
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
     }
-
 
 
 }

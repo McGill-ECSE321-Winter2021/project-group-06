@@ -7,15 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -23,8 +26,11 @@ public class CustomerAppointment extends AppCompatActivity {
 
     ListView appointmentLV;
 
-
-
+    /**
+     * create an instance in order to call the backend
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
@@ -41,21 +47,25 @@ public class CustomerAppointment extends AppCompatActivity {
                 URL,
                 null,
                 new Response.Listener<JSONArray>() {
+                    /**
+                     * correct response
+                     * @param response
+                     */
                     @Override
                     public void onResponse(JSONArray response) {
                         allAppointments[0] = response;
                         ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
-                        android.util.Log.e("appointment1",allAppointments[0].toString());
-                        for (int n = 0; n < allAppointments[0].length(); n++){
+                        android.util.Log.e("appointment1", allAppointments[0].toString());
+                        for (int n = 0; n < allAppointments[0].length(); n++) {
                             try {
-                                android.util.Log.e("n",String.valueOf(n));
+                                android.util.Log.e("n", String.valueOf(n));
                                 JSONObject object = allAppointments[0].getJSONObject(n);
                                 String service = object.getJSONObject("offeredService").getString("name");
                                 String startTime = object.getJSONObject("timeSlot").getString("startTime");
                                 String endTime = object.getJSONObject("timeSlot").getString("endTime");
                                 String startDate = object.getJSONObject("timeSlot").getString("startDate");
                                 String endDate = object.getJSONObject("timeSlot").getString("endDate");
-                                Appointment appointment = new Appointment(startTime,endTime,startDate,endDate,service);
+                                Appointment appointment = new Appointment(startTime, endTime, startDate, endDate, service);
                                 appointmentList.add(appointment);
 
                             } catch (JSONException e) {
@@ -71,9 +81,13 @@ public class CustomerAppointment extends AppCompatActivity {
                 },
 
                 new Response.ErrorListener() {
+                    /**
+                     * error response
+                     * @param error
+                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        android.util.Log.e("ERROR",error.toString());
+                        android.util.Log.e("ERROR", error.toString());
                     }
                 }
         );
@@ -82,6 +96,12 @@ public class CustomerAppointment extends AppCompatActivity {
 
 
     }
+
+    /**
+     * go back to main menu page
+     *
+     * @param view
+     */
     public void returnToMain(View view) {
         //starts a new activity
         Intent intent = new Intent(this, MainMenu.class);

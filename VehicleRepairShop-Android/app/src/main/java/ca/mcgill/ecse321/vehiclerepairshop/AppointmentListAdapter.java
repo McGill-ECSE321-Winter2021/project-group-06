@@ -13,26 +13,31 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 
 public class AppointmentListAdapter extends ArrayAdapter<Appointment> {
-
-    private static final String TAG = "AppointmentListAdapter";
-
     private Context mContext;
     int mResource;
 
 
-
     /**
      * Default constructor for the PersonListAdapter
+     *
      * @param context
      * @param resource
      * @param objects
      */
-    public AppointmentListAdapter (Context context, int resource, ArrayList<Appointment> objects) {
+    public AppointmentListAdapter(Context context, int resource, ArrayList<Appointment> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
     }
 
+    /**
+     * Get the current view
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,7 +48,7 @@ public class AppointmentListAdapter extends ArrayAdapter<Appointment> {
         String endTime = getItem(position).getEndTime();
         String endDate = getItem(position).getEndDate();
 
-        Appointment appointment = new Appointment(startTime,endTime,startDate,endDate,service);
+        Appointment appointment = new Appointment(startTime, endTime, startDate, endDate, service);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

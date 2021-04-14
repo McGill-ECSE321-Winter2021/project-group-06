@@ -2,57 +2,73 @@ package ca.mcgill.ecse321.vehiclerepairshop;
 
 public class Appointment {
 
-        private String startTime;
-        private String endTime;
-        private String startDate;
-        private String endDate;
-        private String service;
+    private String startTime;
+    private String endTime;
+    private String startDate;
+    private String endDate;
+    private String service;
 
-        public Appointment(String startTime, String endTime,  String startDate, String endDate, String service) {
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.service = service;
-        }
+    /**
+     *
+     * @param startTime
+     * @param endTime
+     * @param startDate
+     * @param endDate
+     * @param service
+     */
+    public Appointment(String startTime, String endTime, String startDate, String endDate, String service) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.service = service;
+    }
 
-        public String getStartTime() {
-            return startTime;
-        }
+    /**
+     * Get start time of an appointment
+     * @return
+     */
+    public String getStartTime() {
+        return startTime;
+    }
 
-        public void setStartTime(String startTime) {
-            this.startTime = startTime;
-        }
+    /**
+     * Get end time of an appointment
+     * @return
+     */
+    public String getEndTime() {
+        return endTime;
+    }
 
-        public String getEndTime() {
-            return endTime;
-        }
+    /**
+     * Get start date of an appointment
+     * @return
+     */
+    public String getStartDate() {
+        return startDate;
+    }
 
-        public void setEndTime(String endTime) {
-            this.endTime = endTime;
-        }
+    /**
+     * Get end date of an appointment
+     * @return
+     */
+    public String getEndDate() {
+        return endDate;
+    }
 
-         public String getEndDate() {
-            return endDate;
-        }
+    /**
+     * Get service of an appointment
+     * @return
+     */
+    public String getService() {
+        return service;
+    }
 
-        public void setEndDate(String endDate) {
-            this.endDate = endDate;
-        }
-
-        public String getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(String startDate) {
-            this.startDate = startDate;
-        }
-
-        public void setService(String service){
-            this.service = service;
-        }
-
-        public String getService() {
-            return service;
-        }
+    /**
+     * Set service of an appointment
+     * @param service
+     */
+    public void setService(String service) {
+        this.service = service;
+    }
 }

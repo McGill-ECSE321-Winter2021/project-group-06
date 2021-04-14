@@ -36,14 +36,19 @@ public class ManageAccount extends AppCompatActivity {
     private EditText confirmPasswordInput;
 
 
+    /**
+     * create an instance in order to call the backend
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Context context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_account);
 
-        button_cancel = (Button) findViewById(R.id.button_cancel);
-        button_save = (Button) findViewById(R.id.button_save);
+        button_cancel = (Button) findViewById(R.id.button_logout);
+        button_save = (Button) findViewById(R.id.button_manage);
         usernameInput = (TextView) findViewById(R.id.usernameInput);
         nameInput = (TextView) findViewById(R.id.nameInput);
         newNameInput = (EditText) findViewById(R.id.newNameInput);
@@ -60,6 +65,10 @@ public class ManageAccount extends AppCompatActivity {
                 URL_GET_CUSTOMER + "/" + SingletonClass.getInstance().getCurrentUsername(),
                 null,
                 new Response.Listener<JSONObject>() {
+                    /**
+                     * correct response
+                     * @param response
+                     */
                     @Override
                     public void onResponse(JSONObject response) {
                         android.util.Log.e("GET  PAGE", usernameInput.getText().toString());
@@ -76,6 +85,10 @@ public class ManageAccount extends AppCompatActivity {
                     }
                 },
                 new Response.ErrorListener() {
+                    /**
+                     * error response
+                     * @param error
+                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         android.util.Log.e("ERROR", error.toString());
@@ -86,6 +99,10 @@ public class ManageAccount extends AppCompatActivity {
 
         button_save.setOnClickListener(
                 new View.OnClickListener() {
+                    /**
+                     * click to save and go back to main menu page
+                     * @param view
+                     */
                     public void onClick(View view) {
                         android.util.Log.e("click", usernameInput.getText().toString());
                         if (newPasswordInput.getText().toString().equals(confirmPasswordInput.getText().toString())) {
@@ -94,6 +111,10 @@ public class ManageAccount extends AppCompatActivity {
                                     URL_UPDATE + "/" + SingletonClass.getInstance().getCurrentUsername() + "/" + newPasswordInput.getText().toString() + "/" + newNameInput.getText().toString(),
                                     null,
                                     new Response.Listener<JSONObject>() {
+                                        /**
+                                         * correct response
+                                         * @param response
+                                         */
                                         @Override
                                         public void onResponse(JSONObject response) {
                                             android.util.Log.e("LOGOUT  PAGE", usernameInput.getText().toString());
@@ -111,6 +132,10 @@ public class ManageAccount extends AppCompatActivity {
 
 
                                     new Response.ErrorListener() {
+                                        /**
+                                         * error response
+                                         * @param error
+                                         */
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
                                             android.util.Log.e("ERROR", error.toString());
@@ -128,6 +153,10 @@ public class ManageAccount extends AppCompatActivity {
 
         button_cancel.setOnClickListener(
                 new View.OnClickListener() {
+                    /**
+                     * go back to main menu page
+                     * @param view
+                     */
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(ManageAccount.this, MainMenu.class));
@@ -137,6 +166,9 @@ public class ManageAccount extends AppCompatActivity {
         );
     }
 
+    /**
+     * @param error
+     */
     public void parseVolleyError(VolleyError error) {
         try {
             String responseBody = new String(error.networkResponse.data, "utf-8");
