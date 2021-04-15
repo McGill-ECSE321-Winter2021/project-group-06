@@ -54,7 +54,6 @@ public class ViewAccount extends AppCompatActivity {
         String URL_LOGOUT = "http://10.0.2.2:8080/logoutCustomerAccount";
 
         RequestQueue requestQueue = Volley.newRequestQueue(ViewAccount.this);
-        android.util.Log.e("getCurrentUser", "--------------------------------------" + SingletonClass.getInstance().getCurrentUsername());
         JsonObjectRequest jsonObjectRequestGet = new JsonObjectRequest(
                 Request.Method.GET,
                 URL_GET_CUSTOMER + "/" + SingletonClass.getInstance().getCurrentUsername(),
